@@ -24,25 +24,23 @@ define(templates, function(courseTpl) {
 
         course: function(courseID) {
             MM.panels.showLoading("center");
-            MM.moodleWSCall(
-                method = "core_course_get_courses",
-                data = { options: { ids: [courseID] } },
-                callback = MM.plugins.course.courseInfoCallback,
-                preSets = { omitExpires: true, cache: false },
-                errorCallBack = MM.plugins.course.errorCallback
-            );
+            var method = "core_course_get_courses",
+            var data = { options: { ids: [courseID] } },
+            var callback = MM.plugins.course.courseInfoCallback,
+            var presets = { omitExpires: true, cache: false },
+            var errorCallback = MM.plugins.course.errorCallback
+            MM.moodleWSCall(method, data, callback, presets, errorCallback);
         },
 
         courseInfoCallback: function(response) {
             var courseInfo = response[0]; 
             MM.plugins.course.currentCourseInfo = response[0]; 
-            MM.moodleWSCall(
-                method= "core_course_get_contents",
-                data = { courseid: courseInfo.id },
-                callback = MM.plugins.course.courseContentsCallback,
-                preSets = { omitExpires: true, cache: false },
-                errorCallBack = MM.plugins.course.errorCallback
-            );
+            var method= "core_course_get_contents",
+            var data = { courseid: courseInfo.id },
+            var callback = MM.plugins.course.courseContentsCallback,
+            var presets = { omitExpires: true, cache: false },
+            var errorCallback = MM.plugins.course.errorCallback
+            MM.moodleWSCall(method, data, callback, presets, errorCallback);
         },
         
         courseContentsCallback: function(response) {
