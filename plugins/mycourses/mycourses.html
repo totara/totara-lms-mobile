@@ -1,0 +1,12 @@
+<section>
+    <ul>
+        <% _.each(courses, function(course) { %>
+        <li data-id="<%= course.id %>">
+            <span class="name"><%= course.shortname %></span>
+            <span class="status"></span>
+            <a href="#">Launch</a>
+            <a href="#participants/<%= course.id %>">Participants</a>
+        </li>
+        <% }); %>
+    </ul>
+</section>
