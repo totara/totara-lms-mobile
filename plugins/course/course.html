@@ -1,0 +1,19 @@
+<div class="course" data-id="<%= course.id %>">
+    <div class="name"><%= course.shortname %></div>
+    <div class="completion">Completed x of y activities</div>
+    <div class="summary"><%= course.summary %></div>
+    <ul class="sections">
+        <% _.each(course.contents, function(section) { %>
+        <li class="section" data-id="<%= section.id %>">
+            <div class="name"><%= section.name %></div>
+            <ul class="modules">
+                <% _.each(section.modules, function(module) { %>
+                <li class="module" data-id="<%= module.id %>">
+                    <div class="name"><%= module.name %></div>
+                </li>
+                <% }); %>
+            </ul>
+        </li>
+        <% }); %>
+    </ul>
+</div>
