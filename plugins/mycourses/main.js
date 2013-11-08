@@ -1,5 +1,4 @@
-var templates = [
-    "root/externallib/text!root/plugins/mycourses/mycourses.html"
+var templates = [ "root/externallib/text!root/plugins/mycourses/mycourses.html"
 ];
 
 define(templates, function(myCoursesTpl, participantsTpl, participantTpl) {
@@ -41,8 +40,7 @@ define(templates, function(myCoursesTpl, participantsTpl, participantTpl) {
         },
 
         errorCallback: function(error) {
-            console.log("ERROR");
-            console.log(error);    
+            MM.log(error);    
         }
     }
 
