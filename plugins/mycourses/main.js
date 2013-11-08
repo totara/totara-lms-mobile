@@ -24,7 +24,7 @@ define(templates, function(myCoursesTpl, participantsTpl, participantTpl) {
         myCourses: function() {
             MM.panels.showLoading("center");
             MM.moodleWSCall(
-                method = "core_enrol_get_users_courses",
+                method = "core_enrol_get_users_course_completions",
                 data = { userid: MM.site.get("userid") },
                 callback = MM.plugins.mycourses.myCoursesCallback, 
                 preSets = { omitExpires: true, cache: false },
@@ -34,7 +34,6 @@ define(templates, function(myCoursesTpl, participantsTpl, participantTpl) {
 
         myCoursesCallback: function(response) {
             var courses = response;
-            var courseIDs = _.map(courses, function(x) { return x.id });
             var template = MM.plugins.mycourses.templates.myCourses;
             var context = { courses: courses };
             var html = MM.tpl.render(template.html, context);
