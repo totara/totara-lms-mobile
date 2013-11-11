@@ -1,0 +1,44 @@
+<ul>
+    <% _.each(categories, function(data, key) { %>
+        <div class='category'>
+            <div class='heading'>
+                <span class='course-count' style='float:right'>
+                    <span class='heading'>Course Count:</span>
+                    <span class='course-count-number'><%= data.length %></span>
+                </span>
+                <span style='float:left;margin-left:5px;'><%= key %></span>
+            </div>
+            <div style='clear:both'>&nbsp;</div>
+            <div class='content'>
+                <% _.each(data, function(course) { %>
+                    <% if (course.started) { %>
+                        <div class='found-course started' data-category='<%= key %>' data-courseid='<%= course.id %>'>
+                    <% } else { %>
+                        <div class='found-course' data-category='<%= key %>' data-courseid='<%= course.id %>'>
+                    <% } %>
+                        <% _.each(_.keys(course), function(key) { %>
+                            <div>
+                                <% if (key === 'fullname') { %>
+                                    <span>
+                                        <% if (course.started) { %>
+                                            <a href='#courses/<%= course.id %>' style='text-decoration:underline'>
+                                                <%= key %>
+                                            </a>
+                                        <% } else { %>
+                                            <a href='#enrol_user/<%= course.id %>' style='text-decoration:underline'>
+                                                <%= key %>
+                                            </a>
+                                        <% } %>
+                                    </span>
+                                <% } else { %>
+                                    <span><%= key %></span>
+                                <% } %>
+                                <span><%= course[key] %></span>
+                            </div>
+                        <% }); %>
+                    </div>
+                <% }) %>
+            </div>
+        </div>
+    <% }); %>
+</ul>
