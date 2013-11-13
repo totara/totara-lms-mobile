@@ -82,7 +82,7 @@ define(requires, function(coursesTpl) {
             // Change the url, don't actually navigate to it though.
             MM.Router.navigate("#find_courses", {'trigger':false});
 
-            var courseId = MM.config.current_site.id + '-' + MM.plugins.plugin.last_enrolled_course;
+            var courseId = MM.plugins.findcourses.plugin.last_enrolled_course;
 
             // Take the last enrolled course and set it as 'started'
             MM.db.update(
