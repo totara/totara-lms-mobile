@@ -135,6 +135,17 @@ define(requires, function(coursesTpl) {
         last_enrolled_course: null,
         last_found_courses:undefined,
 
+        show_enrolment_request_form: function() {
+            var enrolmentForm = $(document).find("#enrolmentform");
+            enrolmentForm.find("#courseName").html("Course name");
+            enrolmentForm.find("#courseDetails").html("Course details");
+            enrolmentForm.css({
+                'background-color':'white',
+                'border':'1px solid black'
+            });
+            enrolmentForm.show();
+        },
+
         enrol_user: function(courseId) {
             // RoleId 5 = Student
             // This format isn't a mistake, the call requires an array
@@ -159,6 +170,8 @@ define(requires, function(coursesTpl) {
         },
 
         list_categories: function() {
+            $("#enrolmentform").hide();
+
             MM.moodleWSCall(
                 'core_course_get_categories',
                 {},
