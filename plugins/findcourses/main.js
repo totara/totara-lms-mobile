@@ -135,7 +135,48 @@ define(requires, function(coursesTpl) {
         last_enrolled_course: null,
         last_found_courses:undefined,
 
+        sizes: undefined,
+
+        _getSizes: function() {
+            MM.plugins.findcourses.sizes = {
+                withSideBar: {
+                    center:$(document).innerWidth() - MM.navigation.getWidth(),
+                    left:MM.navigation.getWidth()
+                },
+                withoutSideBar: {
+                    center:$(document).innerWidth(),
+                    left:0
+                }
+            };
+        },
+
+        resize: function() {
+            if (MM.plugins.findcourses.sizes == undefined) {
+                MM.plugins.findcourses._getSizes();
+            }
+
+            if (MM.navigation.visible === true) {
+                $("#panel-center").css({
+                    'width':MM.plugins.findcourses.sizes.withSideBar.center,
+                    'left':MM.plugins.findcourses.sizes.withSideBar.left
+                });
+            } else {
+                $("#panel-center").css({
+                    'width':MM.plugins.findcourses.sizes.withoutSideBar.center,
+                    'left':MM.plugins.findcourses.sizes.withoutSideBar.left
+                });
+            }
+            $("#panel-right").hide();
+        },
+
+        cleanUp: function() {
+            $("#panel-center").html("");
+            $("#panel-right").show();
+        },
+
         enrol_user: function(courseId) {
+            MM.assignCurrentPlugin(MM.plugins.findcourses);
+
             // RoleId 5 = Student
             // This format isn't a mistake, the call requires an array
             // of arrays.
@@ -159,6 +200,7 @@ define(requires, function(coursesTpl) {
         },
 
         list_categories: function() {
+            MM.assignCurrentPlugin(MM.plugins.findcourses);
             MM.moodleWSCall(
                 'core_course_get_categories',
                 {},

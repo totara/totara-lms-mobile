@@ -25,8 +25,58 @@ define(templates,function (participantsTpl, participantTpl) {
             ["participant/:courseId/:userId", "participants", "showParticipant"],
         ],
 
+        sizes: undefined,
+
+        _getSizes: function() {
+            MM.plugins.participants.sizes = {
+                withSideBar: {
+                    left:MM.navigation.getWidth(),
+                    center:($(document).innerWidth() - MM.navigation.getWidth())/2,
+                    right:($(document).innerWidth() - MM.navigation.getWidth())/2
+                },
+                withoutSideBar: {
+                    left:0,
+                    center:$(document).innerWidth() / 2,
+                    right:$(document).innerWidth() / 2
+                }
+            };
+        },
+
+        resize: function() {
+            if (MM.plugins.participants.sizes == undefined) {
+                MM.plugins.participants._getSizes();
+            }
+
+            if (MM.navigation.visible === true) {
+                $("#panel-center").css({
+                    'width':MM.plugins.participants.sizes.withSideBar.center,
+                    'left':MM.plugins.participants.sizes.withSideBar.left
+                });
+                $("#panel-right").css({
+                    'width':MM.plugins.participants.sizes.withSideBar.right,
+                    'left':MM.plugins.participants.sizes.withSideBar.center + MM.navigation.getWidth()
+                });
+            } else {
+                $("#panel-center").css({
+                    'width':MM.plugins.participants.sizes.withoutSideBar.center,
+                    'left':MM.plugins.participants.sizes.withoutSideBar.left
+                });
+                $("#panel-right").css({
+                    'width':MM.plugins.participants.sizes.withoutSideBar.right,
+                    'left':MM.plugins.participants.sizes.withoutSideBar.center
+                });
+            }
+            $("#panel-right").show();
+        },
+
+        cleanUp: function() {
+            $("#panel-center").html("");
+            $("#panel-right").show();
+        },
 
         showParticipants: function(courseId) {
+            MM.assignCurrentPlugin(MM.plugins.participants);
+
             MM.panels.showLoading('center');
 
             if (MM.deviceType == "tablet") {
@@ -62,6 +112,8 @@ define(templates,function (participantsTpl, participantTpl) {
         },
 
         showParticipant: function(courseId, userId) {
+            MM.assignCurrentPlugin(MM.plugins.participants);
+
             var data = {
                 "userlist[0][userid]": userId,
                 "userlist[0][courseid]": courseId

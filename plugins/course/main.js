@@ -22,7 +22,47 @@ define(templates, function(courseTpl) {
 
         currentCourseInfo: null,
 
+        sizes: undefined,
+
+        _getSizes: function() {
+            MM.plugins.course.sizes = {
+                withSideBar: {
+                    center:$(document).innerWidth() - MM.navigation.getWidth(),
+                    left:MM.navigation.getWidth()
+                },
+                withoutSideBar: {
+                    center:$(document).innerWidth(),
+                    left:0
+                }
+            };
+        },
+
+        resize: function() {
+            if (MM.plugins.course.sizes == undefined) {
+                MM.plugins.course._getSizes();
+            }
+
+            if (MM.navigation.visible === true) {
+                $("#panel-center").css({
+                    'width':MM.plugins.course.sizes.withSideBar.center,
+                    'left':MM.plugins.course.sizes.withSideBar.left
+                });
+            } else {
+                $("#panel-center").css({
+                    'width':MM.plugins.course.sizes.withoutSideBar.center,
+                    'left':MM.plugins.course.sizes.withoutSideBar.left
+                });
+            }
+            $("#panel-right").hide();
+        },
+
+        cleanUp: function() {
+            $("#panel-center").html("");
+            $("#panel-right").show();
+        },
+
         course: function(courseID) {
+            MM.assignCurrentPlugin(MM.plugins.course);
             MM.panels.showLoading("center");
             var method = "core_course_get_courses";
             var data = { options: { ids: [courseID] } };
@@ -33,8 +73,8 @@ define(templates, function(courseTpl) {
         },
 
         courseInfoCallback: function(response) {
-            var courseInfo = response[0]; 
-            MM.plugins.course.currentCourseInfo = response[0]; 
+            var courseInfo = response[0];
+            MM.plugins.course.currentCourseInfo = response[0];
             var method= "core_course_get_contents";
             var data = { courseid: courseInfo.id };
             var callback = MM.plugins.course.courseContentsCallback;
@@ -42,8 +82,9 @@ define(templates, function(courseTpl) {
             var errorCallback = MM.plugins.course.errorCallback;
             MM.moodleWSCall(method, data, callback, presets, errorCallback);
         },
-        
+
         courseContentsCallback: function(response) {
+            MM.assignCurrentPlugin(MM.plugins.course);
             var course = MM.plugins.course.currentCourseInfo;
             course.contents = response;
             var template = MM.plugins.course.templates.course;

@@ -20,18 +20,58 @@ define(templates, function(myCoursesTpl, participantsTpl, participantTpl) {
             ["my-courses", "myCourses", "myCourses"]
         ],
 
+        sizes: undefined,
+
+        _getSizes: function() {
+            MM.plugins.mycourses.sizes = {
+                withSideBar: {
+                    center:$(document).innerWidth() - MM.navigation.getWidth(),
+                    left:MM.navigation.getWidth()
+                },
+                withoutSideBar: {
+                    center:$(document).innerWidth(),
+                    left:0
+                }
+            };
+        },
+
+        resize: function() {
+            if (MM.plugins.mycourses.sizes == undefined) {
+                MM.plugins.mycourses._getSizes();
+            }
+
+            if (MM.navigation.visible === true) {
+                $("#panel-center").css({
+                    'width':MM.plugins.mycourses.sizes.withSideBar.center,
+                    'left':MM.plugins.mycourses.sizes.withSideBar.left
+                });
+            } else {
+                $("#panel-center").css({
+                    'width':MM.plugins.mycourses.sizes.withoutSideBar.center,
+                    'left':MM.plugins.mycourses.sizes.withoutSideBar.left
+                });
+            }
+            $("#panel-right").hide();
+        },
+
+        cleanUp: function() {
+            $("#panel-center").html("");
+            $("#panel-right").show();
+        },
+
         myCourses: function() {
+            MM.assignCurrentPlugin(MM.plugins.mycourses);
             MM.panels.showLoading("center");
-            MM.moodleWSCall(
-                method = "core_enrol_get_users_course_completions",
-                data = { userid: MM.site.get("userid") },
-                callback = MM.plugins.mycourses.myCoursesCallback, 
-                preSets = { omitExpires: true, cache: false },
-                errorCallBack = MM.plugins.mycourses.errorCallback
-            );
+            var method = "core_enrol_get_users_course_completions";
+            var data = { userid: MM.site.get("userid") };
+            var callback = MM.plugins.mycourses.myCoursesCallback;
+            var preSets = { omitExpires: true, cache: false };
+            var errorCallBack = MM.plugins.mycourses.errorCallback;
+            MM.moodleWSCall(method, data, callback, preSets, errorCallBack);
         },
 
         myCoursesCallback: function(response) {
+            MM.assignCurrentPlugin(MM.plugins.mycourses);
             var courses = response;
             var template = MM.plugins.mycourses.templates.myCourses;
             var context = { courses: courses };
@@ -40,7 +80,7 @@ define(templates, function(myCoursesTpl, participantsTpl, participantTpl) {
         },
 
         errorCallback: function(error) {
-            MM.log(error);    
+            MM.log(error);
         }
     }
 
