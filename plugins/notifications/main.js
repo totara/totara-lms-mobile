@@ -59,10 +59,12 @@ define(requires, function (notifsTpl) {
                     'left':MM.plugins.notifications.sizes.withoutSideBar.left
                 });
             }
+            $("#panel-right").hide();
         },
 
         cleanUp: function() {
             $("#panel-center").html("");
+            $("#panel-right").show();
         },
 
         showNotifications: function() {
