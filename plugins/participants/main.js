@@ -83,7 +83,7 @@ define(templates,function (participantsTpl, participantTpl) {
                 MM.panels.showLoading('right');
             }
             // Adding loading icon.
-            $('a[href="#participants/' +courseId+ '"]').addClass('loading-row');
+            $('a[href="#participants/' + courseId + '"]').addClass('loading-row');
 
             var data = {
                 "courseid" : courseId
@@ -95,7 +95,7 @@ define(templates,function (participantsTpl, participantTpl) {
                 var tpl = {users: users, deviceType: MM.deviceType, courseId: courseId};
                 var html = MM.tpl.render(MM.plugins.participants.templates.participants.html, tpl);
 
-                var course = MM.db.get("courses", courseId);
+                var course = MM.db.get("courses", parseInt(courseId, 10));
                 var pageTitle = course.get("shortname") + " - " + MM.lang.s("participants");
 
                 MM.panels.show('center', html, {title: pageTitle});
