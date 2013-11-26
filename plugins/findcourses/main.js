@@ -7,6 +7,8 @@ define(requires, function(coursesTpl) {
     var callbacks = {
         collate_categories_and_courses: function(data) {
             var missing_categories = false;
+            // Get all the categories with all their correct courses below
+            // them.
             var categories = _.reduceRight(data, function(memo, course) {
                 if (course.categoryid === 0) return memo;
 
@@ -16,8 +18,11 @@ define(requires, function(coursesTpl) {
                 if (category !== undefined) {
                     var categoryName = category.get('name');
 
-                    if (memo[categoryName] === undefined){
-                        memo[categoryName] = [];
+                    if (memo[category.get('id')] === undefined){
+                        memo[category.get('id')] = {
+                            'courses':[],
+                            'subcategories':[]
+                        };
                     }
 
                     // Has the user already started this course?
@@ -31,7 +36,8 @@ define(requires, function(coursesTpl) {
                     }
                     course.started = false;
 
-                    memo[categoryName].push(course);
+                    memo[category.get('id')].categoryName = categoryName;
+                    memo[category.get('id')].courses.push(course);
                 } else {
                     missing_categories = true;
                 }
@@ -39,8 +45,34 @@ define(requires, function(coursesTpl) {
                 return memo;
             }, {});
 
+            // If we're missing categories then we'll be returning false.
+            // Otherwise, go through all the categories, and move them under
+            // the appropriate parent if applicable.
             if (missing_categories === true) {
                 categories = false;
+            } else {
+                // Do moving.
+                var moved = true;
+                while (moved == true) {
+                    moved = false;
+                    var keys = _.keys(categories);
+                    for (var i = keys.length; i >= 0; i--) {
+                        // Undefined categories have already been sorted.
+                        if (categories[keys[i]] == undefined) {
+                            continue;
+                        }
+                        var category = MM.db.get('categories', keys[i]);
+                        if (category !== undefined) {
+                            if (category.get('parent') != 0) {
+                                categories[category.get('parent')].subcategories.push(
+                                    category
+                                );
+                                moved = true;
+                                categories[category.get('id')] = undefined;
+                            }
+                        }
+                    }
+                }
             }
 
             return categories;
