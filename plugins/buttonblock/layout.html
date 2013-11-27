@@ -1,0 +1,26 @@
+<ul id="general-menu" class="nav nav-v js-accordion">
+    <% _.each(buttons, function(button) { %>
+        <li class="nav-item <%= button.additionalitemclasses.join(" ") %>">
+            <%
+                buttonurl = button.url;
+                if (buttonurl === 'origin') {
+                    buttonurl = document.location.origin;
+                } else if (buttonurl === 'current') {
+                    buttonurl = document.location.href;
+                } else {
+                    buttonurl = MM.lang.s(button.url);
+
+                    // Lang string not found
+                    if (buttonurl.indexOf('[[') == 0) {
+                        buttonurl = button.url;
+                    }
+                }
+            %>
+            <% target = button.target != "" ? 'target="' + button.target + '"': "" %>
+            <a href="<%= buttonurl %>" <%= target %> class="<%= button.additionallinkclasses.join(" ") %>">
+                <span><img src="<%= button.icon %>" border="0"></span>
+                <%= MM.lang.s(button.langstring) %>
+            </a>
+        </li>
+    <% }) %>
+</ul>
