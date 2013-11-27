@@ -14,7 +14,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             lang: {
                 component: "core"
             },
-			icon: ""
+            icon: ""
         },
 
         storage: {
@@ -53,7 +53,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             MM.moodleWSCall('core_course_get_contents', data, function(contents) {
                 // Removing loading icon.
                 $('a[href="#course/contents/' +courseId+ '"]').removeClass('loading-row');
-                var course = MM.db.get("courses", courseId);
+                var course = MM.db.get("courses", MM.config.current_site.id + "-" + courseId);
 
                 var tpl = {
                     sections: contents,
@@ -61,12 +61,12 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                 }
                 var html = MM.tpl.render(MM.plugins.contents.templates.sections.html, tpl);
 
-				pageTitle = course.get("shortname") + " - " + MM.lang.s("contents");
+                pageTitle = course.get("shortname") + " - " + MM.lang.s("contents");
 
-				MM.panels.show("center", html, {title: pageTitle});
+                MM.panels.show("center", html, {title: pageTitle});
                 if (MM.deviceType == "tablet" && contents.length > 0) {
-					$("#panel-center li:eq(1)").addClass("selected-row");
-					// First section.
+                    $("#panel-center li:eq(1)").addClass("selected-row");
+                    // First section.
                     MM.plugins.contents.viewCourseContentsSection(courseId, 0);
                 }
             }, null, function(m) {
@@ -90,18 +90,18 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             data.courseid = courseId;
 
             MM.moodleWSCall('core_course_get_contents', data, function(contents) {
-                var course = MM.db.get("courses", courseId);
+                var course = MM.db.get("courses", MM.config.current_site.id + "-" + courseId);
                 var courseName = course.get("fullname");
 
                 var firstContent = 0;
 
-				var contentsStored = [];
-				MM.db.each("contents", function(el){
-					contentsStored.push(el.get("id"));
-				});
+                var contentsStored = [];
+                MM.db.each("contents", function(el){
+                    contentsStored.push(el.get("id"));
+                });
 
                 var finalContents = [];
-				$.each(JSON.parse(JSON.stringify(contents)), function(index1, sections){
+                $.each(JSON.parse(JSON.stringify(contents)), function(index1, sections){
 
                     // Skip sections deleting contents..
                     if (sectionId > -1 && sectionId != index1) {
@@ -113,6 +113,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
 
                         content.contentid = content.id;
                         content.courseid = courseId;
+                        content.id = MM.config.current_site.id + "-" + content.contentid;
 
                         if(!firstContent) {
                             firstContent = content.contentid;
@@ -164,13 +165,13 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                             $.each(content.contents, function (index3, file) {
 
                                 if (file.fileurl.indexOf(MM.config.current_site.siteurl) == -1) {
-                                	return true;
+                                    return true;
                                 }
 
                                 var paths = MM.plugins.contents.getLocalPaths(courseId, content.contentid, file);
 
                                 var el = {
-                                    id: hex_md5(file.fileurl),
+                                    id: hex_md5(MM.config.current_site.id + file.fileurl),
                                     url: file.fileurl,
                                     path: paths.directory,
                                     newfile: paths.file,
@@ -211,7 +212,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                     course: course.toJSON() // Convert a model to a plain javascript object.
                 }
 
-				var pageTitle = course.get("shortname") + " - " + MM.lang.s("contents");
+                var pageTitle = course.get("shortname") + " - " + MM.lang.s("contents");
 
                 var html = MM.tpl.render(MM.plugins.contents.templates.contents.html, tpl);
                 MM.panels.show('right', html, {title: pageTitle});
@@ -220,7 +221,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
 
         downloadContent: function(courseId, sectionId, contentId, index) {
 
-            var content = MM.db.get("contents", contentId);
+            var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
             content = content.toJSON();
 
             var downCssId = "#download-" + contentId;
@@ -268,8 +269,8 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
 
         viewFolder: function(courseId, sectionId, contentId) {
 
-            var course = MM.db.get("courses", courseId);
-            var content = MM.db.get("contents", contentId);
+            var course = MM.db.get("courses", MM.config.current_site.id + "-" + courseId);
+            var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
             content = content.toJSON();
 
             var data = {
@@ -311,7 +312,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
 
         infoContent: function(courseId, sectionId, contentId, index) {
 
-            var content = MM.db.get("contents", contentId);
+            var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
             content = content.toJSON();
 
             if (typeof(MM.plugins.contents.infoBox) != "undefined") {
@@ -412,7 +413,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
         },
 
         showLabel: function(courseId, sectionId, contentId) {
-            var content = MM.db.get("contents", contentId);
+            var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
             content = content.toJSON();
             if (content.description) {
                 content.description = content.description.replace(/<a /g, "<a target=\"_blank\" ");
@@ -424,7 +425,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
         },
 
         hideLabel: function(courseId, sectionId, contentId) {
-            var content = MM.db.get("contents", contentId);
+            var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
             content = content.toJSON();
             $("#link-" + contentId + " h3").html(content.name);
             $("#link-" + contentId).attr("href", $("#link-" + contentId).attr("href").replace("hidelabel", "label"));
@@ -439,6 +440,10 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                 filename = filename.substring(0, paramsPart);
             }
             filename = filename.substr(filename.lastIndexOf("/") + 1);
+
+            // MOBILE-401, replace white spaces by "_"
+            filename = filename.replace(" ", "_");
+
             // We store in the sdcard the contents in site/course/modname/id/contentIndex/filename
             var path = MM.config.current_site.id + "/" + courseId + "/" + modId;
 
