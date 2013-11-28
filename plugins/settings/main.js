@@ -66,6 +66,7 @@ require(templates, function(addSiteForm, showSites, showSync, showSite, main) {
                 $("#panel-center").css({
                     'width':MM.plugins.settings.sizes.withSideBar.center,
                     'left':MM.plugins.settings.sizes.withSideBar.left,
+                    'display':'block'
                 });
                 $("#panel-right").css({
                     'width':MM.plugins.settings.sizes.withSideBar.right,
@@ -75,7 +76,8 @@ require(templates, function(addSiteForm, showSites, showSync, showSite, main) {
             } else {
                 $("#panel-center").css({
                     'width':MM.plugins.settings.sizes.withoutSideBar.center,
-                    'left':MM.plugins.settings.sizes.withoutSideBar.left
+                    'left':MM.plugins.settings.sizes.withoutSideBar.left,
+                    'display':'block'
                 });
                 $("#panel-right").css({
                     'width':MM.plugins.settings.sizes.withoutSideBar.right,
