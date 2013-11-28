@@ -52,12 +52,14 @@ define(requires, function(coursesTpl) {
             if (categories !== false) {
                 var values = {
                     'categories' : categories
+                    , title: MM.plugins.mycourses.settings.title
                 };
                 var html = MM.tpl.render(
                     MM.plugins.findcourses.templates.results.html, values, {}
                 );
 
                 MM.panels.show('center', html, {hideRight: false});
+                MM.util.setupAccordion();
             } else {
                 // Record these results - they're still valid.
                 MM.plugins.findcourses.last_found_courses = data;
@@ -110,6 +112,8 @@ define(requires, function(coursesTpl) {
         settings: {
             name: "findcourses",
             type: "general",
+            title: "Find Courses",
+            icon: "img/icon/find-courses.png",
             lang: {
                 component: "core"
             },

@@ -1,0 +1,203 @@
+h1 {
+
+}
+
+h2 {
+    font-size:2.1em; /* 29px; */
+}
+
+h3 {
+
+}
+
+h4 {
+
+}
+
+h5 {
+
+}
+
+h6 {
+
+}
+
+.panel-content h1 {
+    margin:1em 0.5em;
+}
+
+.panel-content .header h2 {
+    margin-bottom:0.1em;
+}
+
+.panel-content .course-title
+, .panel-content .topic-title {
+    margin:0.5em 1em;
+    display:inline-block;
+    width:90%;
+}
+
+.panel-content div.expand {
+    transition: background-color 0.5s ease;
+    background:url('../img/sprites/arrows.png') scroll no-repeat 100% -35px transparent;
+}
+
+.panel-content div.collapse {
+    transition: background-color 0.5s ease;
+    background:url('../img/sprites/arrows.png') scroll no-repeat 100% -134px #f8f7f8;
+}
+
+/* Content page top level and nested lists. */
+
+.panel-content .nav-item {
+    position:relative;
+}
+
+.panel-content .nav-item ul li {
+    border:none;
+}
+
+.panel-content .nav-item ul {
+    padding:0.5em 1em;
+}
+
+.panel-content .nav-item ul li {
+    /*padding:0.5em 1em;*/
+}
+
+.panel-content ul li ul {
+    background-color:#f8f7f8
+}
+
+.panel-content .completion-notstarted {
+    background:url('../img/sprites/course-completion-status.png') scroll no-repeat 0 -1px transparent;
+}
+
+.panel-content .completion-inprogress {
+    background:url('../img/sprites/course-completion-status.png') scroll no-repeat 0 -27px transparent;
+}
+
+.panel-content .completion-complete {
+    background:url('../img/sprites/course-completion-status.png') scroll no-repeat 0 -53px transparent;
+}
+
+.panel-content a[title="Back"] {
+    transition: background-color 0.5s ease;
+    background:url('../img/sprites/arrows.png') scroll no-repeat 46% -82px #7c7a80;
+    display:inline-block;
+    width:46px;
+    height:46px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+}
+
+.panel-content a[title="Back"]:hover {
+    transition: background-color 0.5s ease;
+    background-color:#a7a7a7;
+}
+
+.panel-content a[title="Back"] {
+    float:left;
+}
+
+.panel-content .summary {
+    margin-top:1em;
+}
+
+/* =2.5 - MY COURSES
+------------------------------------------------------ */
+
+.panel-content.my-courses span[class*="completion"] {
+    display:inline-block;
+    width:24px;
+    height:24px;
+    position:absolute;
+    right:7%;
+    top:9px;
+}
+
+.panel-content .collapse span[class*="completion"] {
+    display:none;
+}
+
+/* - COURSES
+-------------------------------------------------------------------------- */
+
+/* ToDo - Weeks. */
+
+.panel-content.course .top {
+    padding:1em;
+}
+
+.panel-content.course .header {
+    margin-left:10%;
+}
+
+.panel-content.course .sections {
+    margin-top:3%;
+    clear:both;
+}
+
+.panel-content.course .header {
+    float:left;
+    margin:0 0 1em 1em;
+    width:80%;
+}
+
+.panel-content.course .section-0 {
+    clear:left;
+    float:none;
+}
+
+.panel-content .nav-item  .collapse + ul {
+    padding:1em 4em 1em 1em;
+}
+
+.panel-content.course .detail {
+    font-size:0.8em;
+}
+
+.panel-content.course .detail p {
+    display:inline;
+    margin:0;
+}
+
+.panel-content.course .detail p:first-child {
+    margin-right:1em;
+}
+
+.panel-content.course div.name.expand a span {
+    float:right;
+}
+
+.panel-content.course div.name.collapse a span {
+    display:none;
+}
+
+/* Close Panel */
+
+
+
+.panel-content div.name.expand a.close {
+    display:none;
+    background-color:transparent;
+    transition: background-color 0.5s ease;
+}
+
+.panel-content div.name.collapse a.close {
+    display:block;
+    position:absolute;
+    right:0;
+    top:0;
+    width:50px;
+    height:100%;
+    background:url('../img/sprites/arrows.png') scroll no-repeat 60% -134px #d3d2d5;
+    padding-top:32px;
+    text-align:center;
+    color:#fff;
+    text-transform: uppercase;
+    font-size:0.8em;
+    transition: background-color 0.5s ease;
+}
+

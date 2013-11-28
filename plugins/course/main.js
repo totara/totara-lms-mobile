@@ -7,6 +7,8 @@ define(templates, function(courseTpl) {
         settings: {
             name: "course",
             type: "general",
+            title: "",
+            icon: "",
             lang: {
                 component: "core"
             }
@@ -91,6 +93,7 @@ define(templates, function(courseTpl) {
             var context = { course: course };
             var html = MM.tpl.render(template.html, context);
             MM.panels.show("center", html);
+            MM.util.setupAccordion();
         },
 
         errorCallback: function(error) {

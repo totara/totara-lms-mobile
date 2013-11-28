@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="css/layout.css">
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/MoveThisCSS.css">
     <script type="text/javascript">
         // Support for Node Webkit.
         window.requireNode = window.require;
@@ -112,7 +113,7 @@
         <% _.each(menu_items, function(menu_item) { %>
             <li class='nav-item'>
                 <a href='<%= menu_item.href %>' class='item' id='<%= menu_item.id %>'>
-                    <%= menu_item.name %>
+                    <img src="<%= menu_item.icon %>" alt="<%= menu_item.name %>" />
                 </a>
             </li>
         <% }); %>

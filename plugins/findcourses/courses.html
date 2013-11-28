@@ -1,44 +1,48 @@
-<ul>
-    <% _.each(categories, function(data, key) { %>
-        <div class='category'>
-            <div class='heading'>
-                <span class='course-count' style='float:right'>
-                    <span class='heading'>Course Count:</span>
+<div class="panel-content find-courses">
+    <h1><%= title %></h1>
+    <ul class="nav nav-v js-accordion">
+        <% _.each(categories, function(data, key) { %>
+        <li class="nav-item">
+            <div class="name toogler expand touch-row">
+                <span class='course-count'>
                     <span class='course-count-number'><%= data.length %></span>
                 </span>
-                <span style='float:left;margin-left:5px;'><%= key %></span>
+                <a href="#" class="course-title"><%= key %></a>
+                <a href="#" class="close toogler collapse touch-row" >Close</a>
             </div>
-            <div style='clear:both'>&nbsp;</div>
-            <div class='content'>
+            <ul class="nav submenu">
                 <% _.each(data, function(course) { %>
                     <% if (course.started) { %>
-                        <div class='found-course started' data-category='<%= key %>' data-courseid='<%= course.id %>'>
+                    <li class="found-course started nav-item" data-category="<%= key %>" data-courseid="<%= course.id %>">
                     <% } else { %>
-                        <div class='found-course' data-category='<%= key %>' data-courseid='<%= course.id %>'>
+                    <li class="found-course nav-item" data-category="<%= key %>" data-courseid="<%= course.id %>">
                     <% } %>
-                        <% _.each(_.keys(course), function(key) { %>
-                            <div>
-                                <% if (key === 'fullname') { %>
+                    <% _.each(_.keys(course), function(key) { %>
+                        <div>
+                            <% if (key === 'fullname') { %>
                                     <span>
                                         <% if (course.started) { %>
-                                            <a href='#courses/<%= course.id %>' style='text-decoration:underline'>
+                                            <a href="#courses/<%= course.id %>">
                                                 <%= key %>
                                             </a>
                                         <% } else { %>
-                                            <a href='#enrol_user/<%= course.id %>' style='text-decoration:underline'>
+                                            <a href="#enrol_user/<%= course.id %>">
                                                 <%= key %>
                                             </a>
                                         <% } %>
                                     </span>
-                                <% } else { %>
-                                    <span><%= key %></span>
-                                <% } %>
-                                <span><%= course[key] %></span>
-                            </div>
-                        <% }); %>
-                    </div>
+                            <% } else { %>
+                            <span><%= key %></span>
+                            <% } %>
+                            <span><%= course[key] %></span>
+                        </div>
+                    <% }); %>
+                    </li>
                 <% }) %>
-            </div>
-        </div>
-    <% }); %>
-</ul>
+            </ul>
+
+        </li>
+        <% }); %>
+    </ul>
+</div>
+

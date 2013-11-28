@@ -1,12 +1,30 @@
-<section>
-    <ul>
+<div class="panel-content my-courses">
+    <h1><%= title %></h1>
+    <ul class="nav nav-v js-accordion">
         <% _.each(courses, function(course) { %>
-        <li data-id="<%= course.id %>">
-            <span class="name"><%= course.shortname %></span>
-            <span class="status"></span>
-            <a href="#courses/<%= course.id %>">Launch</a>
-            <a href="#participants/<%= course.id %>">Participants</a>
+        <li class="nav-item" data-id="<%= course.id %>">
+            <div class="name toogler expand touch-row">
+                <a href="#" class="course-title">
+                    <%= course.fullname %>
+                </a>
+                <% if (course.started == 1) { %>
+                <span class="completion-inprogress"></span>
+                <% } else if (course.completed == 1) { %>
+                <span class="completion-complete"></span>
+                <% } else { %>
+                <span class="completion-notstarted"></span>
+                <% } %>
+                <a href="#" class="close toogler collapse touch-row" >Close</a>
+            </div>
+            <ul class="nav submenu">
+                <li class="nav-item">
+                    <a href="#courses/<%= course.id %>">Launch this course</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#participants/<%= course.id %>">View course participants</a>
+                </li>
+            </ul>
         </li>
         <% }); %>
     </ul>
-</section>
+</div>
