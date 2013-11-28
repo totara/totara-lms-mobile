@@ -1,0 +1,37 @@
+{
+    "sidemenu":{
+        "buttons":[{
+            "langstring":"website",
+            "additionalitemclasses":["no-arrow"],
+            "additionallinkclasses":["touch-row"],
+            "url":"origin",
+            "target":"_blank",
+            "icon":"img/ico-network.png"
+        }, {
+            "langstring":"help",
+            "additionalitemclasses":["no-arrow"],
+            "additionallinkclasses":["touch-row"],
+            "url":"docsurl",
+            "target":"_blank",
+            "icon":"img/ico-help.png"
+        }, {
+            "langstring":"settings",
+            "additionalitemclasses":[],
+            "additionallinkclasses":["touch-row"],
+            "url":"#settings",
+            "target":"",
+            "icon":"img/ico-settings.png"
+        }, {
+            "langstring":"logout",
+            "additionalitemclasses":[],
+            "additionallinkclasses":["touch-row"],
+            "url":"#logout",
+            "target":"",
+            "icon":"img/logout.png"
+        }],
+        "templates":{
+            "layout":"layout.html",
+            "link":"link.html"
+        }
+    }
+}

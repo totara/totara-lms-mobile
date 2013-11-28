@@ -200,6 +200,7 @@ define(requires, function(coursesTpl) {
         },
 
         list_categories: function() {
+            MM.panels.showLoading('center');
             MM.assignCurrentPlugin(MM.plugins.findcourses);
             MM.moodleWSCall(
                 'core_course_get_categories',
