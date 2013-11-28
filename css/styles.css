@@ -1201,3 +1201,29 @@ button {
 hr {
   border: 1px solid #eee;
 }
+
+.remember-option {
+  display:inline-block;
+  width:49%;
+  text-align:center;
+  background-color:grey;
+  cursor:pointer;
+}
+
+.remember-option.selected {
+  background-color:white;
+  cursor:auto;
+}
+
+ul.ui-autocomplete {
+  list-style-type: none;
+  max-width:50%;
+}
+
+li.ui-menu-item {
+  background-color:#fa8f1c;
+}
+
+.ui-helper-hidden-accessible {
+  display:none;
+}

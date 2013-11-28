@@ -16,6 +16,7 @@
     <script src="webintent.js"></script>
     <script src="PushNotification.js"></script>
     <script src="externallib/jquery-1.8.1.min.js"></script>
+    <script src="externallib/jquery-ui-1.9.1.custom.min.js"></script>
     <script src="externallib/jquery.touchSwipe.min.js"></script>
     <script src="externallib/md5.js"></script>
     <script src="externallib/matchMedia.js"></script>
@@ -23,6 +24,7 @@
     <script src="externallib/underscore.js"></script>
     <script src="externallib/backbone.js"></script>
     <script src="externallib/backbone-localstorage.js"></script>
+    <script src="lib/mm.combobox.js"></script>
 	<script src="lib/mm.js"></script>
 	<script src="lib/mm.panels.js"></script>
     <script src="lib/mm.util.js"></script>
@@ -269,26 +271,43 @@
 </script>
 
 <script type="text/template" id="add-site_template">
-<h1>
-    <img src="img/login-logo.png" alt="Moodle">
-</h1>
-<form action="">
-    <p>
-        <input type="url" id="url" autocapitalize="off" autocorrect="off" placeholder="<%= MM.lang.s("siteurl") %>">
-    </p>
-    <p>
-        <input type="text" id="username" autocapitalize="off" autocorrect="off" placeholder="<%= MM.lang.s("username") %>">
-    </p>
-    <p>
-        <input type="password" id="password" placeholder="<%= MM.lang.s("password") %>">
-    </p>
-    <p>
-        <input type="submit" name="add" id="addsitebutton" value="<%= MM.lang.s("add") %>">
-    </p>
-</form>
-<div id= "helplogin">
-    <a href="#helpmelogin"><%= MM.lang.s("icantlogin") %></a>
-</div>
+    <h1>
+        <img src="img/login-logo.png" alt="Moodle">
+    </h1>
+    <form action="">
+        <p class='ui-front'>
+            <select id="url" placeholder='<%= MM.lang.s("siteurl") %>'>
+                <option value=""><%= MM.lang.s("siteurl") %></option>
+                <% _.each(sites, function(site) { %>
+                    <% site = site.toJSON() %>
+                    <% if (site.remember === true) { %>
+                        <option value="<%= site.siteurl %>"><%= site.siteurl %></option>
+                    <% } %>
+                <% }); %>
+            </select>
+        </p>
+        <p>
+            <input type="text" id="username" autocapitalize="off" autocorrect="off" placeholder="<%= MM.lang.s("username") %>">
+        </p>
+        <p id='rememberDetails'>
+            Remember site url and username?
+            <div class='remember-option selected' data-option='0'>
+                <%= MM.lang.s('no') %>
+            </div>
+            <div class='remember-option' data-option='1'>
+                <%= MM.lang.s('yes') %>
+            </div>
+        </p>
+        <p>
+            <input type="password" id="password" placeholder="<%= MM.lang.s("password") %>">
+        </p>
+        <p>
+            <input type="submit" name="add" id="addsitebutton" value="<%= MM.lang.s("login") %>">
+        </p>
+    </form>
+    <div id= "helplogin">
+        <a href="#helpmelogin"><%= MM.lang.s("icantlogin") %></a>
+    </div>
 </script>
 </body>
 </html>
