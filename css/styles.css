@@ -1207,12 +1207,14 @@ hr {
   width:49%;
   text-align:center;
   background-color:grey;
+  color:white;
   cursor:pointer;
 }
 
 .remember-option.selected {
   background-color:white;
   cursor:auto;
+  color:grey;
 }
 
 ul.ui-autocomplete {
