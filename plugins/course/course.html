@@ -1,57 +1,81 @@
 <div class="panel-content course" data-id="<%= course.id %>">
     <div class="top">
-    <a href="#my-courses" title="Back"></a>
-        <div class="header">
-            <h2 class="name"><%= course.fullname %></h2>
-            <div class="completion">Completed x of y activities</div>
+    <a href="#" title="Back" id="back"></a>
+    <div class="header">
+        <h2 class="name"><%= course.fullname %></h2>
+        <div class="completion">Completed x of y activities</div>
             <% _.each(course.contents, function(section, i) { %>
                 <% if (i == 0) { %>
-                <div class="section-<%= i %>" data-id="<%= section.id %>">
-                    <div class="summary"><%= course.contents[0].summary %></div>
-                    <% _.each(section.modules, function(module) { %>
-                    <div class="module" data-id="<%= module.id %>">
-                        <img src="<%= module.modicon %>" alt="Course Icon" />
-                        <a href="<%= module.url %>"><%= module.name %></a>
-                        <% if (course.started == 1) { %>
-                        <span class="completion-inprogress"></span>
-                        <% } else if (course.completed == 1) { %>
-                        <span class="completion-complete"></span>
-                        <% } else { %>
-                        <span class="completion-notstarted"></span>
-                        <% } %>
+                    <div class="course-sections">
+                        <div class="section-<%= i %>" data-id="<%= section.id %>">
+                        <div class="summary"><%= course.contents[0].summary %></div>
+                            <ul class="items">
+                                <% _.each(section.modules, function(module) { %>
+                                <li class="item" data-id="<%= module.id %>">
+                                    <img src="<%= module.modicon %>" alt="Course Icon" />
+                                    <div>
+                                    <% if (module.visible) { %>
+                                        <a href="<%= module.url %>"><%= module.name %></a>
+                                    <% } else { %>
+                                        <%= module.name %>
+                                    <% } %>
+                                    <div class="detail">
+                                    <% _.each(module.contents, function(module_content) { %>
+                                        <% if (module_content.filesize > 0) { %>
+                                        <span><%= MM.lang.s("filesize") %><%= module_content.filesize %><%= MM.lang.s("filesizeunit") %></span>
+                                        <% } %>
+                                        <% if (!module.visible) { %>
+                                        <span><%= MM.lang.s("itemnotviewable") %></span>
+                                    <% } %>
+                                    </div>
+                                    <% }); %>
+                                    </div>
+                                </li>
+                                <% }); %>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="detail">
-                        <% _.each(module.contents, function(module_content) { %>
-                        <% if (module_content.filesize > 0) { %>
-                        <p>Size:&nbsp;<%= Math.round(module_content.filesize / 1024) %>&nbsp;MB</p>
-                        <% } %>
-                        <% }); %>
-                        <p>Viewable on this app:&nbsp;<%= module.visible == 1 ? "Yes" : "No" %></p>
-                    </div>
-                    <% }); %>
-                </div>
                 <% } %>
             <% }); %>
         </div>
     </div>
-    <ul class="sections nav nav-v js-accordion">
+    <ul class="course-sections sections nav nav-v js-accordion">
         <% _.each(course.contents, function(section, i) { %>
             <% if (i > 0) { %>
             <li class="section-<%= i %> nav-item" data-id="<%= section.id %>">
                 <div class="name toogler expand touch-row">
-                    <a href="#" class="topic-title">
+                    <h3 class="topic-title">
+                    <a href="#">
                         <%= section.name %>
-                        <span>
-                        <%= course.contents[i].modules.length %>
-                        </span>
                     </a>
-                    <a href="#" class="close toogler collapse touch-row" >Close</a>
+                    </h3>
+                    <div class="number-of-courses">
+                        <%= course.contents[i].modules.length %>
+                    </div>
+                    <a href="#" class="close toogler collapse touch-row" ><%= MM.lang.s("close") %></a>
                 </div>
-                <ul class="modules nav submenu">
+                <ul class="nav submenu items">
                     <% _.each(section.modules, function(module) { %>
-                    <li class="module" data-id="<%= module.id %>">
+                    <li class="item" data-id="<%= module.id %>">
                         <img src="<%= module.modicon %>" alt="Course Icon" />
-                        <a href="<%= module.url %>"><%= module.name %></a>
+                        <div>
+                            <% if (module.visible) { %>
+                            <a href="<%= module.url %>"><%= module.name %></a>
+                            <% } else { %>
+                            <span><%= module.name %></span>
+                            <% } %>
+                            <div class="detail">
+                            <% _.each(module.contents, function(module_content) { %>
+                                <% if (module_content.filesize > 0) { %>
+                                <span><%= MM.lang.s("filesize") %><%= module_content.filesize %><%= MM.lang.s("filesizeunit") %></span>
+                                <% } %>
+                                <% if (module.visible) { %>
+                                <span><%= MM.lang.s("itemnotviewable") %></span>
+                                <% } %>
+                            <% }); %>
+                            </div>
+                        </div>
+                        <% // ToDo - Replace with activity instead of course completion. %>
                         <% if (course.started == 1) { %>
                         <span class="completion-inprogress"></span>
                         <% } else if (course.completed == 1) { %>
@@ -59,18 +83,9 @@
                         <% } else { %>
                         <span class="completion-notstarted"></span>
                         <% } %>
-                        <div class="detail">
-                            <% _.each(module.contents, function(module_content) { %>
-                                <% if (module_content.filesize > 0) { %>
-                                <p>Size:<%= module_content.filesize %></p>
-                                <% } %>
-                            <% }); %>
-                            <p>Viewable on this app:<%= module.visible == 1 ? "Yes" : "No" %></p>
-                        </div>
                     </li>
                     <% }); %>
                 </ul>
-
             </li>
             <% } %>
         <% }); %>

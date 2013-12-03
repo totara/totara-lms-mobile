@@ -4,9 +4,11 @@
         <% _.each(courses, function(course) { %>
         <li class="nav-item" data-id="<%= course.id %>">
             <div class="name toogler expand touch-row">
-                <a href="#" class="course-title">
-                    <%= course.fullname %>
-                </a>
+                <h3 class="course-title">
+                    <a href="#" >
+                        <%= course.fullname %>
+                    </a>
+                </h3>
                 <% if (course.started == 1) { %>
                 <span class="completion-inprogress"></span>
                 <% } else if (course.completed == 1) { %>
@@ -14,14 +16,14 @@
                 <% } else { %>
                 <span class="completion-notstarted"></span>
                 <% } %>
-                <a href="#" class="close toogler collapse touch-row" >Close</a>
+                <a href="#" class="close toogler collapse touch-row" ><%= MM.lang.s("close") %></a>
             </div>
             <ul class="nav submenu">
                 <li class="nav-item">
-                    <a href="#courses/<%= course.id %>">Launch this course</a>
+                    <a href="#courses/<%= course.id %>"><%= MM.lang.s("launchcourse") %></a>
                 </li>
                 <li class="nav-item">
-                    <a href="#participants/<%= course.id %>">View course participants</a>
+                    <a href="#participants/<%= course.id %>"><%= MM.lang.s("viewcourseparticipants") %></a>
                 </li>
             </ul>
         </li>

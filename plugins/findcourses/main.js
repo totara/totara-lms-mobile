@@ -1,5 +1,5 @@
 var requires = [
-    "root/externallib/text!root/plugins/findcourses/courses.html"
+    "root/externallib/text!root/plugins/findcourses/findcourses.html"
 ];
 
 define(requires, function(coursesTpl) {
@@ -84,13 +84,13 @@ define(requires, function(coursesTpl) {
             if (categories !== false) {
                 var values = {
                     'categories' : categories
-                    , title: MM.plugins.mycourses.settings.title
+                    , title: MM.plugins.findcourses.settings.title
                 };
                 var html = MM.tpl.render(
                     MM.plugins.findcourses.templates.results.html, values, {}
                 );
-
                 MM.panels.show('center', html, {hideRight: false});
+                MM.util.setupAccordion();
             } else {
                 // Record these results - they're still valid.
                 MM.plugins.findcourses.last_found_courses = data;
@@ -137,6 +137,7 @@ define(requires, function(coursesTpl) {
             console.log("Error");
             console.log(data);
         }
+
     }
 
     var plugin = {
