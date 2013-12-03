@@ -3,7 +3,7 @@ var requires = [
     "root/externallib/text!root/plugins/findcourses/courses.html"
 ];
 
-define(requires, function(coursesTpl) {
+define(requires, function(courseEnrolment, coursesTpl) {
 
     var callbacks = {
         collate_categories_and_courses: function(data) {
