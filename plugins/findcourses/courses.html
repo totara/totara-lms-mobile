@@ -1,44 +1,66 @@
 <ul>
     <% _.each(categories, function(data, key) { %>
-        <div class='category'>
-            <div class='heading'>
-                <span class='course-count' style='float:right'>
-                    <span class='heading'>Course Count:</span>
-                    <span class='course-count-number'><%= data.length %></span>
-                </span>
-                <span style='float:left;margin-left:5px;'><%= key %></span>
-            </div>
-            <div style='clear:both'>&nbsp;</div>
-            <div class='content'>
-                <% _.each(data, function(course) { %>
-                    <% if (course.started) { %>
-                        <div class='found-course started' data-category='<%= key %>' data-courseid='<%= course.id %>'>
-                    <% } else { %>
-                        <div class='found-course' data-category='<%= key %>' data-courseid='<%= course.id %>'>
-                    <% } %>
-                        <% _.each(_.keys(course), function(key) { %>
-                            <div>
-                                <% if (key === 'fullname') { %>
-                                    <span>
-                                        <% if (course.started) { %>
-                                            <a href='#courses/<%= course.id %>' style='text-decoration:underline'>
-                                                <%= key %>
-                                            </a>
-                                        <% } else { %>
-                                            <a href='#enrol_user/<%= course.id %>' style='text-decoration:underline'>
-                                                <%= key %>
-                                            </a>
-                                        <% } %>
-                                    </span>
-                                <% } else { %>
-                                    <span><%= key %></span>
-                                <% } %>
-                                <span><%= course[key] %></span>
-                            </div>
-                        <% }); %>
+        <% if (data !== undefined) { %>
+            <li>
+                <div>Keys:<%= JSON.stringify(_.keys(data)) %></div>
+                <div class='category'>
+                    <div class='heading'>
+                        <span class='course-count' style='float:right'>
+                            <span class='heading'>Course Count:</span>
+                            <span class='course-count-number'><%= data.courses.length %></span>
+                        </span>
+                        <span style='float:left;margin-left:5px;'>
+                            <%= key %>: <%= data.categoryName %>
+                        </span>
                     </div>
-                <% }) %>
-            </div>
-        </div>
+                    <div style='clear:both'>&nbsp;</div>
+                    <div class='content'>
+                        <h1>Courses</h1>
+                        <ul>
+                            <% _.each(data.courses, function(course) { %>
+                                <% if (course.started) { %>
+                                    <li class='found-course started' data-category='<%= key %>' data-courseid='<%= course.id %>'>
+                                <% } else { %>
+                                    <li class='found-course' data-category='<%= key %>' data-courseid='<%= course.id %>'>
+                                <% } %>
+                                    <ul>
+                                        <% _.each(_.keys(course), function(key) { %>
+                                            <li>
+                                                <% if (key === 'fullname') { %>
+                                                    <span>
+                                                        <% if (course.started) { %>
+                                                            <a href='#courses/<%= course.id %>' style='text-decoration:underline'>
+                                                                <%= key %>
+                                                            </a>
+                                                        <% } else { %>
+                                                            <a href='#enrol_user/<%= course.id %>' style='text-decoration:underline'>
+                                                                <%= key %>
+                                                            </a>
+                                                        <% } %>
+                                                    </span>
+                                                <% } else { %>
+                                                    <span><%= key %></span>
+                                                <% } %>
+                                                <span><%= course[key] %></span>
+                                            </li>
+                                        <% }); %>
+                                    </ul>
+                                </li>
+                            <% }) %>
+                        </ul>
+                        <h1>Sub categories</h1>
+                        <ul>
+                            <% _.each(data.subcategories, function(subcat) { %>
+                                <li>
+                                    <div>
+                                        <%= JSON.stringify(subcat) %>
+                                    </div>
+                                </li>
+                            <% }) %>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+        <% } %>
     <% }); %>
 </ul>

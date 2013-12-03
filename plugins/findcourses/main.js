@@ -1,4 +1,5 @@
 var requires = [
+    "root/externallib/text!root/plugins/findcourses/courseEnrolment.html",
     "root/externallib/text!root/plugins/findcourses/courses.html"
 ];
 
@@ -7,6 +8,8 @@ define(requires, function(coursesTpl) {
     var callbacks = {
         collate_categories_and_courses: function(data) {
             var missing_categories = false;
+            // Get all the categories with all their correct courses below
+            // them.
             var categories = _.reduceRight(data, function(memo, course) {
                 if (course.categoryid === 0) return memo;
 
@@ -16,8 +19,11 @@ define(requires, function(coursesTpl) {
                 if (category !== undefined) {
                     var categoryName = category.get('name');
 
-                    if (memo[categoryName] === undefined){
-                        memo[categoryName] = [];
+                    if (memo[category.get('id')] === undefined){
+                        memo[category.get('id')] = {
+                            'courses':[],
+                            'subcategories':[]
+                        };
                     }
 
                     // Has the user already started this course?
@@ -31,7 +37,8 @@ define(requires, function(coursesTpl) {
                     }
                     course.started = false;
 
-                    memo[categoryName].push(course);
+                    memo[category.get('id')].categoryName = categoryName;
+                    memo[category.get('id')].courses.push(course);
                 } else {
                     missing_categories = true;
                 }
@@ -39,8 +46,34 @@ define(requires, function(coursesTpl) {
                 return memo;
             }, {});
 
+            // If we're missing categories then we'll be returning false.
+            // Otherwise, go through all the categories, and move them under
+            // the appropriate parent if applicable.
             if (missing_categories === true) {
                 categories = false;
+            } else {
+                // Do moving.
+                var moved = true;
+                while (moved == true) {
+                    moved = false;
+                    var keys = _.keys(categories);
+                    for (var i = keys.length; i >= 0; i--) {
+                        // Undefined categories have already been sorted.
+                        if (categories[keys[i]] == undefined) {
+                            continue;
+                        }
+                        var category = MM.db.get('categories', keys[i]);
+                        if (category !== undefined) {
+                            if (category.get('parent') != 0) {
+                                categories[category.get('parent')].subcategories.push(
+                                    category
+                                );
+                                moved = true;
+                                categories[category.get('id')] = undefined;
+                            }
+                        }
+                    }
+                }
             }
 
             return categories;
@@ -51,13 +84,15 @@ define(requires, function(coursesTpl) {
 
             if (categories !== false) {
                 var values = {
-                    'categories' : categories
+                    'categories' : categories,
+                    'title': MM.plugins.findcourses.settings.title
                 };
                 var html = MM.tpl.render(
                     MM.plugins.findcourses.templates.results.html, values, {}
                 );
 
                 MM.panels.show('center', html, {hideRight: false});
+                MM.util.setupAccordion();
             } else {
                 // Record these results - they're still valid.
                 MM.plugins.findcourses.last_found_courses = data;
@@ -127,6 +162,9 @@ define(requires, function(coursesTpl) {
         ],
 
         templates: {
+            "courseEnrolment": {
+                html: courseEnrolment
+            },
             "results": {
                 html: coursesTpl
             }
@@ -176,27 +214,47 @@ define(requires, function(coursesTpl) {
 
         enrol_user: function(courseId) {
             MM.assignCurrentPlugin(MM.plugins.findcourses);
+            
+            var html = '';
+            html = MM.tpl.render(
+                MM.plugins.findcourses.templates.courseEnrolment.html,
+                {
+                    title: "Place holder",
+                    text: "Place Holder"
+                }
+            );
 
-            // RoleId 5 = Student
-            // This format isn't a mistake, the call requires an array
-            // of arrays.
-            var data = {
-                'enrolments':[{
-                    roleid: 5,
-                    userid: MM.site.get('userid'),
-                    courseid: courseId
-                }]
+            var options = {
+                buttons: {}
             };
 
-            MM.plugins.findcourses.last_enrolled_course = courseId;
+            options.buttons[MM.lang.s('cancel')] = MM.widgets.dialogClose;
 
-            MM.moodleWSCall(
-                'enrol_manual_enrol_users',
-                data,
-                callbacks.manual_enrolment_successful,
-                {responseExpected:false},
-                callbacks.error
-            );
+            options.buttons[MM.lang.s('yes')] = function() {
+                // RoleId 5 = Student
+                // This format isn't a mistake, the call requires an array
+                // of arrays.
+                var data = {
+                    'enrolments':[{
+                        roleid: 5,
+                        userid: MM.site.get('userid'),
+                        courseid: courseId
+                    }]
+                };
+
+                MM.plugins.findcourses.last_enrolled_course = courseId;
+
+                MM.moodleWSCall(
+                    'enrol_manual_enrol_users',
+                    data,
+                    callbacks.manual_enrolment_successful,
+                    {responseExpected:false},
+                    callbacks.error
+                );
+            }
+
+            MM.widgets.dialog(html, options);
+            e.preventDefault();
         },
 
         list_categories: function() {
