@@ -1,0 +1,13 @@
+<dl>
+    <dt>Number of attempts allowed:</td><dd><%= scorm.num_attempts_allowed %></dd>
+    <dt>Number of attempts you have made:</td><dd><%= scorm.num_attempts_made %></dd>
+    <dt>Grading method:</td><dd><%= scorm.grading_method %></dd>
+    <dt>Grade reported:</td><dd><%= scorm.grade_reported %></dd>
+</dl>
+<form id="scorm-form">
+    <input type="radio" id="mode-preview" name="mode" value="preview" />
+    <label for="mode-preview">Preview</label>
+    <input type="radio" id="mode-normal" name="mode" value="normal" checked="checked" />
+    <label for="mode-normal">Normal</label>
+    <input id="submitter" type="submit" value="Enter" />
+</form>
