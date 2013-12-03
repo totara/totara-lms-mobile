@@ -8,9 +8,17 @@
             <div class="name"><%= section.name %></div>
             <ul class="modules">
                 <% _.each(section.modules, function(module) { %>
-                <li class="module" data-id="<%= module.id %>">
-                    <div class="name"><%= module.name %></div>
-                </li>
+                    <% if (!!module.visible) { %>
+                        <li class="module" data-id="<%= module.id %>">
+                            <% if (module.modname === 'feedback') { %>
+                                <a href='#feedback/<%= course.id %>'>
+                                    <%= module.name %>
+                                </a>
+                            <% } else { %>
+                                <div class="name"><%= module.name %></div>
+                            <% } %>
+                        </li>
+                    <% } %>
                 <% }); %>
             </ul>
         </li>
