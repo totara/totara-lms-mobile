@@ -1,8 +1,9 @@
 var requires = [
+    "root/externallib/text!root/plugins/findcourses/courseEnrolment.html",
     "root/externallib/text!root/plugins/findcourses/findcourses.html"
 ];
 
-define(requires, function(coursesTpl) {
+define(requires, function(courseEnrolment, coursesTpl) {
 
     var callbacks = {
         collate_categories_and_courses: function(data) {
@@ -83,8 +84,8 @@ define(requires, function(coursesTpl) {
 
             if (categories !== false) {
                 var values = {
-                    'categories' : categories
-                    , title: MM.plugins.findcourses.settings.title
+                    'categories' : categories,
+                    'title': MM.plugins.findcourses.settings.title
                 };
                 var html = MM.tpl.render(
                     MM.plugins.findcourses.templates.results.html, values, {}
@@ -137,7 +138,6 @@ define(requires, function(coursesTpl) {
             console.log("Error");
             console.log(data);
         }
-
     }
 
     var plugin = {
@@ -163,6 +163,9 @@ define(requires, function(coursesTpl) {
         ],
 
         templates: {
+            "courseEnrolment": {
+                html: courseEnrolment
+            },
             "results": {
                 html: coursesTpl
             }
@@ -170,7 +173,6 @@ define(requires, function(coursesTpl) {
 
         last_enrolled_course: null,
         last_found_courses:undefined,
-
         sizes: undefined,
 
         _getSizes: function() {
@@ -212,27 +214,47 @@ define(requires, function(coursesTpl) {
 
         enrol_user: function(courseId) {
             MM.assignCurrentPlugin(MM.plugins.findcourses);
+            
+            var html = '';
+            html = MM.tpl.render(
+                MM.plugins.findcourses.templates.courseEnrolment.html,
+                {
+                    title: "Place holder",
+                    text: "Place Holder"
+                }
+            );
 
-            // RoleId 5 = Student
-            // This format isn't a mistake, the call requires an array
-            // of arrays.
-            var data = {
-                'enrolments':[{
-                    roleid: 5,
-                    userid: MM.site.get('userid'),
-                    courseid: courseId
-                }]
+            var options = {
+                buttons: {}
             };
 
-            MM.plugins.findcourses.last_enrolled_course = courseId;
+            options.buttons[MM.lang.s('cancel')] = MM.widgets.dialogClose;
 
-            MM.moodleWSCall(
-                'enrol_manual_enrol_users',
-                data,
-                callbacks.manual_enrolment_successful,
-                {responseExpected:false},
-                callbacks.error
-            );
+            options.buttons[MM.lang.s('yes')] = function() {
+                // RoleId 5 = Student
+                // This format isn't a mistake, the call requires an array
+                // of arrays.
+                var data = {
+                    'enrolments':[{
+                        roleid: 5,
+                        userid: MM.site.get('userid'),
+                        courseid: courseId
+                    }]
+                };
+
+                MM.plugins.findcourses.last_enrolled_course = courseId;
+
+                MM.moodleWSCall(
+                    'enrol_manual_enrol_users',
+                    data,
+                    callbacks.manual_enrolment_successful,
+                    {responseExpected:false},
+                    callbacks.error
+                );
+            }
+
+            MM.widgets.dialog(html, options);
+            e.preventDefault();
         },
 
         list_categories: function() {
