@@ -18,8 +18,10 @@
             %>
             <% target = button.target != "" ? 'target="' + button.target + '"': "" %>
             <a href="<%= buttonurl %>" <%= target %> class="<%= button.additionallinkclasses.join(" ") %>">
-                <span><img src="<%= button.icon %>" border="0"></span>
-                <%= MM.lang.s(button.langstring) %>
+                <img src="<%= button.icon %>" class="plugin-ico" border="0">
+                <span class="plugin-name">
+                    <%= MM.lang.s(button.langstring) %>
+                </span>
             </a>
         </li>
     <% }) %>

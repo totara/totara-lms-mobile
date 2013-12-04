@@ -1,32 +1,22 @@
-<header>
-    <div class="media">
-        <div class="refresh">
-            <a href="#refresh">
-                <img width="16" height="16" src="img/reload.png" border="0">
-            </a>
-        </div>
-        <div class="img">
-            <img src="<%= MM.util.getMoodleFilePath(user.profileimageurl) %>" border="0">
-        </div>
-        <div class="bd">
-            <h1><%= user.fullname %></h1>
-        </div>
-    </div>
-</header>
-
 <ul class="nav nav-v js-accordion">
+    <li class="nav-item no-submenu">
+        <span class="no-link">
+            <img src="<%= MM.util.getMoodleFilePath(user.profileimageurl) %>" class="plugin-ico" width="32" height="32" border="0">
+            <span class="plugin-name">
+                <%= user.fullname %>
+            </span>
+        </span>
+    </li>
     <% _.each(plugins, function(plugin) { %>
         <% if (typeof plugin.subMenus == "undefined" || plugin.subMenus.length == 0) { %>
             <li class="nav-item no-submenu">
                 <a href="<%= plugin.menuURL %>" class="alink touch-row">
                     <% if (plugin.icon) { %>
-                        <div class="plugin-ico">
-                            <img src="<%= plugin.icon %>" border="0">
-                        </div>
+                        <img src="<%= plugin.icon %>" class="plugin-ico" border="0" width="32" height="32">
                     <% } %>
-                    <div class="plugin-name">
+                    <span class="plugin-name">
                         <%= MM.lang.pluginName(plugin.name) %>
-                    </div>
+                    </span>
                 </a>
             </li>
         <% } else { %>
@@ -37,13 +27,11 @@
                     <a>
                 <% }  %>
                     <% if (plugin.icon) { %>
-                        <div class="plugin-ico">
-                            <img src="<%= plugin.icon %>" border="0">
-                        </div>
+                        <img src="<%= plugin.icon %>" class="plugin-ico" border="0" width="32" height="32">
                     <% } %>
-                    <div class="plugin-name">
+                    <span class="plugin-name">
                         <%= MM.lang.pluginName(plugin.name) %>
-                    </div>
+                    </span>
                 </a>
                 <% if (plugin.toogler) { %>
                     <ul class="nav submenu">
@@ -54,13 +42,11 @@
                         <li class="nav-item">
                             <a href="<%= menu.menuURL %>" class="alink touch-row">
                                 <% if (menu.icon) { %>
-                                    <div class="plugin-ico">
-                                        <img src="<%= menu.icon %>" border="0">
-                                    </div>
+                                    <img src="<%= menu.icon %>" class="plugin-ico" border="0" width="32" height="32">
                                 <% } %>
-                                <div class="plugin-name">
+                                <span class="plugin-name">
                                     <%= MM.lang.s(menu.name) %>
-                                </div>
+                                </span>
                             </a>
                         </li>
                     <% }); %>
@@ -69,47 +55,6 @@
         <% } %>
     <% }); %>
 </ul>
-
-<!--<h2><%= MM.lang.s("mycourses") %></h2>
-<div id="mycourses">
-    <ul class="nav nav-v js-accordion">
-        <% if (courses.length > 0) { %>
-            <% _.each(courses, function(course) { %>
-                <li class="nav-item">
-                    <a href="#" class="toogler expand touch-row">
-                        <div class="course-ico">
-                            <img src="img/ico-course.png" border="0">
-                        </div>
-                        <div class="plugin-name">
-                            <%= course.fullname %>
-                        </div>
-                    </a>
-                    <ul class="nav submenu">
-                        <% _.each(coursePlugins, function(plugin) { %>
-                            <li class="nav-item">
-                                <a href="<%= plugin.menuURL %><%= course.id %>" class="touch-row">
-                                    <% if (plugin.icon) { %>
-                                        <div class="plugin-ico">
-                                            <img src="<%= plugin.icon %>" border="0">
-                                        </div>
-                                    <% } %>
-                                    <div class="plugin-name">
-                                        <%= MM.lang.pluginName(plugin.name) %>
-                                    </div>
-                                </a>
-                            </li>
-                        <% }); %>
-                    </ul>
-                </li>
-            <% }); %>
-        <% } else { %>
-            <li class="nav-item">
-                No courses found
-            </li>
-        <% } %>
-    </ul>
-</div>
-<h2></h2>-->
 <div>
     <%= MM.plugins.buttonblock.sidemenu.display() %>
 </div>
