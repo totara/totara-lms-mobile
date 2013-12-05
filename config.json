@@ -54,6 +54,6 @@
         "password": "student"
     }
 ],
-"menu_items": ["notifications"],
+"menu_items": ["mycourses", "findcourses"],
 "menu_type":"default_navigation"
 }
