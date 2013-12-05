@@ -1,10 +1,29 @@
-h1 {
+/* Base font adjustments. */
 
+/* @media only screen and (min-device-width : 320px) and (max-device-width : 480px) { */
+@media only screen and (min-device-width : 234px) and (max-device-width : 767px) {
+    html
+    , body {
+        font-size:80%;
+    }
+}
+
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
+    html
+    , body {
+        font-size:90%;
+    }
+}
+
+h1 {
+    font-size:48px;
+    font-size:3rem;
 }
 
 h2 {
     /*font-size:2.1em; *//* 29px. */
     font-size:29px;
+    font-size:1.8rem;
 }
 
 h3 {
@@ -45,17 +64,43 @@ h1
 .panel-content .course-title
 , .panel-content .topic-title
 , .panel-content .category-title
-, .panel-content .sub-course-title
-, .panel-content .sub-category-title {
+, .panel-content .sub-item-title {
     margin:0.5em 20px;
     display:inline-block;
     width:90%;
 }
 
-.panel-content .sub-course-title
-, .panel-content .sub-category-title {
-    font-size:1.15em;
+.sub-item-title
+, .nav-item a.sub-item-title {
+    font-size:16px;
+    font-size:1rem;
+    /*font-size:1.15em;*/
     margin-left:0;
+    font-weight:normal;
+    padding-top:0;
+    padding-bottom:0;
+}
+
+/* Content structure. */
+
+.panel-content .top {
+    padding:1em;
+}
+
+.panel-content .header {
+    float:left;
+    margin:0 0 1em 1em;
+    width:90%;
+}
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+    .panel-content .header {
+        width:80%;
+    }
+}
+
+.panel-content .summary {
+    margin-top:1em;
 }
 
 .panel-content div.expand {
@@ -91,9 +136,12 @@ h1
 
 .panel-content .nav-item .toogler + ul
 , .panel-content .nav-item .toogler + ul ul {
-    padding:1em 4em 1em 1em;
-    /*padding:0 4em 1em 1em;*/
+    /*padding:1em 4em 1em 1em;*/
+    padding:10px 50px 10px 10px;
+    width:auto;
 }
+
+/* Course Completion. */
 
 .panel-content .completion-notstarted {
     background:url('../img/sprites/course-completion-status.png') scroll no-repeat 0 0 transparent;
@@ -125,10 +173,6 @@ h1
 
 .panel-content a[title="Back"] {
     float:left;
-}
-
-.panel-content .summary {
-    margin-top:1em;
 }
 
 /* Course Completion. */
@@ -166,14 +210,6 @@ h1
 
 /* ToDo - Weeks. */
 
-.panel-content.course .top {
-    padding:1em;
-}
-
-.panel-content.course .header {
-    margin-left:10%;
-}
-
 .panel-content.course .header li.module {
     padding-left:0.5em;
     padding-right:0.5em;
@@ -182,12 +218,6 @@ h1
 .panel-content.course .sections {
     margin-top:3%;
     clear:both;
-}
-
-.panel-content.course .header {
-    float:left;
-    margin:0 0 1em 1em;
-    width:90%;
 }
 
 .panel-content.course .section-0 {

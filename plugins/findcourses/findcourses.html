@@ -26,7 +26,7 @@
                             <ul>
                                 <% _.each(data.subcategories, function(subcat) { %>
                                 <li>
-                                    <a href="#find_courses/<%= subcat.attributes.id %>" class="sub-category-title">
+                                    <a href="#find_courses/<%= subcat.attributes.id %>" class="sub-item-title">
                                         <%= subcat.attributes.name %>
                                         <%= subcat.attributes.coursecount %>
                                     </a>
@@ -45,7 +45,7 @@
                                 <% _.each(data.courses, function(course) { %>
                                 <li>
                                     <% // ToDo - Add check to see if user is enroled on course.  %>
-                                    <a href="#courses/<%= course.id %>" class="sub-course-title">
+                                    <a href="#courses/<%= course.id %>" class="sub-item-title">
                                         <%= course.fullname %>
                                     </a>
                                     <% // Currently always 'not-started' as not getting the correct data. %>
