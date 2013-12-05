@@ -1,4 +1,5 @@
 var templates = [
+    "root/externallib/text!root/plugins/feedback/pageaftersubmit.html",
     "root/externallib/text!root/plugins/feedback/overview.html",
     "root/externallib/text!root/plugins/feedback/info.html",
     "root/externallib/text!root/plugins/feedback/label.html",
@@ -14,8 +15,8 @@ var templates = [
 define(
     templates,
     function(
-        overview, info, label, textarea, multichoice, ratedmultichoice, numeric,
-        textfield, captcha, pagebreak
+        pageaftersubmit, overview, info, label, textarea, multichoice,
+        ratedmultichoice, numeric, textfield, captcha, pagebreak
     ) {
     var plugin = {
         settings: {
@@ -28,6 +29,7 @@ define(
         },
 
         templates: {
+            'page_after_submit': {'html':pageaftersubmit},
             'overview' : {'html':overview},
             'info' : {'html':info},
             'label' : {'html':label},
@@ -93,13 +95,13 @@ define(
             $("#panel-right").show();
         },
 
-        currentFeedbackId:undefined,
+        currentFeedback:undefined,
 
         _getFeedbackQuestionsSuccess: function(data) {
             var feedback = data.feedback;
             var questions = data.questions;
             var answers = data.answers;
-            MM.plugins.feedback.currentFeedbackId = feedback[0].id
+            MM.plugins.feedback.currentFeedback = feedback[0];
             var html = "";
 
             // Save the feedback
@@ -118,19 +120,14 @@ define(
                 MM.db.insert('questions', question);
             });
 
-            MM.plugins.feedback._displayFeedback(feedback.id);
+            MM.plugins.feedback._displayFeedback(feedback[0]);
         },
 
-        _displayFeedback: function(feedbackId) {
+        _displayFeedback: function(feedback) {
             var html = "";
 
             html = MM.tpl.render(
-                MM.plugins.feedback.templates.overview.html,
-                {
-                    feedback:{
-                        id:feedbackId
-                    }
-                }
+                MM.plugins.feedback.templates.overview.html, feedback
             );
 
             MM.panels.show("center", html);
@@ -191,11 +188,24 @@ define(
                 // If we didn't have an error, save the answer to the question.
                 if (error.length === 0) {
                     var question = MM.db.get('questions', qId);
-                    question.answer.id = id;
-                    question.answer.item = qId;
-                    question.answer.value = value;
+                    question.set('answer', {'id':id, 'item':qId, 'value':value});
                 }
             });
+
+            var html = MM.tpl.render(
+                MM.plugins.feedback.templates.pageaftersubmit, feedback
+            );
+            MM.panels.show("center", html);
+            $(document).find("#continue").on(
+                'click', MM.plugins.feedback._continueClicked
+            );
+        },
+
+        _continueClicked: function() {
+            MM.Router.navigate(
+                'courses/' + MM.plugins.feedback.currentFeedback.course,
+                {trigger:true}
+            );
         },
 
         _sendAnswersFailure: function() {
@@ -223,10 +233,11 @@ define(
             var html = "";
 
             var questions = MM.db.where(
-                'questions', {'feedback':MM.plugins.feedback.currentFeedbackId}
+                'questions', {'feedback':MM.plugins.feedback.currentFeedback.id}
             );
 
             _.each(questions, function(question) {
+                console.log(JSON.stringify(question));
                 var x = MM.tpl.render(
                     MM.plugins.feedback.templates[question.get('typ')].html, question.toJSON()
                 );
