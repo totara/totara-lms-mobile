@@ -16,9 +16,10 @@
 	"course",
 	"notifications",
 	"default_navigation",
-	"settings", 
+	"settings",
     "buttonblock",
-    "scorm"
+    "scorm",
+    "feedback"
 ],
 "wsservice" : "moodle_mobile_app",
 "presets" : {"url": "", "username": ""},
