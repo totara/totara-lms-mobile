@@ -50,6 +50,23 @@ define(templates, function(courseTpl) {
             var context = { course: course };
             var html = MM.tpl.render(template.html, context);
             MM.panels.show("center", html);
+            $("#panel-center .set-activity-completion").change(MM.plugins.course.setActivityCompletionHandler);
+        },
+
+        setActivityCompletionHandler: function(ev) {
+            ev.preventDefault();
+            var cmid = $(this).attr("data-cmid");
+            var completed = $(this).is(":checked") ? 1 : 0;
+            var method = "core_course_set_activity_completion";
+            var data = {
+                cmid: cmid, 
+                userid: MM.site.get("userid"), 
+                completed: completed 
+            };
+            var callback = function() {}; 
+            var presets = { omitExpires: true, cache: false };
+            var errorCallback = MM.plugins.course.errorCallback;
+            MM.moodleWSCall(method, data, callback, presets, errorCallback);
         },
 
         errorCallback: function(error) {

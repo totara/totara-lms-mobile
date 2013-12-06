@@ -9,7 +9,10 @@
             <ul class="modules">
                 <% _.each(section.modules, function(module) { %>
                 <li class="module" data-id="<%= module.id %>">
-                    <div class="name"><%= module.name %></div>
+                    <div class="name">
+                        <%= module.name %>
+                        <input type="checkbox" class="set-activity-completion" data-cmid="<%= module.id %>" />
+                    </div>
                 </li>
                 <% }); %>
             </ul>
