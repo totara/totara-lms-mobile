@@ -20,6 +20,11 @@ define(templates, function(courseTpl) {
             ["courses/:courseID", "course", "course"]
         ],
 
+        storage: {
+            courseModule: {type: "model"},
+            courseModules: {type: "collection", model: "courseModule"}
+        },
+
         currentCourseInfo: null,
 
         course: function(courseID) {
@@ -46,6 +51,11 @@ define(templates, function(courseTpl) {
         courseContentsCallback: function(response) {
             var course = MM.plugins.course.currentCourseInfo;
             course.contents = response;
+            $.each(course.contents, function(i, section) {
+                $.each(section.modules, function(j, module) {
+                    MM.db.insert("courseModules", module);
+                });
+            });
             var template = MM.plugins.course.templates.course;
             var context = { course: course };
             var html = MM.tpl.render(template.html, context);

@@ -10,7 +10,11 @@
                 <% _.each(section.modules, function(module) { %>
                 <li class="module" data-id="<%= module.id %>">
                     <div class="name">
-                        <%= module.name %> 
+                        <% if (module.name === "scorm") { %>
+                        <a href="#scorm/<%= module.id %>"><%= module.name %></a>
+                        <% } else { %>
+                        <a href="#unsupported-activity/<%= module.id %>"><%= module.name %></a>
+                        <% } %>
                         <% if (module.completion) { %>
                         <input type="checkbox" class="set-activity-completion" data-cmid="<%= module.id %>" />
                         <% } %>
