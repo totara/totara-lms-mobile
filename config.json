@@ -18,7 +18,8 @@
 	"default_navigation",
 	"settings", 
     "buttonblock",
-    "scorm"
+    "scorm",
+    "unsupportedActivity"
 ],
 "wsservice" : "moodle_mobile_app",
 "presets" : {"url": "", "username": ""},
