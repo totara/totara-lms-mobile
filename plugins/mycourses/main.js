@@ -20,6 +20,45 @@ define(templates, function(myCoursesTpl, participantsTpl, participantTpl) {
             ["my-courses", "myCourses", "myCourses"]
         ],
 
+        sizes: undefined,
+
+        _getSizes: function() {
+            MM.plugins.mycourses.sizes = {
+                withSideBar: {
+                    center:$(document).innerWidth() - MM.navigation.getWidth(),
+                    left:MM.navigation.getWidth()
+                },
+                withoutSideBar: {
+                    center:$(document).innerWidth(),
+                    left:0
+                }
+            };
+        },
+
+        resize: function() {
+            if (MM.plugins.mycourses.sizes == undefined) {
+                MM.plugins.mycourses._getSizes();
+            }
+
+            if (MM.navigation.visible === true) {
+                $("#panel-center").css({
+                    'width':MM.plugins.mycourses.sizes.withSideBar.center,
+                    'left':MM.plugins.mycourses.sizes.withSideBar.left
+                });
+            } else {
+                $("#panel-center").css({
+                    'width':MM.plugins.mycourses.sizes.withoutSideBar.center,
+                    'left':MM.plugins.mycourses.sizes.withoutSideBar.left
+                });
+            }
+            $("#panel-right").hide();
+        },
+
+        cleanUp: function() {
+            $("#panel-center").html("");
+            $("#panel-right").show();
+        },
+
         myCourses: function() {
             MM.panels.showLoading("center");
             MM.moodleWSCall(
