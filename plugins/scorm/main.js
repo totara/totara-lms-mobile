@@ -23,6 +23,45 @@ define(templates, function(scormTpl, scormLaunchTpl) {
             ["scorm/:cmid/launch", "scormLaunch", "scormLaunch"],
         ],
 
+        sizes: undefined,
+
+        _getSizes: function() {
+            MM.plugins.scorm.sizes = {
+                withSideBar: {
+                    center:$(document).innerWidth() - MM.navigation.getWidth(),
+                    left:MM.navigation.getWidth()
+                },
+                withoutSideBar: {
+                    center:$(document).innerWidth(),
+                    left:0
+                }
+            };
+        },
+
+        resize: function() {
+            if (MM.plugins.scorm.sizes == undefined) {
+                MM.plugins.scorm._getSizes();
+            }
+
+            if (MM.navigation.visible === true) {
+                $("#panel-center").css({
+                    'width':MM.plugins.scorm.sizes.withSideBar.center,
+                    'left':MM.plugins.scorm.sizes.withSideBar.left
+                });
+            } else {
+                $("#panel-center").css({
+                    'width':MM.plugins.scorm.sizes.withoutSideBar.center,
+                    'left':MM.plugins.scorm.sizes.withoutSideBar.left
+                });
+            }
+            $("#panel-right").hide();
+        },
+
+        cleanUp: function() {
+            $("#panel-center").html("");
+            $("#panel-right").show();
+        },
+
         currentCourseInfo: null,
 
         scorm: function(cmid) {

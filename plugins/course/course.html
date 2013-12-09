@@ -19,22 +19,33 @@
 						                    <a href="#feedback/<%= module.id %>">
 						                        <%= module.name %>
 						                    </a>
+										<% } else if (module.modname === "scorm") { %>
+											<a href="#scorm/<%= module.id %>">
+												<%= module.name %>
+											</a>
 						                <% } else { %>
-                                        	<a href="<%= module.url %>"><%= module.name %></a>
+                                        	<a href="#courses/<%= course.id %>/unsupported-activity/<%= module.id %>">
+												<%= module.name %>
+											</a>
 										<% } %>
                                     <% } else { %>
-                                        <%= module.name %>
+                                        <a href="#courses/<%= course.id %>/unsupported-activity/<%= module.id %>">
+											<%= module.name %>
+										</a>
                                     <% } %>
                                     <div class="detail">
                                     <% _.each(module.contents, function(module_content) { %>
                                         <% if (module_content.filesize > 0) { %>
-                                        <span><%= MM.lang.s("filesize") %><%= module_content.filesize %><%= MM.lang.s("filesizeunit") %></span>
+                                        	<span><%= MM.lang.s("filesize") %><%= module_content.filesize %><%= MM.lang.s("filesizeunit") %></span>
                                         <% } %>
                                         <% if (!module.visible) { %>
-                                        <span><%= MM.lang.s("itemnotviewable") %></span>
-                                    <% } %>
-                                    </div>
+                                        	<span><%= MM.lang.s("itemnotviewable") %></span>
+                                    	<% } %>
+										<% if (module.completion) { %>
+								        	<input type="checkbox" class="set-activity-completion" data-cmid="<%= module.id %>" />
+								        <% } %>
                                     <% }); %>
+									</div>
                                     </div>
                                 </li>
                                 <% }); %>
