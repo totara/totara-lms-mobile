@@ -131,6 +131,7 @@ define(
             );
 
             MM.panels.show("center", html);
+            MM.util.setupAccordion();
             $(document).find('#submit-feedback').on(
                 'click', MM.plugins.feedback._saveFeedback
             );
