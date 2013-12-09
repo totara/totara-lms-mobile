@@ -1,6 +1,6 @@
 var requires = [
     "root/externallib/text!root/plugins/findcourses/courseEnrolment.html",
-    "root/externallib/text!root/plugins/findcourses/courses.html"
+    "root/externallib/text!root/plugins/findcourses/findcourses.html"
 ];
 
 define(requires, function(courseEnrolment, coursesTpl) {
@@ -90,7 +90,6 @@ define(requires, function(courseEnrolment, coursesTpl) {
                 var html = MM.tpl.render(
                     MM.plugins.findcourses.templates.results.html, values, {}
                 );
-
                 MM.panels.show('center', html, {hideRight: false});
                 MM.util.setupAccordion();
             } else {
@@ -145,6 +144,8 @@ define(requires, function(courseEnrolment, coursesTpl) {
         settings: {
             name: "findcourses",
             type: "general",
+            title: "Find Courses",
+            icon: "img/icon/find-courses.png",
             lang: {
                 component: "core"
             },
@@ -211,7 +212,6 @@ define(requires, function(courseEnrolment, coursesTpl) {
 
         last_enrolled_course: null,
         last_found_courses:undefined,
-
         sizes: undefined,
 
         _getSizes: function() {

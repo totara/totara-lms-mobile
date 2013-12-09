@@ -1,0 +1,70 @@
+<div class="panel-content find-courses">
+    <h1><%= title %></h1>
+    <ul class="nav nav-v js-accordion">
+        <% _.each(categories, function(data, key) { %>
+            <% if (data !== undefined) { %>
+                <li class="nav-item">
+                    <div class="name toogler expand touch-row">
+                        <h3 class="course-title">
+                            <a href="#">
+                                <%= data.categoryName %>
+                            </a>
+                        </h3>
+                        <div class="number-of-courses">
+                            <%= data.courses.length %>
+                        </div>
+                        <a href="#" class="close toogler collapse touch-row" ><%= MM.lang.s("close") %></a>
+                    </div>
+                    <% if (data.subcategories.length > 0 || data.courses.length > 0) { %>
+                    <ul class="nav submenu">
+                        <% if (data.subcategories.length > 0) { %>
+                        <% // Sub Categories %>
+                        <li>
+                            <h5><%= MM.lang.s("subcategories") %></h5>
+                        </li>
+                        <li>
+                            <ul>
+                                <% _.each(data.subcategories, function(subcat) { %>
+                                <li>
+                                    <a href="#find_courses/<%= subcat.attributes.id %>" class="sub-item-title">
+                                        <%= subcat.attributes.name %>
+                                        <%= subcat.attributes.coursecount %>
+                                    </a>
+                                </li>
+                                <% }); %>
+                            </ul>
+                        </li>
+                        <% } %>
+                        <% if (data.courses.length > 0) { %>
+                        <% // Courses %>
+                        <li>
+                            <h5><%= MM.lang.s("subcourses") %></h5>
+                        </li>
+                        <li>
+                            <ul>
+                                <% _.each(data.courses, function(course) { %>
+                                <li>
+                                    <% // ToDo - Add check to see if user is enroled on course.  %>
+                                    <a href="#courses/<%= course.id %>" class="sub-item-title">
+                                        <%= course.fullname %>
+                                    </a>
+                                    <% // Currently always 'not-started' as not getting the correct data. %>
+                                    <% if (course.started == 1) { %>
+                                    <span class="completion-inprogress"></span>
+                                    <% } else if (course.completed == 1) { %>
+                                    <span class="completion-complete"></span>
+                                    <% } else { %>
+                                    <span class="completion-notstarted"></span>
+                                    <% } %>
+                                </li>
+                                <% }); %>
+                            </ul>
+                        </li>
+                        <% } %>
+                    </ul>
+                    <% } %>
+                </li>
+            <% } %>
+        <% }); %>
+    </ul>
+</div>

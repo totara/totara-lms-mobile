@@ -1,0 +1,468 @@
+/* Base font adjustments. */
+
+/* @media only screen and (min-device-width : 320px) and (max-device-width : 480px) { */
+@media only screen and (min-device-width : 234px) and (max-device-width : 767px) {
+    html
+    , body {
+        font-size:80%;
+    }
+}
+
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
+    html
+    , body {
+        font-size:90%;
+    }
+}
+
+h1 {
+    font-size:48px;
+    font-size:3rem;
+}
+
+h2 {
+    /*font-size:2.1em; *//* 29px. */
+    font-size:29px;
+    font-size:1.8rem;
+}
+
+h3 {
+    /*font-size:1.5em; *//* 21px. */
+    font-size:21px;
+    font-size:1.3rem;
+}
+
+h4 {
+
+}
+
+h5 {
+
+}
+
+h6 {
+
+}
+
+h1
+, h2
+, h3
+, h4
+, h5
+, h6 {
+    font-weight:normal
+}
+
+.panel-content h1 {
+    margin:1em 0.5em;
+}
+
+.panel-content .header h2 {
+    margin-bottom:0.1em;
+}
+
+.panel-content .item-title
+, .panel-content .course-title
+, .panel-content .topic-title
+, .panel-content .question-title
+, .panel-content .category-title
+, .panel-content .sub-item-title {
+    margin:0.5em 20px;
+    display:inline-block;
+    width:90%;
+}
+
+.sub-item-title
+, .nav-item a.sub-item-title {
+    font-size:16px;
+    font-size:1rem;
+    margin-left:0;
+    font-weight:normal;
+    padding-top:0;
+    padding-bottom:0;
+}
+
+/* Page Structure. */
+
+#panel-center
+, #panel-right {
+    top:76px;
+}
+
+#panel-top {
+    height:76px;
+}
+
+@media only screen and (min-device-width : 234px) and (max-device-width : 767px) {
+    #panel-center
+    , #panel-right {
+        top:50px;
+    }
+
+    #panel-top {
+        height:50px;
+    }
+}
+
+/* Content structure. */
+
+.panel-content .top {
+    padding:1em;
+}
+
+.panel-content .header {
+    float:left;
+    margin:0 0 1em 1em;
+    width:80%;
+}
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+    .panel-content .header {
+        width:80%;
+    }
+}
+
+.panel-content .summary {
+    margin-top:1em;
+}
+
+.panel-content div.expand {
+    transition: background-color 0.5s ease;
+    background:url('../img/sprites/arrows.png') scroll no-repeat 100% -33px transparent;
+    position:relative;
+}
+
+.panel-content div.collapse {
+    transition: background-color 0.5s ease;
+    background:url('../img/sprites/arrows.png') scroll no-repeat 100% -134px transparent;
+}
+
+.panel-content div.collapse
+, .panel-content .nav-item {
+    background-color:#f8f7f8;
+}
+
+/* Content page top level and nested lists. */
+
+.panel-content .nav-item {
+    position:relative;
+    border-top:none;
+}
+
+.panel-content .nav-item ul li {
+    border:none;
+}
+
+.panel-content ul li ul {
+    background-color:#f8f7f8
+}
+
+.panel-content .nav-item .toogler + ul
+, .panel-content .nav-item .toogler + ul ul {
+    /*padding:1em 4em 1em 1em;*/
+    padding:10px 50px 10px 10px;
+    width:auto;
+}
+
+.panel-content .sections {
+    margin-top:3%;
+    clear:both;
+}
+
+/* Course Completion. */
+
+.panel-content .completion-notstarted {
+    background:url('../img/sprites/course-completion-status.png') scroll no-repeat 0 0 transparent;
+}
+
+.panel-content .completion-inprogress {
+    background:url('../img/sprites/course-completion-status.png') scroll no-repeat 0 -26px transparent;
+}
+
+.panel-content .completion-complete {
+    background:url('../img/sprites/course-completion-status.png') scroll no-repeat 0 -53px transparent;
+}
+
+.panel-content a[title="Back"] {
+    transition: background-color 0.5s ease;
+    background:url('../img/sprites/arrows.png') scroll no-repeat 46% -82px #7c7a80;
+    display:inline-block;
+    width:46px;
+    height:46px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+}
+
+.panel-content a[title="Back"]:hover {
+    transition: background-color 0.5s ease;
+    background-color:#a7a7a7;
+}
+
+.panel-content a[title="Back"] {
+    float:left;
+}
+
+/* Course Completion. */
+
+.panel-content span[class*="completion"] {
+    display:inline-block;
+    width:26px;
+    height:26px;
+    position:absolute;
+    right:30px;
+    top:9px;
+}
+
+.panel-content .collapse span[class*="completion"] {
+    display:none;
+}
+
+/* Number of courses. */
+
+.panel-content div.number-of-courses {
+    position:absolute;
+    right:40px;
+    top:10px;
+}
+
+.panel-content .collapse div.number-of-courses {
+    display:none;
+}
+
+#button-container {
+    width:100%;
+    text-align:center;
+    margin-top:40px;
+}
+
+#button-container button {
+    display:block;
+    margin:auto;
+}
+
+#button-container button.cancel {
+    font-size:0.8em;
+    margin-top:20px;
+}
+
+/* - TOP NAVIGATION
+-------------------------------------------------------------------------- */
+
+.header-main {
+    height:76px;
+}
+
+.header-main #top-nav .nav-item {
+    background:none;
+    text-align:center;
+    padding:0 25px;
+    width:auto;
+}
+
+.header-main #top-nav .nav .nav-item:first-child {
+    padding-left:10px;
+}
+
+.header-main #top-nav .nav-item > a {
+    display:table-cell;
+    height:76px;
+    vertical-align: middle;
+}
+
+.header-main #top-nav .nav-item > a img {
+    max-width:32px;
+}
+
+@media only screen and (min-device-width : 234px) and (max-device-width : 767px) {
+
+    .header-main {
+        height:50px;
+    }
+
+    .header-main #top-nav .nav-item {
+        padding:0 5%;
+    }
+
+    .header-main #top-nav .nav-item > a {
+        display:table-cell;
+        height:50px;
+        vertical-align: middle;
+    }
+
+}
+
+/* =2.5 - MY COURSES
+------------------------------------------------------ */
+
+/* - COURSES
+-------------------------------------------------------------------------- */
+
+/* ToDo - Weeks. */
+
+.panel-content.course .header li.module {
+    padding-left:0.5em;
+    padding-right:0.5em;
+}
+
+.panel-content.course .section-0 {
+    clear:left;
+    float:none;
+}
+
+.panel-content.course ul.course-sections .items li {
+    background-color:#f5f4f5
+}
+
+/* Items. */
+
+.panel-content.course .course-sections ul.items {
+    list-style-type:none;
+}
+
+.panel-content.course .course-sections ul.items li {
+    position:relative;
+}
+
+.panel-content.course .course-sections ul.items li img:first-child + div {
+    position:absolute;
+    top:10px;
+    left:40px;
+    line-height:1.3em;
+}
+
+.panel-content.course .detail {
+    font-size:0.8em;
+    line-height:1em;
+}
+
+/* End Items. */
+
+.panel-content.course .items > li
+, .panel-content.course .header .item {
+    padding:10px 0;
+    min-height:30px;
+}
+
+.panel-content.course .submenu.items > li {
+    padding:10px;
+}
+
+.panel-content.course span[class*="completion"] {
+    right:16px;
+}
+
+/* - FIND COURSES
+-------------------------------------------------------------------------- */
+
+.panel-content.find-courses ul.nav li {
+    position:relative;
+    list-style-type:none;
+}
+
+.panel-content.find-courses ul.nav .submenu li .course-title {
+    margin-left:0;
+}
+
+.panel-content.find-courses .submenu li > ul {
+    padding-right:0;
+}
+
+.panel-content.find-courses .nav h5 {
+    margin-bottom:0;
+    border-bottom:solid 1px #9a979b;
+    color:#9a979b;
+}
+
+.panel-content.find-courses h3.course-title {
+    width:81%;
+}
+
+.panel-content.find-courses span[class*="completion"] {
+    right:14px;
+}
+
+/* - CLOSE PANEL
+-------------------------------------------------------------------------- */
+
+.panel-content div.expand a.close {
+    display:none;
+    background-color:transparent;
+    transition: background-color 0.5s ease;
+}
+
+.panel-content div.collapse a.close {
+    display:block;
+    position:absolute;
+    right:0;
+    top:0;
+    width:50px;
+    height:100%;
+    background:url('../img/sprites/arrows.png') scroll no-repeat 60% -134px #d3d2d5;
+    padding-top:32px;
+    text-align:center;
+    color:#fff;
+    text-transform: uppercase;
+    font-size:11px;
+    font-size:0.67rem;
+    transition: background-color 0.5s ease;
+}
+
+/* - MAIN MENU
+-------------------------------------------------------------------------- */
+
+.panel.user-menu .nav-item > a
+, .panel.user-menu .nav-item .no-link {
+    font-size:inherit;
+    font-weight:normal;
+    padding:1rem 0 1rem 0.61538rem;
+    display:block;
+    border-top:1px solid rgba(255, 255, 255, 0.2);
+    border-bottom:1px solid rgba(0, 0, 0, 0.15);
+}
+
+.user-menu .nav-item {
+    padding:0;
+    font-size:21px;
+    font-size:1.3rem;
+    font-weight:normal;
+}
+
+.panel header .img img {
+    width:32px;
+    height:32px;
+}
+
+.user-menu .plugin-name {
+    margin:0;
+    vertical-align:middle;
+}
+
+.user-menu .plugin-ico {
+    float:none;
+}
+
+.user-menu .submenu .nav-item {
+    padding-left: 0;
+}
+
+.user-menu .expand
+, .user-menu .collapse {
+    background-position:95% 50%;
+}
+
+/*
+    FEEDBACK
+*/
+
+.panel-content.feedback .toogler + .items {
+    width:90%;
+    margin:auto;
+}
+
+.panel-content ul li.required div.expand
+, .panel-content ul li.required div.collapse
+, .panel-content ul li.required
+, .panel-content ul li.required ul {
+    background-color:#f3baa3;
+}
