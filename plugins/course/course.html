@@ -10,7 +10,7 @@
                 <% _.each(section.modules, function(module) { %>
                 <li class="module" data-id="<%= module.id %>">
                     <div class="name">
-                        <% if (module.name === "scorm") { %>
+                        <% if (module.modname === "scorm") { %>
                         <a href="#scorm/<%= module.id %>"><%= module.name %></a>
                         <% } else { %>
                         <a href="#courses/<%= course.id %>/unsupported-activity/<%= module.id %>"><%= module.name %></a>
