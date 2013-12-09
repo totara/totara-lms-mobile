@@ -32,7 +32,7 @@ define(templates, function(unsupportedActivityTpl) {
         sizes: undefined,
 
         _getSizes: function() {
-            MM.plugins..sizes = {
+            MM.plugins.unsupportedActivity.sizes = {
                 withSideBar: {
                     center:$(document).innerWidth() - MM.navigation.getWidth(),
                     left:MM.navigation.getWidth()
@@ -45,19 +45,19 @@ define(templates, function(unsupportedActivityTpl) {
         },
 
         resize: function() {
-            if (MM.plugins.pluginname.sizes == undefined) {
-                MM.plugins.pluginname._getSizes();
+            if (MM.plugins.unsupportedActivity.sizes == undefined) {
+                MM.plugins.unsupportedActivity._getSizes();
             }
 
             if (MM.navigation.visible === true) {
                 $("#panel-center").css({
-                    'width':MM.plugins.pluginname.sizes.withSideBar.center,
-                    'left':MM.plugins.pluginname.sizes.withSideBar.left
+                    'width':MM.plugins.unsupportedActivity.sizes.withSideBar.center,
+                    'left':MM.plugins.unsupportedActivity.sizes.withSideBar.left
                 });
             } else {
                 $("#panel-center").css({
-                    'width':MM.plugins.pluginname.sizes.withoutSideBar.center,
-                    'left':MM.plugins.pluginname.sizes.withoutSideBar.left
+                    'width':MM.plugins.unsupportedActivity.sizes.withoutSideBar.center,
+                    'left':MM.plugins.unsupportedActivity.sizes.withoutSideBar.left
                 });
             }
             $("#panel-right").hide();
