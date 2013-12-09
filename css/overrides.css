@@ -61,8 +61,10 @@ h1
     margin-bottom:0.1em;
 }
 
-.panel-content .course-title
+.panel-content .item-title
+, .panel-content .course-title
 , .panel-content .topic-title
+, .panel-content .question-title
 , .panel-content .category-title
 , .panel-content .sub-item-title {
     margin:0.5em 20px;
@@ -74,7 +76,6 @@ h1
 , .nav-item a.sub-item-title {
     font-size:16px;
     font-size:1rem;
-    /*font-size:1.15em;*/
     margin-left:0;
     font-weight:normal;
     padding-top:0;
@@ -112,7 +113,7 @@ h1
 .panel-content .header {
     float:left;
     margin:0 0 1em 1em;
-    width:90%;
+    width:80%;
 }
 
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
@@ -161,6 +162,11 @@ h1
     /*padding:1em 4em 1em 1em;*/
     padding:10px 50px 10px 10px;
     width:auto;
+}
+
+.panel-content .sections {
+    margin-top:3%;
+    clear:both;
 }
 
 /* Course Completion. */
@@ -224,6 +230,22 @@ h1
     display:none;
 }
 
+#button-container {
+    width:100%;
+    text-align:center;
+    margin-top:40px;
+}
+
+#button-container button {
+    display:block;
+    margin:auto;
+}
+
+#button-container button.cancel {
+    font-size:0.8em;
+    margin-top:20px;
+}
+
 /* - TOP NAVIGATION
 -------------------------------------------------------------------------- */
 
@@ -281,11 +303,6 @@ h1
 .panel-content.course .header li.module {
     padding-left:0.5em;
     padding-right:0.5em;
-}
-
-.panel-content.course .sections {
-    margin-top:3%;
-    clear:both;
 }
 
 .panel-content.course .section-0 {
@@ -368,13 +385,13 @@ h1
 /* - CLOSE PANEL
 -------------------------------------------------------------------------- */
 
-.panel-content div.name.expand a.close {
+.panel-content div.expand a.close {
     display:none;
     background-color:transparent;
     transition: background-color 0.5s ease;
 }
 
-.panel-content div.name.collapse a.close {
+.panel-content div.collapse a.close {
     display:block;
     position:absolute;
     right:0;
@@ -434,3 +451,18 @@ h1
     background-position:95% 50%;
 }
 
+/*
+    FEEDBACK
+*/
+
+.panel-content.feedback .toogler + .items {
+    width:90%;
+    margin:auto;
+}
+
+.panel-content ul li.required div.expand
+, .panel-content ul li.required div.collapse
+, .panel-content ul li.required
+, .panel-content ul li.required ul {
+    background-color:#f3baa3;
+}

@@ -15,7 +15,13 @@
                                     <img src="<%= module.modicon %>" alt="Course Icon" />
                                     <div>
                                     <% if (module.visible) { %>
-                                        <a href="<%= module.url %>"><%= module.name %></a>
+										<% if (module.modname === 'feedback') { %>
+						                    <a href="#feedback/<%= module.id %>">
+						                        <%= module.name %>
+						                    </a>
+						                <% } else { %>
+                                        	<a href="<%= module.url %>"><%= module.name %></a>
+										<% } %>
                                     <% } else { %>
                                         <%= module.name %>
                                     <% } %>
@@ -60,7 +66,13 @@
                         <img src="<%= module.modicon %>" alt="Course Icon" />
                         <div>
                             <% if (module.visible) { %>
-                            <a href="<%= module.url %>"><%= module.name %></a>
+                                <% if (module.modname === 'feedback') { %>
+                                <a href="#feedback/<%= module.id %>">
+                                    <%= module.name %>
+                                </a>
+                                <% } else { %>
+                                <a href="<%= module.url %>"><%= module.name %></a>
+                                <% } %>
                             <% } else { %>
                             <span><%= module.name %></span>
                             <% } %>
