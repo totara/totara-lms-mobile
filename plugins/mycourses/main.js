@@ -23,7 +23,7 @@ define(templates, function(myCoursesTpl, participantsTpl, participantTpl) {
         sizes: undefined,
 
         _getSizes: function() {
-            MM.plugins.sizes = {
+            MM.plugins.myCourses.sizes = {
                 withSideBar: {
                     center:$(document).innerWidth() - MM.navigation.getWidth(),
                     left:MM.navigation.getWidth()
@@ -36,19 +36,19 @@ define(templates, function(myCoursesTpl, participantsTpl, participantTpl) {
         },
 
         resize: function() {
-            if (MM.plugins.pluginname.sizes == undefined) {
-                MM.plugins.pluginname._getSizes();
+            if (MM.plugins.myCourses.sizes == undefined) {
+                MM.plugins.myCourses._getSizes();
             }
 
             if (MM.navigation.visible === true) {
                 $("#panel-center").css({
-                    'width':MM.plugins.pluginname.sizes.withSideBar.center,
-                    'left':MM.plugins.pluginname.sizes.withSideBar.left
+                    'width':MM.plugins.myCourses.sizes.withSideBar.center,
+                    'left':MM.plugins.myCourses.sizes.withSideBar.left
                 });
             } else {
                 $("#panel-center").css({
-                    'width':MM.plugins.pluginname.sizes.withoutSideBar.center,
-                    'left':MM.plugins.pluginname.sizes.withoutSideBar.left
+                    'width':MM.plugins.myCourses.sizes.withoutSideBar.center,
+                    'left':MM.plugins.myCourses.sizes.withoutSideBar.left
                 });
             }
             $("#panel-right").hide();
