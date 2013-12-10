@@ -109,6 +109,11 @@ define(
 
             // Go through each question linking it with any available answer
             _.each(questions, function(question) {
+                question.answer = {
+                    'id':0,
+                    'item':0,
+                    'value':''
+                };
                 _.each(answers, function(answer) {
                     if (question.id === answer.item) {
                         question.answer = answer;
