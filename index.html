@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="css/layout.css">
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/overrides.css">
     <script type="text/javascript">
         // Support for Node Webkit.
         window.requireNode = window.require;
@@ -104,17 +105,17 @@
 </div>
 
 <script type="text/template" id="top_bar_template">
-<nav class="nav-main">
+<nav id="top-nav" class="nav-main">
     <ul class="nav">
         <li class="nav-item home menu-home">
             <a href="#" class="ir" id="mainmenu">
-                Home
+                <img src="img/header-home.png" alt="<%= MM.lang.s('openmenu') %>" title="<%= MM.lang.s('openmenu') %>" width="32" height="32" />
             </a>
         </li>
         <% _.each(menu_items, function(menu_item) { %>
-            <li class='nav-item'>
-                <a href='<%= menu_item.href %>' class='item' id='<%= menu_item.id %>'>
-                    <%= menu_item.name %>
+            <li class="nav-item">
+                <a href="<%= menu_item.href %>" class="item" id="topnav-<%= menu_item.id %>" title="<%= menu_item.title %>">
+                    <img src="<%= menu_item.icon %>" alt="<%= menu_item.name %>" title="<%= menu_item.title %>" width="32" height="32" />
                 </a>
             </li>
         <% }); %>

@@ -101,17 +101,6 @@ require(templates, function(navTpl) {
                     MM.plugins.default_navigation.templates.side_nav, values
                 );
                 MM.panels.html('left', output);
-
-                $('.submenu').hide();
-                $('.toogler').bind(MM.clickType, function(e) {
-                    // This prevents open the toogler when we are scrolling.
-                    if (MM.touchMoving) {
-                        MM.touchMoving = false;
-                    } else {
-                        $(this).next().slideToggle(300);
-                        $(this).toggleClass("collapse expand");
-                    }
-                });
             }
         },
 

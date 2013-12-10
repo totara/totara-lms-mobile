@@ -5,23 +5,24 @@
 "cache_expiration_time" : 300000,
 "default_lang" : "en",
 "plugins" : [
-	"upload", 
-	"contents", 
-	"participants", 
-	"addcontact", 
-	"addnote", 
-	"sendmessage", 
-	"mycourses", 
-	"findcourses", 
+	"upload",
+	"contents",
+	"participants",
+	"addcontact",
+	"addnote",
+	"sendmessage",
+	"mycourses",
+	"findcourses",
 	"course",
 	"notifications",
 	"default_navigation",
-	"settings", 
+	"settings",
     "buttonblock",
     "scorm",
     "unsupportedActivity",
     "page",
-    "label"
+    "label",
+    "feedback"
 ],
 "wsservice" : "moodle_mobile_app",
 "presets" : {"url": "", "username": ""},
@@ -57,6 +58,6 @@
         "password": "student"
     }
 ],
-"menu_items": ["notifications"],
+"menu_items": ["mycourses", "findcourses"],
 "menu_type":"default_navigation"
 }
