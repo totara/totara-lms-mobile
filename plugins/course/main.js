@@ -67,7 +67,7 @@ define(templates, function(courseTpl) {
         currentCourseInfo: null,
 
         course: function(courseID) {
-            //MM.assignCurrentPlugin(MM.plugins.course);
+            MM.assignCurrentPlugin(MM.plugins.course);
             MM.panels.showLoading("center");
             var method = "core_course_get_courses";
             var data = { options: { ids: [courseID] } };

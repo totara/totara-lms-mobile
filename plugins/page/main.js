@@ -61,7 +61,7 @@ define(templates, function(pageTpl) {
         },
 
         page: function(cmid) {
-            //MM.assignCurrentPlugin(MM.plugins.page);
+            MM.assignCurrentPlugin(MM.plugins.page);
             MM.panels.showLoading("center");
             var method= "mod_page_get_page_details";
             var data = { cmid: cmid };
