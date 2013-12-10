@@ -22,6 +22,7 @@
     "unsupportedActivity",
     "page",
     "label",
+    "url",
     "feedback"
 ],
 "wsservice" : "moodle_mobile_app",
