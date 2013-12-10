@@ -1,10 +1,20 @@
-<div>
-    <p><%= name %></p>
-    <p><%= intro %></p>
-    <div class='questions'>
-        <div class='question'>
-            <%= MM.plugins.feedback._displayQuestions() %>
+<div class="panel-content feedback">
+    <div class="top">
+        <a href="#" title="Back" id="back"></a>
+        <div class="header">
+            <h2 class="name"><%= name %></h2>
+            <%= intro %>
         </div>
     </div>
-    <button class='submit' id='submit-feedback' data-feedbackid=<%= id %>>Submit</button>
+    <ul class="questions sections nav nav-v js-accordion">
+        <%= MM.plugins.feedback._displayQuestions() %>
+    </ul>
+    <div id="button-container">
+        <button class="submit" id="submit-feedback" title="<%= MM.lang.s("feedback-submitanswers") %>" data-feedbackid="<%= id %>">
+            <%= MM.lang.s("feedback-submitanswers") %>
+        </button>
+        <button class="cancel" id="cancel" title="<%= MM.lang.s("cancelandreturn") %>">
+            <%= MM.lang.s("cancelandreturn") %>
+        </button>
+    </div>
 </div>

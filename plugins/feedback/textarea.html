@@ -1,13 +1,11 @@
-<h2>TextArea</h2>
-<p class='question-text'>
-    <%= name %>
-</p>
-<textarea class='question-answer' data-required=<%= required %> data-questionid=<%= id %>>
-<%= answer.value %>
-</textarea>
-<p>
-    Label: <%= label %>
-</p>
-<p>
-    Presentation: <%= presentation %>
-</p>
+<li class="nav-item <% if (required) { %>required<% } %> textarea">
+    <div class="toogler expand touch-row">
+        <h3 class="item-title"><%= name %></h3>
+        <a href="#" class="close toogler collapse touch-row" ><%= MM.lang.s("close") %></a>
+    </div>
+    <ul class="nav submenu items">
+        <li class="item">
+            <textarea class="question-answer" data-questionid="<%= id %>"><%= answer.value  %></textarea>
+        </li>
+    </ul>
+</li>

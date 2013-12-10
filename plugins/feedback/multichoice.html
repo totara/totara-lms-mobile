@@ -1,17 +1,17 @@
-<h2>MultiChoice</h2>
-<p>
-    Label: <%= label %>
-</p>
-<p>
-    Name: <%= name %>
-</p>
-<p>
-    Presentation: <%= presentation %>
-</p>
-<p>
-    Required: <%= required %>
-</p>
-<p>Possible Parsing:</p>
-<p>
-    <%= MM.widgets.parseMoodleMultiChoice(presentation) %>
-</p>
+<li class="nav-item <% if (required) { %>required<% } %> multichoice">
+    <div class="toogler expand touch-row">
+        <h3 class="item-title"><%= name %></h3>
+    <a href="#" class="close toogler collapse touch-row" ><%= MM.lang.s("close") %></a>
+    </div>
+    <ul class="nav submenu items">
+        <li class="item">
+            <p>
+                <%= MM.widgets.parseMoodleMultiChoice(
+                    presentation, ["question-answer"], {'data-questionid':id}, answer.value
+                ) %>
+            </p>
+        </li>
+    </ul>
+</li>
+
+

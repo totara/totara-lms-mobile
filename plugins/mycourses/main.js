@@ -60,6 +60,7 @@ define(templates, function(myCoursesTpl, participantsTpl, participantTpl) {
         },
 
         myCourses: function() {
+            MM.Router.navigate("my-courses");
             MM.assignCurrentPlugin(MM.plugins.mycourses);
             MM.panels.showLoading("center");
             var method = "core_enrol_get_users_course_completions";

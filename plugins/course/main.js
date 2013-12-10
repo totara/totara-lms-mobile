@@ -6,7 +6,9 @@ define(templates, function(courseTpl) {
     var plugin = {
         settings: {
             name: "course",
-            type: "general",
+            type: "user",
+            title: "",
+            icon: "",
             lang: {
                 component: "core"
             }
@@ -19,6 +21,11 @@ define(templates, function(courseTpl) {
         routes: [,
             ["courses/:courseID", "course", "course"]
         ],
+
+		storage: {
+            courseModule: {type: "model"},
+            courseModules: {type: "collection", model: "courseModule"}
+        },
 
         currentCourseInfo: null,
 
@@ -62,6 +69,7 @@ define(templates, function(courseTpl) {
         },
 
         course: function(courseID) {
+            MM.Router.navigate("courses/" + courseID);
             MM.assignCurrentPlugin(MM.plugins.course);
             MM.panels.showLoading("center");
             var method = "core_course_get_courses";
@@ -87,10 +95,34 @@ define(templates, function(courseTpl) {
             MM.assignCurrentPlugin(MM.plugins.course);
             var course = MM.plugins.course.currentCourseInfo;
             course.contents = response;
+			$.each(course.contents, function(i, section) {
+                $.each(section.modules, function(j, module) {
+                    MM.db.insert("courseModules", module);
+                });
+            });
             var template = MM.plugins.course.templates.course;
             var context = { course: course };
             var html = MM.tpl.render(template.html, context);
             MM.panels.show("center", html);
+			MM.util.setupAccordion();
+            MM.util.setupBackButton();
+            $("#panel-center .set-activity-completion").change(MM.plugins.course.setActivityCompletionHandler);
+        },
+
+        setActivityCompletionHandler: function(ev) {
+            ev.preventDefault();
+            var cmid = $(this).attr("data-cmid");
+            var completed = $(this).is(":checked") ? 1 : 0;
+            var method = "core_course_set_activity_completion";
+            var data = {
+                cmid: cmid,
+                userid: MM.site.get("userid"),
+                completed: completed
+            };
+            var callback = function() {};
+            var presets = { omitExpires: true, cache: false };
+            var errorCallback = MM.plugins.course.errorCallback;
+            MM.moodleWSCall(method, data, callback, presets, errorCallback);
         },
 
         errorCallback: function(error) {
