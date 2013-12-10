@@ -19,7 +19,8 @@
 	"settings", 
     "buttonblock",
     "scorm",
-    "unsupportedActivity"
+    "unsupportedActivity",
+    "page"
 ],
 "wsservice" : "moodle_mobile_app",
 "presets" : {"url": "", "username": ""},
