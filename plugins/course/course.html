@@ -31,6 +31,10 @@
                                             <a href="#label/<%= module.id %>">
                                                 <%= module.name %>
                                             </a>
+                                        <% } else if (module.modname === "url") { %>
+                                            <a href="#url/<%= module.id %>">
+                                                <%= module.name %>
+                                            </a>
 						                <% } else { %>
                                         	<a href="#courses/<%= course.id %>/unsupported-activity/<%= module.id %>">
 												<%= module.name %>
