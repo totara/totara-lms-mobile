@@ -12,6 +12,8 @@
                     <div class="name">
                         <% if (module.modname === "scorm") { %>
                         <a href="#scorm/<%= module.id %>"><%= module.name %></a>
+                        <% } else if (module.modname === "page") { %>
+                        <a href="#page/<%= module.id %>"><%= module.name %></a>
                         <% } else { %>
                         <a href="#courses/<%= course.id %>/unsupported-activity/<%= module.id %>"><%= module.name %></a>
                         <% } %>
