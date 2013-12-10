@@ -5,8 +5,8 @@
     </div>
     <ul class="nav submenu items">
         <li class="item">
-            <p><%= name %><span>(<%= presentation %>)</span></p>
-            <input type="text" value="" placeholder="Enter a number" class="numeric-input" />
+            <p><%= name %></p>
+            <input type="text" value="<%= answer.value %>" placeholder="Enter a number" class="numeric-input question-answer" data-questionid="<%= id %>"/>
         </li>
     </ul>
 </li>

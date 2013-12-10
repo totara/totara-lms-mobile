@@ -140,6 +140,75 @@ define(
             $(document).find('#submit-feedback').on(
                 'click', MM.plugins.feedback._saveFeedback
             );
+            $(document).find('#cancel').on(
+                'click', MM.plugins.feedback._cancelFeedback
+            );
+            $(document).find(".question-answer").on(
+                'blur', MM.plugins.feedback._validateWithClassAddition
+            );
+        },
+
+        _cancelFeedback: function() {
+            window.history.back();
+        },
+
+        /**
+         * Validates the element that triggers this function, expecting it
+         * to have data elements of questionid and required and be either an
+         * input or textarea element.
+         * On error, attaches a class 'error' to the element.
+         * On success, removes any class 'error' from the element.
+         */
+        _validateWithClassAddition: function(e) {
+            var element = $(e.target);
+            var qId = element.data('questionid');
+            var input = element.val();
+
+            // Multichoice selection boxes can't be validated against.
+            if (_.isArray(input)) return false;
+
+            // If the user hasn't made a selection from a selection box
+            // then input will be null.
+            if (input === null) return false;
+
+            if (input.trim().length === 0) {
+                input = element.text().trim();
+            }
+            if (!MM.plugins.feedback._validateInput(qId, input)) {
+                element.addClass('error');
+            } else {
+                element.removeClass('error');
+            }
+
+            return false;
+        },
+
+        /**
+         * Validates the input based on the presentation of the question defined
+         * by questionId.
+         * Currently only validates numeric input and 'required' elements.
+         * Returns TRUE if no errors are found. FALSE otherwise.
+         */
+        _validateInput: function(questionId, input) {
+            var result = true;
+            input = input.trim();
+            var question = MM.db.get('questions', questionId);
+            if (input.length !== 0) {
+                if (question !== undefined) {
+                    var presentation = question.get('presentation');
+                    if (question.get('typ') === 'numeric') {
+                        var range = presentation.split("|");
+                        input = parseFloat(input);
+                        if (input < parseFloat(range[0]) || input > parseFloat(range[1])) {
+                            result = false;
+                        }
+                    }
+                }
+            } else if (question.get('required') === 1 && input.length == 0) {
+                result = false;
+            }
+
+            return result;
         },
 
         _getFeedbackQuestionsFailure: function() {
@@ -148,31 +217,33 @@ define(
 
         _saveFeedback: function() {
             var answers = $(document).find(".question-answer");
-            var allRequiredAnswered = true;
+            var errors = false;
             var response = [];
             _.each(answers, function(answer) {
                 var answer = $(answer);
                 var value = answer.val();
-                if (value.trim().length === 0) {
-                    value = answer.text();
+                if (!_.isArray(value)) {
+                    if (value.trim().length === 0) {
+                        value = answer.text();
+                    }
+
+                    errors = errors || MM.plugins.feedback._validateInput(
+                        answer.get('questionid'), value
+                    );
+                } else {
+                    value = value.join("|");
                 }
 
-                if (answer.data('required') === 1) {
-                    if (value.trim().length === 0) {
-                        allRequiredAnswered = false;
-                        return false;
-                    }
-                }
                 response.push(
                     {'questionid':answer.data('questionid'), 'answer':value}
                 );
             });
-            if (!allRequiredAnswered) {
-                console.log("All required answers aren't...");
+            if (!errors) {
+                console.log("There were errors, check for the class 'error'");
             } else {
                 var callBack = MM.plugins.feedback._sendAnswersSuccess;
                 var errorCallBack = MM.plugins.feedback._sendAnswersFailure;
-                var preSets = {};
+                var preSets = {cache:false};
                 MM.moodleWSCall(
                     'mod_feedback_send_answers', {'answers':response}, callBack,
                     preSets, errorCallBack
@@ -198,8 +269,14 @@ define(
                 }
             });
 
+            var value = MM.plugins.feedback.currentFeedback;
+            if (value.page_after_submit === "") {
+                value.page_after_submit = "Please select continue to return to the course page";
+            }
+
             var html = MM.tpl.render(
-                MM.plugins.feedback.templates.pageaftersubmit, feedback
+                MM.plugins.feedback.templates.page_after_submit.html,
+                value
             );
             MM.panels.show("center", html);
             $(document).find("#continue").on(
@@ -227,7 +304,7 @@ define(
                 'coursemoduleid':courseModuleId
             };
             var callBack = MM.plugins.feedback._getFeedbackQuestionsSuccess;
-            var preSets = {};
+            var preSets = {cache:false};
             var errorCallBack = MM.plugins.feedback._getFeedbackQuestionsFailure;
             MM.moodleWSCall(
                 'mod_feedback_get_questions', data, callBack, preSets,
@@ -243,7 +320,6 @@ define(
             );
 
             _.each(questions, function(question) {
-                console.log(JSON.stringify(question));
                 var x = MM.tpl.render(
                     MM.plugins.feedback.templates[question.get('typ')].html, question.toJSON()
                 );

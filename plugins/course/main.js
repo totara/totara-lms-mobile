@@ -104,6 +104,7 @@ define(templates, function(courseTpl) {
             var html = MM.tpl.render(template.html, context);
             MM.panels.show("center", html);
 			MM.util.setupAccordion();
+            MM.util.setupBackButton();
             $("#panel-center .set-activity-completion").change(MM.plugins.course.setActivityCompletionHandler);
         },
 
@@ -113,11 +114,11 @@ define(templates, function(courseTpl) {
             var completed = $(this).is(":checked") ? 1 : 0;
             var method = "core_course_set_activity_completion";
             var data = {
-                cmid: cmid, 
-                userid: MM.site.get("userid"), 
-                completed: completed 
+                cmid: cmid,
+                userid: MM.site.get("userid"),
+                completed: completed
             };
-            var callback = function() {}; 
+            var callback = function() {};
             var presets = { omitExpires: true, cache: false };
             var errorCallback = MM.plugins.course.errorCallback;
             MM.moodleWSCall(method, data, callback, presets, errorCallback);
