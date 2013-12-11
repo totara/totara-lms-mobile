@@ -1,9 +1,9 @@
 <div class="panel-content course" data-id="<%= course.id %>">
-    <div class="top">
+    <div id="top">
     <a href="#" title="Back" id="back"></a>
-    <div class="header">
+    <header class="header">
         <h2 class="name"><%= course.fullname %></h2>
-        <div class="completion">Completed x of y activities</div>
+        <p class="completion header-sub-item">Completed x of y activities</p>
             <% _.each(course.contents, function(section, i) { %>
                 <% if (i == 0) { %>
                     <div class="course-sections">
@@ -12,7 +12,10 @@
                             <ul class="items">
                                 <% _.each(section.modules, function(module) { %>
                                 <li class="item" data-id="<%= module.id %>">
-                                    <img src="<%= module.modicon %>" alt="Course Icon" />
+                                    <% if ((module.visible) && (module.completion)) { %>
+                                        <input type="checkbox" class="set-activity-completion" data-cmid="<%= module.id %>" />
+                                    <% } %>
+                                    <img src="<%= module.modicon %>" class="course-icon" alt="Course Icon" />
                                     <div>
                                     <% if (module.visible) { %>
 										<% if (module.modname === 'feedback') { %>
@@ -53,9 +56,6 @@
                                         <% if (!module.visible) { %>
                                         	<span><%= MM.lang.s("itemnotviewable") %></span>
                                     	<% } %>
-										<% if (module.completion) { %>
-								        	<input type="checkbox" class="set-activity-completion" data-cmid="<%= module.id %>" />
-								        <% } %>
                                     <% }); %>
 									</div>
                                     </div>
@@ -66,9 +66,10 @@
                     </div>
                 <% } %>
             <% }); %>
-        </div>
+        </header>
     </div>
-    <ul class="course-sections sections nav nav-v js-accordion">
+    <section>
+        <ul class="course-sections sections nav nav-v js-accordion">
         <% _.each(course.contents, function(section, i) { %>
             <% if (i > 0) { %>
             <li class="section-<%= i %> nav-item" data-id="<%= section.id %>">
@@ -86,38 +87,54 @@
                 <ul class="nav submenu items">
                     <% _.each(section.modules, function(module) { %>
                     <li class="item" data-id="<%= module.id %>">
-                        <img src="<%= module.modicon %>" alt="Course Icon" />
+                        <% if ((module.visible) && (module.completion)) { %>
+                            <input type="checkbox" class="set-activity-completion" data-cmid="<%= module.id %>" />
+                        <% } %>
+                        <img src="<%= module.modicon %>" class="course-icon" alt="Course Icon" />
                         <div>
                             <% if (module.visible) { %>
                                 <% if (module.modname === 'feedback') { %>
                                 <a href="#feedback/<%= module.id %>">
                                     <%= module.name %>
                                 </a>
+                                <% } else if (module.modname === "scorm") { %>
+                                <a href="#scorm/<%= module.id %>">
+                                    <%= module.name %>
+                                </a>
+                                <% } else if (module.modname === "page") { %>
+                                <a href="#page/<%= module.id %>">
+                                    <%= module.name %>
+                                </a>
+                                <% } else if (module.modname === "label") { %>
+                                <a href="#label/<%= module.id %>">
+                                    <%= module.name %>
+                                </a>
+                                <% } else if (module.modname === "url") { %>
+                                <a href="#url/<%= module.id %>">
+                                    <%= module.name %>
+                                </a>
                                 <% } else { %>
-                                <a href="<%= module.url %>"><%= module.name %></a>
+                                <a href="#courses/<%= course.id %>/unsupported-activity/<%= module.id %>">
+                                    <%= module.name %>
+                                </a>
                                 <% } %>
                             <% } else { %>
-                            <span><%= module.name %></span>
+                            <a href="#courses/<%= course.id %>/unsupported-activity/<%= module.id %>">
+                                <%= module.name %>
+                            </a>
                             <% } %>
                             <div class="detail">
                             <% _.each(module.contents, function(module_content) { %>
                                 <% if (module_content.filesize > 0) { %>
-                                <span><%= MM.lang.s("filesize") %><%= module_content.filesize %><%= MM.lang.s("filesizeunit") %></span>
+                                    <span><%= MM.lang.s("filesize") %><%= module_content.filesize %><%= MM.lang.s("filesizeunit") %></span>
                                 <% } %>
                                 <% if (module.visible) { %>
-                                <span><%= MM.lang.s("itemnotviewable") %></span>
+                                    <span><%= MM.lang.s("itemnotviewable") %></span>
                                 <% } %>
+
                             <% }); %>
                             </div>
                         </div>
-                        <% // ToDo - Replace with activity instead of course completion. %>
-                        <% if (course.started == 1) { %>
-                        <span class="completion-inprogress"></span>
-                        <% } else if (course.completed == 1) { %>
-                        <span class="completion-complete"></span>
-                        <% } else { %>
-                        <span class="completion-notstarted"></span>
-                        <% } %>
                     </li>
                     <% }); %>
                 </ul>
@@ -125,4 +142,5 @@
             <% } %>
         <% }); %>
     </ul>
+    </section>
 </div>

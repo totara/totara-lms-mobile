@@ -57,8 +57,12 @@ h1
     margin:1em 0.5em;
 }
 
-.panel-content .header h2 {
+.panel-content header h2 {
     margin-bottom:0.1em;
+}
+
+.panel-content header p.header-sub-item {
+    margin:0;
 }
 
 .panel-content .item-title
@@ -106,18 +110,19 @@ h1
 
 /* Content structure. */
 
-.panel-content .top {
+.panel-content #top {
     padding:1em;
 }
 
-.panel-content .header {
-    float:left;
-    margin:0 0 1em 1em;
-    width:80%;
+.panel-content header {
+    margin:0 0 1em 56px;
+    min-width:80%;
+    max-width:100%;
+    padding:0;
 }
 
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
-    .panel-content .header {
+    .panel-content header {
         width:80%;
     }
 }
@@ -159,14 +164,20 @@ h1
 
 .panel-content .nav-item .toogler + ul
 , .panel-content .nav-item .toogler + ul ul {
-    /*padding:1em 4em 1em 1em;*/
     padding:10px 50px 10px 10px;
     width:auto;
 }
 
-.panel-content .sections {
-    margin-top:3%;
+.panel-content div.sections {
     clear:both;
+    width:91%;
+    margin:0 -69px 0 69px;
+}
+
+@media only screen and (min-device-width : 234px) and (max-device-width : 767px) {
+    .panel-content div.sections {
+        width:74%;
+    }
 }
 
 /* Course Completion. */
@@ -183,28 +194,6 @@ h1
     background:url('../img/sprites/course-completion-status.png') scroll no-repeat 0 -53px transparent;
 }
 
-.panel-content a[title="Back"] {
-    transition: background-color 0.5s ease;
-    background:url('../img/sprites/arrows.png') scroll no-repeat 46% -82px #7c7a80;
-    display:inline-block;
-    width:46px;
-    height:46px;
-    -webkit-border-radius: 6px;
-    -moz-border-radius: 6px;
-    border-radius: 6px;
-}
-
-.panel-content a[title="Back"]:hover {
-    transition: background-color 0.5s ease;
-    background-color:#a7a7a7;
-}
-
-.panel-content a[title="Back"] {
-    float:left;
-}
-
-/* Course Completion. */
-
 .panel-content span[class*="completion"] {
     display:inline-block;
     width:26px;
@@ -216,6 +205,53 @@ h1
 
 .panel-content .collapse span[class*="completion"] {
     display:none;
+}
+
+/* General Button. */
+
+button
+, .button
+, input[type="submit"] {
+    background: -webkit-linear-gradient(top, #FEFEFE, #E7E7E7);
+    border-radius: 4pt;
+    border: 1pt solid #CCC;
+    border-bottom: #B3B3B3;
+    height: 30pt;
+    width: 40%;
+    color: #666;
+    text-align: center;
+    padding: 7px;
+    display:block;
+    margin:auto;
+}
+
+button#cancel
+, a#cancel {
+    font-size:0.8em;
+    margin-top:20px;
+    width:30%;
+}
+
+/* Back button. */
+
+.panel-content a#back {
+    transition: background-color 0.5s ease;
+    background:url('../img/sprites/arrows.png') scroll no-repeat 46% -82px #7c7a80;
+    display:inline-block;
+    width:46px;
+    height:46px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+}
+
+.panel-content a#back:hover {
+    transition: background-color 0.5s ease;
+    background-color:#a7a7a7;
+}
+
+.panel-content a#back {
+    float:left;
 }
 
 /* Number of courses. */
@@ -244,6 +280,10 @@ h1
 #button-container button.cancel {
     font-size:0.8em;
     margin-top:20px;
+}
+
+.panel-content header {
+    border-bottom:none;
 }
 
 /* - TOP NAVIGATION
@@ -300,10 +340,11 @@ h1
 
 /* ToDo - Weeks. */
 
-.panel-content.course .header li.module {
+.panel-content.course header li.module {
     padding-left:0.5em;
     padding-right:0.5em;
 }
+
 
 .panel-content.course .section-0 {
     clear:left;
@@ -324,11 +365,12 @@ h1
     position:relative;
 }
 
-.panel-content.course .course-sections ul.items li img:first-child + div {
+.panel-content.course .course-sections ul.items li img.course-icon + div {
     position:absolute;
     top:10px;
     left:40px;
     line-height:1.3em;
+    padding-right:60px;
 }
 
 .panel-content.course .detail {
@@ -339,7 +381,7 @@ h1
 /* End Items. */
 
 .panel-content.course .items > li
-, .panel-content.course .header .item {
+, .panel-content.course header .item {
     padding:10px 0;
     min-height:30px;
 }
@@ -350,6 +392,13 @@ h1
 
 .panel-content.course span[class*="completion"] {
     right:16px;
+}
+
+.panel-content.course .set-activity-completion {
+    width:24px;
+    height:24px;
+    position:absolute;
+    right:40px;
 }
 
 /* - FIND COURSES
@@ -465,4 +514,106 @@ h1
 , .panel-content ul li.required
 , .panel-content ul li.required ul {
     background-color:#f3baa3;
+}
+
+
+/* Notice. */
+
+#notice {
+    width: 80%;
+    margin: 10px auto 30px;
+    clear: both;
+    float: none;
+}
+
+#notice img
+, #notice p {
+    display:inline-block;
+}
+
+#notice p {
+    width: 100%;
+    margin: -27px 0 0;
+    text-align: left;
+    padding:0 0 0 56px;
+}
+
+.unsupported header p {
+    margin-top:30px;
+}
+
+.unsupported .sections a {
+    clear:both;
+    display:block;
+}
+
+/* SCORM */
+
+#scorm-container {
+    width:100%;
+    height:100%;
+}
+
+.panel-content.scorm-launch ul#scorm-attempts {
+    margin-left:16px;
+}
+
+.panel-content.scorm-launch fieldset {
+    text-align:center;
+    border:none;
+}
+
+.panel-content.scorm-launch fieldset input[type="radio"] {
+    margin:0 10px;
+}
+
+.panel-content.scorm-launch #scorm-form {
+    margin-top:30px;
+}
+
+.panel-content.scorm-launch #scorm-form .submit {
+    margin-top:6%;
+}
+
+.panel-content.scorm-launch #scorm-form .cancel {
+    margin-top:20%
+}
+
+.panel-content.scorm-view a#back {
+    margin:1em;
+}
+
+/* Styling for user content (e.g. page resource, label) */
+
+.panel-content.page .content {
+    border:none;
+    padding:0 0 1em;
+}
+
+.panel-content .has-user-content section h1
+, .panel-content .has-user-content section h2
+, .panel-content .has-user-content section h3
+, .panel-content .has-user-content section h4
+, .panel-content .has-user-content section h5
+, .panel-content .has-user-content section h6 {
+    margin:0.5rem 0.5rem 0.5rem 0;
+    line-height:1em;
+}
+
+.panel-content .has-user-content section p {
+    margin:0.8rem 0;
+}
+
+.panel-content .has-user-content section:first-child h1:first-child
+, .panel-content .has-user-content section:first-child h2:first-child
+, .panel-content .has-user-content section:first-child h3:first-child
+, .panel-content .has-user-content section:first-child h4:first-child
+, .panel-content .has-user-content section:first-child h5:first-child
+, .panel-content .has-user-content section:first-child h6:first-child {
+    margin-top:0;
+}
+
+.panel-content .has-user-content section ul
+, .panel-content .has-user-content section ul li {
+    margin-left:1.4rem;
 }

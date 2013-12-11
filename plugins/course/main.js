@@ -69,6 +69,7 @@ define(templates, function(courseTpl) {
         },
 
         course: function(courseID) {
+            MM.Router.navigate("courses/" + courseID);
             MM.assignCurrentPlugin(MM.plugins.course);
             MM.panels.showLoading("center");
             var method = "core_course_get_courses";

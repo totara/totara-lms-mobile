@@ -1,27 +1,62 @@
-<dl>
-    <dt>Number of attempts allowed:</dt>
-        <% if (scorm.num_attempts_allowed > 0) {%>
-        <dd><%= scorm.num_attempts_allowed %></dd>
-        <% } else { %>
-        <dd>unlimited</dd>
-        <% } %>
-    <dt>Number of attempts you have made:</dt><dd><%= scorm.num_attempts_made %></dd>
-    <% for (var i = 0; i < scorm.num_attempts_made; i++) { %>
-    <dt>Grade for attempt <%= i+1 %></dt><dd><%= scorm.attempt_grades[i] %></dd>
-    <% } %>
-    <dt>Grading method:</dt><dd><%= scorm.grading_method %></dd>
-    <dt>Grade reported:</dt><dd><%= scorm.grade_reported %></dd>
-</dl>
-<form id="scorm-form">
-    <input type="hidden" id="scormid" value="<%= scorm.id %>" />
-    <input type="hidden" id="cmid" value="<%= scorm.cmid %>" />
-    <input type="radio" id="mode-preview" name="mode" value="preview" />
-    <label for="mode-preview">Preview</label>
-    <input type="radio" id="mode-normal" name="mode" value="normal" checked="checked" />
-    <label for="mode-normal">Normal</label>
-    <% if (scorm.num_attempts_made > 0 && ((scorm.num_attempts_made < scorm.num_attempts_allowed) || scorm.num_attempts_allowed === 0)) { %>
-    <input type="checkbox" id="new-attempt" />
-    <label for="new-attempt">Start a new attempt</label>
-    <% } %>
-    <input id="submitter" type="submit" value="Enter" />
-</form>
+<div class="panel-content scorm-launch">
+    <div id="top">
+        <a href="#" title="Back" id="back"></a>
+        <header>
+            <h2 class="name">SCORM NAME</h2>
+            <p class="header-sub-item">COURSE NAME</p>
+        </header>
+    </div>
+    <div class="sections">
+        <section>
+            <p class="summary">SCORM SUMMARY</p>
+        </section>
+        <section>
+            <ul id="scorm-attempts">
+                <li>
+                    <%= MM.lang.s("scorm-attemptsallowed") %>
+                    <% if (scorm.num_attempts_allowed > 0) {%>
+                        <%= scorm.num_attempts_allowed %>
+                    <% } else { %>
+                        <%= MM.lang.s("scorm-unlimitedattempts") %>
+                    <% } %>
+                </li>
+                <li>
+                    <%= MM.lang.s("scorm-attemptsmade") %><%= scorm.num_attempts_made %>
+                    <% if (scorm.num_attempts_made > 0) { %>
+                    <ul>
+                        <% for (var i = 0; i < scorm.num_attempts_made; i++) { %>
+                            <li><%= MM.lang.s("scorm-gradeattempt") %> <%= i+1 %>&nbsp;<%= scorm.attempt_grades[i] %></li>
+                        <% } %>
+                    </ul>
+                    <% } %>
+                </li>
+                <li>
+                    <%= MM.lang.s("scorm-gradingmethod") %><%= scorm.grading_method %>
+                </li>
+                <li>
+                    <%= MM.lang.s("scorm-grade-report") %><%= scorm.grade_reported %>
+                </li>
+            </ul>
+            <form id="scorm-form">
+                <input type="hidden" id="scormid" value="<%= scorm.id %>" />
+                <input type="hidden" id="cmid" value="<%= scorm.cmid %>" />
+                <fieldset>
+                    <input type="radio" id="mode-preview" name="mode" value="preview" />
+                    <label for="mode-preview">Preview</label>
+                    <input type="radio" id="mode-normal" name="mode" value="normal" checked="checked" />
+                    <label for="mode-normal">Normal</label>
+                    <% if (scorm.num_attempts_made > 0 && ((scorm.num_attempts_made < scorm.num_attempts_allowed) || scorm.num_attempts_allowed === 0)) { %>
+                        <input type="checkbox" id="new-attempt" />
+                        <label for="new-attempt">Start a new attempt</label>
+                    <% } %>
+                </fieldset>
+                <fieldset>
+                    <input id="submitter" class="submit" type="submit" value="<%= MM.lang.s('enter') %>" />
+                    <button class="cancel" id="cancel" title="<%= MM.lang.s('cancelandreturn') %>">
+                        <%= MM.lang.s("cancelandreturn") %>
+                    </button>
+                </fieldset>
+            </form>
+        </section>
+    </div>
+</div>

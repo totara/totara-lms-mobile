@@ -79,6 +79,7 @@ define(templates, function(labelTpl) {
             var context = { label: label};
             var html = MM.tpl.render(template.html, context);
             MM.panels.show("center", html);
+            MM.util.setupBackButton();
         }
         
     }

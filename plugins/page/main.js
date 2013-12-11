@@ -77,6 +77,7 @@ define(templates, function(pageTpl) {
             var context = { page: page};
             var html = MM.tpl.render(template.html, context);
             MM.panels.show("center", html);
+            MM.util.setupBackButton();
             if (page.complete_on_view) {
                 var method = "core_course_set_activity_completion";
                 var data = {
