@@ -158,4 +158,17 @@
 "yoursiteurl": "https://yourmoodle.com",
 "yourusername": "username",
 "reportbugmail": "moodlemobilereport@gmail.com",
-"docsurl" : "http://docs.moodle.org/en/Mobile_app"}
+"docsurl" : "http://docs.moodle.org/en/Mobile_app",
+"findcourses" : "Find Courses",
+"subcategories" : "SUB CATEGORIES",
+"subcourses" : "COURSES",
+"launchcourse": "Launch this course",
+"viewcourseparticipants": "View course participants",
+"itemnotviewable" : "Viewable on this app: No",
+"filesize" : "Size:&nbsp;",
+"filesizeunit" : "&nbsp;MB",
+"openmenu" : "Open Menu",
+"feedback-submitanswers" : "SUBMIT YOUR ANSWERS",
+"cancelandreturn" : "CANCEL &amp; RETURN",
+"externalpassword": "Please enter your password to continue"
+}
