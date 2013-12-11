@@ -106,15 +106,15 @@ h1
 
 /* Content structure. */
 
-.panel-content .top {
+.panel-content #top {
     padding:1em;
 }
 
 .panel-content header {
-    float:left;
-    margin:0 0 1em 1em;
-    min-width:91%;
+    margin:0 0 1em 56px;
+    min-width:80%;
     max-width:100%;
+    padding:0;
 }
 
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
@@ -194,6 +194,28 @@ h1
 
 .panel-content .collapse span[class*="completion"] {
     display:none;
+}
+
+/* General Button. */
+
+.button {
+    background: -webkit-linear-gradient(top, #FEFEFE, #E7E7E7);
+    border-radius: 4pt;
+    border: 1pt solid #CCC;
+    border-bottom: #B3B3B3;
+    height: 30pt;
+    width: 40%;
+    color: #666;
+    text-align: center;
+    padding: 7px;
+    display:block;
+    margin:auto;
+}
+
+a#cancel {
+    font-size:0.8em;
+    margin-top:20px;
+    width:30%;
 }
 
 /* Back button. */
@@ -334,6 +356,7 @@ h1
     top:10px;
     left:40px;
     line-height:1.3em;
+    padding-right:60px;
 }
 
 .panel-content.course .detail {
@@ -477,4 +500,40 @@ h1
 , .panel-content ul li.required
 , .panel-content ul li.required ul {
     background-color:#f3baa3;
+}
+
+
+/* Notice. */
+
+#notice {
+    width: 80%;
+    margin: 10px auto 30px;
+    clear: both;
+    float: none;
+}
+
+#notice img
+, #notice p {
+    display:inline-block;
+}
+
+#notice p {
+    width: 100%;
+    margin: -27px 0 0;
+    text-align: left;
+    padding:0 0 0 56px;
+}
+
+.unsupported header p {
+    margin-top:30px;
+}
+
+.unsupported .sections a {
+    clear:both;
+    display:block;
+}
+
+.unsupported .sections {
+    width:80%;
+    margin:0 -69px 0 69px;
 }

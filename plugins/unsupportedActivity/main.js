@@ -74,7 +74,8 @@ define(templates, function(unsupportedActivityTpl) {
             var context = { courseID: courseID, courseModule: courseModule };
             var html = MM.tpl.render(template.html, context);
             MM.panels.show("center", html);
-        },
+            MM.util.setupBackButton();
+        }
 
     }
 

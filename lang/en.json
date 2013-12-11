@@ -170,6 +170,8 @@
 "filesizeunit" : "&nbsp;MB",
 "openmenu" : "Open Menu",
 "feedback-submitanswers" : "SUBMIT YOUR ANSWERS",
-"cancelandreturn" : "CANCEL &amp; RETURN"
+"cancelandreturn" : "CANCEL &amp; RETURN",
+"viewonmainsite" : "VIEW ON MAIN SITE",
+"unsupportedactivity" : "This activity &#47; resource is not accessible via the mobile app."
 
 }
