@@ -57,7 +57,7 @@ h1
     margin:1em 0.5em;
 }
 
-.panel-content .header h2 {
+.panel-content header h2 {
     margin-bottom:0.1em;
 }
 
@@ -110,14 +110,15 @@ h1
     padding:1em;
 }
 
-.panel-content .header {
+.panel-content header {
     float:left;
     margin:0 0 1em 1em;
-    width:80%;
+    min-width:91%;
+    max-width:100%;
 }
 
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
-    .panel-content .header {
+    .panel-content header {
         width:80%;
     }
 }
@@ -159,7 +160,6 @@ h1
 
 .panel-content .nav-item .toogler + ul
 , .panel-content .nav-item .toogler + ul ul {
-    /*padding:1em 4em 1em 1em;*/
     padding:10px 50px 10px 10px;
     width:auto;
 }
@@ -183,6 +183,21 @@ h1
     background:url('../img/sprites/course-completion-status.png') scroll no-repeat 0 -53px transparent;
 }
 
+.panel-content span[class*="completion"] {
+    display:inline-block;
+    width:26px;
+    height:26px;
+    position:absolute;
+    right:30px;
+    top:9px;
+}
+
+.panel-content .collapse span[class*="completion"] {
+    display:none;
+}
+
+/* Back button. */
+
 .panel-content a[title="Back"] {
     transition: background-color 0.5s ease;
     background:url('../img/sprites/arrows.png') scroll no-repeat 46% -82px #7c7a80;
@@ -201,21 +216,6 @@ h1
 
 .panel-content a[title="Back"] {
     float:left;
-}
-
-/* Course Completion. */
-
-.panel-content span[class*="completion"] {
-    display:inline-block;
-    width:26px;
-    height:26px;
-    position:absolute;
-    right:30px;
-    top:9px;
-}
-
-.panel-content .collapse span[class*="completion"] {
-    display:none;
 }
 
 /* Number of courses. */
@@ -244,6 +244,10 @@ h1
 #button-container button.cancel {
     font-size:0.8em;
     margin-top:20px;
+}
+
+.panel-content header {
+    border-bottom:none;
 }
 
 /* - TOP NAVIGATION
@@ -300,10 +304,11 @@ h1
 
 /* ToDo - Weeks. */
 
-.panel-content.course .header li.module {
+.panel-content.course header li.module {
     padding-left:0.5em;
     padding-right:0.5em;
 }
+
 
 .panel-content.course .section-0 {
     clear:left;
@@ -324,7 +329,7 @@ h1
     position:relative;
 }
 
-.panel-content.course .course-sections ul.items li img:first-child + div {
+.panel-content.course .course-sections ul.items li img.course-icon + div {
     position:absolute;
     top:10px;
     left:40px;
@@ -339,7 +344,7 @@ h1
 /* End Items. */
 
 .panel-content.course .items > li
-, .panel-content.course .header .item {
+, .panel-content.course header .item {
     padding:10px 0;
     min-height:30px;
 }
@@ -350,6 +355,13 @@ h1
 
 .panel-content.course span[class*="completion"] {
     right:16px;
+}
+
+.panel-content.course .set-activity-completion {
+    width:24px;
+    height:24px;
+    position:absolute;
+    right:40px;
 }
 
 /* - FIND COURSES
