@@ -65,6 +65,7 @@ define(templates, function(scormTpl, scormLaunchTpl) {
         currentCourseInfo: null,
 
         scorm: function(cmid) {
+            MM.Router.navigate("scorm/" + cmid);
             MM.panels.showLoading("center");
             var method = "mod_scorm_get_attempt_status";
             var data = {cmid: cmid}; 
@@ -81,6 +82,7 @@ define(templates, function(scormTpl, scormLaunchTpl) {
             var context = { scorm: scorm };
             var html = MM.tpl.render(template.html, context);
             MM.panels.show("center", html);
+            MM.util.setupBackButton();
             $("#scorm-form").submit(MM.plugins.scorm.scormFormSubmitHandler);
         },
 

@@ -172,6 +172,12 @@
 "feedback-submitanswers" : "SUBMIT YOUR ANSWERS",
 "cancelandreturn" : "CANCEL &amp; RETURN",
 "viewonmainsite" : "VIEW ON MAIN SITE",
-"unsupportedactivity" : "This activity &#47; resource is not accessible via the mobile app."
-
+"unsupportedactivity" : "This activity &#47; resource is not accessible via the mobile app.",
+"scorm-attemptsallowed" : "Number of attempts allowed: ",
+"scorm-attemptsmade" : "Number of attempts you have made: ",
+"scorm-gradeattempt" : "Grade for attempt ",
+"scorm-gradingmethod" : "Grading method: ",
+"scorm-grade-report" : "Grade reported: ",
+"scorm-unlimitedattempts" : "unlimited",
+"enter" : "ENTER"
 }

@@ -61,6 +61,10 @@ h1
     margin-bottom:0.1em;
 }
 
+.panel-content header p.header-sub-item {
+    margin:0;
+}
+
 .panel-content .item-title
 , .panel-content .course-title
 , .panel-content .topic-title
@@ -164,9 +168,10 @@ h1
     width:auto;
 }
 
-.panel-content .sections {
-    margin-top:3%;
+.panel-content div.sections {
     clear:both;
+    width:91%;
+    margin:0 -69px 0 69px;
 }
 
 /* Course Completion. */
@@ -198,7 +203,9 @@ h1
 
 /* General Button. */
 
-.button {
+button
+, .button
+, input[type="submit"] {
     background: -webkit-linear-gradient(top, #FEFEFE, #E7E7E7);
     border-radius: 4pt;
     border: 1pt solid #CCC;
@@ -212,7 +219,8 @@ h1
     margin:auto;
 }
 
-a#cancel {
+button#cancel
+, a#cancel {
     font-size:0.8em;
     margin-top:20px;
     width:30%;
@@ -220,7 +228,7 @@ a#cancel {
 
 /* Back button. */
 
-.panel-content a[title="Back"] {
+.panel-content a#back {
     transition: background-color 0.5s ease;
     background:url('../img/sprites/arrows.png') scroll no-repeat 46% -82px #7c7a80;
     display:inline-block;
@@ -231,12 +239,12 @@ a#cancel {
     border-radius: 6px;
 }
 
-.panel-content a[title="Back"]:hover {
+.panel-content a#back:hover {
     transition: background-color 0.5s ease;
     background-color:#a7a7a7;
 }
 
-.panel-content a[title="Back"] {
+.panel-content a#back {
     float:left;
 }
 
@@ -533,7 +541,38 @@ a#cancel {
     display:block;
 }
 
-.unsupported .sections {
-    width:80%;
-    margin:0 -69px 0 69px;
+/* SCORM */
+
+#scorm-container {
+    width:100%;
+    height:100%;
+}
+
+.panel-content.scorm-launch ul#scorm-attempts {
+    margin-left:16px;
+}
+
+.panel-content.scorm-launch fieldset {
+    text-align:center;
+    border:none;
+}
+
+.panel-content.scorm-launch fieldset input[type="radio"] {
+    margin:0 10px;
+}
+
+.panel-content.scorm-launch #scorm-form {
+    margin-top:30px;
+}
+
+.panel-content.scorm-launch #scorm-form .submit {
+    margin-top:6%;
+}
+
+.panel-content.scorm-launch #scorm-form .cancel {
+    margin-top:20%
+}
+
+.panel-content.scorm-view a#back {
+    margin:1em;
 }

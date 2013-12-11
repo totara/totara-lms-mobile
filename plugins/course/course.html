@@ -3,7 +3,7 @@
     <a href="#" title="Back" id="back"></a>
     <header class="header">
         <h2 class="name"><%= course.fullname %></h2>
-        <div class="completion">Completed x of y activities</div>
+        <p class="completion header-sub-item">Completed x of y activities</p>
             <% _.each(course.contents, function(section, i) { %>
                 <% if (i == 0) { %>
                     <div class="course-sections">
