@@ -20,7 +20,7 @@ define(templates, function(scormTpl, scormLaunchTpl) {
 
         routes: [,
             ["scorm/:cmid", "scorm", "scorm"],
-            ["scorm/:cmid/launch", "scormLaunch", "scormLaunch"],
+            ["scorm/:cmid/launch/:mode(/:newAttempt)", "scormLaunch", "scormLaunch"]
         ],
 
         sizes: undefined,
@@ -65,6 +65,7 @@ define(templates, function(scormTpl, scormLaunchTpl) {
         currentCourseInfo: null,
 
         scorm: function(cmid) {
+            MM.assignCurrentPlugin(MM.plugins.label);
             MM.panels.showLoading("center");
             var method = "mod_scorm_get_attempt_status";
             var data = {cmid: cmid}; 
@@ -76,7 +77,6 @@ define(templates, function(scormTpl, scormLaunchTpl) {
 
         scormCallback: function(response) {
             var scorm = response;
-            console.log(scorm);
             var template = MM.plugins.scorm.templates.scorm;
             var context = { scorm: scorm };
             var html = MM.tpl.render(template.html, context);
@@ -86,14 +86,23 @@ define(templates, function(scormTpl, scormLaunchTpl) {
 
         scormFormSubmitHandler: function(ev) {
             ev.preventDefault();
-            var scormid = $(this).find('#scormid').val();
-            MM.Router.navigate('scorm/2/launch');
+            MM.panels.showLoading("center");
+            var cmid = $(this).find("#cmid").val();
+            var mode = $(this).find("input[name='mode']:checked").val();
+            var newAttempt =  $(this).find("#new-attempt").is(":checked");
+            var url = "scorm/" + cmid + "/launch/" + mode;
+            if (newAttempt) url += "/new-attempt";
+            MM.Router.navigate(url);
+        },
+
+        scormLaunch: function(cmid, mode, newAttempt) {
+            MM.assignCurrentPlugin(MM.plugins.label);
             MM.panels.showLoading("center");
             var template = MM.plugins.scorm.templates.scormLaunch;
             var context = {
-                cmid: $(this).find("#cmid").val(),
-                mode: $(this).find("input[name='mode']:checked").val(),
-                newAttempt: $(this).find("#new-attempt").is(":checked") ? "on" : "off"
+                cmid: cmid,
+                mode: mode,
+                newAttempt: newAttempt ? "on" : "off"
             };
             var html = MM.tpl.render(template.html, context);
             MM.panels.show("center", html);
