@@ -1,3 +1,15 @@
-<div class="label" data-id="<%= label.id %>" data-cmid="<%= label.cmid %>">
-    <div class="intro"><%= label.intro %></div>
+<div class="panel-content label" data-id="<%= label.id %>" data-cmid="<%= label.cmid %>">
+    <div id="top">
+        <a href="#" title="Back" id="back"></a>
+        <header>
+            <h2 class="name"><%= label.name %></h2>
+        </header>
+    </div>
+    <div class="sections has-user-content">
+        <section>
+            <div class="intro">
+                <%= label.intro %>
+            </div>
+        </section>
+    </div>
 </div>
