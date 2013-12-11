@@ -10,7 +10,11 @@
         <%= MM.plugins.feedback._displayQuestions() %>
     </ul>
     <div id="button-container">
-        <button class="submit" id="submit-feedback" title="<%= MM.lang.s("feedback-submitanswers") %>" data-feedbackid="<%= id %>"><%= MM.lang.s("feedback-submitanswers") %></button>
-        <button class="cancel" id="cancel" title="<%= MM.lang.s("cancelandreturn") %>"><%= MM.lang.s("cancelandreturn") %></button>
+        <button class="submit" id="submit-feedback" title="<%= MM.lang.s("feedback-submitanswers") %>" data-feedbackid="<%= id %>">
+            <%= MM.lang.s("feedback-submitanswers") %>
+        </button>
+        <button class="cancel" id="cancel" title="<%= MM.lang.s("cancelandreturn") %>">
+            <%= MM.lang.s("cancelandreturn") %>
+        </button>
     </div>
 </div>

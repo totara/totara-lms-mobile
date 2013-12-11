@@ -6,10 +6,10 @@
     <ul class="nav submenu items">
         <li class="item">
             <p>
-                <%= MM.widgets.parseMoodleMultiChoice(presentation) %>
+                <%= MM.widgets.parseMoodleMultiChoice(
+                    presentation, ["question-answer"], {'data-questionid':id}, answer.value
+                ) %>
             </p>
         </li>
     </ul>
 </li>
-
-

@@ -5,7 +5,9 @@
     </div>
     <ul class="nav submenu items">
         <li class="item">
-            <%= presentation %>
+            <%= MM.widgets.parseMoodleRatedMultiChoice(
+                presentation, ["question-answer"], {'data-questionid':id}, answer.value
+            ) %>
         </li>
     </ul>
 </li>
