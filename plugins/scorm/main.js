@@ -92,7 +92,7 @@ define(templates, function(scormTpl, scormLaunchTpl) {
             var newAttempt =  $(this).find("#new-attempt").is(":checked");
             var url = "scorm/" + cmid + "/launch/" + mode;
             if (newAttempt) url += "/new-attempt";
-            MM.Router.navigate(url);
+            MM.Router.navigate(url, true);
         },
 
         scormLaunch: function(cmid, mode, newAttempt) {
@@ -102,7 +102,7 @@ define(templates, function(scormTpl, scormLaunchTpl) {
             var context = {
                 cmid: cmid,
                 mode: mode,
-                newAttempt: newAttempt ? "on" : "off"
+                newAttempt: (newAttempt === "new-attempt") ? "on" : "off"
             };
             var html = MM.tpl.render(template.html, context);
             MM.panels.show("center", html);
