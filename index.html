@@ -163,5 +163,13 @@
         <a href="#helpmelogin"><%= MM.lang.s("icantlogin") %></a>
     </div>
 </script>
+
+<script type="text/template" id="main-site-login-template">
+    <form id="main-site-login-form">
+        <label for="main-site-login-form-password"><%= MM.lang.s("externalpassword") %><br /></label>
+        <input type="password" name="main-site-login-form-password" id="main-site-login-form-password" />
+        <% if (error) { %><div class="err"><%= error %></div><% } %>
+    </form>
+</script>
 </body>
 </html>

@@ -98,6 +98,12 @@ define(templates, function(scormTpl, scormLaunchTpl) {
         scormLaunch: function(cmid, mode, newAttempt) {
             MM.assignCurrentPlugin(MM.plugins.label);
             MM.panels.showLoading("center");
+            MM.requireMainSiteLogin(function() {
+                MM.plugins.scorm._launch(cmid, mode, newAttempt);
+            });
+        },
+
+        _launch: function(cmid, mode, newAttempt) {
             var template = MM.plugins.scorm.templates.scormLaunch;
             var context = {
                 cmid: cmid,
