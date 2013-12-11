@@ -174,6 +174,12 @@ h1
     margin:0 -69px 0 69px;
 }
 
+@media only screen and (min-device-width : 234px) and (max-device-width : 767px) {
+    .panel-content div.sections {
+        width:74%;
+    }
+}
+
 /* Course Completion. */
 
 .panel-content .completion-notstarted {
@@ -575,4 +581,35 @@ button#cancel
 
 .panel-content.scorm-view a#back {
     margin:1em;
+}
+
+/* PAGE */
+
+.panel-content.page .content {
+    border:none;
+    padding:0;
+}
+
+.panel-content.page .sections section h1
+, .panel-content.page .sections section h2
+, .panel-content.page .sections section h3
+, .panel-content.page .sections section h4
+, .panel-content.page .sections section h5
+, .panel-content.page .sections section h6 {
+    margin:0.5em 0.5em 0.5em 0;
+    line-height:1em;
+}
+
+.panel-content.page .sections section:first-child h1:first-child
+, .panel-content.page .sections section:first-child h2:first-child
+, .panel-content.page .sections section:first-child h3:first-child
+, .panel-content.page .sections section:first-child h4:first-child
+, .panel-content.page .sections section:first-child h5:first-child
+, .panel-content.page .sections section:first-child h6:first-child {
+    margin-top:0;
+}
+
+.panel-content.page .sections section ul
+, .panel-content.page .sections section ul li {
+    margin-left:1.4em;
 }

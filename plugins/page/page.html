@@ -1,7 +1,18 @@
-<div class="page" data-id="<%= page.id %>" data-cmid="<%= page.cmid %>">
-    <div class="name"><%= page.name %></div>
-    <% if (page.print_intro) { %>
-    <div class="intro"><%= page.intro %></div>
-    <% } %>
-    <div class="content"><%= page.content %></div>
+<div class="panel-content page" data-cmid="<%= page.cmid %>">
+    <div id="top">
+        <a href="#" title="Back" id="back"></a>
+        <header>
+            <h2 class="name"><%= page.name %></h2>
+        </header>
+    </div>
+    <div class="sections">
+        <% if (page.print_intro) { %>
+            <section class="intro">
+                <%= page.intro %>
+            </section>
+        <% } %>
+        <section class="content">
+            <%= page.content %>
+        </section>
+    </div>
 </div>
