@@ -23,6 +23,7 @@
     "page",
     "label",
     "url",
+    "findprograms",
     "feedback"
 ],
 "wsservice" : "moodle_mobile_app",
