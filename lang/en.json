@@ -171,6 +171,7 @@
 "openmenu" : "Open Menu",
 "feedback-submitanswers" : "SUBMIT YOUR ANSWERS",
 "cancelandreturn" : "CANCEL &amp; RETURN",
+"externalpassword": "Please enter your password to continue",
 "viewonmainsite" : "VIEW ON MAIN SITE",
 "unsupportedactivity" : "This activity &#47; resource is not accessible via the mobile app.",
 "scorm-attemptsallowed" : "Number of attempts allowed: ",
