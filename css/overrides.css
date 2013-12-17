@@ -4,14 +4,14 @@
 @media only screen and (min-device-width : 234px) and (max-device-width : 767px) {
     html
     , body {
-        font-size:80%;
+        font-size:110%;
     }
 }
 
 @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
     html
     , body {
-        font-size:90%;
+        font-size:100%;
     }
 }
 
@@ -90,22 +90,9 @@ h1
 
 #panel-center
 , #panel-right {
-    top:76px;
-}
-
-#panel-top {
-    height:76px;
-}
-
-@media only screen and (min-device-width : 234px) and (max-device-width : 767px) {
-    #panel-center
-    , #panel-right {
-        top:50px;
-    }
-
-    #panel-top {
-        height:50px;
-    }
+    position:relative;
+    box-shadow: none;
+    top:0
 }
 
 /* Content structure. */
@@ -291,6 +278,7 @@ button#cancel
 
 .header-main {
     height:76px;
+    position:relative;
 }
 
 .header-main #top-nav .nav-item {
@@ -312,24 +300,6 @@ button#cancel
 
 .header-main #top-nav .nav-item > a img {
     max-width:32px;
-}
-
-@media only screen and (min-device-width : 234px) and (max-device-width : 767px) {
-
-    .header-main {
-        height:50px;
-    }
-
-    .header-main #top-nav .nav-item {
-        padding:0 5%;
-    }
-
-    .header-main #top-nav .nav-item > a {
-        display:table-cell;
-        height:50px;
-        vertical-align: middle;
-    }
-
 }
 
 /* =2.5 - MY COURSES
