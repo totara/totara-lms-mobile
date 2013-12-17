@@ -91,6 +91,10 @@ h1
     padding-bottom:0;
 }
 
+fieldset {
+    border:none;
+}
+
 /* Page Structure. */
 
 #panel-center
@@ -598,4 +602,39 @@ button#cancel
 .panel-content .has-user-content section ul
 , .panel-content .has-user-content section ul li {
     margin-left:1.4rem;
+}
+
+/* Login. */
+
+#add-site input {
+    padding: 1rem;
+    font-size:1rem;
+}
+
+#add-site #remember-details {
+    font-size:1.4em;
+    color:#fff;
+}
+
+#add-site button.remember-option {
+    display:inline-block;
+    width:25%;
+    text-align:center;
+    background-color:#f3f3f3;
+    color:#aaa;
+    cursor:pointer;
+    margin:10px auto;
+    font-size:1rem;
+}
+
+#add-site .remember-option.selected {
+    background-color:white;
+    cursor:auto;
+    color:#4e4e4e;
+}
+
+#add-site #login-remember {
+    width: 60%;
+    margin: auto;
+    text-align: center;
 }

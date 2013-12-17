@@ -143,15 +143,20 @@
         <p>
             <input type="text" id="username" autocapitalize="off" autocorrect="off" placeholder="<%= MM.lang.s("username") %>">
         </p>
-        <p id='rememberDetails'>
-            Remain Logged In?
-            <div class='remember-option selected' data-option='0'>
-                <%= MM.lang.s('no') %>
+        <fieldset id="login-remember">
+            <label id="remember-details">
+                Remain Logged In?
+            </label>
+            <div>
+                <button class="remember-option yes" data-option="1">
+                    <%= MM.lang.s('yes') %>
+                </button>
+                <button class="remember-option selected" data-option="0">
+                    <%= MM.lang.s('no') %>
+                </button>
             </div>
-            <div class='remember-option' data-option='1'>
-                <%= MM.lang.s('yes') %>
-            </div>
-        </p>
+        </fieldset>
+
         <p>
             <input type="password" id="password" placeholder="<%= MM.lang.s("password") %>">
         </p>
