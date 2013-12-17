@@ -53,6 +53,11 @@ h1
     font-weight:normal
 }
 
+.panel-content a {
+    display:block;
+    line-height:1.3em
+}
+
 .panel-content h1 {
     margin:1em 0.5em;
 }
@@ -224,21 +229,18 @@ button#cancel
 .panel-content a#back {
     transition: background-color 0.5s ease;
     background:url('../img/sprites/arrows.png') scroll no-repeat 46% -82px #7c7a80;
-    display:inline-block;
+    display:block;
     width:46px;
     height:46px;
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
     border-radius: 6px;
+    float:left;
 }
 
 .panel-content a#back:hover {
     transition: background-color 0.5s ease;
     background-color:#a7a7a7;
-}
-
-.panel-content a#back {
-    float:left;
 }
 
 /* Number of courses. */
@@ -296,6 +298,7 @@ button#cancel
     display:table-cell;
     height:76px;
     vertical-align: middle;
+    width:56px;
 }
 
 .header-main #top-nav .nav-item > a img {
@@ -335,17 +338,24 @@ button#cancel
     position:relative;
 }
 
-.panel-content.course .course-sections ul.items li img.course-icon + div {
-    position:absolute;
-    top:10px;
-    left:40px;
-    line-height:1.3em;
-    padding-right:60px;
+.panel-content.course .course-sections ul.items li img.course-icon {
+    vertical-align:top;
+
+}
+
+.panel-content.course .course-sections ul.items li div.link-detail {
+    position:relative;
+    padding-left:10px;
+    line-height: 1.3em;
+    width: 80%;
+    display:inline-block;
 }
 
 .panel-content.course .detail {
     font-size:0.8em;
     line-height:1em;
+    display:block;
+    margin-top:4px
 }
 
 /* End Items. */
@@ -358,6 +368,8 @@ button#cancel
 
 .panel-content.course .submenu.items > li {
     padding:10px;
+    margin-top:10px;
+    margin-bottom:10px;
 }
 
 .panel-content.course span[class*="completion"] {
