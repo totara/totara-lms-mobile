@@ -180,5 +180,7 @@
 "scorm-gradingmethod" : "Grading method: ",
 "scorm-grade-report" : "Grade reported: ",
 "scorm-unlimitedattempts" : "unlimited",
-"enter" : "ENTER"
+"enter" : "ENTER",
+"home-viewmenu" : "VIEW MAIN MENU",
+"home-viewcourses" : "VIEW MY COURSES"
 }

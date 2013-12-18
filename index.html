@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/layout.css">
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/overrides.css">
     <script type="text/javascript">
         // Support for Node Webkit.
         window.requireNode = window.require;
@@ -143,15 +142,20 @@
         <p>
             <input type="text" id="username" autocapitalize="off" autocorrect="off" placeholder="<%= MM.lang.s("username") %>">
         </p>
-        <p id='rememberDetails'>
-            Remain Logged In?
-            <div class='remember-option selected' data-option='0'>
-                <%= MM.lang.s('no') %>
+        <fieldset id="login-remember">
+            <label id="remember-details">
+                Remain Logged In?
+            </label>
+            <div>
+                <button class="remember-option yes" data-option="1">
+                    <%= MM.lang.s('yes') %>
+                </button>
+                <button class="remember-option selected" data-option="0">
+                    <%= MM.lang.s('no') %>
+                </button>
             </div>
-            <div class='remember-option' data-option='1'>
-                <%= MM.lang.s('yes') %>
-            </div>
-        </p>
+        </fieldset>
+
         <p>
             <input type="password" id="password" placeholder="<%= MM.lang.s("password") %>">
         </p>
