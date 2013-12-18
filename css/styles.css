@@ -50,17 +50,17 @@ body {
     margin: 0;
 }
 
-@media only screen and (min-device-width : 234px) and (max-device-width : 767px) {
+@media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
     html
     , body {
-        font-size:110%;
+        font-size:80%;
     }
 }
 
 @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
     html
     , body {
-        font-size:100%;
+        font-size:110%;
     }
 }
 
@@ -1492,6 +1492,7 @@ li.ui-menu-item {
 #button-container button {
     display:block;
     margin:auto;
+    min-width:20%;
 }
 
 #button-container button.cancel {
@@ -1567,8 +1568,17 @@ li.ui-menu-item {
     position:relative;
     padding-left:10px;
     line-height: 1.3em;
-    width: 80%;
+    min-width:80%;
+    max-width:90%;
+    width:100%;
     display:inline-block;
+}
+
+@media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
+    .panel-content.course .course-sections ul.items li div.link-detail {
+        min-width:50%;
+        max-width:70%;
+    }
 }
 
 .panel-content.course .detail {
@@ -1599,8 +1609,14 @@ li.ui-menu-item {
 .panel-content.course .set-activity-completion {
     width:24px;
     height:24px;
-    position:absolute;
-    right:40px;
+    float:right;
+}
+
+@media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
+    .panel-content.course .set-activity-completion {
+        width:18px;
+        height:18px;
+    }
 }
 
 /* - FIND COURSES
@@ -1712,7 +1728,7 @@ li.ui-menu-item {
 }
 
 .panel-content.scorm-launch #scorm-form .cancel {
-    margin-top:20%
+    margin-top:4%
 }
 
 .panel-content.scorm-view a#back {
