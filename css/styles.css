@@ -1790,8 +1790,13 @@ li.ui-menu-item {
     padding-top:5%;
 }
 
-.panel-content.home button {
+.panel-content.home button
+, .panel-content.home a.button {
     width:25%;
+}
+
+.panel-content.home a.button:active {
+    border:solid 2px #838280;
 }
 
 .panel-content.home button.view-menu {
