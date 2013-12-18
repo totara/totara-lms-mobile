@@ -100,10 +100,6 @@ body {
     }
 }
 
-.panel-content .summary {
-    margin-top:1em;
-}
-
 /* Panel Content - Accordion */
 
 .panel-content .nav-item {
@@ -125,6 +121,10 @@ body {
     width:auto;
 }
 
+.panel-content.find-courses .nav-item .toogler + ul {
+    padding-bottom:0;
+}
+
 .panel-content div.sections {
     clear:both;
     width:91%;
@@ -136,16 +136,15 @@ body {
     background-color:#f8f7f8;
 }
 
-
-
-
+.panel-content header.header .course-sections {
+    margin-top:1em;
+}
 
 @media only screen and (min-device-width : 234px) and (max-device-width : 767px) {
     .panel-content div.sections {
         width:74%;
     }
 }
-
 
 @media  only screen and (min-width: 768px)  and (-webkit-min-device-pixel-ratio: 1) {
 

@@ -87,6 +87,10 @@ h1, h2, h3, h4, h5, h6, p, ul, ol {
     font-weight:normal;
 }
 
+h1, h2, h3, h4, h5, h6 {
+    line-height:1em;
+}
+
 h1 {
     font-size:48px;
     font-size:3rem;
@@ -102,6 +106,14 @@ h3 {
     /*font-size:1.5em; *//* 21px. */
     font-size:21px;
     font-size:1.3rem;
+}
+
+h4 {
+
+}
+
+h5 {
+    padding:0.2em 0;
 }
 
 b,
@@ -1432,15 +1444,14 @@ li.ui-menu-item {
 
 .panel-content a {
     display:block;
-    line-height:1.3em
 }
 
 .panel-content h1 {
-    margin:1em 0.5em;
+    margin:0.7em 0.5em;
 }
 
 .panel-content header h2 {
-    margin-bottom:0.1em;
+    margin-bottom:0em;
 }
 
 .panel-content header p.header-sub-item {
@@ -1647,9 +1658,8 @@ li.ui-menu-item {
 
 .panel-content.find-courses span[class*="completion"] {
     right:14px;
+    top:5px;
 }
-
-
 
 /* - MODULES
 -------------------------------------------------------------------------- */
@@ -1742,15 +1752,15 @@ li.ui-menu-item {
     padding:0 0 1em;
 }
 
-.panel-content .has-user-content section h1
-, .panel-content .has-user-content section h2
-, .panel-content .has-user-content section h3
-, .panel-content .has-user-content section h4
-, .panel-content .has-user-content section h5
-, .panel-content .has-user-content section h6 {
-    margin:0.5rem 0.5rem 0.5rem 0;
-    line-height:1em;
+.panel-content .has-user-content h1
+, .panel-content .has-user-content h2
+, .panel-content .has-user-content h3
+, .panel-content .has-user-content h4
+, .panel-content .has-user-content h5
+, .panel-content .has-user-content h6 {
+    margin:1rem 0.5rem 1rem 0;
 }
+
 
 .panel-content .has-user-content section p {
     margin:0.8rem 0;
@@ -1768,4 +1778,23 @@ li.ui-menu-item {
 .panel-content .has-user-content section ul
 , .panel-content .has-user-content section ul li {
     margin-left:1.4rem;
+}
+
+/* - HOME
+-------------------------------------------------------------------------- */
+
+.panel-content.home .sections {
+    width:50%;
+    margin:0 auto;
+    text-align:center;
+    padding-top:5%;
+}
+
+.panel-content.home button {
+    width:25%;
+}
+
+.panel-content.home button.view-menu {
+    margin-top:2%;
+    margin-bottom:2%;
 }
