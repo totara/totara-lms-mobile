@@ -33,7 +33,7 @@
                                     <div class="detail">
                                     <% _.each(module.contents, function(module_content) { %>
                                         <% if (module_content.filesize > 0) { %>
-                                        	<span><%= MM.lang.s("filesize") %><%= module_content.filesize %><%= MM.lang.s("filesizeunit") %></span>
+                                        	<span><%= MM.lang.s("filesize") %><%= MM.widgets.toMegabytes(module_content.filesize) %><%= MM.lang.s("filesizeunit") %></span>
                                         <% } %>
                                         <% if (!module.visible) { %>
                                         	<span><%= MM.lang.s("itemnotviewable") %></span>
@@ -90,7 +90,7 @@
                             <div class="detail">
                             <% _.each(module.contents, function(module_content) { %>
                                 <% if (module_content.filesize > 0) { %>
-                                    <span><%= MM.lang.s("filesize") %><%= module_content.filesize %><%= MM.lang.s("filesizeunit") %></span>
+                                    <span><%= MM.lang.s("filesize") %><%= MM.widgets.toMegabytes(module_content.filesize) %><%= MM.lang.s("filesizeunit") %></span>
                                 <% } %>
                                 <% if (!module.visible) { %>
                                     <span><%= MM.lang.s("itemnotviewable") %></span>
