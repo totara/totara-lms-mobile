@@ -1458,9 +1458,7 @@ li.ui-menu-item {
     margin:0;
 }
 
-.panel-content .item-title
-, .panel-content .course-title
-, .panel-content .topic-title
+.panel-content h3[class*="title"]
 , .panel-content .question-title
 , .panel-content .category-title
 , .panel-content .sub-item-title {
@@ -1484,13 +1482,13 @@ li.ui-menu-item {
 
 /* Number of courses. */
 
-.panel-content div.number-of-courses {
+.panel-content div.number-of-items {
     position:absolute;
     right:40px;
     top:10px;
 }
 
-.panel-content .collapse div.number-of-courses {
+.panel-content .collapse div.number-of-items {
     display:none;
 }
 
@@ -1633,30 +1631,26 @@ li.ui-menu-item {
 /* - FIND COURSES
 -------------------------------------------------------------------------- */
 
-.panel-content.find-courses ul.nav li {
+.panel-content.find ul.nav li {
     position:relative;
     list-style-type:none;
 }
 
-.panel-content.find-courses ul.nav .submenu li .course-title {
-    margin-left:0;
-}
-
-.panel-content.find-courses .submenu li > ul {
+.panel-content.find .submenu li > ul {
     padding-right:0;
 }
 
-.panel-content.find-courses .nav h5 {
+.panel-content.find .nav h5 {
     margin-bottom:0;
     border-bottom:solid 1px #9a979b;
     color:#9a979b;
 }
 
-.panel-content.find-courses h3.course-title {
+.panel-content.find h3[class*="title"] {
     width:81%;
 }
 
-.panel-content.find-courses span[class*="completion"] {
+.panel-content.find span[class*="completion"] {
     right:14px;
     top:5px;
 }

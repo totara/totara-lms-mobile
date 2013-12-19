@@ -121,7 +121,7 @@ body {
     width:auto;
 }
 
-.panel-content.find-courses .nav-item .toogler + ul {
+.panel-content.find .nav-item .toogler + ul {
     padding-bottom:0;
 }
 
