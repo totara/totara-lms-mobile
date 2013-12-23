@@ -17,6 +17,10 @@ require(templates, function(navTpl) {
             side_nav:navTpl
         },
 
+        routes: [
+            ["homepage", "homepage", "loadHomePage"]
+        ],
+
         courses:undefined,
 
         menuWidth: 320,
@@ -102,6 +106,10 @@ require(templates, function(navTpl) {
                 );
                 MM.panels.html('left', output);
             }
+        },
+
+        loadHomePage: function() {
+
         },
 
         // Creates and shows the side menu.
