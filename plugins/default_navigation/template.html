@@ -1,4 +1,4 @@
-<ul class="nav nav-v js-accordion">
+<ul id="default-navigation" class="nav nav-v js-accordion">
     <li class="nav-item no-submenu">
         <span class="no-link">
             <img src="<%= MM.util.getMoodleFilePath(user.profileimageurl) %>" class="plugin-ico" width="32" height="32" border="0">
@@ -7,7 +7,7 @@
             </span>
         </span>
     </li>
-    <li class="nav-item no-submenu">
+    <li class="nav-item no-submenu is-link">
         <a href="#homepage" class="alink touch-row">
             <img src="img/icon/home.png" class="plugin-ico" border="0" width="32" height="32">
             <span class="plugin-name">
@@ -17,7 +17,7 @@
     </li>
     <% _.each(plugins, function(plugin) { %>
         <% if (typeof plugin.subMenus == "undefined" || plugin.subMenus.length == 0) { %>
-            <li class="nav-item no-submenu">
+            <li class="nav-item no-submenu is-link">
                 <a href="<%= plugin.menuURL %>" class="alink touch-row">
                     <% if (plugin.icon) { %>
                         <img src="<%= plugin.icon %>" class="plugin-ico" border="0" width="32" height="32">
@@ -47,7 +47,7 @@
                     <ul class="nav">
                 <% }  %>
                     <% _.each(plugin.subMenus, function(menu) { %>
-                        <li class="nav-item">
+                        <li class="nav-item is-link">
                             <a href="<%= menu.menuURL %>" class="alink touch-row">
                                 <% if (menu.icon) { %>
                                     <img src="<%= menu.icon %>" class="plugin-ico" border="0" width="32" height="32">
@@ -62,7 +62,7 @@
             </li>
         <% } %>
     <% }); %>
+    <li>
+        <%= MM.plugins.buttonblock.sidemenu.display() %>
+    </li>
 </ul>
-<div>
-    <%= MM.plugins.buttonblock.sidemenu.display() %>
-</div>

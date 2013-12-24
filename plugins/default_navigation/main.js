@@ -104,7 +104,14 @@ require(templates, function(navTpl) {
                 var output = MM.tpl.render(
                     MM.plugins.default_navigation.templates.side_nav, values
                 );
+
                 MM.panels.html('left', output);
+
+                // Attach Click Listener to links.
+                $('#default-navigation .is-link a.alink').on('click', function(){
+                    MM.navigation.toggle();
+                });
+
             }
         },
 
@@ -125,8 +132,8 @@ require(templates, function(navTpl) {
         hide: function() {
             $("#panel-left").hide();
             $("#panel-center").css({
-                'left':'-=' + MM.plugins.default_navigation.menuWidth,
-                'width':'+=' + MM.plugins.default_navigation.menuWidth
+                left: '0',
+                'width': '100%'
             });
         }
     };
