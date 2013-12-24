@@ -1,6 +1,6 @@
 <ul id="general-menu" class="nav nav-v js-accordion">
     <% _.each(buttons, function(button) { %>
-        <li class="nav-item <%= button.additionalitemclasses.join(" ") %>">
+        <li class="nav-item is-link <%= button.additionalitemclasses.join(" ") %>">
             <%
                 buttonurl = button.url;
                 if (buttonurl === 'origin') {
@@ -17,7 +17,7 @@
                 }
             %>
             <% target = button.target != "" ? 'target="' + button.target + '"': "" %>
-            <a href="<%= buttonurl %>" <%= target %> class="<%= button.additionallinkclasses.join(" ") %>">
+            <a href="<%= buttonurl %>" <%= target %> class="alink <%= button.additionallinkclasses.join(" ") %>">
                 <img src="<%= button.icon %>" class="plugin-ico" border="0">
                 <span class="plugin-name">
                     <%= MM.lang.s(button.langstring) %>
