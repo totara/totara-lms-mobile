@@ -104,7 +104,7 @@ define(templates, function(courseTpl) {
             var context = { course: course };
             var html = MM.tpl.render(template.html, context);
             MM.panels.show("center", html);
-			MM.util.setupAccordion();
+			MM.util.setupAccordion($("#panel-center"));
             MM.util.setupBackButton();
             $("#panel-center .set-activity-completion").change(MM.plugins.course.setActivityCompletionHandler);
         },
