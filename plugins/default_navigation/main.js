@@ -106,9 +106,10 @@ require(templates, function(navTpl) {
                 );
 
                 MM.panels.html('left', output);
+                MM.util.setupAccordion($("#panel-left"));
 
                 // Attach Click Listener to links.
-                $('#default-navigation .is-link a.alink').on('click', function(){
+                $('#default-navigation .is-link a.alink').on(MM.clickType, function(){
                     MM.navigation.toggle();
                 });
 
