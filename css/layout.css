@@ -41,14 +41,12 @@ body {
 #panel-center {
     left: 100%;
     width: 100%;
-    display: none;
 }
 
 #panel-right {
     left: 100%;
     width: 100%;
     padding-right: 50px;
-    display: none;
 }
 
 #panel-center
