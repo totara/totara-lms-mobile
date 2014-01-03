@@ -23,10 +23,11 @@
     "page",
     "label",
     "url",
-    "feedback"
+    "feedback",
+    "default_homepage"
 ],
 "wsservice" : "moodle_mobile_app",
-"presets" : {"url": "", "username": ""},
+"presets" : {"url": "", "username": "", "cache": false},
 "sync_ws_on" : true,
 "sync_lang_on" : true,
 "sync_css_on" : true,
@@ -60,5 +61,6 @@
     }
 ],
 "menu_items": ["mycourses", "findcourses"],
-"menu_type":"default_navigation"
+"menu_type":"default_navigation",
+"homepage":"default_homepage"
 }
