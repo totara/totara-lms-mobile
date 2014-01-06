@@ -1,0 +1,45 @@
+body {
+    font-family:'open sans', arial, sans-serif;
+    color:#49484c;
+    font-size:87.5%; /* 14px base size. */
+}
+
+body
+, .nav-item > a {
+    font-weight:400;
+}
+
+.header-main {
+    background-color:#fff;
+    box-shadow: none;
+}
+
+/* Generic Fonts. */
+
+h1 {
+    font-size:3.4em;
+    font-weight:300;
+}
+
+h2.name {
+    font-size:2em;
+    font-weight:300;
+}
+
+/* Navigation. */
+
+.panel.user-menu {
+    background-color:#222328;
+}
+
+.panel.user-menu a {
+    color:#fff;
+}
+
+
+/* Content. */
+
+.panel-content h1
+, h2.name {
+    color:#9bae20;
+}
