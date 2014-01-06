@@ -1,5 +1,11 @@
-body {
+body
+, input
+, #add-site input {
     font-family:'open sans', arial, sans-serif;
+}
+
+
+body {
     color:#49484c;
     font-size:87.5%; /* 14px base size. */
 }
@@ -26,6 +32,61 @@ h2.name {
     font-weight:300;
 }
 
+/* Buttons. */
+
+button
+, .button
+, input[type="submit"]
+, #add-site input[type="submit"] {
+    background:none #9bae20;
+    color:#fff;
+    font-weight:bold;
+    text-transform: uppercase;
+    font-family:'open sans', arial, sans-serif;
+}
+
+#add-site button.remember-option {
+    color:#7c7a80;
+    border:solid 1px #d3d2d5;
+    border-radius:0;
+    text-transform: capitalize;
+}
+
+#add-site .remember-option.selected {
+    background-color:#7c7a80;
+    color:#fff;
+}
+
+/* Login. */
+
+#add-site {
+    background: none #fff;
+}
+
+#add-site #login-remember {
+    width:80%;
+}
+
+#add-site #remember-details {
+    color:#7c7a80;
+    font-size:1em;
+}
+
+#add-site input {
+    background-color:#dad9dc;
+    color:#fff;
+    font-weight:bold;
+}
+
+#add-site h1 {
+    width:190px;
+}
+
+#add-site h1 img {
+    width:208px;
+    height:auto;
+}
+
 /* Navigation. */
 
 .panel.user-menu {
@@ -42,4 +103,11 @@ h2.name {
 .panel-content h1
 , h2.name {
     color:#9bae20;
+}
+
+
+/* Dialog. */
+
+#app-dialog > div {
+    background-color:#9bae20;
 }
