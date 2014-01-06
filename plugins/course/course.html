@@ -1,4 +1,4 @@
-<div class="panel-content course" data-id="<%= course.id %>">
+<div class="panel-content detail course" data-id="<%= course.id %>">
     <div id="top">
     <a href="#" title="Back" id="back"></a>
     <header class="header">
@@ -6,7 +6,7 @@
         <p class="completion header-sub-item">Completed x of y activities</p>
             <% _.each(course.contents, function(section, i) { %>
                 <% if (i == 0) { %>
-                    <div class="course-sections">
+                    <div class="course-sections header-detail">
                         <div class="section-<%= i %>" data-id="<%= section.id %>">
                         <div class="summary"><%= course.contents[0].summary %></div>
                             <ul class="items">
