@@ -1573,7 +1573,8 @@ li.ui-menu-item {
 
 }
 
-.panel-content.course .course-sections ul.items li div.link-detail {
+.panel-content.detail header.header div.link-detail
+, .panel-content.detail section div.link-detail {
     position:relative;
     padding-left:10px;
     line-height: 1.3em;
@@ -1584,7 +1585,8 @@ li.ui-menu-item {
 }
 
 @media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
-    .panel-content.course .course-sections ul.items li div.link-detail {
+    .panel-content.detail header.header div.link-detail
+    , .panel-content.detail section div.link-detail {
         min-width:50%;
         max-width:70%;
     }
