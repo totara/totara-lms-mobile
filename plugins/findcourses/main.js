@@ -91,7 +91,7 @@ define(requires, function(courseEnrolment, coursesTpl) {
                     MM.plugins.findcourses.templates.results.html, values, {}
                 );
                 MM.panels.show('center', html, {hideRight: false});
-                MM.util.setupAccordion();
+                MM.util.setupAccordion($("#panel-center"));
             } else {
                 // Record these results - they're still valid.
                 MM.plugins.findcourses.last_found_courses = data;
@@ -253,7 +253,7 @@ define(requires, function(courseEnrolment, coursesTpl) {
 
         enrol_user: function(courseId) {
             MM.assignCurrentPlugin(MM.plugins.findcourses);
-            
+
             var html = '';
             html = MM.tpl.render(
                 MM.plugins.findcourses.templates.courseEnrolment.html,

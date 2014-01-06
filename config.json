@@ -25,7 +25,8 @@
     "url",
     "findprograms",
     "program",
-    "feedback"
+    "feedback",
+	"default_homepage"
 ],
 "wsservice" : "moodle_mobile_app",
 "presets" : {"url": "", "username": ""},
@@ -62,5 +63,6 @@
     }
 ],
 "menu_items": ["mycourses", "findcourses"],
-"menu_type":"default_navigation"
+"menu_type":"default_navigation",
+"homepage":"default_homepage"
 }

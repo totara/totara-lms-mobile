@@ -80,7 +80,7 @@ define(templates, function(myCoursesTpl, participantsTpl, participantTpl) {
             var context = { courses: courses, title: MM.plugins.mycourses.settings.title };
             var html = MM.tpl.render(template.html, context);
             MM.panels.show("center", html);
-            MM.util.setupAccordion();
+            MM.util.setupAccordion($("#panel-center"));
         },
 
         errorCallback: function(error) {

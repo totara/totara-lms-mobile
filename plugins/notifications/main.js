@@ -72,7 +72,7 @@ define(requires, function (notifsTpl) {
 
             MM.panels.showLoading('center');
             MM.panels.hide("right", "");
-            MM.Router.navigate('');
+            MM.Router.navigate('#notifications');
 
             // Look for notifications for this site.
             var notificationsFilter = MM.db.where(

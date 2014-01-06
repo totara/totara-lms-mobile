@@ -17,10 +17,6 @@ require(templates, function(navTpl) {
             side_nav:navTpl
         },
 
-        routes: [
-            ["homepage", "homepage", "loadHomePage"]
-        ],
-
         courses:undefined,
 
         menuWidth: 320,
@@ -106,17 +102,24 @@ require(templates, function(navTpl) {
                 );
 
                 MM.panels.html('left', output);
+                MM.util.setupAccordion($("#panel-left"));
 
-                // Attach Click Listener to links.
-                $('#default-navigation .is-link a.alink').on('click', function(){
+                // Links, when clicked, need to close the navigation.
+                $('#default-navigation .is-link a.alink').on(MM.clickType, function(event){
+                    // Hide the side menu
                     MM.navigation.toggle();
+                    var link = $(event.target).closest('a').attr('href');
+                    var newUrl = document.location.href;
+
+                    // If we have an anchor link then replace the one that exists currently, if one does exist
+                    // else go directly to the link
+                    if (link.indexOf('#') !== -1) {
+                        document.location.href = newUrl.indexOf('#') === -1 ? newUrl + link : newUrl.replace(/#.*$/, link);
+                    } else {
+                        document.location.href = link;
+                    }
                 });
-
             }
-        },
-
-        loadHomePage: function() {
-
         },
 
         // Creates and shows the side menu.
