@@ -24,6 +24,7 @@
     "label",
     "url",
     "findprograms",
+    "program",
     "feedback"
 ],
 "wsservice" : "moodle_mobile_app",
