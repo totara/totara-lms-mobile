@@ -171,9 +171,8 @@ define(requires, function(courseEnrolment, coursesTpl) {
             }
         },
 
-        sizes: undefined,
-
         _getSizes: function() {
+            // Default tablet.
             MM.plugins.findcourses.sizes = {
                 withSideBar: {
                     center:$(document).innerWidth() - MM.navigation.getWidth(),
@@ -184,6 +183,19 @@ define(requires, function(courseEnrolment, coursesTpl) {
                     left:0
                 }
             };
+
+            if (MM.deviceType === "phone") {
+                MM.plugins.mycourses.sizes = {
+                    withSideBar: {
+                        center:0,
+                        left:0
+                    },
+                    withoutSideBar: {
+                        center:"100%",
+                        left:0
+                    }
+                };
+            }
         },
 
         resize: function() {
@@ -202,6 +214,14 @@ define(requires, function(courseEnrolment, coursesTpl) {
                     'left':MM.plugins.findcourses.sizes.withoutSideBar.left
                 });
             }
+
+            if (MM.deviceType === "phone") {
+                $("#panel-center").css({
+                    'width':'100%',
+                    'left':0
+                });
+            }
+
             $("#panel-right").hide();
         },
 
@@ -213,43 +233,6 @@ define(requires, function(courseEnrolment, coursesTpl) {
         last_enrolled_course: null,
         last_found_courses:undefined,
         sizes: undefined,
-
-        _getSizes: function() {
-            MM.plugins.findcourses.sizes = {
-                withSideBar: {
-                    center:$(document).innerWidth() - MM.navigation.getWidth(),
-                    left:MM.navigation.getWidth()
-                },
-                withoutSideBar: {
-                    center:$(document).innerWidth(),
-                    left:0
-                }
-            };
-        },
-
-        resize: function() {
-            if (MM.plugins.findcourses.sizes == undefined) {
-                MM.plugins.findcourses._getSizes();
-            }
-
-            if (MM.navigation.visible === true) {
-                $("#panel-center").css({
-                    'width':MM.plugins.findcourses.sizes.withSideBar.center,
-                    'left':MM.plugins.findcourses.sizes.withSideBar.left
-                });
-            } else {
-                $("#panel-center").css({
-                    'width':MM.plugins.findcourses.sizes.withoutSideBar.center,
-                    'left':MM.plugins.findcourses.sizes.withoutSideBar.left
-                });
-            }
-            $("#panel-right").hide();
-        },
-
-        cleanUp: function() {
-            $("#panel-center").html("");
-            $("#panel-right").show();
-        },
 
         enrol_user: function(courseId) {
             MM.assignCurrentPlugin(MM.plugins.findcourses);
