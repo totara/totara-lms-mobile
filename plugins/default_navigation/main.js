@@ -126,10 +126,26 @@ require(templates, function(navTpl) {
         show: function() {
             var panel = MM.config.menu_panel;
             $("#panel-left").show();
-            $("#panel-center").css({
-                'left':'+=' + MM.plugins.default_navigation.menuWidth,
-                'width':'-=' + MM.plugins.default_navigation.menuWidth
-            });
+
+            if (MM.deviceType === "tablet") {
+                $("#panel-center").css({
+                    'left':'+=' + MM.plugins.default_navigation.menuWidth,
+                    'width':'-=' + MM.plugins.default_navigation.menuWidth
+                });
+            } else if (MM.deviceType === "phone") {
+                $("#panel-center").hide();
+
+                $("#panel-left").css({
+                    left: '0',
+                    'width': '0'
+                });
+
+                $("#panel-left").css({
+                    left: '0',
+                    'width': '100%'
+                });
+
+            }
         },
 
         hide: function() {
@@ -138,6 +154,7 @@ require(templates, function(navTpl) {
                 left: '0',
                 'width': '100%'
             });
+            $("#panel-center").show();
         }
     };
 

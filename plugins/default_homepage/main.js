@@ -26,6 +26,7 @@ require(templates, function(mainTpl) {
         sizes: undefined,
 
         _getSizes: function() {
+            // Default tablet.
             MM.plugins.default_homepage.sizes = {
                 withSideBar: {
                     center:$(document).innerWidth() - MM.navigation.getWidth(),
@@ -36,6 +37,19 @@ require(templates, function(mainTpl) {
                     left:0
                 }
             };
+
+            if (MM.deviceType === "phone") {
+                MM.plugins.mycourses.sizes = {
+                    withSideBar: {
+                        center:0,
+                        left:0
+                    },
+                    withoutSideBar: {
+                        center:"100%",
+                        left:0
+                    }
+                };
+            }
         },
 
         resize: function() {
@@ -54,6 +68,14 @@ require(templates, function(mainTpl) {
                     'left':MM.plugins.default_homepage.sizes.withoutSideBar.left
                 });
             }
+
+            if (MM.deviceType === "phone") {
+                $("#panel-center").css({
+                    'width':'100%',
+                    'left':0
+                });
+            }
+
             $("#panel-right").hide();
         },
 
