@@ -37,10 +37,10 @@
                 </div>
                 <ul class="nav submenu items">
                     <% _.each(set.courses, function(course) { %>
+                    <li>
+                        <%= set.completiontype %>
+                    </li>
                     <li class="nav">
-                        <p>
-                            <%= set.completiontype %>
-                        </p>
                         <% if (set.progress == 1) { %>
                         <span class="completion-inprogress"></span>
                         <% } else if (set.progress == 1) { %>
