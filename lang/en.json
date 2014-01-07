@@ -161,6 +161,7 @@
 "reportbugmail": "moodlemobilereport@gmail.com",
 "docsurl" : "http://docs.moodle.org/en/Mobile_app",
 "findcourses" : "Find Courses",
+"findprograms" : "Find Programs",
 "subcategories" : "SUB CATEGORIES",
 "subcourses" : "COURSES",
 "programs": "PROGRAMS",
@@ -185,5 +186,10 @@
 "home-viewmenu-show" : "VIEW MAIN MENU",
 "home-viewmenu-close" : "CLOSE MAIN MENU",
 "home-viewcourses" : "VIEW MY COURSES",
-"menu-homepage" : "Homepage"
+"menu-homepage" : "Homepage",
+"program-startdate" : "Start date:&nbsp;",
+"program-duedate" : "Due date:&nbsp;",
+"program-progress" : "Progress:&nbsp;",
+"program-programendnote" : "Program end note:&nbsp;"
+
 }

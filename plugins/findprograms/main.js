@@ -79,7 +79,8 @@ define(requires, function(programsTpl) {
                     MM.plugins.findprograms.templates.results.html, values, {}
                 );
                 MM.panels.show('center', html, {hideRight: false});
-                MM.util.setupAccordion();
+                MM.util.setupAccordion($("#panel-center"));
+                MM.util.setupBackButton();
             } else {
                 // Record these results - they're still valid.
                 MM.plugins.findprograms.last_found_programs = data;

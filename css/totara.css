@@ -97,7 +97,6 @@ button
     color:#fff;
 }
 
-
 /* Content. */
 
 .panel-content h1
@@ -105,9 +104,42 @@ button
     color:#9bae20;
 }
 
-
 /* Dialog. */
 
 #app-dialog > div {
     background-color:#9bae20;
+}
+
+/* Programs. */
+
+div.program-info {
+    margin-top:1em;
+}
+
+div.program-info ul {
+    list-style-type:none;
+}
+
+#program-end-note {
+    margin-top:1em;
+    margin-left:20px;
+}
+
+#program-progress {
+    display: inline-block;
+    height: 15px;
+    background-color: #9bae20;
+    position: relative;
+    top: 3px;
+}
+
+.panel-content.program span[class*="completion"] {
+    position:relative;
+    float:right;
+    top:0;
+    right:12px;
+}
+
+.panel-content.program section ul.submenu {
+    margin-left:0.61538rem
 }

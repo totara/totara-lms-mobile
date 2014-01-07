@@ -1,0 +1,64 @@
+<div class="panel-content detail program">
+    <div id="top">
+        <a href="#" title="Back" id="back"></a>
+        <header class="header">
+            <h2 class="name"><%= program.fullname %></h2>
+            <p class="header-sub-item">
+            </p>
+            <div class="program-info header-detail">
+                <ul>
+                    <li>
+                        <span><%= MM.lang.s("program-startdate") %></span>
+                        <span><%= program.startdate %></span>
+                    </li>
+                    <li>
+                        <span><%= MM.lang.s("program-duedate") %></span>
+                        <span><%= program.duedate %></span>
+                    </li>
+                    <li>
+                        <span><%= MM.lang.s("program-progress") %></span>
+                        <span id="program-progress" style="width:<%= program.progress %>px;"></span>
+                    </li>
+                </ul>
+            </div>
+        </header>
+    </div>
+    <section>
+        <ul class="sections nav nav-v js-accordion">
+            <% _.each(program.sets, function(set, i) { %>
+            <li class="section-<%= i %> nav-item">
+                <div class="name toogler expand touch-row">
+                    <h3 class="topic-title">
+                        <a href="#">
+                            <%= set.label %>
+                        </a>
+                    </h3>
+                    <a href="#" class="close toogler collapse touch-row" ><%= MM.lang.s("close") %></a>
+                </div>
+                <ul class="nav submenu items">
+                    <% _.each(set.courses, function(course) { %>
+                    <li class="nav">
+                        <p>
+                            <%= set.completiontype %>
+                        </p>
+                        <% if (set.progress == 1) { %>
+                        <span class="completion-inprogress"></span>
+                        <% } else if (set.progress == 1) { %>
+                        <span class="completion-complete"></span>
+                        <% } else { %>
+                        <span class="completion-notstarted"></span>
+                        <% } %>
+                        <a href="#courses/<%= course.id %>">
+                            <%= course.fullname %>
+                        </a>
+                    </li>
+                    <% }); %>
+                </ul>
+            </li>
+            <% }); %>
+        </ul>
+    </section>
+    <p id="program-end-note">
+        <%= MM.lang.s("program-programendnote") %><%= program.endnote %>
+    </p>
+</div>

@@ -69,7 +69,6 @@ define(templates, function(programTpl) {
         },
 
         program: function(programID) {
-            MM.panels.show("center", "PROGRAM PLUGIN");
             var method = "totara_program_get_program";
             var data = { programid: programID, userid: MM.site.get("userid") };
             var callback = MM.plugins.program.programCallback;
@@ -79,7 +78,11 @@ define(templates, function(programTpl) {
         },
 
         programCallback: function(response) {
-            console.log(response);
+            //console.log(response);
+            var html = MM.tpl.render(MM.plugins.program.templates.program.html, {'program':response});
+            MM.panels.show("center", html);
+            MM.util.setupAccordion($("#panel-center"));
+            MM.util.setupBackButton();
         },
 
         errorCallback: function(error) {

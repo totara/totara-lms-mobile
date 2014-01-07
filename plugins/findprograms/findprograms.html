@@ -1,4 +1,4 @@
-<div class="panel-content find-programs">
+<div class="panel-content find find-programs">
     <h1><%= title %></h1>
     <ul class="nav nav-v js-accordion">
         <% _.each(categories, function(data, key) { %>
@@ -10,7 +10,7 @@
                                 <%= data.categoryName %>
                             </a>
                         </h3>
-                        <div class="number-of-programs">
+                        <div class="number-of-items">
                             <%= data.programs.length %>
                         </div>
                         <a href="#" class="close toogler collapse touch-row" ><%= MM.lang.s("close") %></a>
@@ -38,7 +38,7 @@
                         <% if (data.programs.length > 0) { %>
                         <% // Programs %>
                         <li>
-                            <h5><%= MM.lang.s("programs") %></h6>
+                            <h5><%= MM.lang.s("programs") %></h5>
                         </li>
                         <li>
                             <ul>
