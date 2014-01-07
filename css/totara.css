@@ -4,10 +4,9 @@ body
     font-family:'open sans', arial, sans-serif;
 }
 
-
 body {
     color:#49484c;
-    font-size:87.5%; /* 14px base size. */
+   font-size:0.9rem;  /* 14px base font for elements without specific font size. */
 }
 
 body
@@ -23,13 +22,22 @@ body
 /* Generic Fonts. */
 
 h1 {
-    font-size:3.4em;
+    font-size:3rem;
     font-weight:300;
 }
 
 h2.name {
-    font-size:2em;
+    font-size:2rem;
     font-weight:300;
+}
+
+a {
+    font-size:1rem;
+}
+
+h3 a {
+    font-size:1.3rem;
+    font-weight:600;
 }
 
 /* Buttons. */
@@ -104,6 +112,29 @@ button
     color:#9bae20;
 }
 
+.panel-content div.expand {
+    background-color:#fff;
+}
+
+.panel-content .nav-item {
+    border-bottom:solid 1px #dad9dc;
+}
+
+.panel-content .nav-item:first-child {
+    border-top:solid 1px #dad9dc;
+}
+
+@media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
+    .panel-content h3[class*="title"]
+    , .panel-content .question-title
+    , .panel-content .category-title
+    , .panel-content .sub-item-title {
+        padding-top:4px;
+    }
+}
+
+
+
 /* Dialog. */
 
 #app-dialog > div {
@@ -120,7 +151,8 @@ div.program-info ul {
     list-style-type:none;
 }
 
-#program-end-note {
+#program-end-note
+, #program-end-note + p {
     margin-top:1em;
     margin-left:20px;
 }
@@ -142,4 +174,17 @@ div.program-info ul {
 
 .panel-content.program section ul.submenu {
     margin-left:0.61538rem
+}
+
+.panel-content.detail .nav-item ul li {
+    padding-top:0.7rem;
+}
+
+.panel-content.detail .nav-item ul li:first-child {
+    padding-bottom:0.7rem;
+}
+
+.panel-content.detail .nav-item ul li.nav {
+    border-top:solid 1px #d3d2d5;
+
 }
