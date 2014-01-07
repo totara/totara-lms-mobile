@@ -20,14 +20,14 @@
             "additionallinkclasses":["touch-row"],
             "url":"#settings",
             "target":"",
-            "icon":"img/ico-settings.png"
+            "icon":"img/icon/settings.png"
         }, {
             "langstring":"logout",
             "additionalitemclasses":[],
             "additionallinkclasses":["touch-row"],
             "url":"#logout",
             "target":"",
-            "icon":"img/logout.png"
+            "icon":"img/icon/logout.png"
         }],
         "templates":{
             "layout":"layout.html",
