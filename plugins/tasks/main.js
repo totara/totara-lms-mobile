@@ -6,7 +6,8 @@ define(templates, function(layoutTpl) {
     var plugin = {
         settings: {
             name: "tasks",
-            type: "user",
+            type: "general",
+            title: "Tasks",
             lang: {
                 component: "core"
             },
@@ -18,7 +19,7 @@ define(templates, function(layoutTpl) {
         },
 
         routes: [
-            ["#tasks", "main", "main"]
+            ["tasks", "main", "main"]
         ],
 
         sizes: undefined,
@@ -139,7 +140,6 @@ define(templates, function(layoutTpl) {
         _rejectTask: function(e) {
             var element = $(e.target);
             var messageId = element.data('messageid');
-
             var method = "totara_message_reject_task";
             var data = {'messageid':messageId };
             var callback = MM.plugins.tasks._rejectTaskSuccess;
@@ -157,10 +157,8 @@ define(templates, function(layoutTpl) {
         },
 
         main: function() {
-            MM.assignCurrentPlugin(MM.plugins.tasks);
             MM.panels.showLoading("center");
-
-            // Put your code here
+            MM.assignCurrentPlugin(MM.plugins.tasks);
             MM.plugins.tasks._getTasks();
         }
     }
