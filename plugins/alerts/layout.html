@@ -1,0 +1,11 @@
+<div>
+    <h2>Alerts</h2>
+    <ul>
+        <% _.each(alerts, function(alert) { %>
+            <li class='message'>
+                <%= JSON.stringify(alert) %>
+                <a href="#" class="alert dismiss" data-messageid="<%= alert.id %>">Dismiss Alert</a>
+            </li>
+        <% }); %>
+    </ul>
+</div>
