@@ -1,0 +1,12 @@
+<div>
+    <<h2>Tasks</h2>
+    <ul>
+        <% _.each(tasks, function(task) { %>
+            <li class='message'>
+                <%= JSON.stringify(task) %>
+                <a href='#' class='task accept' data-messageid=<%= task.id %>>Accept</a>
+                <a href='#' class='task reject' data-messageid=<%= task.id %>>Reject</a>
+            </li>
+        <% }); %>
+    </ul>
+</div>
