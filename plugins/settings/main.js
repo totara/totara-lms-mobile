@@ -41,8 +41,8 @@ require(templates, function(addSiteForm, showSites, showSync, showSite, main) {
         sizes: undefined,
 
         _getSizes: function() {
+            // Default tablet.
             var screenWidth = $(document).innerWidth();
-
             MM.plugins.settings.sizes = {
                 withSideBar: {
                     left:MM.navigation.getWidth(),
@@ -55,6 +55,20 @@ require(templates, function(addSiteForm, showSites, showSync, showSite, main) {
                     right:(screenWidth)/2
                 }
             };
+
+            if (MM.deviceType === "phone") {
+                MM.plugins.mycourses.sizes = {
+                    withSideBar: {
+                        center:0,
+                        left:0
+                    },
+                    withoutSideBar: {
+                        center:"100%",
+                        left:0
+                    }
+                };
+            }
+
         },
 
         resize: function() {
@@ -83,6 +97,13 @@ require(templates, function(addSiteForm, showSites, showSync, showSite, main) {
                     'width':MM.plugins.settings.sizes.withoutSideBar.right,
                     'left':MM.plugins.settings.sizes.withoutSideBar.center,
                     'display':'block'
+                });
+            }
+
+            if (MM.deviceType === "phone") {
+                $("#panel-center").css({
+                    'width':'100%',
+                    'left':0
                 });
             }
         },
