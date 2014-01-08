@@ -6,11 +6,12 @@ define(templates, function(layoutTpl) {
     var plugin = {
         settings: {
             name: "mybookings",
-            type: "user",
+            type: "general",
+            title: "My Bookings",
             lang: {
                 component: "core"
             },
-            menuURL: "#mybookings"
+            menuURL: "#my-bookings"
         },
 
         templates: {
@@ -18,7 +19,7 @@ define(templates, function(layoutTpl) {
         },
 
         routes: [
-            ["#mybookings", "main", "main"]
+            ["my-bookings", "main", "main"]
         ],
 
         sizes: undefined,
@@ -109,10 +110,8 @@ define(templates, function(layoutTpl) {
         },
 
         main: function() {
-            MM.assignCurrentPlugin(MM.plugins.mybookings);
             MM.panels.showLoading("center");
-
-            // Put your code here
+            MM.assignCurrentPlugin(MM.plugins.mybookings);
             MM.plugins.mybookings._getBookings();
         }
     }
