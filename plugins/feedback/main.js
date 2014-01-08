@@ -102,10 +102,12 @@ define(
                 });
             }
 
-            $("#panel-center").css({
+            if (MM.deviceType === "phone") {
+                $("#panel-center").css({
                     'width':'100%',
                     'left':0
                 });
+            }
 
             $("#panel-right").hide();
         },
