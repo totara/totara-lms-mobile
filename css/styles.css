@@ -657,6 +657,7 @@ i {
 #add-site {
     background: #fa8f1c url(../img/orange-bg.png);
     padding-top: 4.92308rem;
+    padding-bottom:500px;
 }
 
 #add-site h1 {
@@ -706,7 +707,7 @@ i {
 
 #add-site button.remember-option {
     display:inline-block;
-    width:25%;
+    width:40%;
     text-align:center;
     background-color:#f3f3f3;
     color:#aaa;
@@ -722,7 +723,7 @@ i {
 }
 
 #add-site #login-remember {
-    width: 60%;
+    width: 80%;
     margin: auto;
     text-align: center;
 }
