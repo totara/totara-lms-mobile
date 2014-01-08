@@ -83,28 +83,60 @@ define(templates, function(layoutTpl) {
             $("#panel-right").show();
         },
 
-        _getBookings: function() {
-            var method = "";
-            var data = {};
-            var callback = MM.plugins.mylearning._getBookingsSuccess;
-            var presets = { omitExpires: true, cache: false };
-            var errorCallback = MM.plugins.mylearning._getBookingsFailure;
-            MM.moodleWSCall(method, data, callback, presets, errorCallback);
+        courses:undefined,
+        programs:undefined,
+        learning:undefined,
+
+        _getCourses: function() {
+            var method = "core_enrol_get_users_course_completions";
+            var data = { userid: MM.site.get("userid") };
+            var callback = MM.plugins.mylearning._getCoursesSuccess;
+            var preSets = { omitExpires: true, cache: false };
+            var errorCallBack = MM.plugins.mylearning._getCoursesFailure;
+            MM.moodleWSCall(method, data, callback, preSets, errorCallBack);
         },
 
-        _getBookingsSuccess: function(data) {
-            var values = {
-                'courses':data
-            };
-            var html = MM.tpl.render(
-                MM.plugins.mylearning.templates.layout, values, {}
-            );
-            MM.panels.show('center', html, {hideRight: true});
-            MM.util.setupAccordion($("#panel-center"));
-            MM.util.setupBackButton();
+        _getCoursesSuccess: function(data) {
+            MM.plugins.mylearning.courses = data;
+            $(document).trigger('section_loaded');
         },
 
-        _getBookingsFailure: function() {
+        _getCoursesFailure: function() {
+        },
+
+        _getPrograms: function() {
+            var method = "totara_program_get_users_programs";
+            var data = { userid: MM.site.get("userid") };
+            var callback = MM.plugins.mylearning._getProgramsSuccess;
+            var preSets = { omitExpires: true, cache: false };
+            var errorCallBack = MM.plugins.mylearning._getProgramsFailure;
+            MM.moodleWSCall(method, data, callback, preSets, errorCallBack);
+        },
+
+        _getProgramsSuccess: function(data) {
+            MM.plugins.mylearning.programs = data;
+            $(document).trigger('section_loaded');
+        },
+
+        _getProgramsFailure: function() {
+
+        },
+
+        _getRequiredLearning: function() {
+            var method = "totara_program_get_users_required_programs";
+            var data = { userid: MM.site.get("userid") };
+            var callback = MM.plugins.mylearning._getRequiredLearingSuccess;
+            var preSets = { omitExpires: true, cache: false };
+            var errorCallBack = MM.plugins.mylearning._getRequiredLearningFailure;
+            MM.moodleWSCall(method, data, callback, preSets, errorCallBack);
+        },
+
+        _getRequiredLearingSuccess: function(data) {
+            MM.plugins.mylearning.learning = data;
+            $(document).trigger('section_loaded');
+        },
+
+        _getRequiredLearningFailure: function() {
 
         },
 
@@ -112,8 +144,31 @@ define(templates, function(layoutTpl) {
             MM.assignCurrentPlugin(MM.plugins.mylearning);
             MM.panels.showLoading("center");
 
+            $(document).on('section_loaded', MM.plugins.mylearning._sectionLoaded);
+
             // Put your code here
-            MM.plugins.mylearning._getBookings();
+            MM.plugins.mylearning._getCourses();
+            MM.plugins.mylearning._getPrograms();
+            MM.plugins.mylearning._getRequiredLearning();
+        }
+
+        _sectionLoaded: function() {
+            if (courses !== undefined &&
+                programs !== undefined &&
+                learning !== undefined
+            ) {
+                var values = {
+                    'courses':courses,
+                    'programs':programs,
+                    'learning':learning
+                };
+                var html = MM.tpl.render(
+                    MM.plugins.mylearning.templates.layout, values, {}
+                );
+                MM.panels.show('center', html, {hideRight: true});
+                MM.util.setupAccordion($("#panel-center"));
+                MM.util.setupBackButton();
+            }
         }
     }
 
