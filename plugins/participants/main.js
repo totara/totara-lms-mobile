@@ -41,7 +41,7 @@ define(templates,function (participantsTpl, participantTpl) {
                     right:$(document).innerWidth() / 2
                 }
             };
-            
+
             if (MM.deviceType === "phone") {
                 MM.plugins.mycourses.sizes = {
                     withSideBar: {

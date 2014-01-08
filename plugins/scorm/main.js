@@ -26,7 +26,7 @@ define(templates, function(scormTpl, scormLaunchTpl) {
         sizes: undefined,
 
         _getSizes: function() {
-            // Default tablet.
+            // Default tablet
             MM.plugins.scorm.sizes = {
                 withSideBar: {
                     center:$(document).innerWidth() - MM.navigation.getWidth(),
@@ -68,7 +68,7 @@ define(templates, function(scormTpl, scormLaunchTpl) {
                     'left':MM.plugins.scorm.sizes.withoutSideBar.left
                 });
             }
-            
+
             if (MM.deviceType === "phone") {
                 $("#panel-center").css({
                     'width':'100%',

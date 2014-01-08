@@ -214,7 +214,7 @@ define(requires, function(courseEnrolment, coursesTpl) {
                     'left':MM.plugins.findcourses.sizes.withoutSideBar.left
                 });
             }
-
+            
             if (MM.deviceType === "phone") {
                 $("#panel-center").css({
                     'width':'100%',

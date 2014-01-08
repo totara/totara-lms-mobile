@@ -43,6 +43,7 @@ require(templates, function(addSiteForm, showSites, showSync, showSite, main) {
         _getSizes: function() {
             // Default tablet.
             var screenWidth = $(document).innerWidth();
+
             MM.plugins.settings.sizes = {
                 withSideBar: {
                     left:MM.navigation.getWidth(),
@@ -68,6 +69,7 @@ require(templates, function(addSiteForm, showSites, showSync, showSite, main) {
                     }
                 };
             }
+
         },
 
         resize: function() {

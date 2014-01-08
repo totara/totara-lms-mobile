@@ -126,6 +126,7 @@ require(templates, function(navTpl) {
         show: function() {
             var panel = MM.config.menu_panel;
             $("#panel-left").show();
+
             if (MM.deviceType === "tablet") {
                 $("#panel-center").css({
                     'left':'+=' + MM.plugins.default_navigation.menuWidth,
@@ -143,6 +144,7 @@ require(templates, function(navTpl) {
                     left: '0',
                     'width': '100%'
                 });
+
             }
         },
 
@@ -152,6 +154,7 @@ require(templates, function(navTpl) {
                 left: '0',
                 'width': '100%'
             });
+            $("#panel-center").show();
         }
     };
 

@@ -50,16 +50,8 @@ body {
     margin: 0;
 }
 
-@media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
-    html
-    , body {
-        font-size:80%;
-    }
-}
-
 @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
-    html
-    , body {
+    html {
         font-size:110%;
     }
 }
@@ -96,13 +88,16 @@ h1 {
     font-size:3rem;
 }
 
+
+
 h2 {
     /*font-size:2.1em; *//* 29px. */
     font-size:29px;
     font-size:1.8rem;
 }
 
-h3 {
+h3
+, h3 a{
     /*font-size:1.5em; *//* 21px. */
     font-size:21px;
     font-size:1.3rem;
@@ -135,6 +130,16 @@ sup {
 
 sub {
     bottom: -0.25em;
+}
+
+@media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
+    h1 {
+        font-size:2.5rem;
+    }
+
+    h3 a {
+        font-size:1.1rem;
+    }
 }
 
 /* =1.5 - Embedded content
@@ -200,6 +205,19 @@ button#cancel
     font-size:0.8em;
     margin-top:20px;
     width:30%;
+}
+
+@media only screen and (min-device-width : 234px) {
+    button
+    , .button
+    , input[type="submit"] {
+        width: 70%;
+    }
+
+    button#cancel
+    , a#cancel {
+        width:50%;
+    }
 }
 
 textarea {
@@ -1780,15 +1798,28 @@ li.ui-menu-item {
 -------------------------------------------------------------------------- */
 
 .panel-content.home .sections {
-    width:50%;
+    width:auto;
     margin:0 auto;
     text-align:center;
-    padding-top:5%;
+    padding:5% 20%;
+}
+
+@media only screen and (min-device-width : 234px) {
+    .panel-content.home .sections {
+        padding:5%
+    }
 }
 
 .panel-content.home button
 , .panel-content.home a.button {
     width:25%;
+}
+
+@media only screen and (min-device-width : 234px) {
+    .panel-content.home button
+    , .panel-content.home a.button {
+        width:50%;
+    }
 }
 
 .panel-content.home a.button:active {

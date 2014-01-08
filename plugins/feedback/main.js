@@ -59,7 +59,6 @@ define(
         sizes: undefined,
 
         _getSizes: function() {
-
             // Default tablet.
             MM.plugins.feedback.sizes = {
                 withSideBar: {
@@ -67,7 +66,7 @@ define(
                     left:MM.navigation.getWidth()
                 },
                 withoutSideBar: {
-                    center:"100%",
+                    center:$(document).innerWidth(),
                     left:0
                 }
             };
@@ -102,7 +101,7 @@ define(
                     'left':MM.plugins.feedback.sizes.withoutSideBar.left
                 });
             }
-            
+
             if (MM.deviceType === "phone") {
                 $("#panel-center").css({
                     'width':'100%',

@@ -81,7 +81,7 @@ define(templates, function(courseTpl) {
                     'left':0
                 });
             }
-
+            
             $("#panel-right").hide();
         },
 

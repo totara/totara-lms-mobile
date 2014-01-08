@@ -24,7 +24,7 @@ define(templates, function(urlTpl) {
         sizes: undefined,
 
         _getSizes: function() {
-            // Tablet default.
+            // Default tablet.
             MM.plugins.url.sizes = {
                 withSideBar: {
                     center:$(document).innerWidth() - MM.navigation.getWidth(),
@@ -35,7 +35,7 @@ define(templates, function(urlTpl) {
                     left:0
                 }
             };
-            
+
             if (MM.deviceType === "phone") {
                 MM.plugins.mycourses.sizes = {
                     withSideBar: {

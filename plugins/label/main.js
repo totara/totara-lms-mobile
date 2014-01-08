@@ -73,7 +73,7 @@ define(templates, function(labelTpl) {
                     'left':0
                 });
             }
-
+            
             $("#panel-right").hide();
         },
 

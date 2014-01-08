@@ -31,7 +31,6 @@ define(requires, function (notifsTpl) {
         sizes: undefined,
 
         _getSizes: function() {
-
             // Default tablet.
             MM.plugins.notifications.sizes = {
                 withSideBar: {
@@ -56,6 +55,7 @@ define(requires, function (notifsTpl) {
                     }
                 };
             }
+
         },
 
         resize: function() {

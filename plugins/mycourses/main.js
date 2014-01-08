@@ -25,7 +25,6 @@ define(templates, function(myCoursesTpl, participantsTpl, participantTpl) {
         sizes: undefined,
 
         _getSizes: function() {
-
             // Default tablet.
             MM.plugins.mycourses.sizes = {
                 withSideBar: {
@@ -33,7 +32,7 @@ define(templates, function(myCoursesTpl, participantsTpl, participantTpl) {
                     left:MM.navigation.getWidth()
                 },
                 withoutSideBar: {
-                    center:"100%",
+                    center:$(document).innerWidth(),
                     left:0
                 }
             };
@@ -68,7 +67,7 @@ define(templates, function(myCoursesTpl, participantsTpl, participantTpl) {
                     'left':MM.plugins.mycourses.sizes.withoutSideBar.left
                 });
             }
-
+            
             if (MM.deviceType === "phone") {
                 $("#panel-center").css({
                     'width':'100%',
