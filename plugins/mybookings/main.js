@@ -84,17 +84,8 @@ define(templates, function(layoutTpl) {
         },
 
         _getBookings: function() {
-            var method = 'core_course_get_courses';
-            MM.moodleWSCall(
-                method,
-                {},
-                MM.plugins.findcourses._getCoursesSuccessful,
-                {},
-                MM.plugins.findcourses._getCoursesFailure
-            );
-
-            var method = "";
-            var data = {};
+            var method = "totara_my_get_bookings";
+            var data = {'userid':MM.site.get("userid") };
             var callback = MM.plugins.mybookings._getBookingsSuccess;
             var presets = { omitExpires: true, cache: false };
             var errorCallback = MM.plugins.mybookings._getBookingsFailure;
