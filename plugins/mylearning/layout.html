@@ -1,0 +1,12 @@
+<div>
+    <h2>My Learning</h2>
+    <div>
+        <ul>
+            <% _.each(courses, function(course) { %>
+                <li>
+                    <%= JSON.stringify(course) %>
+                </li>
+            <% }); %>
+        </ul>
+    </div>
+</div>
