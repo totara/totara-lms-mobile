@@ -18,7 +18,7 @@ define(templates, function(layoutTpl) {
         },
 
         routes: [
-            ["#mybookings", "main", "main"]
+            ["mybookings", "main", "main"]
         ],
 
         sizes: undefined,
