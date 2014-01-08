@@ -1,0 +1,12 @@
+<div>
+    <h2>My Bookings</h2>
+    <div>
+        <ul>
+            <% _.each(bookings, function(booking) { %>
+                <li>
+                    <%= JSON.stringify(booking) %>
+                </li>
+            <% }); %>
+        </ul>
+    </div>
+</div>
