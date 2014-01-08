@@ -106,7 +106,6 @@ define(
                     'width':'100%',
                     'left':0
                 });
-            }
 
             $("#panel-right").hide();
         },
