@@ -11,7 +11,7 @@ define(templates, function(layoutTpl) {
             lang: {
                 component: "core"
             },
-            menuURL: "#mybookings"
+            menuURL: "#my-bookings"
         },
 
         templates: {
