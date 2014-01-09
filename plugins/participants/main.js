@@ -96,21 +96,10 @@ define(templates,function (participantsTpl, participantTpl) {
             $("#panel-right").show();
         },
 
-        showParticipants: function(courseId) {
-            MM.assignCurrentPlugin(MM.plugins.participants);
-
-            MM.panels.showLoading('center');
-
-            if (MM.deviceType == "tablet") {
-                MM.panels.showLoading('right');
-            }
-            // Adding loading icon.
-            $('a[href="#participants/' + courseId + '"]').addClass('loading-row');
-
+        _getUsersByCourseId: function(courseId) {
             var data = {
                 "courseid" : courseId
             };
-
             MM.moodleWSCall('moodle_user_get_users_by_courseid', data, function(users) {
                 // Removing loading icon.
                 $('a[href="#participants/' +courseId+ '"]').removeClass('loading-row');
@@ -133,6 +122,48 @@ define(templates,function (participantsTpl, participantTpl) {
             });
         },
 
+        showParticipants: function(courseId) {
+            MM.assignCurrentPlugin(MM.plugins.participants);
+
+            MM.panels.showLoading('center');
+
+            if (MM.deviceType == "tablet") {
+                MM.panels.showLoading('right');
+            }
+            // Adding loading icon.
+            $('a[href="#participants/' + courseId + '"]').addClass('loading-row');
+
+
+            if (MM.db.length("courses") === 0 ||
+                MM.db.get("courses", courseId) === undefined
+            ) {
+                MM.moodleWSCall(
+                    'core_course_get_courses',
+                    {},
+                    function(data) {
+                        if (data.length === 0) {
+                            MM.plugins.participants._refreshCoursesFailure(
+                                "", "No courses returned from web service"
+                            );
+                        }
+                        _.each(data, function(x){
+                            MM.db.insert("courses", x);
+                        });
+
+                        MM.plugins.participants._getUsersByCourseId(courseId);
+                    },
+                    {cache:false},
+                    MM.plugins.participants._refreshCoursesFailure
+                );
+            } else {
+                MM.plugins.participants._getUsersByCourseId(courseId);
+            }
+        },
+
+        _refreshCoursesFailure: function(xhr, statusText) {
+
+        },
+
         showParticipant: function(courseId, userId) {
             MM.assignCurrentPlugin(MM.plugins.participants);
 
@@ -153,17 +184,39 @@ define(templates,function (participantsTpl, participantTpl) {
 
                 var newUser = users.shift();
 
-                var course = MM.db.get("courses", courseId);
-                var pageTitle = course.get("shortname") + " - " + MM.lang.s("participants");
+                if (MM.db.length("courses") === 0 ||
+                    MM.db.get("courses", courseId) === undefined
+                ) {
+                    MM.moodleWSCall(
+                        'core_course_get_courses',
+                        {},
+                        function(data){
+                            if (data.length === 0) {
+                                MM.plugins.participants._refreshCoursesFailure(
+                                    "", "No courses returned from web service"
+                                );
+                            }
+                            _.each(data, function(x){
+                                MM.db.insert("courses", x);
+                            });
 
-                var tpl = {"user": newUser, "plugins": userPlugins, "courseid": courseId};
-                var html = MM.tpl.render(MM.plugins.participants.templates.participant.html, tpl);
+                            MM.plugins.participants.showParticipant(courseId, userId)
+                        },
+                        {cache:false},
+                        MM.plugins.participants._refreshCoursesFailure
+                    );
+                } else {
+                    var course = MM.db.get("courses", courseId);
+                    var pageTitle = course.get("shortname") + " - " + MM.lang.s("participants");
 
-                MM.db.insert("users", newUser);
-                MM.panels.show('right', html, {title: pageTitle});
+                    var tpl = {"user": newUser, "plugins": userPlugins, "courseid": courseId};
+                    var html = MM.tpl.render(MM.plugins.participants.templates.participant.html, tpl);
+
+                    MM.db.insert("users", newUser);
+                    MM.panels.show('right', html, {title: pageTitle});
+                }
             });
         },
-
 
         templates: {
             "participant": {
