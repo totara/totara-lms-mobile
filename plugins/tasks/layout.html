@@ -1,0 +1,19 @@
+<div>
+    <h2>Tasks</h2>
+    <ul>
+        <% _.each(tasks, function(task) { %>
+            <li class='message'>
+                <%= JSON.stringify(task) %>
+                <% if(task.showacceptbtn) { %>
+                <a href="#" class="task accept" data-messageid="<%= task.id %>"><%= task.acceptbtntext %></a>
+                <% } %>
+                <% if(task.showrejectbtn) { %>
+                <a href="#" class="task reject" data-messageid="<%= task.id %>"><%= task.rejectbtntext %></a>
+                <% } %>
+                <% if(task.showinfobtn) { %>
+                    <a href="<%= task.infobtnurl %>"><%= task.infobtntext %></a> 
+                <% } %>
+            </li>
+        <% }); %>
+    </ul>
+</div>

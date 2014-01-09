@@ -27,7 +27,8 @@
     "program",
     "feedback",
     "mybookings",
-	"default_homepage"
+	"default_homepage",
+    "tasks"
 ],
 "wsservice" : "moodle_mobile_app",
 "presets" : {"url": "", "username": ""},
