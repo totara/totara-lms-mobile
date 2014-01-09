@@ -1,17 +1,27 @@
-<div>
-    <a href="#" title="Back" id="back"></a>
-    <h2>My Bookings</h2>
-    <div>
-        <ul>
-            <% _.each(bookings, function(booking) { %>
-                <li>
-                    <span>CourseId: <%= booking.courseid %></span>
-                    <span>CourseName: <%= booking.coursename %></span>
-                    <span>FaceToFaceName: <%= booking.facetofacename %></span>
-                    <span>TimeStart: <%= booking.timestart %></span>
-                    <span>TimeFinish: <%= booking.timefinish %></span>
-                </li>
-            <% }); %>
-        </ul>
+<div class="panel-content my-bookings">
+    <div id="top">
+        <a href="#" title="Back" id="back"></a>
+        <header class="header">
+            <h2 class="name"><%= title %></h2>
+        </header>
     </div>
+    <section>
+        <% _.each(bookings, function(booking) { %>
+        <ul class="my-bookings-sections sections">
+            <li>
+                <h3><%= booking.coursename %></h3>
+            </li>
+            <li>
+                <%= booking.facetofacename %>
+            </li>
+            <li>
+                Start: <%= MM.widgets.formatDate(booking.timestart) %>
+
+            </li>
+            <li>
+                Finish: <%= MM.widgets.formatDate(booking.timefinish) %>
+            </li>
+        </ul>
+        <% }); %>
+    </section>
 </div>

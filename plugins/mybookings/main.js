@@ -8,6 +8,8 @@ define(templates, function(layoutTpl) {
             name: "mybookings",
             type: "general",
             title: "My Bookings",
+            icon: "img/icon/my-bookings.png",
+            alticon: "img/icon/my-bookings-grey.png",
             lang: {
                 component: "core"
             },
@@ -94,9 +96,13 @@ define(templates, function(layoutTpl) {
         },
 
         _getBookingsSuccess: function(data) {
+
             var values = {
-                'bookings':data
+                'bookings':data,
+                'title': MM.plugins.mybookings.settings.title
             };
+
+
             var html = MM.tpl.render(
                 MM.plugins.mybookings.templates.layout, values, {}
             );

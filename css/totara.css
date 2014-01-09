@@ -69,6 +69,7 @@ button
 
 #add-site {
     background: none #fff;
+    padding-bottom:700px;
 }
 
 #add-site #login-remember {
@@ -93,6 +94,10 @@ button
 #add-site h1 img {
     width:208px;
     height:auto;
+}
+
+#helplogin a {
+    color:#7c7a80;
 }
 
 /* Navigation. */
@@ -132,8 +137,6 @@ button
         padding-top:4px;
     }
 }
-
-
 
 /* Dialog. */
 
@@ -187,4 +190,16 @@ div.program-info ul {
 .panel-content.detail .nav-item ul li.nav {
     border-top:solid 1px #d3d2d5;
 
+}
+
+/* My Bookings. */
+
+.panel-content.my-bookings section > ul {
+    list-style-type:none;
+    margin:10px;
+}
+
+.panel-content .my-bookings-sections {
+    padding:14px;
+    background-color:#dad9dc;
 }
