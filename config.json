@@ -64,7 +64,7 @@
         "password": "student"
     }
 ],
-"menu_items": ["mybookings", "mycourses", "findcourses"],
+"menu_items": ["mybookings", "tasks"],
 "menu_type":"default_navigation",
 "homepage":"default_homepage"
 }

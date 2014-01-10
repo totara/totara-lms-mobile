@@ -203,3 +203,18 @@ div.program-info ul {
     padding:14px;
     background-color:#dad9dc;
 }
+
+/* Tasks. */
+
+.panel-content.tasks .submenu.items {
+    padding-bottom:24px;
+}
+
+.panel-content.tasks .nav-item .toogler + ul {
+    padding-left:60px;
+}
+
+.panel-content.tasks a.button {
+    display:inline;
+    font-size:0.8rem;
+}

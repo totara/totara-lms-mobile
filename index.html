@@ -117,7 +117,7 @@
         <% _.each(menu_items, function(menu_item) { %>
             <li class="nav-item">
                 <a href="<%= menu_item.href %>" class="item" id="topnav-<%= menu_item.id %>" title="<%= menu_item.title %>">
-                    <img src="<%= menu_item.alticon %>" alt="<%= menu_item.name %>" title="<%= menu_item.title %>" width="32" height="32" />
+                    <img src="<%= menu_item.alticon %>" alt="<%= menu_item.name %>" title="<%= menu_item.title %>" />
                 </a>
             </li>
         <% }); %>

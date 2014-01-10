@@ -1,19 +1,41 @@
-<div>
-    <h2>Tasks</h2>
-    <ul>
-        <% _.each(tasks, function(task) { %>
-            <li class='message'>
-                <%= JSON.stringify(task) %>
-                <% if(task.showacceptbtn) { %>
-                <a href="#" class="task accept" data-messageid="<%= task.id %>"><%= task.acceptbtntext %></a>
-                <% } %>
-                <% if(task.showrejectbtn) { %>
-                <a href="#" class="task reject" data-messageid="<%= task.id %>"><%= task.rejectbtntext %></a>
-                <% } %>
-                <% if(task.showinfobtn) { %>
-                    <a href="<%= task.infobtnurl %>"><%= task.infobtntext %></a> 
-                <% } %>
+<div class="panel-content tasks">
+    <div id="top">
+        <a href="#" title="Back" id="back"></a>
+        <header class="header">
+            <h2 class="name"><%= title %></h2>
+        </header>
+    </div>
+    <section>
+        <ul class="task-sections sections nav nav-v js-accordion">
+            <% _.each(tasks, function(task, i) { %>
+            <li class="section-<%= i %> nav-item" data-messageid="<%= task.id %>">
+                <div class="name toogler expand touch-row">
+                    <h3 class="topic-title">
+                        <a href="#">
+                            <%= task.subject %>
+                        </a>
+                    </h3>
+                    <a href="#" class="close toogler collapse touch-row" ><%= MM.lang.s("close") %></a>
+                </div>
+                <ul class="nav submenu items">
+                    <li class="item">
+                        <p>
+                            <%= task.fullmessage %>
+                        </p>
+                        <% if(task.showacceptbtn) { %>
+                            <a href="#" class="task accept button" data-messageid="<%= task.id %>"><%= task.acceptbtntext %></a>
+                        <% } %>
+                        <% if(task.showrejectbtn) { %>
+                            <a href="#" class="task reject button" data-messageid="<%= task.id %>"><%= task.rejectbtntext %></a>
+                        <% } %>
+                        <% if(task.showinfobtn) { %>
+                            <a href="<%= task.infobtnurl %>" class="button" target="_blank"><%= task.infobtntext %></a>
+                        <% } %>
+                    </li>
+                </ul>
             </li>
-        <% }); %>
-    </ul>
+            <% }); %>
+        </ul>
+
+    </section>
 </div>

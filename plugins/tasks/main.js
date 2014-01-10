@@ -8,6 +8,8 @@ define(templates, function(layoutTpl) {
             name: "tasks",
             type: "general",
             title: "Tasks",
+            icon: "img/icon/tasks.png",
+            alticon: "img/icon/tasks-grey.png",
             lang: {
                 component: "core"
             },
@@ -95,7 +97,8 @@ define(templates, function(layoutTpl) {
 
         _getTasksSuccess: function(data) {
             var values = {
-                'tasks':data
+                'tasks':data,
+                'title': MM.plugins.tasks.settings.title
             };
             var html = MM.tpl.render(
                 MM.plugins.tasks.templates.layout, values, {}
@@ -130,7 +133,7 @@ define(templates, function(layoutTpl) {
         },
 
         _acceptTaskSuccess: function(data) {
-            $(document).find("li.message[data-messageid=" + data + "]").addClass('accepted');
+            $(document).find("li.nav-item[data-messageid=" + data + "]").remove();
         },
 
         _acceptTaskFailure: function() {
@@ -149,7 +152,7 @@ define(templates, function(layoutTpl) {
         },
 
         _rejectTaskSuccess: function(data) {
-            $(document).find("li.message[data-messageid=" + data + "]").addClass('rejected');
+            $(document).find("li.nav-item[data-messageid=" + data + "]").remove();
         },
 
         _rejectTaskFailure: function() {
