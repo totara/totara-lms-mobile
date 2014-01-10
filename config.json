@@ -29,7 +29,8 @@
 	"mylearning",
     "mybookings",
 	"default_homepage",
-	"tasks"
+	"tasks",
+	"alerts"
 ],
 "wsservice" : "moodle_mobile_app",
 "presets" : {"url": "", "username": ""},
