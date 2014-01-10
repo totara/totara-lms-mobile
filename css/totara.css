@@ -218,3 +218,19 @@ div.program-info ul {
     display:inline;
     font-size:0.8rem;
 }
+
+/* Required Learning. */
+
+.panel-content .my-programs .nav-item:first-child
+, .panel-content .my-required-learning .nav-item:first-child {
+    border-top:none;
+}
+
+.panel-content div.expand.no-items {
+    background:none;
+}
+
+.panel-content div.expand.no-items a {
+    color:#dad9dc;
+    cursor:default;
+}
