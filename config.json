@@ -26,9 +26,9 @@
     "findprograms",
     "program",
     "feedback",
-    "mybookings",
+	"mylearning",
 	"default_homepage",
-    "tasks"
+	"tasks"
 ],
 "wsservice" : "moodle_mobile_app",
 "presets" : {"url": "", "username": ""},

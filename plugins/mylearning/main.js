@@ -6,11 +6,11 @@ define(templates, function(layoutTpl) {
     var plugin = {
         settings: {
             name: "mylearning",
-            type: "user",
+            type: "general",
             lang: {
                 component: "core"
             },
-            menuURL: "#mylearning"
+            menuURL: "#my-learning"
         },
 
         templates: {
@@ -18,7 +18,7 @@ define(templates, function(layoutTpl) {
         },
 
         routes: [
-            ["#mylearning", "main", "main"]
+            ["my-learning", "main", "main"]
         ],
 
         sizes: undefined,
@@ -150,17 +150,17 @@ define(templates, function(layoutTpl) {
             MM.plugins.mylearning._getCourses();
             MM.plugins.mylearning._getPrograms();
             MM.plugins.mylearning._getRequiredLearning();
-        }
+        },
 
         _sectionLoaded: function() {
-            if (courses !== undefined &&
-                programs !== undefined &&
-                learning !== undefined
+            if (MM.plugins.mylearning.courses !== undefined &&
+                MM.plugins.mylearning.programs !== undefined &&
+                MM.plugins.mylearning.learning !== undefined
             ) {
                 var values = {
-                    'courses':courses,
-                    'programs':programs,
-                    'learning':learning
+                    'courses':MM.plugins.mylearning.courses,
+                    'programs':MM.plugins.mylearning.programs,
+                    'learning':MM.plugins.mylearning.learning
                 };
                 var html = MM.tpl.render(
                     MM.plugins.mylearning.templates.layout, values, {}
