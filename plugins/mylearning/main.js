@@ -90,7 +90,7 @@ define(templates, function(layoutTpl) {
         learning:undefined,
 
         _getCourses: function() {
-            var method = "core_enrol_get_users_course_completions";
+            var method = "totara_program_get_users_courses";
             var data = { userid: MM.site.get("userid") };
             var callback = MM.plugins.mylearning._getCoursesSuccess;
             var preSets = { omitExpires: true, cache: false };
