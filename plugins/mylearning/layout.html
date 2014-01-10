@@ -1,0 +1,30 @@
+<div>
+    <a href="#" title="Back" id="back"></a>
+    <h2>My Learning</h2>
+    <div>
+        <h3>Courses</h3>
+        <ul>
+            <% _.each(courses, function(course) { %>
+                <li>
+                    <%= JSON.stringify(course) %>
+                </li>
+            <% }); %>
+        </ul>
+        <h3>Programs</h3>
+        <ul>
+            <% _.each(programs, function(program) { %>
+                <li>
+                    <%= JSON.stringify(program) %>
+                </li>
+            <% }); %>
+        </ul>
+        <h3>My Required Learning</h3>
+        <ul>
+            <% _.each(learning, function(required) { %>
+                <li>
+                    <%= JSON.stringify(required) %>
+                </li>
+            <% }); %>
+        </ul>
+    </div>
+</div>
