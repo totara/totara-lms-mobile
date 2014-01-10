@@ -1,11 +1,32 @@
-<div>
-    <h2>Alerts</h2>
-    <ul>
-        <% _.each(alerts, function(alert) { %>
-            <li class='message'>
-                <%= JSON.stringify(alert) %>
-                <a href="#" class="alert dismiss" data-messageid="<%= alert.id %>">Dismiss Alert</a>
+<div class="panel-content info alerts">
+    <div id="top">
+        <a href="#" title="Back" id="back"></a>
+        <header class="header">
+            <h2 class="name"><%= title %></h2>
+        </header>
+    </div>
+    <section>
+        <ul class="alerts-sections sections nav nav-v js-accordion">
+            <% _.each(alerts, function(alert, i) { %>
+            <li class="section-<%= i %> nav-item" data-messageid="<%= alert.id %>">
+                <div class="name toogler expand touch-row">
+                    <h3 class="topic-title">
+                        <a href="#">
+                            <%= alert.subject %>
+                        </a>
+                    </h3>
+                    <a href="#" class="close toogler collapse touch-row" ><%= MM.lang.s("close") %></a>
+                </div>
+                <ul class="nav submenu items">
+                    <li class="item">
+                        <p>
+                            <%= alert.fullmessage %>
+                        </p>
+                        <a href="#" class="alert dismiss button" data-messageid="<%= alert.id %>">Dismiss Alert</a>
+                    </li>
+                </ul>
             </li>
-        <% }); %>
-    </ul>
+            <% }); %>
+        </ul>
+    </section>
 </div>

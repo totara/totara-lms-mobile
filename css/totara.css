@@ -204,21 +204,6 @@ div.program-info ul {
     background-color:#dad9dc;
 }
 
-/* Tasks. */
-
-.panel-content.tasks .submenu.items {
-    padding-bottom:24px;
-}
-
-.panel-content.tasks .nav-item .toogler + ul {
-    padding-left:60px;
-}
-
-.panel-content.tasks a.button {
-    display:inline;
-    font-size:0.8rem;
-}
-
 /* Required Learning. */
 
 .panel-content .my-programs .nav-item:first-child
@@ -233,4 +218,30 @@ div.program-info ul {
 .panel-content div.expand.no-items a {
     color:#dad9dc;
     cursor:default;
+}
+
+/* Alerts / Tasks. */
+
+.panel-content.info .submenu.items {
+    padding-bottom:24px;
+}
+
+.panel-content.info .submenu.items .item {
+    background-color:#f4f4f4;
+    padding:10px 10px 20px 10px;
+}
+
+.panel-content.info .nav-item .toogler + ul {
+    padding-left:60px;
+    padding-right:110px;
+}
+
+.panel-content.info .submenu.items ul {
+    margin-left:20px;
+    background-color:transparent;
+}
+
+.panel-content.info a.button {
+    display:inline;
+    font-size:0.8rem;
 }
