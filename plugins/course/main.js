@@ -138,7 +138,9 @@ define(templates, function(courseTpl) {
             MM.panels.show("center", html);
 			MM.util.setupAccordion($("#panel-center"));
             MM.util.setupBackButton();
-            $("#panel-center .set-activity-completion").change(MM.plugins.course.setActivityCompletionHandler);
+            $("#panel-center .set-activity-completion").change(
+                MM.plugins.course.setActivityCompletionHandler
+            );
         },
 
         setActivityCompletionHandler: function(ev) {
