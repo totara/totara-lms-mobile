@@ -1,8 +1,23 @@
 <div class="panel-content find find-courses">
-    <h1><%= title %></h1>
+    <div id="top">
+        <h1>
+            <% if (filter !== 0) { %>
+                <a href="#" title="Back" id="back"></a>
+            <% } %>
+            <%= title %>
+        </h1>
+    </div>
     <ul class="nav nav-v js-accordion">
+        <% // All categories %>
+        <% // Go through each, if the category isnt undefined %>
+        <!--
+            Go through each category. If the category isn't undefined then,
+            if the parent id is the one used for the filter, grab that.
+        -->
         <% _.each(categories, function(data, key) { %>
-            <% if (data !== undefined) { %>
+            <!-- Show all categories with the specified parent id. -->
+            <!-- Each category will give their sub categories too anyway -->
+            <% if (data !== undefined && data.parent == filter || filter !== 0 && data.id == filter) { %>
                 <li class="nav-item">
                     <div class="name toogler expand touch-row">
                         <h3 class="course-title">
@@ -13,55 +28,59 @@
                         <div class="number-of-items">
                             <%= data.courses.length %>
                         </div>
-                        <a href="#" class="close toogler collapse touch-row" ><%= MM.lang.s("close") %></a>
+                        <a href="#" class="close toogler collapse touch-row" >
+                            <%= MM.lang.s("close") %>
+                        </a>
                     </div>
-                    <% if (data.subcategories.length > 0 || data.courses.length > 0) { %>
-                    <ul class="nav submenu">
-                        <% if (data.subcategories.length > 0) { %>
-                        <% // Sub Categories %>
-                        <li>
-                            <h5><%= MM.lang.s("subcategories") %></h5>
-                        </li>
-                        <li>
-                            <ul>
-                                <% _.each(data.subcategories, function(subcat) { %>
+                    <% if ((data.subcategories !== undefined && data.subcategories.length > 0) ||
+                        (data.courses !== undefined && data.courses.length > 0)
+                    ) { %>
+                        <ul class="nav submenu">
+                            <% if (data.subcategories.length > 0) { %>
+                                <% // Sub Categories %>
                                 <li>
-                                    <a href="#find_courses/<%= subcat.attributes.id %>" class="sub-item-title">
-                                        <%= subcat.attributes.name %>
-                                        <%= subcat.attributes.coursecount %>
-                                    </a>
+                                    <h5><%= MM.lang.s("subcategories") %></h5>
                                 </li>
-                                <% }); %>
-                            </ul>
-                        </li>
-                        <% } %>
-                        <% if (data.courses.length > 0) { %>
-                        <% // Courses %>
-                        <li>
-                            <h5><%= MM.lang.s("subcourses") %></h5>
-                        </li>
-                        <li>
-                            <ul>
-                                <% _.each(data.courses, function(course) { %>
                                 <li>
-                                    <% // ToDo - Add check to see if user is enroled on course.  %>
-                                    <a href="#courses/<%= course.id %>" class="sub-item-title">
-                                        <%= course.fullname %>
-                                    </a>
-                                    <% // Currently always 'not-started' as not getting the correct data. %>
-                                    <% if (course.started == 1) { %>
-                                    <span class="completion-inprogress"></span>
-                                    <% } else if (course.completed == 1) { %>
-                                    <span class="completion-complete"></span>
-                                    <% } else { %>
-                                    <span class="completion-notstarted"></span>
-                                    <% } %>
+                                    <ul>
+                                        <% _.each(data.subcategories, function(subcat) { %>
+                                        <li>
+                                            <a href="#find_courses/<%= categories[subcat].id %>" class="sub-item-title">
+                                                <%= categories[subcat].name %>
+                                                <%= categories[subcat].coursecount %>
+                                            </a>
+                                        </li>
+                                        <% }); %>
+                                    </ul>
                                 </li>
-                                <% }); %>
-                            </ul>
-                        </li>
-                        <% } %>
-                    </ul>
+                            <% } %>
+                            <% if (data.courses.length > 0) { %>
+                            <% // Courses %>
+                                <li>
+                                    <h5><%= MM.lang.s("subcourses") %></h5>
+                                </li>
+                                <li>
+                                    <ul>
+                                        <% _.each(data.courses, function(course) { %>
+                                        <li>
+                                            <% // ToDo - Add check to see if user is enroled on course.  %>
+                                            <a href="#courses/<%= course.id %>" class="sub-item-title">
+                                                <%= course.fullname %>
+                                            </a>
+                                            <% // Currently always 'not-started' as not getting the correct data. %>
+                                            <% if (course.started == 1) { %>
+                                                <span class="completion-inprogress"></span>
+                                            <% } else if (course.completed == 1) { %>
+                                                <span class="completion-complete"></span>
+                                            <% } else { %>
+                                                <span class="completion-notstarted"></span>
+                                            <% } %>
+                                        </li>
+                                        <% }); %>
+                                    </ul>
+                                </li>
+                            <% } %>
+                        </ul>
                     <% } %>
                 </li>
             <% } %>
