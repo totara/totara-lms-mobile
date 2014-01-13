@@ -136,7 +136,7 @@ define(requires, function(courseEnrolment, coursesTpl) {
 
         _getCourses: function() {
             MM.moodleWSCall(
-                'core_course_get_courses',
+                'core_list_courses',
                 {},
                 MM.plugins.findcourses._getCoursesSuccessful,
                 {},
@@ -180,7 +180,7 @@ define(requires, function(courseEnrolment, coursesTpl) {
                     category.subcategories = [];
                     category.categoryName = category.name;
                     _.each(courses, function(course, index) {
-                        if (course.categoryid === category.id) {
+                        if (course.category === category.id) {
                             // TODO: Query db to set whether the course is in
                             // progress or not.
                             course.started = 0;
