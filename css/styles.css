@@ -1676,6 +1676,11 @@ li.ui-menu-item {
     top:5px;
 }
 
+.panel-content.find .item-course {
+    background:url('../img/icon/course-icon.png') no-repeat scroll 0 0 transparent;
+    padding-left:34px;
+}
+
 /* - MODULES
 -------------------------------------------------------------------------- */
 
