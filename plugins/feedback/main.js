@@ -159,6 +159,7 @@ define(
 
             MM.panels.show("center", html);
             MM.util.setupAccordion($("#panel-center"));
+            MM.util.setupBackButton();
             $(document).find('#submit-feedback').on(
                 'click', MM.plugins.feedback._saveFeedback
             );

@@ -7,14 +7,7 @@
             </span>
         </span>
     </li>
-    <li class="nav-item no-submenu is-link">
-        <a href="#homepage" class="alink touch-row">
-            <img src="img/icon/home.png" class="plugin-ico" border="0" width="32" height="32">
-            <span class="plugin-name">
-                <%= MM.lang.s("menu-homepage") %>
-            </span>
-        </a>
-    </li>
+
     <% _.each(plugins, function(plugin) { %>
         <% if (typeof plugin.subMenus == "undefined" || plugin.subMenus.length == 0) { %>
             <li class="nav-item no-submenu is-link">

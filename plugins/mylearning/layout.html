@@ -1,30 +1,86 @@
-<div>
-    <a href="#" title="Back" id="back"></a>
-    <h2>My Learning</h2>
-    <div>
-        <h3>Courses</h3>
-        <ul>
-            <% _.each(courses, function(course) { %>
-                <li>
-                    <%= JSON.stringify(course) %>
+<div class="panel-content my-learning">
+    <h1 class="title"><%= title %></h1>
+    <ul class="nav nav-v js-accordion my-courses">
+        <li class="nav-item">
+            <% if (courses.length) { %>
+            <div class="name toogler expand touch-row">
+            <% } else { %>
+            <div class="name expand no-items">
+             <% } %>
+                <h3 class="course-title">
+                    <a href="#">
+                        Courses
+                    </a>
+                </h3>
+                <a href="#" class="close toogler collapse touch-row"><%= MM.lang.s("close") %></a>
+            </div>
+            <ul class="nav submenu">
+                <% _.each(courses, function(course) { %>
+                <li class="nav-item">
+                    <% if (course.started == 1) { %>
+                    <span class="completion-inprogress"></span>
+                    <% } else if (course.completed == 1) { %>
+                    <span class="completion-complete"></span>
+                    <% } else { %>
+                    <span class="completion-notstarted"></span>
+                    <% } %>
+                    <a href="#courses/<%= course.id %>" class="sub-item-title"><%= course.fullname %></a>
                 </li>
-            <% }); %>
-        </ul>
-        <h3>Programs</h3>
-        <ul>
-            <% _.each(programs, function(program) { %>
-                <li>
-                    <%= JSON.stringify(program) %>
+                <% }); %>
+            </ul>
+        </li>
+    </ul>
+    <ul class="nav nav-v js-accordion my-programs">
+        <li class="nav-item">
+            <% if (programs.length) { %>
+            <div class="name toogler expand touch-row">
+            <% } else { %>
+            <div class="name expand no-items">
+            <% } %>
+                <h3 class="course-title">
+                    <a href="#">
+                        Programs
+                    </a>
+                </h3>
+                <a href="#" class="close toogler collapse touch-row"><%= MM.lang.s("close") %></a>
+            </div>
+            <ul class="nav submenu">
+                <% _.each(programs, function(program) { %>
+                <li class="nav-item">
+                    <% if (program.started == 1) { %>
+                    <span class="completion-inprogress"></span>
+                    <% } else if (program.completed == 1) { %>
+                    <span class="completion-complete"></span>
+                    <% } else { %>
+                    <span class="completion-notstarted"></span>
+                    <% } %>
+                    <a href="#programs/<%= program.id %>" class="sub-item-title"><%= program.fullname %></a>
                 </li>
-            <% }); %>
-        </ul>
-        <h3>My Required Learning</h3>
-        <ul>
-            <% _.each(learning, function(required) { %>
-                <li>
-                    <%= JSON.stringify(required) %>
-                </li>
-            <% }); %>
-        </ul>
-    </div>
+                <% }); %>
+            </ul>
+        </li>
+    </ul>
+    <ul class="nav nav-v js-accordion my-required-learning">
+        <li class="nav-item">
+            <% if (learning.length) { %>
+            <div class="name toogler expand touch-row">
+            <% } else { %>
+            <div class="name expand no-items">
+            <% } %>
+                <h3 class="course-title">
+                    <a href="#">
+                        Required Learning
+                    </a>
+                </h3>
+                <a href="#" class="close toogler collapse touch-row"><%= MM.lang.s("close") %></a>
+            </div>
+            <ul class="nav submenu">
+                <% _.each(learning, function(required) { %>
+                    <li class="nav-item">
+                        <a href="#programs/<%= required.id %>" class="sub-item-title"><%= required.fullname %></a>
+                    </li>
+                <% }); %>
+            </ul>
+        </li>
+    </ul>
 </div>

@@ -22,13 +22,21 @@ body
 /* Generic Fonts. */
 
 h1 {
+    font-size:48px;
     font-size:3rem;
     font-weight:300;
 }
 
 h2.name {
+    font-size:29px;
     font-size:2rem;
     font-weight:300;
+}
+
+h3 {
+    font-size:21px;
+    font-size:1.3rem;
+    font-weight:600;
 }
 
 a {
@@ -36,8 +44,19 @@ a {
 }
 
 h3 a {
+    font-size:21px;
     font-size:1.3rem;
     font-weight:600;
+}
+
+@media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
+    h1 {
+        font-size:2.5rem;
+    }
+
+    h3 a {
+        font-size:1.1rem;
+    }
 }
 
 /* Buttons. */
@@ -65,10 +84,17 @@ button
     color:#fff;
 }
 
+/* Panels. */
+
+#panel-top {
+    border-bottom:solid 1px #dad9dc;
+}
+
 /* Login. */
 
 #add-site {
     background: none #fff;
+    padding-bottom:700px;
 }
 
 #add-site #login-remember {
@@ -93,6 +119,16 @@ button
 #add-site h1 img {
     width:208px;
     height:auto;
+}
+
+#helplogin a {
+    color:#7c7a80;
+}
+
+/* Home. */
+
+.home .button.view-courses {
+    font-size:0.9rem;
 }
 
 /* Navigation. */
@@ -132,8 +168,6 @@ button
         padding-top:4px;
     }
 }
-
-
 
 /* Dialog. */
 
@@ -188,3 +222,75 @@ div.program-info ul {
     border-top:solid 1px #d3d2d5;
 
 }
+
+/* My Bookings. */
+
+.panel-content.my-bookings section > ul {
+    list-style-type:none;
+    margin:10px;
+}
+
+.panel-content .my-bookings-sections {
+    padding:14px;
+    background-color:#dad9dc;
+}
+
+/* Required Learning. */
+
+.panel-content .my-programs .nav-item:first-child
+, .panel-content .my-required-learning .nav-item:first-child {
+    border-top:none;
+}
+
+.panel-content div.expand.no-items {
+    background:none;
+}
+
+.panel-content div.expand.no-items a {
+    color:#dad9dc;
+    cursor:default;
+}
+
+/* Alerts / Tasks. */
+
+.panel-content.info .submenu.items {
+    padding-bottom:24px;
+}
+
+.panel-content.info .submenu.items .item {
+    background-color:#f4f4f4;
+    padding:10px 10px 20px 10px;
+}
+
+.panel-content.info .nav-item .toogler + ul {
+    padding-left:60px;
+    padding-right:110px;
+}
+
+.panel-content.info .submenu.items ul {
+    margin-left:20px;
+    background-color:transparent;
+}
+
+.panel-content.info a.button {
+    display:inline;
+    font-size:0.8rem;
+}
+
+@media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
+    .panel-content.info .nav-item .toogler + ul {
+        padding-left:20px;
+        padding-right:70px;
+    }
+
+    .tasks .item .text_to_html {
+        word-wrap:break-word;
+    }
+
+    .tasks .item a[title="Attendees"] {
+        font-size:0.8rem;
+    }
+
+}
+
+

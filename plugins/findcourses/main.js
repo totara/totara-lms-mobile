@@ -2,144 +2,7 @@ var requires = [
     "root/externallib/text!root/plugins/findcourses/courseEnrolment.html",
     "root/externallib/text!root/plugins/findcourses/findcourses.html"
 ];
-
 define(requires, function(courseEnrolment, coursesTpl) {
-
-    var callbacks = {
-        collate_categories_and_courses: function(data) {
-            var missing_categories = false;
-            // Get all the categories with all their correct courses below
-            // them.
-            var categories = _.reduceRight(data, function(memo, course) {
-                if (course.categoryid === 0) return memo;
-
-                var category = MM.db.get(
-                    'categories', course.categoryid
-                );
-                if (category !== undefined) {
-                    var categoryName = category.get('name');
-
-                    if (memo[category.get('id')] === undefined){
-                        memo[category.get('id')] = {
-                            'courses':[],
-                            'subcategories':[]
-                        };
-                    }
-
-                    // Has the user already started this course?
-                    // Course id is mildly contrived, but stops collisions between
-                    // sites.
-                    var courseId = MM.config.current_site.id + '-' + course.id;
-                    if (MM.db.exists("mylearning")) {
-                        course.started = MM.db.get('mylearning', courseId) !== undefined;
-                    } else {
-                        course.started = false;
-                    }
-                    course.started = false;
-
-                    memo[category.get('id')].categoryName = categoryName;
-                    memo[category.get('id')].courses.push(course);
-                } else {
-                    missing_categories = true;
-                }
-
-                return memo;
-            }, {});
-
-            // If we're missing categories then we'll be returning false.
-            // Otherwise, go through all the categories, and move them under
-            // the appropriate parent if applicable.
-            if (missing_categories === true) {
-                categories = false;
-            } else {
-                // Do moving.
-                var moved = true;
-                while (moved == true) {
-                    moved = false;
-                    var keys = _.keys(categories);
-                    for (var i = keys.length; i >= 0; i--) {
-                        // Undefined categories have already been sorted.
-                        if (categories[keys[i]] == undefined) {
-                            continue;
-                        }
-                        var category = MM.db.get('categories', keys[i]);
-                        if (category !== undefined) {
-                            if (category.get('parent') != 0) {
-                                categories[category.get('parent')].subcategories.push(
-                                    category
-                                );
-                                moved = true;
-                                categories[category.get('id')] = undefined;
-                            }
-                        }
-                    }
-                }
-            }
-
-            return categories;
-        },
-
-        find_courses_successful:function(data) {
-            var categories = callbacks.collate_categories_and_courses(data);
-
-            if (categories !== false) {
-                var values = {
-                    'categories' : categories,
-                    'title': MM.plugins.findcourses.settings.title
-                };
-                var html = MM.tpl.render(
-                    MM.plugins.findcourses.templates.results.html, values, {}
-                );
-                MM.panels.show('center', html, {hideRight: false});
-                MM.util.setupAccordion($("#panel-center"));
-            } else {
-                // Record these results - they're still valid.
-                MM.plugins.findcourses.last_found_courses = data;
-
-                // Go and get the refreshed list of categories.
-                // This goes back to find_categories_successful.
-                MM.plugins.findcourses.list_categories();
-            }
-        },
-
-        find_categories_successful: function(data) {
-            // Store the categories in the app.
-            // Categories are stored against the site id.
-            _.each(data, function(category) {
-                MM.db.insert('categories', category)
-            });
-
-            plugin.find_courses();
-        },
-
-        manual_enrolment_successful: function() {
-            // Change the url, don't actually navigate to it though.
-            MM.Router.navigate("#find_courses", {'trigger':false});
-
-            var courseId = MM.plugins.findcourses.plugin.last_enrolled_course;
-
-            // Take the last enrolled course and set it as 'started'
-            MM.db.update(
-                "courses",
-                courseId,
-                {'started':true}
-            );
-
-            // Take the details of the course
-            var course = MM.db.get("courses", courseId);
-
-            // and add them to the my_learning section.
-            MM.db.insert("my_learning", course);
-
-            MM.plugins.findcourses.list_categories();
-        },
-
-        error: function(data) {
-            console.log("Error");
-            console.log(data);
-        }
-    }
-
     var plugin = {
         settings: {
             name: "findcourses",
@@ -158,7 +21,8 @@ define(requires, function(courseEnrolment, coursesTpl) {
         },
 
         routes: [
-            ["find_courses", "find_courses", "list_categories"],
+            ["find_courses", "find_courses", "main"],
+            ["find_courses/:subCatId", "sub_category", "main"],
             ["enrol_user/:courseId", "enrol_user", "enrol_user"]
         ],
 
@@ -171,7 +35,10 @@ define(requires, function(courseEnrolment, coursesTpl) {
             }
         },
 
-        _getSizes: function() {
+        sizes: undefined,
+
+         _getSizes: function() {
+
             // Default tablet.
             MM.plugins.findcourses.sizes = {
                 withSideBar: {
@@ -179,13 +46,13 @@ define(requires, function(courseEnrolment, coursesTpl) {
                     left:MM.navigation.getWidth()
                 },
                 withoutSideBar: {
-                    center:$(document).innerWidth(),
+                    center:"100%",
                     left:0
                 }
             };
 
             if (MM.deviceType === "phone") {
-                MM.plugins.mycourses.sizes = {
+                MM.plugins.findcourses.sizes = {
                     withSideBar: {
                         center:0,
                         left:0
@@ -203,19 +70,19 @@ define(requires, function(courseEnrolment, coursesTpl) {
                 MM.plugins.findcourses._getSizes();
             }
 
-            if (MM.navigation.visible === true) {
-                $("#panel-center").css({
-                    'width':MM.plugins.findcourses.sizes.withSideBar.center,
-                    'left':MM.plugins.findcourses.sizes.withSideBar.left
-                });
-            } else {
-                $("#panel-center").css({
-                    'width':MM.plugins.findcourses.sizes.withoutSideBar.center,
-                    'left':MM.plugins.findcourses.sizes.withoutSideBar.left
-                });
-            }
-            
-            if (MM.deviceType === "phone") {
+            if (MM.deviceType === "tablet") {
+                if (MM.navigation.visible === true) {
+                    $("#panel-center").css({
+                        'width':MM.plugins.findcourses.sizes.withSideBar.center,
+                        'left':MM.plugins.findcourses.sizes.withSideBar.left
+                    });
+                } else {
+                    $("#panel-center").css({
+                        'width':MM.plugins.findcourses.sizes.withoutSideBar.center,
+                        'left':MM.plugins.findcourses.sizes.withoutSideBar.left
+                    });
+                }
+            } else if (MM.deviceType === "phone") {
                 $("#panel-center").css({
                     'width':'100%',
                     'left':0
@@ -230,84 +97,130 @@ define(requires, function(courseEnrolment, coursesTpl) {
             $("#panel-right").show();
         },
 
-        last_enrolled_course: null,
-        last_found_courses:undefined,
-        sizes: undefined,
-
-        enrol_user: function(courseId) {
-            MM.assignCurrentPlugin(MM.plugins.findcourses);
-
-            var html = '';
-            html = MM.tpl.render(
-                MM.plugins.findcourses.templates.courseEnrolment.html,
-                {
-                    title: "Place holder",
-                    text: "Place Holder"
-                }
-            );
-
-            var options = {
-                buttons: {}
-            };
-
-            options.buttons[MM.lang.s('cancel')] = MM.widgets.dialogClose;
-
-            options.buttons[MM.lang.s('yes')] = function() {
-                // RoleId 5 = Student
-                // This format isn't a mistake, the call requires an array
-                // of arrays.
-                var data = {
-                    'enrolments':[{
-                        roleid: 5,
-                        userid: MM.site.get('userid'),
-                        courseid: courseId
-                    }]
-                };
-
-                MM.plugins.findcourses.last_enrolled_course = courseId;
-
-                MM.moodleWSCall(
-                    'enrol_manual_enrol_users',
-                    data,
-                    callbacks.manual_enrolment_successful,
-                    {responseExpected:false},
-                    callbacks.error
-                );
+        main: function(subCatId) {
+            if (subCatId === undefined) {
+                subCatId = 0;
             }
+            MM.plugins.findcourses.showingCategoryId = subCatId;
 
-            MM.widgets.dialog(html, options);
-            e.preventDefault();
+            $(document).on(
+                'categories_found', MM.plugins.findcourses._collateCategoriesAndCourses
+            );
+            $(document).on(
+                'courses_found', MM.plugins.findcourses._collateCategoriesAndCourses
+            );
+            MM.plugins.findcourses._getCategories();
+            MM.plugins.findcourses._getCourses();
         },
 
-        list_categories: function() {
+        _getCategories: function() {
             MM.panels.showLoading('center');
             MM.assignCurrentPlugin(MM.plugins.findcourses);
             MM.moodleWSCall(
                 'core_course_get_categories',
                 {},
-                callbacks.find_categories_successful,
+                MM.plugins.findcourses._getCategoriesSuccessful,
                 {},
-                callbacks.error
+                MM.plugins.findcourses._getCategoriesFailure
             );
         },
 
-        find_courses: function() {
-            if (MM.plugins.findcourses.last_found_courses !== undefined) {
-                callbacks.find_courses_successful(
-                    MM.plugins.findcourses.last_found_courses
+        _getCategoriesSuccessful: function(data) {
+            MM.plugins.findcourses.categories = data;
+            $(document).trigger('categories_found');
+        },
+
+        _getCategoriesFailure: function() {
+
+        },
+
+        _getCourses: function() {
+            MM.moodleWSCall(
+                'core_list_courses',
+                {},
+                MM.plugins.findcourses._getCoursesSuccessful,
+                {},
+                MM.plugins.findcourses._getCoursesFailure
+            );
+        },
+
+        _getCoursesSuccessful: function(data) {
+            MM.plugins.findcourses.courses = data;
+            $(document).trigger('courses_found');
+        },
+
+        _getCoursesFailure: function() {
+
+        },
+
+        categories: undefined,
+        courses: undefined,
+
+        _collateCategoriesAndCourses: function() {
+            if (MM.plugins.findcourses.categories !== undefined &&
+                MM.plugins.findcourses.courses !== undefined
+            ) {
+                if (MM.plugins.findcourses.showingCategoryId === 0) {
+                    MM.Router.navigate(
+                        "find_courses"
+                    );
+                } else {
+                    MM.Router.navigate(
+                        "find_courses/" + MM.plugins.findcourses.showingCategoryId
+                    );
+                }
+
+                // Categories is about to be rewritten so that keys are the
+                // id of the category.
+                // Courses will be discarded.
+                var categories = {};
+                var courses = MM.plugins.findcourses.courses;
+                _.each(MM.plugins.findcourses.categories, function(category, index) {
+                    category.courses = [];
+                    category.subcategories = [];
+                    category.categoryName = category.name;
+                    _.each(courses, function(course, index) {
+                        if (course.category === category.id) {
+                            // TODO: Query db to set whether the course is in
+                            // progress or not.
+                            course.started = 0;
+                            course.completed = 0;
+                            category.courses.push(course);
+                        }
+                    });
+                    categories[category.id] = category;
+                });
+
+                // Run through the categories setting up the sub categories for
+                // each.
+                _.each(categories, function(category, categoryId) {
+                    if (category.parent !== 0) {
+                        categories[category.parent].subcategories.push(categoryId);
+                    }
+                });
+
+                // NOTE: At this point we have an object of categories (indexed by
+                //       category id) that contain a 1D array of subcategories and
+                //       a 1D array of courses.
+                var title = MM.plugins.findcourses.settings.title;
+                if (MM.plugins.findcourses.showingCategoryId !== 0) {
+                    title += ' within ' + categories[
+                        MM.plugins.findcourses.showingCategoryId
+                    ].categoryName;
+                }
+                var values = {
+                    'title': title,
+                    'categories': categories,
+                    'filter':MM.plugins.findcourses.showingCategoryId
+                };
+                var html = MM.tpl.render(
+                    MM.plugins.findcourses.templates.results.html, values, {}
                 );
-                MM.plugins.findcourses.last_found_courses = undefined;
-            } else {
-                MM.moodleWSCall(
-                    'core_course_get_courses',
-                    {},
-                    callbacks.find_courses_successful,
-                    {},
-                    callbacks.error
-                );
+                MM.panels.show('center', html, {hideRight: false});
+                MM.util.setupAccordion($("#panel-center"));
+                MM.util.setupBackButton();
             }
         }
     };
-
     MM.registerPlugin(plugin);
 });

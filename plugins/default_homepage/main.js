@@ -8,7 +8,7 @@ require(templates, function(mainTpl) {
             name: "default_homepage",
             type: "general",
             title: "Homepage",
-            icon: "",
+            icon: "img/icon/home.png",
             lang: {
                 component: "core"
             },
@@ -103,6 +103,10 @@ require(templates, function(mainTpl) {
 
         loadSuccess: function(response) {
             MM.Router.route('#homepage');
+
+            if (_.isObject(response)) {
+                response = "";
+            }
 
             var values = {
                 content:response

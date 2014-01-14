@@ -5,6 +5,7 @@
 "cache_expiration_time" : 300000,
 "default_lang" : "en",
 "plugins" : [
+    "default_homepage",
 	"upload",
 	"contents",
 	"participants",
@@ -30,6 +31,7 @@
     "default_homepage",
     "mybookings"
     "tasks"
+    "mylearning"
 ],
 "wsservice" : "moodle_mobile_app",
 "presets" : {"url": "", "username": ""},
@@ -65,7 +67,7 @@
         "password": "student"
     }
 ],
-"menu_items": ["mybookings", "mycourses", "findcourses"],
+"menu_items": ["mybookings", "tasks", "alerts"],
 "menu_type":"default_navigation",
 "homepage":"default_homepage"
 }

@@ -8,6 +8,8 @@ define(templates, function(layoutTpl) {
             name: "alerts",
             type: "general",
             title: "Alerts",
+            icon: "img/icon/alerts.png",
+            alticon: "img/icon/alerts-grey.png",
             lang: {
                 component: "core"
             },
@@ -95,7 +97,8 @@ define(templates, function(layoutTpl) {
 
         _getAlertsSuccess: function(data) {
             var values = {
-                'alerts':data
+                'alerts':data,
+                'title':MM.plugins.alerts.settings.title
             };
             var html = MM.tpl.render(
                 MM.plugins.alerts.templates.layout, values, {}
@@ -124,7 +127,7 @@ define(templates, function(layoutTpl) {
         },
 
         _dismissAlertSuccess: function(data) {
-            $(document).find("li.message[data-messageid=" + data[0] + "]").addClass('dismissed');
+            $(document).find("li.nav-item[data-messageid=" + data[0] + "]").remove();
         },
 
         _dismissAlertFailure: function() {

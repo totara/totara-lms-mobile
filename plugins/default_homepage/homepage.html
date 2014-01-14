@@ -1,6 +1,10 @@
 <div class="panel-content home">
       <div class="sections has-user-content">
-            <%= content %>
+            <% if (content === "") { %>
+                  <%= MM.lang.s("welcome") %>
+            <% } else { %>
+                  <%= content %>
+            <% } %>
       </div>
       <button class="button view-menu">
             <span>

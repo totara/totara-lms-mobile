@@ -6,11 +6,13 @@ define(templates, function(layoutTpl) {
     var plugin = {
         settings: {
             name: "mylearning",
-            type: "user",
+            type: "general",
+            title: "My Learning",
+            icon: "img/icon/my-learning.png",
             lang: {
                 component: "core"
             },
-            menuURL: "#mylearning"
+            menuURL: "#my-learning"
         },
 
         templates: {
@@ -18,7 +20,7 @@ define(templates, function(layoutTpl) {
         },
 
         routes: [
-            ["#mylearning", "main", "main"]
+            ["my-learning", "main", "main"]
         ],
 
         sizes: undefined,
@@ -88,7 +90,7 @@ define(templates, function(layoutTpl) {
         learning:undefined,
 
         _getCourses: function() {
-            var method = "core_enrol_get_users_course_completions";
+            var method = "totara_program_get_users_courses";
             var data = { userid: MM.site.get("userid") };
             var callback = MM.plugins.mylearning._getCoursesSuccess;
             var preSets = { omitExpires: true, cache: false };
@@ -150,17 +152,18 @@ define(templates, function(layoutTpl) {
             MM.plugins.mylearning._getCourses();
             MM.plugins.mylearning._getPrograms();
             MM.plugins.mylearning._getRequiredLearning();
-        }
+        },
 
         _sectionLoaded: function() {
-            if (courses !== undefined &&
-                programs !== undefined &&
-                learning !== undefined
+            if (MM.plugins.mylearning.courses !== undefined &&
+                MM.plugins.mylearning.programs !== undefined &&
+                MM.plugins.mylearning.learning !== undefined
             ) {
                 var values = {
-                    'courses':courses,
-                    'programs':programs,
-                    'learning':learning
+                    'courses':MM.plugins.mylearning.courses,
+                    'programs':MM.plugins.mylearning.programs,
+                    'learning':MM.plugins.mylearning.learning,
+                    title:MM.plugins.mylearning.settings.title
                 };
                 var html = MM.tpl.render(
                     MM.plugins.mylearning.templates.layout, values, {}
