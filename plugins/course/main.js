@@ -81,7 +81,7 @@ define(templates, function(courseTpl) {
                     'left':0
                 });
             }
-            
+
             $("#panel-right").hide();
         },
 
@@ -94,12 +94,22 @@ define(templates, function(courseTpl) {
             MM.Router.navigate("courses/" + courseID);
             MM.assignCurrentPlugin(MM.plugins.course);
             MM.panels.showLoading("center");
-            var method = "core_course_get_courses";
-            var data = { options: { ids: [courseID] } };
-            var callback = MM.plugins.course.courseInfoCallback;
+
+            var method = 'moodle_enrol_get_users_courses';
+            var data = {userid: MM.site.get('userid')};
             var presets = { omitExpires: true, cache: false };
             var errorCallback = MM.plugins.course.errorCallback;
-            MM.moodleWSCall(method, data, callback, presets, errorCallback);
+            MM.moodleWSCall(
+                method, data, function(courses) {
+                    for(var i = 0; i < courses.length; i++) {
+                        if (courses[i].id == courseID) {
+                            MM.plugins.course.courseInfoCallback([courses[i]]);
+                            break;
+                        }
+                    }
+                },
+                presets, errorCallback
+            );
         },
 
         courseInfoCallback: function(response) {
@@ -128,7 +138,9 @@ define(templates, function(courseTpl) {
             MM.panels.show("center", html);
 			MM.util.setupAccordion($("#panel-center"));
             MM.util.setupBackButton();
-            $("#panel-center .set-activity-completion").change(MM.plugins.course.setActivityCompletionHandler);
+            $("#panel-center .set-activity-completion").change(
+                MM.plugins.course.setActivityCompletionHandler
+            );
         },
 
         setActivityCompletionHandler: function(ev) {
