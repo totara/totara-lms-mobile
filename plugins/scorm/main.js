@@ -91,8 +91,8 @@ define(templates, function(scormTpl, scormLaunchTpl) {
             MM.Router.navigate("scorm/" + cmid);
             MM.panels.showLoading("center");
             var method = "mod_scorm_get_attempt_status";
-            var data = {cmid: cmid}; 
-            var callback = MM.plugins.scorm.scormCallback; 
+            var data = {cmid: cmid};
+            var callback = MM.plugins.scorm.scormCallback;
             var presets = { omitExpires: true, cache: false };
             var errorCallback = MM.plugins.course.errorCallback;
             MM.moodleWSCall(method, data, callback, presets, errorCallback);
@@ -136,6 +136,7 @@ define(templates, function(scormTpl, scormLaunchTpl) {
             };
             var html = MM.tpl.render(template.html, context);
             MM.panels.show("center", html);
+            MM.util.setupBackButton();
         },
 
         errorCallback: function(error) {
