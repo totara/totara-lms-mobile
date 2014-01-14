@@ -617,9 +617,6 @@ require(templates, function(deviceInfoTpl, showReportBug, showLog, showDeviceInf
             MM.assignCurrentPlugin(MM.plugins.settings);
 
             var info = MM.plugins.settings._getDeviceInfo();
-            // var mailBody = encodeURIComponent(
-            //     MM.plugins.settings._stripHTMLTags(info)
-            // );
             var mailBody = MM.tpl.render(
                 MM.plugins.settings.templates.mailBody, {'info':info}
             );
@@ -669,14 +666,15 @@ require(templates, function(deviceInfoTpl, showReportBug, showLog, showDeviceInf
         showReportbug: function() {
             MM.assignCurrentPlugin(MM.plugins.settings);
 
+            info = MM.plugins.settings._getDeviceInfo();
+
             // Some space for the user.
             var mailInfo = MM.lang.s("writeherethebug") + "\n\n\n\n";
-            mailInfo += MM.plugins.settings._getDeviceInfo();
+            mailInfo += MM.tpl.render(
+                MM.plugins.settings.templates.mailBody, {'info':info}
+            );
             mailInfo += "==========================\n\n";
             mailInfo += MM.getFormattedLog();
-            mailInfo = encodeURIComponent(
-                MM.plugins.settings._stripHTMLTags(mailInfo)
-            );
 
             var html = MM.tpl.render(
                 MM.plugins.settings.templates.showReportBug, {
