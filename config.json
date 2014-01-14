@@ -5,6 +5,7 @@
 "cache_expiration_time" : 300000,
 "default_lang" : "en",
 "plugins" : [
+    "default_homepage",
 	"upload",
 	"contents",
 	"participants",
@@ -23,8 +24,7 @@
     "page",
     "label",
     "url",
-    "feedback",
-    "default_homepage"
+    "feedback"
 ],
 "wsservice" : "moodle_mobile_app",
 "presets" : {"url": "", "username": "", "cache": false},
