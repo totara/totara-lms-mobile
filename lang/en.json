@@ -184,5 +184,6 @@
 "home-viewmenu-show" : "VIEW MAIN MENU",
 "home-viewmenu-close" : "CLOSE MAIN MENU",
 "home-viewcourses" : "VIEW MY COURSES",
-"menu-homepage" : "Homepage"
+"menu-homepage" : "Homepage",
+"default_homepage": "Home"
 }

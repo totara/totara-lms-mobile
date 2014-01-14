@@ -1,12 +1,14 @@
 <div class="panel-content find find-courses">
-    <div id="top">
-        <h1>
-            <% if (filter !== 0) { %>
-                <a href="#" title="Back" id="back"></a>
-            <% } %>
-            <%= title %>
-        </h1>
-    </div>
+        <% if (filter !== 0) { %>
+        <div id="top">
+            <a href="#" title="Back" id="back"></a>
+            <header class="header">
+                <h2 class="name"><%= title %></h2>
+            </header>
+        </div>
+        <% } else { %>
+        <h1><%= title %></h1>
+        <% } %>
     <ul class="nav nav-v js-accordion">
         <% // All categories %>
         <% // Go through each, if the category isnt undefined %>
@@ -64,7 +66,7 @@
                                         <% _.each(data.courses, function(course) { %>
                                         <li>
                                             <% // ToDo - Add check to see if user is enroled on course.  %>
-                                            <a href="#courses/<%= course.id %>" class="sub-item-title">
+                                            <a href="#courses/<%= course.id %>" class="sub-item-title item-course">
                                                 <%= course.fullname %>
                                             </a>
                                             <% // Currently always 'not-started' as not getting the correct data. %>

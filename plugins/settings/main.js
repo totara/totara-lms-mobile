@@ -18,7 +18,7 @@ require(templates, function(deviceInfoTpl, showReportBug, showLog,
     var plugin = {
         settings:{
             name: "settings",
-            type: "general",
+            type: "general-settings",
             menuURL: "#settings",
             title: "Settings",
             lang: {

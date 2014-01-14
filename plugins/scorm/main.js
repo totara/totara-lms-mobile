@@ -7,7 +7,7 @@ define(templates, function(scormTpl, scormLaunchTpl) {
     var plugin = {
         settings: {
             name: "scorm",
-            type: "general",
+            type: "general-scorm",
             lang: {
                 component: "core"
             }
