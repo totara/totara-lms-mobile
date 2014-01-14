@@ -26,7 +26,8 @@
     "findprograms",
     "program",
     "feedback",
-	"default_homepage",
+    "alerts",
+    "default_homepage",
     "mybookings"
 ],
 "wsservice" : "moodle_mobile_app",
