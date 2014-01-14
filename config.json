@@ -28,9 +28,8 @@
     "program",
     "feedback",
     "alerts",
-    "default_homepage",
-    "mybookings"
-    "tasks"
+    "mybookings",
+    "tasks",
     "mylearning"
 ],
 "wsservice" : "moodle_mobile_app",
