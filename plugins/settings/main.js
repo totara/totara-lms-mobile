@@ -10,7 +10,7 @@ require(templates, function(addSiteForm, showSites, showSync, showSite, main) {
     var plugin = {
         settings:{
             name: "settings",
-            type: "general",
+            type: "general-settings",
             menuURL: "#settings",
             lang: {
                 component: "core"

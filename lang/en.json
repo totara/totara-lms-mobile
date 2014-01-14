@@ -187,6 +187,7 @@
 "home-viewmenu-close" : "CLOSE MAIN MENU",
 "home-viewcourses" : "VIEW MY COURSES",
 "menu-homepage" : "Homepage",
+"default_homepage": "Home",
 "program-startdate" : "Start date:&nbsp;",
 "program-duedate" : "Due date:&nbsp;",
 "program-progress" : "Progress:&nbsp;",

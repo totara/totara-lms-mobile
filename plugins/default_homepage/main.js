@@ -8,7 +8,7 @@ require(templates, function(mainTpl) {
             name: "default_homepage",
             type: "general",
             title: "Homepage",
-            icon: "",
+            icon: "img/icon/home.png",
             lang: {
                 component: "core"
             },
