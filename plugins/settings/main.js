@@ -1,4 +1,8 @@
 var templates = [
+    "root/externallib/text!root/plugins/settings/showReportBug.html",
+    "root/externallib/text!root/plugins/settings/showLog.html",
+    "root/externallib/text!root/plugins/settings/showDeviceInfo.html",
+    "root/externallib/text!root/plugins/settings/development.html",
     "root/externallib/text!root/plugins/settings/addSiteForm.html",
     "root/externallib/text!root/plugins/settings/showSites.html",
     "root/externallib/text!root/plugins/settings/showSync.html",
@@ -6,12 +10,13 @@ var templates = [
     "root/externallib/text!root/plugins/settings/main.html"
 ];
 
-require(templates, function(addSiteForm, showSites, showSync, showSite, main) {
+require(templates, function(showReportBug, showLog, showDeviceInfo, showDevelopment, addSiteForm, showSites, showSync, showSite, main) {
     var plugin = {
         settings:{
             name: "settings",
             type: "general",
             menuURL: "#settings",
+            title: "Settings",
             lang: {
                 component: "core"
             },
@@ -23,7 +28,11 @@ require(templates, function(addSiteForm, showSites, showSync, showSite, main) {
             addSiteForm:addSiteForm,
             showSites:showSites,
             showSync:showSync,
-            showSite:showSite
+            showSite:showSite,
+            showDevelopment: showDevelopment,
+            showDeviceInfo: showDeviceInfo,
+            showLog: showLog,
+            showReportBug: showReportBug
         },
 
         routes:[
@@ -35,29 +44,29 @@ require(templates, function(addSiteForm, showSites, showSync, showSite, main) {
             ['settings/general/purgecaches', 'settings_general_purgecaches', MM.cache.purge],
             ['settings/sync/lang', 'settings_sync_lang', function() { MM.lang.sync(true); }],
             ['settings/sync/css', 'settings_sync_css', function() { MM.sync.css(true); }],
-            ['settings/development/log/:filter', 'settings_sync_css', MM.showLog]
+            ['settings/development/', 'showDevelopment', "showDevelopment"],
+            ['settings/development/device', 'show_device_info', "showDeviceInfo"],
+            ['settings/development/log/:filter', 'settings_show_log', "showLog"],
+            ['settings/development/reportbug', 'settings_report_bug', "showReportBug"]
         ],
 
         sizes: undefined,
 
         _getSizes: function() {
             // Default tablet.
-            var screenWidth = $(document).innerWidth();
             MM.plugins.settings.sizes = {
                 withSideBar: {
-                    left:MM.navigation.getWidth(),
-                    center:(screenWidth - MM.navigation.getWidth())/2,
-                    right:(screenWidth - MM.navigation.getWidth())/2
+                    center:$(document).innerWidth() - MM.navigation.getWidth(),
+                    left:MM.navigation.getWidth()
                 },
                 withoutSideBar: {
-                    left:0,
-                    center:(screenWidth)/2,
-                    right:(screenWidth)/2
+                    center:$(document).innerWidth(),
+                    left:0
                 }
             };
 
             if (MM.deviceType === "phone") {
-                MM.plugins.mycourses.sizes = {
+                MM.plugins.settings.sizes = {
                     withSideBar: {
                         center:0,
                         left:0
@@ -79,24 +88,12 @@ require(templates, function(addSiteForm, showSites, showSync, showSite, main) {
             if (MM.navigation.visible === true) {
                 $("#panel-center").css({
                     'width':MM.plugins.settings.sizes.withSideBar.center,
-                    'left':MM.plugins.settings.sizes.withSideBar.left,
-                    'display':'block'
-                });
-                $("#panel-right").css({
-                    'width':MM.plugins.settings.sizes.withSideBar.right,
-                    'left':MM.plugins.settings.sizes.withSideBar.left + MM.plugins.settings.sizes.withSideBar.center,
-                    'display':'block'
+                    'left':MM.plugins.settings.sizes.withSideBar.left
                 });
             } else {
                 $("#panel-center").css({
                     'width':MM.plugins.settings.sizes.withoutSideBar.center,
-                    'left':MM.plugins.settings.sizes.withoutSideBar.left,
-                    'display':'block'
-                });
-                $("#panel-right").css({
-                    'width':MM.plugins.settings.sizes.withoutSideBar.right,
-                    'left':MM.plugins.settings.sizes.withoutSideBar.center,
-                    'display':'block'
+                    'left':MM.plugins.settings.sizes.withoutSideBar.left
                 });
             }
 
@@ -106,6 +103,8 @@ require(templates, function(addSiteForm, showSites, showSync, showSite, main) {
                     'left':0
                 });
             }
+
+            $("#panel-right").hide();
         },
 
         cleanUp: function() {
@@ -118,8 +117,6 @@ require(templates, function(addSiteForm, showSites, showSync, showSite, main) {
             MM.plugins.settings[
                 'show' + section.charAt(0).toUpperCase() + section.slice(1)
             ]();
-            // Reset the base route.
-            MM.Router.navigate("#settings");
         },
 
         showSite: function(siteId) {
@@ -146,11 +143,16 @@ require(templates, function(addSiteForm, showSites, showSync, showSite, main) {
                 MM.Router.navigate('settings/sites/');
             };
 
+            $("panel-center").hide();
+
             var text = MM.tpl.render(MM.plugins.settings.templates.showSite, {
                 siteurllabel:MM.lang.s('siteurllabel'),
                 siteurl:site.get('siteurl'),
                 fullname:MM.lang.s('fullname')
             });
+
+            //$("panel-right").show();
+
             MM.widgets.dialog(text, options);
         },
 
@@ -206,7 +208,12 @@ require(templates, function(addSiteForm, showSites, showSync, showSite, main) {
                     }
                 }
             };
-            options.buttons[MM.lang.s('cancel')] = MM.widgets.dialogClose;
+
+            // Reset the route.
+            options.buttons[MM.lang.s('cancel')] = function() {
+                MM.widgets.dialogClose();
+                window.history.back();
+            };
 
             html = MM.tpl.render(MM.plugins.settings.templates.addSiteForm, {
                 siteurl:MM.lang.s('siteurl'),
@@ -251,14 +258,15 @@ require(templates, function(addSiteForm, showSites, showSync, showSite, main) {
             var pageTitle = MM.lang.s("settings");
             var html = MM.tpl.render(
                 MM.plugins.settings.templates.main,
-                {plugins: plugins}
+                {plugins: plugins, title: MM.plugins.settings.settings.title}
             );
             MM.panels.show('center', html, {title: pageTitle});
-            if (MM.deviceType == 'tablet') {
+            MM.util.setupBackButton();
+            /*if (MM.deviceType == 'tablet') {
                 $("#panel-center li:eq(0)").addClass("selected-row");
                 MM.plugins.settings.showSites();
                 MM.Router.navigate("#settings");
-            }
+            }*/
         },
 
         showSites: function() {
@@ -275,25 +283,32 @@ require(templates, function(addSiteForm, showSites, showSync, showSite, main) {
             var html = MM.tpl.render(
                 MM.plugins.settings.templates.showSites, {
                     sites: sites,
-                    current_site: MM.config.current_site.id
-                }
-            );
-            MM.panels.show(
-                'right', html, {
+                    current_site: MM.config.current_site.id,
                     title: MM.lang.s("settings") + " - " + MM.lang.s("sites")
                 }
             );
+
+            MM.panels.show('center', html);
+
+            MM.util.setupBackButton();
+            $("#panel-center").show();
+
         },
 
-        resetApp: function() {
+        resetApp: function(e) {
+
             MM.popConfirm(MM.lang.s('areyousurereset'), function() {
                 // Delete all the entries in local storage
                 for (var el in localStorage) {
                     localStorage.removeItem(el);
                 }
+
                 // Redirect to main page
                 location.href = 'index.html';
             });
+
+            e.preventDefault();
+
         },
 
         showSync: function() {
@@ -332,9 +347,6 @@ require(templates, function(addSiteForm, showSites, showSync, showSite, main) {
                 }
             });
 
-            // Render the settings as html.
-            var html = MM.widgets.renderList(settings);
-
             var syncFilter = MM.db.where('sync', {siteid: MM.config.current_site.id});
             var syncTasks = [];
 
@@ -342,13 +354,18 @@ require(templates, function(addSiteForm, showSites, showSync, showSite, main) {
                 syncTasks.push(el.toJSON());
             });
 
-            html += MM.tpl.render(
-                MM.plugins.settings.templates.showSync, {tasks: syncTasks}
+            var html = MM.tpl.render(
+                MM.plugins.settings.templates.showSync, {
+                    tasks: syncTasks,
+                    settingsList: settings,
+                    title: MM.lang.s("settings") + " - " + MM.lang.s("synchronization")
+                }
             );
 
-            MM.panels.show('right', html, {
-                title: MM.lang.s("settings") + " - " + MM.lang.s("synchronization")
-            });
+            MM.panels.show('center', html);
+
+            MM.util.setupBackButton();
+
             // Once the html is rendered, we pretify the widgets.
             MM.widgets.enhance(settings);
             MM.widgets.addHandlers(settings);
@@ -412,27 +429,28 @@ require(templates, function(addSiteForm, showSites, showSync, showSite, main) {
                 }
             });
 
-            var html = MM.widgets.renderList(settingsC);
-
             var settingsB = [
                 {
                     id: 'dev_purgecaches',
                     type: 'button',
                     label: MM.lang.s('purgecaches'),
-                    handler: MM.cache.purge
+                    handler: function(e) {
+                        MM.cache.purge();
+                        e.preventDefault();
+                    }
                 },
                 {
                     id: 'dev_deviceinfo',
                     type: 'button',
                     label: MM.lang.s('deviceinfo'),
-                    handler: MM.plugins.settings.showDevice
+                    handler: MM.plugins.settings.showDeviceInfo
                 },
                 //{id: 'dev_fakenotifications', type: 'button', label: MM.lang.s('addfakenotifications'), handler: MM.plugins.settings.addFakeNotifications},
                 {
                     id: 'dev_showlog',
                     type: 'button',
                     label: MM.lang.s('showlog'),
-                    handler: MM.showLog
+                    handler: MM.plugins.settings.showLog
                 },
                 {
                     id: 'dev_resetapp',
@@ -450,13 +468,20 @@ require(templates, function(addSiteForm, showSites, showSync, showSite, main) {
             }
             */
 
-            // Render the settings as html.
-            html += MM.widgets.render(settingsB);
+            var html = MM.tpl.render(
+                MM.plugins.settings.templates.showDevelopment, {
+                    settingsListB: settingsB,
+                    settingsListC: settingsC
+                }
+            );
+
             MM.panels.show(
-                'right', html, {
+                'center', html, {
                     title: MM.lang.s("settings") + " - " + MM.lang.s("development")
                 }
             );
+
+            MM.util.setupBackButton();
 
             // Once the html is rendered, we prettify the widgets.
             MM.widgets.enhance(settingsC);
@@ -580,7 +605,7 @@ require(templates, function(addSiteForm, showSites, showSync, showSite, main) {
             return info;
         },
 
-        showDevice: function() {
+        showDeviceInfo: function() {
             MM.assignCurrentPlugin(MM.plugins.settings);
 
             var info = MM.plugins.settings._getDeviceInfo();
@@ -588,7 +613,47 @@ require(templates, function(addSiteForm, showSites, showSync, showSite, main) {
             info += '<div class="centered"><a href="mailto:' + MM.config.current_site.username +'?subject=DeviceInfo&body=' + mailBody + '"><button>' + MM.lang.s("email") + '</button></a></div>';
             info += "<br /><br /><br />";
 
-            MM.panels.html("right", '<div style="padding: 8px">' + info + '</div>');
+            var html = MM.tpl.render(
+                MM.plugins.settings.templates.showDeviceInfo, {
+                    deviceinfo: info
+                }
+            );
+
+            MM.panels.show(
+                'center', html, {
+                    title: MM.lang.s("settings") + " - " + MM.lang.s("development")
+                }
+            );
+
+            MM.util.setupBackButton();
+        },
+
+        // Moved out of mm.js
+        showLog: function(filter) {
+
+            var logInfo = MM.getFormattedLog(filter);
+
+            var mailBody = encodeURIComponent(logInfo.replace(/<br \/>/ig,"\n").replace(/(<([^>]+)>)/ig,""))
+            logInfo += '<div class="centered"><a href="mailto:' + MM.config.current_site.username +'?subject=MMLog&body=' + mailBody + '"><button>' + MM.lang.s("email") + '</button></a></div>';
+
+            logInfo = '<input id="logfilter" type="text" placeholder="Filter"> <a href="javascript: MM.showLog()">Clear</a><br/><br/>' + logInfo;
+
+            var html = MM.tpl.render(
+                MM.plugins.settings.templates.showLog, {
+                    loginfo: logInfo,
+                    title: MM.lang.s("settings") + " - " + MM.lang.s("development")
+                }
+            );
+
+            MM.panels.show('center', html);
+
+            MM.util.setupBackButton();
+
+            $("#logfilter").keyup(function(e) {
+                if(e.keyCode == 13) {
+                    MM.showLog($("#logfilter").val());
+                }
+            });
         },
 
         showReportbug: function() {
@@ -606,7 +671,19 @@ require(templates, function(addSiteForm, showSites, showSync, showSite, main) {
             info += '<div class="centered"><a href="mailto:' + MM.lang.s("reportbugmail") +'?subject=[[Mobile App Bug]]&body=' + mailInfo + '"><button>' + MM.lang.s("email") + '</button></a></div>';
             info += "<br /><br /><br />";
 
-            MM.panels.show("right", '<div style="padding: 8px">' + info + '</div>', {title: MM.lang.s("settings") + " - " + MM.lang.s("reportabug")});
+            var html = MM.tpl.render(
+                MM.plugins.settings.templates.showReportBug, {
+                    bugReportInfo: info
+                }
+            );
+
+            MM.panels.show(
+                'center', html, {
+                    title: MM.lang.s("settings") + " - " + MM.lang.s("development")
+                }
+            );
+
+            MM.util.setupBackButton();
         }
     };
 
