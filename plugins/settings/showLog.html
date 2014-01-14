@@ -6,6 +6,14 @@
         </header>
     </div>
     <div class="settings-info">
+        <input id="logfilter" type="text" placeholder="Filter" />
+        <a id="clear" href="#">Clear</a>
+        <br/><br/>
         <%= loginfo %>
+        <div class="centered">
+            <a href="mailto:<%= mailToSubject %>" style='border:1px solid black'>
+                <%= MM.lang.s("email") %>
+            </a>
+        </div>
     </div>
 </div>

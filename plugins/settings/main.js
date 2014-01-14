@@ -1,4 +1,5 @@
 var templates = [
+    "root/externallib/text!root/plugins/settings/deviceInfoTemplate.html",
     "root/externallib/text!root/plugins/settings/showReportBug.html",
     "root/externallib/text!root/plugins/settings/showLog.html",
     "root/externallib/text!root/plugins/settings/showDeviceInfo.html",
@@ -10,7 +11,7 @@ var templates = [
     "root/externallib/text!root/plugins/settings/main.html"
 ];
 
-require(templates, function(showReportBug, showLog, showDeviceInfo, showDevelopment, addSiteForm, showSites, showSync, showSite, main) {
+require(templates, function(deviceInfoTpl, showReportBug, showLog, showDeviceInfo, showDevelopment, addSiteForm, showSites, showSync, showSite, main) {
     var plugin = {
         settings:{
             name: "settings",
@@ -32,7 +33,8 @@ require(templates, function(showReportBug, showLog, showDeviceInfo, showDevelopm
             showDevelopment: showDevelopment,
             showDeviceInfo: showDeviceInfo,
             showLog: showLog,
-            showReportBug: showReportBug
+            showReportBug: showReportBug,
+            mailBody: deviceInfoTpl
         },
 
         routes:[
@@ -471,15 +473,12 @@ require(templates, function(showReportBug, showLog, showDeviceInfo, showDevelopm
             var html = MM.tpl.render(
                 MM.plugins.settings.templates.showDevelopment, {
                     settingsListB: settingsB,
-                    settingsListC: settingsC
-                }
-            );
-
-            MM.panels.show(
-                'center', html, {
+                    settingsListC: settingsC,
                     title: MM.lang.s("settings") + " - " + MM.lang.s("development")
                 }
             );
+
+            MM.panels.show('center', html);
 
             MM.util.setupBackButton();
 
@@ -511,30 +510,50 @@ require(templates, function(showReportBug, showLog, showDeviceInfo, showDevelopm
                 aps: {alert: 'Fake notification'}
             };
             if (MM.plugins.notifications) {
-                MM.plugins.notifications.saveAndDisplay({notification: notification})
+                MM.plugins.notifications.saveAndDisplay({
+                    notification: notification
+                });
             }
             // This is for preserving the Backbone hash navigation.
             e.preventDefault();
         },
 
         _getDeviceInfo: function() {
-
-            var info = "";
-
-            // Add the version name and version code.
-            info += "<p><b>Version name:</b> " + MM.config.versionname + "</p>";
-            info += "<p><b>Version code:</b> " + MM.config.versioncode + "</p>";
+            // Default data.
+            // Quoted fields are reserved keywords in JS.
+            var x = {
+                versionName :MM.config.versionname,
+                versionCode : MM.config.versioncode,
+                'navigator' : {},
+                location : location.href,
+                currentLang : MM.lang.current,
+                deviceConnected : MM.deviceConnected(),
+                overflowScrollingSupported : MM.util.overflowScrollingSupported(),
+                'document' : {
+                    'innerWidth':$(document).innerWidth(),
+                    'innerHeight':$(document).innerHeight(),
+                    'width':$(document).width(),
+                    'height':$(document).height()
+                },
+                'window' : {
+                    'width':$(window).width(),
+                    'height':$(window).height()
+                },
+                svgSupport : false,
+                properties : {},
+                phonegap : {},
+                phonegapLoaded: (typeof(window.device) != "undefined"),
+                pluginsLoaded: true
+            };
 
             // Navigator
             var data = ["userAgent", "platform", "appName", "appVersion", "language"];
             for (var i in data) {
                 var el = data[i];
                 if (typeof(navigator[el]) != "undefined") {
-                    info += "<p><b>Navigator " + el + ":</b> " + navigator[el] + "</p>";
+                    x['navigator'][el] = navigator[el];
                 }
             }
-
-            info += "<p><b>location.href:</b> " + location.href + "</p>";
 
             // MM properties
             data = [
@@ -544,86 +563,76 @@ require(templates, function(showReportBug, showLog, showDeviceInfo, showDevelopm
             for (var i in data) {
                 el = data[i];
                 if (typeof(MM[el]) != "undefined") {
+                    // Default to assuming it's a property of MM.
+                    // Then if it's actually a boolean change to 1 or 0 as appropriate.
+                    var val = MM[el];
                     if (typeof(MM[el]) == "boolean") {
-                        var val = (MM[el])? "1" : "0";
-                        info += "<p><b>MM." + el + ":</b> " + val + "</p>";
-                    } else {
-                        info += "<p><b>MM." + el + ":</b> " + MM[el] + "</p>";
+                        val = (MM[el])? "1" : "0";
                     }
+                    x.properties[el] = val;
                 }
             }
-            info += "<p><b>MM.lang.current:</b> " + MM.lang.current + "</p>";
 
-            var status = "Offline";
-            if (MM.deviceConnected()) {
-                status = "Online";
-            }
-            info += "<p><b>Internet connection status</b> " + status + "</p>";
-
-            if (MM.util.overflowScrollingSupported()) {
-                info += "<p><b>Overflow Scrolling</b> Supported</p>";
-            } else {
-                info += "<p><b>Overflow Scrolling</b> Not supported</p>";
-            }
-
-            info += "<p><b>document.innerWidth</b> "+ $(document).innerWidth() +"</p>";
-            info += "<p><b>document.innerHeight</b> "+ $(document).innerHeight() +"</p>";
-            info += "<p><b>window.width</b> "+ $(window).width() +"</p>";
-            info += "<p><b>window.height</b> "+ $(window).height() +"</p>";
-            info += "<p><b>document.width</b> "+ $(document).width() +"</p>";
-            info += "<p><b>document.height</b> "+ $(document).height() +"</p>";
-
-            var svgsupport = "No";
+            var svgsupport = false;
             if ((!!document.createElementNS && !!document.createElementNS('http://www.w3.org/2000/svg', "svg").createSVGRect) ||
                  !!document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1")) {
-                svsupport = "Yes";
+                svgsupport = true;
             }
-            info += "<p><b>SVG support</b> "+ svgsupport +"</p>";
+            x.svgSupport = svgsupport;
 
-            if(typeof(window.device) != "undefined") {
+            // x.phonegapLoaded = false means phonegap.cordova wasn't loaded
+            // x.pluginsLoaded = false if no plugins are available
+            if (typeof(window.device) != "undefined") {
                 data = ["name", "phonegap", "cordova", "platform", "uuid", "version", "model"];
                 for (var i in data) {
                     var el = data[i];
                     if (typeof(device[el]) != "undefined") {
-                        info += "<p><b>Phonegap Device "+el+":</b> "+device[el]+"</p>";
+                        x.phonegap[el] = device[el];
                     }
                 }
-                info += "<p><b>Phonegap Device fileSystem root:</b><br /> " + MM.fs.getRoot() + "</p>";
+                x.phonegap.rootFS = MM.fs.getRoot();
 
                 if (window.plugins) {
+                    x.phonegap.plugins = [];
                     for (var el in window.plugins) {
-                        info += "<p><b>Phonegap plugin loaded:</b> " + el + "</p>";
+                        x.phonegap.plugins.push(el);
                     }
                 } else {
-                    info += "<p style=\"color: red\"><b>No plugins available for Phonegap/Cordova</b></p>";
+                    x.pluginsLoaded = false;
                 }
-
-            } else {
-                info += "<p style=\"color: red\"><b>Phonegap/Cordova not loaded</b></p>";
             }
 
-            return info;
+            return x;
+        },
+
+        /**
+         * Converts all closing p tags to a new line
+         * Removes all other tags.
+         */
+        _stripHTMLTags: function(text) {
+            return text.replace(/<\/p>/ig,"\n").replace(/(<([^>]+)>)/ig,"");
         },
 
         showDeviceInfo: function() {
             MM.assignCurrentPlugin(MM.plugins.settings);
 
             var info = MM.plugins.settings._getDeviceInfo();
-            var mailBody = encodeURIComponent(info.replace(/<\/p>/ig,"\n").replace(/(<([^>]+)>)/ig,""))
-            info += '<div class="centered"><a href="mailto:' + MM.config.current_site.username +'?subject=DeviceInfo&body=' + mailBody + '"><button>' + MM.lang.s("email") + '</button></a></div>';
-            info += "<br /><br /><br />";
+            // var mailBody = encodeURIComponent(
+            //     MM.plugins.settings._stripHTMLTags(info)
+            // );
+            var mailBody = MM.tpl.render(
+                MM.plugins.settings.templates.mailBody, {'info':info}
+            );
 
             var html = MM.tpl.render(
                 MM.plugins.settings.templates.showDeviceInfo, {
-                    deviceinfo: info
+                    info: info,
+                    title: MM.lang.s("settings") + " - " + MM.lang.s("development"),
+                    mailBody: mailBody
                 }
             );
 
-            MM.panels.show(
-                'center', html, {
-                    title: MM.lang.s("settings") + " - " + MM.lang.s("development")
-                }
-            );
+            MM.panels.show('center', html);
 
             MM.util.setupBackButton();
         },
@@ -633,13 +642,13 @@ require(templates, function(showReportBug, showLog, showDeviceInfo, showDevelopm
 
             var logInfo = MM.getFormattedLog(filter);
 
-            var mailBody = encodeURIComponent(logInfo.replace(/<br \/>/ig,"\n").replace(/(<([^>]+)>)/ig,""))
-            logInfo += '<div class="centered"><a href="mailto:' + MM.config.current_site.username +'?subject=MMLog&body=' + mailBody + '"><button>' + MM.lang.s("email") + '</button></a></div>';
-
-            logInfo = '<input id="logfilter" type="text" placeholder="Filter"> <a href="javascript: MM.showLog()">Clear</a><br/><br/>' + logInfo;
+            var mailBody = encodeURIComponent(
+                logInfo.replace(/<br \/>/ig,"\n").replace(/(<([^>]+)>)/ig,"")
+            );
 
             var html = MM.tpl.render(
                 MM.plugins.settings.templates.showLog, {
+                    mailToSubject: MM.config.current_site.username + '?subject=MMLog&body=' + mailBody,
                     loginfo: logInfo,
                     title: MM.lang.s("settings") + " - " + MM.lang.s("development")
                 }
@@ -651,37 +660,32 @@ require(templates, function(showReportBug, showLog, showDeviceInfo, showDevelopm
 
             $("#logfilter").keyup(function(e) {
                 if(e.keyCode == 13) {
-                    MM.showLog($("#logfilter").val());
+                    MM.plugins.settings.showLog($("#logfilter").val());
                 }
             });
+            $("#clear").on('click', MM.plugins.settings.showLog);
         },
 
         showReportbug: function() {
             MM.assignCurrentPlugin(MM.plugins.settings);
-
-            var info = MM.lang.s("reportbuginfo");
 
             // Some space for the user.
             var mailInfo = MM.lang.s("writeherethebug") + "\n\n\n\n";
             mailInfo += MM.plugins.settings._getDeviceInfo();
             mailInfo += "==========================\n\n";
             mailInfo += MM.getFormattedLog();
-
-            mailInfo = encodeURIComponent(mailInfo.replace(/<\/p>/ig,"\n").replace(/(<([^>]+)>)/ig,""))
-            info += '<div class="centered"><a href="mailto:' + MM.lang.s("reportbugmail") +'?subject=[[Mobile App Bug]]&body=' + mailInfo + '"><button>' + MM.lang.s("email") + '</button></a></div>';
-            info += "<br /><br /><br />";
+            mailInfo = encodeURIComponent(
+                MM.plugins.settings._stripHTMLTags(mailInfo)
+            );
 
             var html = MM.tpl.render(
                 MM.plugins.settings.templates.showReportBug, {
-                    bugReportInfo: info
+                    title: MM.lang.s("settings") + " - " + MM.lang.s("development"),
+                    mailInfo: mailInfo
                 }
             );
 
-            MM.panels.show(
-                'center', html, {
-                    title: MM.lang.s("settings") + " - " + MM.lang.s("development")
-                }
-            );
+            MM.panels.show('center', html);
 
             MM.util.setupBackButton();
         }

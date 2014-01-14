@@ -1,0 +1,13 @@
+<% _.each(info, function(value, key) { %>
+    <% if (_.isObject(value)) { %>
+        <% _.each(value, function(item, property) { %>
+            <%= key %>.<%= property %>: <%= JSON.stringify(item) %>
+        <% }); %>
+    <% } else { %>
+        <% if (typeof(value) == "boolean") { %>
+            <%= key %>: <%= value ? "Yes" : "No" %>
+        <% } else { %>
+            <%= key %>: <%= value %>
+        <% } %>
+    <% } %>
+<% }) %>

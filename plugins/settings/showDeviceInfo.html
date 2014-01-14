@@ -2,10 +2,33 @@
     <div id="top">
         <a href="#" title="Back" id="back"></a>
         <header class="header">
-            <h2 class="name">[DEVELOPMENT] [DEVICE]</h2>
+            <h2 class="name"><%= title %></h2>
         </header>
     </div>
     <div class="settings-info device">
-        <%= deviceinfo %>
+        <% _.each(info, function(value, key) { %>
+            <% if (_.isObject(value)) { %>
+                <div>
+                    <% _.each(value, function(item, property) { %>
+                        <p>
+                            <b><%= key %>.<%= property %></b>: <%= JSON.stringify(item) %>
+                        </p>
+                    <% }); %>
+                </div>
+            <% } else { %>
+                <p>
+                    <% if (typeof(value) == "boolean") { %>
+                        <b><%= key %></b>: <%= value ? "Yes" : "No" %>
+                    <% } else { %>
+                        <b><%= key %></b>: <%= value %>
+                    <% } %>
+                </p>
+            <% } %>
+        <% }); %>
+        <div class="centered">
+            <a href="mailto:<%= MM.config.current_site.username %>?subject=DeviceInfo&body=<%= mailBody %>">
+                <button><%= MM.lang.s("email") %></button>
+            </a>
+        </div>
     </div>
 </div>

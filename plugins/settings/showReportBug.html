@@ -2,10 +2,17 @@
     <div id="top">
         <a href="#" title="Back" id="back"></a>
         <header class="header">
-            <h2 class="name">[SHOWSITES] [REPORT BUG]</h2>
+            <h2 class="name"><%= title %></h2>
         </header>
     </div>
     <div class="settings-detail settings-info">
-        <%= bugReportInfo %>
+        <div>
+            <%= MM.lang.s("reportbuginfo") %>
+        </div>
+        <div class="centered">
+            <a href="mailto:<%= MM.lang.s("reportbugmail") %>?subject=[[Mobile App Bug]]&body=<%= mailInfo %>">
+                <button><%= MM.lang.s("email") %></button>
+            </a>
+        </div>
     </div>
 </div>
