@@ -141,6 +141,40 @@ button
     color:#fff;
 }
 
+.panel.user-menu .menu-items-indicator {
+    position:absolute;
+    right:18px;
+    font-size:0.8rem;
+    opacity:0.7;
+    background-color:#323137;
+    padding:4px 10px;
+    border-radius:4px;
+    width:34px;
+    text-align:center;
+}
+
+#top-nav .menu-items-new
+, .panel.user-menu .menu-items-new {
+    position:absolute;
+    right:6px;
+    top:3px;
+    background-color:#e83187;
+    border-radius:12px;
+    color:#fff;
+    font-size:0.8rem;
+    width:1.5rem;
+    height:1.5rem;
+    text-align:center;
+    line-height:1.5rem;
+    padding-right:2px;
+}
+
+#top-nav .menu-items-new {
+    right:0;
+    top:11px;
+}
+
+
 /* Content. */
 
 .panel-content h1
