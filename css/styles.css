@@ -439,6 +439,12 @@ ol {
     width:auto;
 }
 
+@media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
+    .header-main #top-nav .nav-item {
+        padding:0 12px;
+    }
+}
+
 .header-main #top-nav .nav .nav-item:first-child {
     padding-left:10px;
 }
@@ -1484,6 +1490,15 @@ li.ui-menu-item {
     margin:0.5em 20px;
     display:inline-block;
     width:90%;
+}
+
+@media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
+    .panel-content h3[class*="title"]
+    , .panel-content .question-title
+    , .panel-content .category-title
+    , .panel-content .sub-item-title {
+        width:76%;
+    }
 }
 
 .sub-item-title
