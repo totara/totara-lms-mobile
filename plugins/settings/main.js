@@ -11,7 +11,10 @@ var templates = [
     "root/externallib/text!root/plugins/settings/main.html"
 ];
 
-require(templates, function(deviceInfoTpl, showReportBug, showLog, showDeviceInfo, showDevelopment, addSiteForm, showSites, showSync, showSite, main) {
+require(templates, function(deviceInfoTpl, showReportBug, showLog,
+    showDeviceInfo, showDevelopment, addSiteForm, showSites, showSync,
+    showSite, main
+) {
     var plugin = {
         settings:{
             name: "settings",
@@ -177,12 +180,15 @@ require(templates, function(deviceInfoTpl, showReportBug, showLog, showDeviceInf
                     siteurl = siteurl.substring(0, siteurl.length - 1);
                 }
 
-                // Convert siteurl to lower case for avoid validation problems. See MOBILE-294
+                // Convert siteurl to lower case for avoid validation problems.
+                // See MOBILE-294
                 siteurl = siteurl.toLowerCase();
 
                 var stop = false;
 
-                if (siteurl.indexOf('http://localhost') == -1 && !MM.validateURL(siteurl)) {
+                if (siteurl.indexOf('http://localhost') == -1 &&
+                    !MM.validateURL(siteurl)
+                ) {
                     stop = true;
                     $('#new-url').next().html(MM.lang.s('siteurlrequired'));
                 }
