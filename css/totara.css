@@ -22,13 +22,21 @@ body
 /* Generic Fonts. */
 
 h1 {
+    font-size:48px;
     font-size:3rem;
     font-weight:300;
 }
 
 h2.name {
+    font-size:29px;
     font-size:2rem;
     font-weight:300;
+}
+
+h3 {
+    font-size:21px;
+    font-size:1.3rem;
+    font-weight:600;
 }
 
 a {
@@ -36,8 +44,19 @@ a {
 }
 
 h3 a {
+    font-size:21px;
     font-size:1.3rem;
     font-weight:600;
+}
+
+@media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
+    h1 {
+        font-size:2.5rem;
+    }
+
+    h3 a {
+        font-size:1.1rem;
+    }
 }
 
 /* Buttons. */
@@ -63,6 +82,12 @@ button
 #add-site .remember-option.selected {
     background-color:#7c7a80;
     color:#fff;
+}
+
+/* Panels. */
+
+#panel-top {
+    border-bottom:solid 1px #dad9dc;
 }
 
 /* Login. */
@@ -98,6 +123,12 @@ button
 
 #helplogin a {
     color:#7c7a80;
+}
+
+/* Home. */
+
+.home .button.view-courses {
+    font-size:0.9rem;
 }
 
 /* Navigation. */
@@ -245,3 +276,21 @@ div.program-info ul {
     display:inline;
     font-size:0.8rem;
 }
+
+@media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
+    .panel-content.info .nav-item .toogler + ul {
+        padding-left:20px;
+        padding-right:70px;
+    }
+
+    .tasks .item .text_to_html {
+        word-wrap:break-word;
+    }
+
+    .tasks .item a[title="Attendees"] {
+        font-size:0.8rem;
+    }
+
+}
+
+
