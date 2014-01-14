@@ -439,6 +439,12 @@ ol {
     width:auto;
 }
 
+@media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
+    .header-main #top-nav .nav-item {
+        padding:0 12px;
+    }
+}
+
 .header-main #top-nav .nav .nav-item:first-child {
     padding-left:10px;
 }
@@ -1486,6 +1492,15 @@ li.ui-menu-item {
     width:90%;
 }
 
+@media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
+    .panel-content h3[class*="title"]
+    , .panel-content .question-title
+    , .panel-content .category-title
+    , .panel-content .sub-item-title {
+        width:76%;
+    }
+}
+
 .sub-item-title
 , .nav-item a.sub-item-title {
     font-size:16px;
@@ -1674,6 +1689,11 @@ li.ui-menu-item {
 .panel-content.find span[class*="completion"] {
     right:14px;
     top:5px;
+}
+
+.panel-content.find .item-course {
+    background:url('../img/icon/course-icon.png') no-repeat scroll 0 0 transparent;
+    padding-left:34px;
 }
 
 /* - MODULES
