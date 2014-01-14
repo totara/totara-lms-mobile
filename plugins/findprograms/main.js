@@ -20,7 +20,8 @@ define(requires, function(programsTpl) {
         },
 
         routes: [
-            ["find_programs", "find_programs", "list_categories"],
+            ["find_programs", "find_programs", "main"],
+            ["find_programs/:subCatId", "sub_category", "main"],
         ],
 
         templates: {
