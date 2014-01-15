@@ -12,7 +12,7 @@ require(templates, function(mainTpl) {
             lang: {
                 component: "core"
             },
-            menuurl:"#homepage"
+            menuURL:"#homepage"
         },
 
         templates: {

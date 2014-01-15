@@ -106,6 +106,10 @@ require(templates, function(navTpl) {
 
                 // Links, when clicked, need to close the navigation.
                 $('#default-navigation .is-link a.alink').on(MM.clickType, function(event){
+                    if (MM.touchMoving === true) {
+                        return false;
+                    }
+
                     // Hide the side menu
                     MM.navigation.toggle();
                     var link = $(event.target).closest('a').attr('href');
