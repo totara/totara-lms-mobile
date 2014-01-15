@@ -18,8 +18,8 @@ define(templates, function(unsupportedActivityTpl) {
 
         routes: [,
             [
-                "courses/:courseID/unsupported-activity/:courseModuleID", 
-                "unsupportedActivity", 
+                "courses/:courseID/unsupported-activity/:courseModuleID",
+                "unsupportedActivity",
                 "unsupportedActivity"
             ]
         ],
@@ -45,7 +45,7 @@ define(templates, function(unsupportedActivityTpl) {
             };
 
             if (MM.deviceType === "phone") {
-                MM.plugins.mycourses.sizes = {
+                MM.plugins.unsupportedActivity.sizes = {
                     withSideBar: {
                         center:0,
                         left:0

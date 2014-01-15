@@ -72,7 +72,7 @@ define(
             };
 
             if (MM.deviceType === "phone") {
-                MM.plugins.mycourses.sizes = {
+                MM.plugins.feedback.sizes = {
                     withSideBar: {
                         center:0,
                         left:0
