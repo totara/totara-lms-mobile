@@ -1,5 +1,6 @@
+<%= enrolmentformhtml %>
 <div class="panel-content find find-courses">
-        <% if (filter !== 0) { %>
+    <% if (filter !== 0) { %>
         <div id="top">
             <a href="#" title="Back" id="back"></a>
             <header class="header">
@@ -8,7 +9,7 @@
         </div>
         <% } else { %>
         <h1><%= title %></h1>
-        <% } %>
+    <% } %>
     <ul class="nav nav-v js-accordion">
         <% // All categories %>
         <% // Go through each, if the category isnt undefined %>
@@ -16,9 +17,9 @@
             Go through each category. If the category isn't undefined then,
             if the parent id is the one used for the filter, grab that.
         -->
+        <!-- Show all categories with the specified parent id. -->
+        <!-- Each category will give their sub categories too anyway -->
         <% _.each(categories, function(data, key) { %>
-            <!-- Show all categories with the specified parent id. -->
-            <!-- Each category will give their sub categories too anyway -->
             <% if (data !== undefined && data.parent == filter || filter !== 0 && data.id == filter) { %>
                 <li class="nav-item">
                     <div class="name toogler expand touch-row">
@@ -65,11 +66,13 @@
                                     <ul>
                                         <% _.each(data.courses, function(course) { %>
                                         <li>
-                                            <% // ToDo - Add check to see if user is enroled on course.  %>
-                                            <a href="#courses/<%= course.id %>" class="sub-item-title item-course">
+                                            <% if (course.started == 1 || course.completed == 1) { %>
+                                                <a href="#courses/<%= course.id %>" class="sub-item-title item-course">
+                                            <% } else { %>
+                                                <a href="#" data-courseid=<%= course.id %> class="sub-item-title item-course unstarted">
+                                            <% } %>
                                                 <%= course.fullname %>
                                             </a>
-                                            <% // Currently always 'not-started' as not getting the correct data. %>
                                             <% if (course.started == 1) { %>
                                                 <span class="completion-inprogress"></span>
                                             <% } else if (course.completed == 1) { %>
