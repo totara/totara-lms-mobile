@@ -260,7 +260,7 @@ define(requires, function(selfEnrolForm, coursesTpl) {
 
         _selfEnroll: function(e) {
             var element = $(e.target);
-            var courseId = e.data('courseid');
+            var courseId = element.data('courseid');
             MM.plugins.findcourses.lastEnrolledCourse = courseId;
 
             $(document).find('.selfenrolmentform').removeClass('hidden');
