@@ -44,7 +44,7 @@ define(requires, function (notifsTpl) {
             };
 
             if (MM.deviceType === "phone") {
-                MM.plugins.mycourses.sizes = {
+                MM.plugins.notifications.sizes = {
                     withSideBar: {
                         center:0,
                         left:0
