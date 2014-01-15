@@ -9,6 +9,7 @@ define(templates,function (participantsTpl, participantTpl) {
             name: "participants",
             type: "course",
             menuURL: "#participants/",
+            title: "Participants",
             lang: {
                 component: "core"
             },
@@ -106,7 +107,8 @@ define(templates,function (participantsTpl, participantTpl) {
                 var tpl = {
                     users: users,
                     deviceType: MM.deviceType,
-                    courseId: courseId
+                    courseId: courseId,
+                    title: MM.plugins.participants.settings.title
                 };
                 var html = MM.tpl.render(
                     MM.plugins.participants.templates.participants.html, tpl
@@ -116,6 +118,7 @@ define(templates,function (participantsTpl, participantTpl) {
                 var pageTitle = course.get("shortname") + " - " + MM.lang.s("participants");
 
                 MM.panels.show('center', html, {title: pageTitle});
+                MM.util.setupBackButton();
             }, null, function(m) {
                 // Removing loading icon.
                 $('a[href="#participants/' + courseId + '"]').removeClass('loading-row');

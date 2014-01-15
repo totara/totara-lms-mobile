@@ -90,6 +90,7 @@ body {
     min-width:80%;
     max-width:100%;
     padding:0;
+    min-height:42px;
 }
 
 .panel-content.find header.header {
@@ -143,10 +144,6 @@ body {
 }
 
 /* Settings. */
-
-.panel-content.settings .header {
-    min-height:72px;
-}
 
 .panel-content.settings .sites-list {
     padding:0 20px;
