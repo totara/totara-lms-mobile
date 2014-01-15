@@ -62,5 +62,6 @@
 ],
 "menu_items": ["mycourses", "findcourses"],
 "menu_type":"default_navigation",
-"homepage":"default_homepage"
+"homepage":"default_homepage",
+"homepageurl":"#homepage"
 }
