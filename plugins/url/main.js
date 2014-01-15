@@ -37,7 +37,7 @@ define(templates, function(urlTpl) {
             };
 
             if (MM.deviceType === "phone") {
-                MM.plugins.mycourses.sizes = {
+                MM.plugins.url.sizes = {
                     withSideBar: {
                         center:0,
                         left:0
@@ -100,7 +100,7 @@ define(templates, function(urlTpl) {
             var html = MM.tpl.render(template.html, context);
             MM.panels.show("center", html);
         }
-        
+
     }
 
     MM.registerPlugin(plugin);

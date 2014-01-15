@@ -37,7 +37,7 @@ define(templates, function(pageTpl) {
             };
 
             if (MM.deviceType === "phone") {
-                MM.plugins.mycourses.sizes = {
+                MM.plugins.page.sizes = {
                     withSideBar: {
                         center:0,
                         left:0
@@ -103,17 +103,17 @@ define(templates, function(pageTpl) {
             if (page.complete_on_view) {
                 var method = "core_course_set_activity_completion";
                 var data = {
-                    cmid: page.cmid, 
-                    userid: MM.site.get("userid"), 
-                    completed: 1 
+                    cmid: page.cmid,
+                    userid: MM.site.get("userid"),
+                    completed: 1
                 };
-                var callback = function() {}; 
+                var callback = function() {};
                 var presets = { omitExpires: true, cache: false };
                 var errorCallback = MM.plugins.course.errorCallback;
                 MM.moodleWSCall(method, data, callback, presets, errorCallback);
             }
         }
-        
+
     }
 
     MM.registerPlugin(plugin);

@@ -37,7 +37,7 @@ define(templates, function(labelTpl) {
             };
 
             if (MM.deviceType === "phone") {
-                MM.plugins.mycourses.sizes = {
+                MM.plugins.label.sizes = {
                     withSideBar: {
                         center:0,
                         left:0
@@ -73,7 +73,7 @@ define(templates, function(labelTpl) {
                     'left':0
                 });
             }
-            
+
             $("#panel-right").hide();
         },
 
@@ -103,7 +103,7 @@ define(templates, function(labelTpl) {
             MM.panels.show("center", html);
             MM.util.setupBackButton();
         }
-        
+
     }
 
     MM.registerPlugin(plugin);

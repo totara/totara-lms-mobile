@@ -58,7 +58,7 @@ require(templates, function(addSiteForm, showSites, showSync, showSite, main) {
             };
 
             if (MM.deviceType === "phone") {
-                MM.plugins.mycourses.sizes = {
+                MM.plugins.settings.sizes = {
                     withSideBar: {
                         center:0,
                         left:0
