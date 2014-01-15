@@ -72,7 +72,7 @@ define(
             };
 
             if (MM.deviceType === "phone") {
-                MM.plugins.mycourses.sizes = {
+                MM.plugins.feedback.sizes = {
                     withSideBar: {
                         center:0,
                         left:0
@@ -245,16 +245,26 @@ define(
             _.each(answers, function(answer) {
                 var answer = $(answer);
                 var value = answer.val();
-                if (!_.isArray(value)) {
-                    if (value.trim().length === 0) {
-                        value = answer.text();
-                    }
 
-                    errors = errors || MM.plugins.feedback._validateInput(
-                        answer.get('questionid'), value
-                    );
-                } else {
-                    value = value.join("|");
+                // A multi-select with no options selected will have a value
+                // of null.
+                if (value !== null) {
+                    // A multi-select with multiple options selected will have
+                    // an array of values which need to be joined by the pipe
+                    // symbol.
+                    if (!_.isArray(value)) {
+
+                        // Text boxes don't have a value, they have text.
+                        if (value.trim().length === 0) {
+                            value = answer.text();
+                        }
+
+                        errors = errors || MM.plugins.feedback._validateInput(
+                            answer.data('questionid'), value
+                        );
+                    } else {
+                        value = value.join("|");
+                    }
                 }
 
                 response.push(
@@ -344,7 +354,8 @@ define(
 
             _.each(questions, function(question) {
                 var x = MM.tpl.render(
-                    MM.plugins.feedback.templates[question.get('typ')].html, question.toJSON()
+                    MM.plugins.feedback.templates[question.get('typ')].html,
+                    question.toJSON()
                 );
                 html += x;
             });

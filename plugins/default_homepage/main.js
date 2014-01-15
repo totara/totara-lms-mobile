@@ -39,7 +39,7 @@ require(templates, function(mainTpl) {
             };
 
             if (MM.deviceType === "phone") {
-                MM.plugins.mycourses.sizes = {
+                MM.plugins.default_homepage.sizes = {
                     withSideBar: {
                         center:0,
                         left:0

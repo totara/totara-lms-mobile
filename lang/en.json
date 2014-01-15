@@ -172,6 +172,7 @@
 "filesizeunit" : "&nbsp;MB",
 "openmenu" : "Open Menu",
 "feedback-submitanswers" : "SUBMIT YOUR ANSWERS",
+"feedback-submitted": "Feedback Submitted",
 "cancelandreturn" : "CANCEL &amp; RETURN",
 "externalpassword": "Please enter your password to continue",
 "viewonmainsite" : "VIEW ON MAIN SITE",
@@ -195,5 +196,6 @@
 "mybookings" : "My Bookings",
 "tasks" : "Tasks",
 "mylearning": "My Learning",
-"alerts" : "Alerts"
+"alerts" : "Alerts",
+"text-separator": "&nbsp;&#45;&nbsp;"
 }

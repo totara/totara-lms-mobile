@@ -90,6 +90,7 @@ body {
     min-width:80%;
     max-width:100%;
     padding:0;
+    min-height:42px;
 }
 
 .panel-content.find header.header {
@@ -140,6 +141,41 @@ body {
 
 .panel-content header.header .header-detail {
     margin-top:1em;
+}
+
+/* Settings. */
+
+.panel-content.settings .sites-list {
+    padding:0 20px;
+}
+
+.panel-content.settings .sites-list li {
+    border:none;
+}
+
+.panel-content.settings button {
+    width:auto;
+
+}
+
+.panel-content.settings .centered {
+    clear:both;
+}
+
+.panel-content.settings .settings-info {
+    padding: 0 20px;
+}
+
+.panel-content.settings #list .nav-item > div {
+    padding-left: 0.61538rem;
+}
+
+.panel-content.settings p {
+    padding: 0.61538rem;
+}
+
+.panel-content.settings .device p {
+    padding: 0;
 }
 
 @media only screen and (min-device-width : 234px) and (max-device-width : 767px) {

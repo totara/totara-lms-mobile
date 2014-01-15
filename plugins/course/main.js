@@ -45,7 +45,7 @@ define(templates, function(courseTpl) {
             };
 
             if (MM.deviceType === "phone") {
-                MM.plugins.mycourses.sizes = {
+                MM.plugins.course.sizes = {
                     withSideBar: {
                         center:0,
                         left:0

@@ -1,8 +1,8 @@
 var requires = [
-    "root/externallib/text!root/plugins/findcourses/courseEnrolment.html",
+    "root/externallib/text!root/plugins/findcourses/selfEnrolForm.html",
     "root/externallib/text!root/plugins/findcourses/findcourses.html"
 ];
-define(requires, function(courseEnrolment, coursesTpl) {
+define(requires, function(selfEnrolForm, coursesTpl) {
     var plugin = {
         settings: {
             name: "findcourses",
@@ -28,7 +28,7 @@ define(requires, function(courseEnrolment, coursesTpl) {
 
         templates: {
             "courseEnrolment": {
-                html: courseEnrolment
+                html: selfEnrolForm
             },
             "results": {
                 html: coursesTpl
@@ -107,10 +107,31 @@ define(requires, function(courseEnrolment, coursesTpl) {
                 'categories_found', MM.plugins.findcourses._collateCategoriesAndCourses
             );
             $(document).on(
-                'courses_found', MM.plugins.findcourses._collateCategoriesAndCourses
+                'course_completions_found', MM.plugins.findcourses._collateCategoriesAndCourses
+            );
+            $(document).on(
+                'courses_found', MM.plugins.findcourses._getCourseCompletions
             );
             MM.plugins.findcourses._getCategories();
             MM.plugins.findcourses._getCourses();
+        },
+
+        _getCourseCompletions: function() {
+            var method = 'core_enrol_get_users_course_completions';
+            var data = {userid: MM.site.get("userid")};
+            var successCallback = MM.plugins.findcourses._getCourseCompletionsSuccess;
+            var errorCallback = MM.plugins.findcourses._getCourseCompletionsFailure;
+            var preSets = {'cache':false};
+            MM.moodleWSCall(method, data, successCallback, preSets, errorCallback);
+        },
+
+        _getCourseCompletionsSuccess: function(data) {
+            MM.plugins.findcourses.completions = data;
+            $(document).trigger('course_completions_found');
+        },
+
+        _getCourseCompletionsFailure: function() {
+
         },
 
         _getCategories: function() {
@@ -155,6 +176,7 @@ define(requires, function(courseEnrolment, coursesTpl) {
 
         categories: undefined,
         courses: undefined,
+        completions: undefined,
 
         _collateCategoriesAndCourses: function() {
             if (MM.plugins.findcourses.categories !== undefined &&
@@ -181,10 +203,13 @@ define(requires, function(courseEnrolment, coursesTpl) {
                     category.categoryName = category.name;
                     _.each(courses, function(course, index) {
                         if (course.category === category.id) {
-                            // TODO: Query db to set whether the course is in
-                            // progress or not.
-                            course.started = 0;
-                            course.completed = 0;
+                            // Course completion status.
+                            _.each(MM.plugins.findcourses.completions, function(completion) {
+                                if (completion.id == course.id) {
+                                    course.started = completion.started;
+                                    course.completed = completion.completed;
+                                }
+                            });
                             category.courses.push(course);
                         }
                     });
@@ -208,18 +233,78 @@ define(requires, function(courseEnrolment, coursesTpl) {
                         MM.plugins.findcourses.showingCategoryId
                     ].categoryName;
                 }
+
+                var enrolmentFormHTML = MM.tpl.render(
+                    MM.plugins.findcourses.templates.courseEnrolment.html, {}
+                );
+
                 var values = {
                     'title': title,
                     'categories': categories,
-                    'filter':MM.plugins.findcourses.showingCategoryId
+                    'filter':MM.plugins.findcourses.showingCategoryId,
+                    'enrolmentformhtml':enrolmentFormHTML
                 };
                 var html = MM.tpl.render(
-                    MM.plugins.findcourses.templates.results.html, values, {}
+                    MM.plugins.findcourses.templates.results.html, values
                 );
                 MM.panels.show('center', html, {hideRight: false});
                 MM.util.setupAccordion($("#panel-center"));
                 MM.util.setupBackButton();
+                $(document).find("a.unstarted").on(
+                    MM.clickType, MM.plugins.findcourses._selfEnroll
+                );
             }
+        },
+
+        lastEnrolledCourse:undefined,
+
+        _selfEnroll: function(e) {
+            var element = $(e.target);
+            var courseId = e.data('courseid');
+            MM.plugins.findcourses.lastEnrolledCourse = courseId;
+
+            $(document).find('.selfenrolmentform').removeClass('hidden');
+            $(document).find('.selfenrolmentform a#enrol').on(MM.clickType, function() {
+                var enrolmentKey = $(document).find(
+                    '.selfenrolmentform input#enrolmentkey'
+                ).val();
+                var method = 'enrol_self_enrol';
+                var data = {
+                    courseid:MM.plugins.findcourses.lastEnrolledCourse,
+                    enrolmentkey:enrolmentKey
+                };
+                var success = MM.plugins.findcourses._selfEnrollSuccess;
+                var error = MM.plugins.findcourses._selfEnrollFailure;
+                var preSets = {cache:false};
+                MM.moodleWSCall(method, data, success, preSets, error);
+            });
+        },
+
+        _selfEnrollSuccess: function(data) {
+            if (data === 0) {
+                // Something went wrong - wrong key?
+                $(document).find(".selfenrolmentform .errormessage").html(
+                    "Please check the enrolment key and try again."
+                );
+            } else {
+                // Clear the enrolment key.
+                $(document).find('.selfenrolmentform input#enrolmentkey').val("");
+                // Remove the event handler from the button
+                $(document).find('.selfenrolmentform a#enrol').off(MM.clickType);
+                // Hide the form
+                $(document).find(".selfenrolmentform").addClass('hidden');
+
+                // Remove the course id from memory.
+                var courseId = MM.plugins.findcourses.lastEnrolledCourse;
+                MM.plugins.findcourses.lastEnrolledCourse = undefined;
+
+                // All working well, user has self enrolled, now go to the course page.
+                MM.Router.navigate('#/courses/' + courseId, {trigger:true});
+            }
+        },
+
+        _selfEnrollFailure: function(data) {
+
         }
     };
     MM.registerPlugin(plugin);

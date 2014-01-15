@@ -268,6 +268,10 @@ ol {
     *text-indent: -9999px;
 }
 
+.hidden {
+    display:none;
+}
+
 /* =2.2 - NAV MODULE
 --------------------------------------------------------*/
 .nav {
@@ -1713,6 +1717,24 @@ li.ui-menu-item {
     background-color:#f3baa3;
 }
 
+.panel-content.feedback.after-submit .header {
+    margin-left:6px
+}
+
+.panel-content.feedback.after-submit .sections {
+    margin-left:21px;
+    margin-right:-21px;
+}
+
+.panel-content.feedback.after-submit button {
+    margin-top:20px;
+}
+
+@media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
+    .panel-content.feedback.after-submit .sections {
+        width:90%;
+    }
+}
 
 /* Notice. */
 

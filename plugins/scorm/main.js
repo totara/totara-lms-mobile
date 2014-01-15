@@ -39,7 +39,7 @@ define(templates, function(scormTpl, scormLaunchTpl) {
             };
 
             if (MM.deviceType === "phone") {
-                MM.plugins.mycourses.sizes = {
+                MM.plugins.scorm.sizes = {
                     withSideBar: {
                         center:0,
                         left:0
