@@ -1,0 +1,11 @@
+{
+    "wantedPlugins":[
+        "default_homepage",
+        "findcourses",
+        "findprograms",
+        "mylearning",
+        "mybookings",
+        "tasks",
+        "alerts"
+    ]
+}
