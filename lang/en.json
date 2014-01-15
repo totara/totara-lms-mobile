@@ -170,6 +170,7 @@
 "filesizeunit" : "&nbsp;MB",
 "openmenu" : "Open Menu",
 "feedback-submitanswers" : "SUBMIT YOUR ANSWERS",
+"feedback-submitted": "Feedback Submitted",
 "cancelandreturn" : "CANCEL &amp; RETURN",
 "externalpassword": "Please enter your password to continue",
 "viewonmainsite" : "VIEW ON MAIN SITE",
@@ -185,5 +186,6 @@
 "home-viewmenu-close" : "CLOSE MAIN MENU",
 "home-viewcourses" : "VIEW MY COURSES",
 "menu-homepage" : "Homepage",
-"default_homepage": "Home"
+"default_homepage": "Home",
+"text-separator": "&nbsp;&#45;&nbsp;"
 }
