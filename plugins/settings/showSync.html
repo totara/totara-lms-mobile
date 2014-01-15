@@ -1,34 +1,47 @@
-<h2 class="settings-section">
-    <%= MM.lang.s("taskqueue") %>
-</h2>
-<% if (tasks.length == 0) { %>
-    <p>
-        <%= MM.lang.s("notaskstobesynchronized") %>
-    </p>
-<% } %>
-<ul class="nav nav-v">
-    <% _.each(tasks, function(task){ %>
-        <li class="nav-item">
-            <%= task.syncData.name %>
-            <br />
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            <i><%= task.syncData.description %></i>
-        </li>
-    <% }); %>
-</ul>
-<br />
-<div class="centered">
-    <a href="#settings/sync/lang">
-        <button>
-            <%= MM.lang.s("forcelangsync") %>
-        </button>
-    </a>
-</div>
-<div class="centered">
-    <a href="#settings/sync/css">
-        <button>
-            <%= MM.lang.s("forcecsssync") %>
-        </button>
-    </a>
-    <div style="clear: both"></div>
+<div class="panel-content settings">
+    <div id="top">
+        <a href="#" title="Back" id="back"></a>
+        <header class="header">
+            <h2 class="name"><%= title %></h2>
+        </header>
+    </div>
+    <div class="task-content settings-detail">
+        <div id="list">
+            <%= MM.widgets.renderList(settingsList) %>
+        </div>
+        <h2 class="settings-section">
+            <%= MM.lang.s("taskqueue") %>
+        </h2>
+        <% if (tasks.length == 0) { %>
+            <p>
+                <%= MM.lang.s("notaskstobesynchronized") %>
+            </p>
+        <% } %>
+        <ul class="nav nav-v">
+            <% _.each(tasks, function(task){ %>
+                <li class="nav-item">
+                    <%= task.syncData.name %>
+                    <br />
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <i><%= task.syncData.description %></i>
+                </li>
+            <% }); %>
+        </ul>
+        <br />
+        <div class="centered">
+            <a href="#settings/sync/lang">
+                <button>
+                    <%= MM.lang.s("forcelangsync") %>
+                </button>
+            </a>
+        </div>
+        <div class="centered">
+            <a href="#settings/sync/css">
+                <button>
+                    <%= MM.lang.s("forcecsssync") %>
+                </button>
+            </a>
+            <div style="clear: both"></div>
+        </div>
+    </div>
 </div>
