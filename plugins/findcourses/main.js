@@ -234,19 +234,16 @@ define(requires, function(selfEnrolForm, coursesTpl) {
                     ].categoryName;
                 }
 
-                var enrolmentFormHTML = MM.tpl.render(
-                    MM.plugins.findcourses.templates.courseEnrolment.html, {}
-                );
-
                 var values = {
                     'title': title,
                     'categories': categories,
-                    'filter':MM.plugins.findcourses.showingCategoryId,
-                    'enrolmentformhtml':enrolmentFormHTML
+                    'filter':MM.plugins.findcourses.showingCategoryId
                 };
+
                 var html = MM.tpl.render(
                     MM.plugins.findcourses.templates.results.html, values
                 );
+
                 MM.panels.show('center', html, {hideRight: false});
                 MM.util.setupAccordion($("#panel-center"));
                 MM.util.setupBackButton();
@@ -263,8 +260,27 @@ define(requires, function(selfEnrolForm, coursesTpl) {
             var courseId = element.data('courseid');
             MM.plugins.findcourses.lastEnrolledCourse = courseId;
 
+            // Render
+            var enrolmentFormHTML = MM.tpl.render(
+                MM.plugins.findcourses.templates.courseEnrolment.html, {
+                    title: "[COURSE TITLE PLACEHOLDER]",
+                    summary: "[COURSE SUMMARY PLACEHOLDER]"
+                }
+            );
+
+            var options = {
+                title: "[COURSE TITLE PLACEHOLDER]",
+                buttons: {}
+            };
+
+            options.buttons[MM.lang.s('cancel')] = function() {
+                MM.widgets.dialogClose();
+            };
+
+            MM.widgets.dialog(enrolmentFormHTML, options);
+
             $(document).find('.selfenrolmentform').removeClass('hidden');
-            $(document).find('.selfenrolmentform a#enrol').on(MM.clickType, function() {
+            $(document).find('.selfenrolmentform input#enrol').on(MM.clickType, function() {
                 var enrolmentKey = $(document).find(
                     '.selfenrolmentform input#enrolmentkey'
                 ).val();

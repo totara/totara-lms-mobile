@@ -1303,7 +1303,7 @@ button {
 }
 #app-dialog .modalFooter  {
     background: #fff;
-    padding: 2px;
+    padding: 2px 2px 10px 2px;
     margin-left: 1px;
     margin-right: 1px;
     text-align: center;
@@ -1313,6 +1313,8 @@ button {
 }
 
 #app-dialog .modalFooter button{
+    width:auto !important; /* !important to override inline style. */
+    min-width:20%;
 }
 
 #app-dialog .modalClear {
@@ -1698,6 +1700,22 @@ li.ui-menu-item {
 .panel-content.find .item-course {
     background:url('../img/icon/course-icon.png') no-repeat scroll 0 0 transparent;
     padding-left:34px;
+}
+
+/* - SELF ENROLMENT */
+
+.selfenrolmentform {
+    padding:10px 10px 0;
+}
+
+.selfenrolmentform #enrolmentkey {
+    margin:10px 0;
+}
+
+.selfenrolmentform input[type="submit"] {
+    width:auto;
+    min-width:20%;
+    margin-top:10px;
 }
 
 /* - MODULES

@@ -1,6 +1,10 @@
 <div class='selfenrolmentform hidden'>
     <div class='errormessage'>
     </div>
-    <input type='text' value='' placeholder='Enrolment Key' id='enrolmentkey' />
-    <a href='#' id='enrol'>Enrol Me</a>
+    <h2><%= title %></h2>
+    <p><%= summary %></p>
+    <form id="enrolment" method="post" action="#">
+        <input type='text' value='' placeholder='Enrolment Key' id='enrolmentkey' />
+        <input type="button" id="enrol" value="Enrol Me" />
+    </form>
 </div>
