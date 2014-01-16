@@ -7,6 +7,7 @@ define(templates, function(urlTpl) {
         settings: {
             name: "url",
             type: "user",
+            title: "URL",
             lang: {
                 component: "core"
             },
@@ -96,9 +97,10 @@ define(templates, function(urlTpl) {
         urlDetailsCallback: function(response) {
             var url = response;
             var template = MM.plugins.url.templates.url;
-            var context = { url: url};
+            var context = { url: url, title: MM.plugins.url.settings.title};
             var html = MM.tpl.render(template.html, context);
             MM.panels.show("center", html);
+            MM.util.setupBackButton();
         }
 
     }
