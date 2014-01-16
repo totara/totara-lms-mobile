@@ -188,6 +188,8 @@
 "menu-homepage" : "Homepage",
 "default_homepage": "Home",
 "text-separator": "&nbsp;&#45;&nbsp;",
+"course-self-enrol-dialog": "Course Self Enrolment",
+"course-enrol": "Enrol Me",
 "url-instructional-text": "Click the link below to open the resource.",
 "top-nav-menu": "Menu"
 }

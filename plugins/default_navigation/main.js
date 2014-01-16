@@ -128,6 +128,9 @@ require(templates, function(navTpl) {
 
         // Creates and shows the side menu.
         show: function() {
+            if (MM.navigation.visible === true) {
+                return;
+            }
             var panel = MM.config.menu_panel;
             $("#panel-left").show();
 
