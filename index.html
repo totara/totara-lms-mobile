@@ -110,12 +110,14 @@
         <li class="nav-item home menu-home">
             <a href="#" class="ir" id="mainmenu">
                 <img src="img/header-home.png" alt="<%= MM.lang.s('openmenu') %>" title="<%= MM.lang.s('openmenu') %>" width="32" height="32" />
+                <span><%= MM.lang.s("top-nav-menu") %></span>
             </a>
         </li>
         <% _.each(menu_items, function(menu_item) { %>
             <li class="nav-item">
                 <a href="<%= menu_item.href %>" class="item" id="topnav-<%= menu_item.id %>" title="<%= menu_item.title %>">
                     <img src="<%= menu_item.icon %>" alt="<%= menu_item.name %>" title="<%= menu_item.title %>" width="32" height="32" />
+                    <span><%= menu_item.title %></span>
                 </a>
             </li>
         <% }); %>

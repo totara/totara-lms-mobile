@@ -455,13 +455,26 @@ ol {
 
 .header-main #top-nav .nav-item > a {
     display:table-cell;
-    height:76px;
+    height:60px;
     vertical-align: middle;
     width:56px;
+    line-height:1rem;
+    padding-top:10px;
 }
 
 .header-main #top-nav .nav-item > a img {
     max-width:32px;
+    height:32px;
+}
+
+.header-main #top-nav .nav-item > a span {
+    text-transform: uppercase;
+    white-space: nowrap;
+    font-size:0.6rem;
+    display:block;
+    margin-top:8px;
+    color:#fff;
+    font-family:helvetica, sans-serif;
 }
 
 .header-main .nav-item.content {
