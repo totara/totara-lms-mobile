@@ -50,6 +50,13 @@ body {
     margin: 0;
 }
 
+@media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
+    html {
+        font-size:96%;
+    }
+}
+
+
 @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
     html {
         font-size:110%;
@@ -87,8 +94,6 @@ h1 {
     font-size:48px;
     font-size:3rem;
 }
-
-
 
 h2 {
     /*font-size:2.1em; *//* 29px. */
@@ -135,6 +140,10 @@ sub {
 @media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
     h1 {
         font-size:2.5rem;
+    }
+
+    h2 {
+        font-size:1.4rem;
     }
 
     h3 a {
@@ -207,11 +216,12 @@ button#cancel
     width:30%;
 }
 
-@media only screen and (min-device-width : 234px) {
+@media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
     button
     , .button
     , input[type="submit"] {
         width: 70%;
+        font-size:0.9rem;
     }
 
     button#cancel
@@ -749,6 +759,16 @@ i {
     width: 80%;
     margin: auto;
     text-align: center;
+}
+
+@media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
+    #add-site {
+        padding-top: 2rem;
+    }
+
+    #add-site input {
+        padding: 0.8rem;
+    }
 }
 
 .jqifade{
@@ -1491,7 +1511,7 @@ li.ui-menu-item {
 }
 
 .panel-content h1 {
-    margin:0.7em 0.5em;
+    margin:0.7em 0.4em;
 }
 
 .panel-content header h2 {
@@ -1517,6 +1537,16 @@ li.ui-menu-item {
     , .panel-content .category-title
     , .panel-content .sub-item-title {
         width:76%;
+    }
+
+    .panel-content h1 {
+        margin:0.7em 0.5em;
+    }
+}
+
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
+    .panel-content h1 {
+        margin:0.7em 0.35em;
     }
 }
 
@@ -1623,7 +1653,6 @@ li.ui-menu-item {
 
 .panel-content.course .course-sections ul.items li img.course-icon {
     vertical-align:top;
-
 }
 
 .panel-content.detail header.header div.link-detail
@@ -1662,8 +1691,6 @@ li.ui-menu-item {
 
 .panel-content.course .submenu.items > li {
     padding:10px;
-    margin-top:10px;
-    margin-bottom:10px;
 }
 
 .panel-content.course span[class*="completion"] {
@@ -1789,8 +1816,13 @@ li.ui-menu-item {
 /* SCORM */
 
 #scorm-container {
-    width:100%;
-    height:100%;
+    width: auto;
+    height: auto;
+    clear: both;
+    float: none;
+    display: block;
+    border: none;
+    padding: 10px;
 }
 
 .panel-content.scorm-launch ul#scorm-attempts {
@@ -1816,10 +1848,6 @@ li.ui-menu-item {
 
 .panel-content.scorm-launch #scorm-form .cancel {
     margin-top:4%
-}
-
-.panel-content.scorm-view a#back {
-    margin:1em;
 }
 
 /* Styling for user content (e.g. page resource, label) */
@@ -1867,22 +1895,13 @@ li.ui-menu-item {
     padding:5% 20%;
 }
 
-@media only screen and (min-device-width : 234px) {
-    .panel-content.home .sections {
-        padding:5%
-    }
+@media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
+
 }
 
 .panel-content.home button
 , .panel-content.home a.button {
     width:25%;
-}
-
-@media only screen and (min-device-width : 234px) {
-    .panel-content.home button
-    , .panel-content.home a.button {
-        width:50%;
-    }
 }
 
 .panel-content.home a.button:active {
@@ -1892,6 +1911,17 @@ li.ui-menu-item {
 .panel-content.home button.view-menu {
     margin-top:2%;
     margin-bottom:2%;
+}
+
+@media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
+    .panel-content.home button
+    , .panel-content.home a.button {
+        width:50%;
+    }
+
+    .panel-content.home .sections {
+        padding:5%
+    }
 }
 
 /* Plug-in .section adjustments. */

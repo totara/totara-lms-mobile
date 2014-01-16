@@ -132,7 +132,8 @@ define(templates, function(scormTpl, scormLaunchTpl) {
             var context = {
                 cmid: cmid,
                 mode: mode,
-                newAttempt: (newAttempt === "new-attempt") ? "on" : "off"
+                newAttempt: (newAttempt === "new-attempt") ? "on" : "off",
+                title: "[SCORM NAME]"
             };
             var html = MM.tpl.render(template.html, context);
             MM.panels.show("center", html);
