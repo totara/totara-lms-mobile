@@ -123,6 +123,20 @@ require(templates, function(navTpl) {
                         document.location.href = link;
                     }
                 });
+
+                // Render any button blocks
+                var buttonblocks = $(document).find('#panel-left .buttonblock');
+                _.each(buttonblocks, function(buttonblock) {
+                    var typeofblock = $(buttonblock).data('buttonblock');
+                    if (MM.plugins.buttonblock.exists(typeofblock)) {
+                        $(buttonblock).append(MM.plugins.buttonblock[typeofblock].display());
+                    } else {
+                        $(document).on('buttonblock:loaded', function(event, area, html) {
+                            $(buttonblock).append(html);
+                        });
+                        MM.plugins.buttonblock.load(typeofblock);
+                    }
+                });
             }
         },
 
