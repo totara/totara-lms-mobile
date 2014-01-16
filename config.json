@@ -68,5 +68,6 @@
 ],
 "menu_items": ["mybookings", "tasks", "alerts"],
 "menu_type":"default_navigation",
-"homepage":"default_homepage"
+"homepage":"default_homepage",
+"homepageurl":"#homepage"
 }

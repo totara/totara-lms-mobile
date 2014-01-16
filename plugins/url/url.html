@@ -1,4 +1,22 @@
-<div class="url" data-id="<%= url.id %>" data-cmid="<%= url.cmid %>">
-    <div class="intro"><%= url.intro %></div>
-    <p>Click <a href="<%= url.external_url %>"><%= url.external_url %></a> to open resource.</p>
+<div class="panel-content url">
+    <div id="top">
+        <a href="#" title="Back" id="back"></a>
+        <header class="header">
+            <h2 class="name"><%= title %></h2>
+        </header>
+    </div>
+    <div class="sections">
+        <section>
+            <p>
+                <%= url.intro %>
+            </p>
+            <p>
+                <%= MM.lang.s("url-instructional-text") %>
+            </p>
+            <a href="<%= url.external_url %>" target="_blank" title="<%= url.name %>">
+                <%= url.external_url %>
+            </a>
+        </section>
+    </div>
+
 </div>

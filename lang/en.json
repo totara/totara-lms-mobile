@@ -197,5 +197,10 @@
 "tasks" : "Tasks",
 "mylearning": "My Learning",
 "alerts" : "Alerts",
-"text-separator": "&nbsp;&#45;&nbsp;"
+"text-separator": "&nbsp;&#45;&nbsp;",
+"text-separator": "&nbsp;&#45;&nbsp;",
+"course-self-enrol-dialog": "Course Self Enrolment",
+"course-enrol": "Enrol Me",
+"url-instructional-text": "Click the link below to open the resource.",
+"top-nav-menu": "Menu"
 }

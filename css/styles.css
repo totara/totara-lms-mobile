@@ -50,6 +50,13 @@ body {
     margin: 0;
 }
 
+@media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
+    html {
+        font-size:96%;
+    }
+}
+
+
 @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
     html {
         font-size:110%;
@@ -87,8 +94,6 @@ h1 {
     font-size:48px;
     font-size:3rem;
 }
-
-
 
 h2 {
     /*font-size:2.1em; *//* 29px. */
@@ -135,6 +140,10 @@ sub {
 @media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
     h1 {
         font-size:2.5rem;
+    }
+
+    h2 {
+        font-size:1.4rem;
     }
 
     h3 a {
@@ -207,11 +216,12 @@ button#cancel
     width:30%;
 }
 
-@media only screen and (min-device-width : 234px) {
+@media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
     button
     , .button
     , input[type="submit"] {
         width: 70%;
+        font-size:0.9rem;
     }
 
     button#cancel
@@ -455,13 +465,26 @@ ol {
 
 .header-main #top-nav .nav-item > a {
     display:table-cell;
-    height:76px;
+    height:60px;
     vertical-align: middle;
     width:56px;
+    line-height:1rem;
+    padding-top:10px;
 }
 
 .header-main #top-nav .nav-item > a img {
     max-width:32px;
+    height:32px;
+}
+
+.header-main #top-nav .nav-item > a span {
+    text-transform: uppercase;
+    white-space: nowrap;
+    font-size:0.6rem;
+    display:block;
+    margin-top:8px;
+    color:#fff;
+    font-family:helvetica, sans-serif;
 }
 
 .header-main .nav-item.content {
@@ -736,6 +759,16 @@ i {
     width: 80%;
     margin: auto;
     text-align: center;
+}
+
+@media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
+    #add-site {
+        padding-top: 2rem;
+    }
+
+    #add-site input {
+        padding: 0.8rem;
+    }
 }
 
 .jqifade{
@@ -1303,7 +1336,7 @@ button {
 }
 #app-dialog .modalFooter  {
     background: #fff;
-    padding: 2px;
+    padding: 2px 2px 10px 2px;
     margin-left: 1px;
     margin-right: 1px;
     text-align: center;
@@ -1313,6 +1346,8 @@ button {
 }
 
 #app-dialog .modalFooter button{
+    width:auto !important; /* !important to override inline style. */
+    min-width:20%;
 }
 
 #app-dialog .modalClear {
@@ -1476,7 +1511,7 @@ li.ui-menu-item {
 }
 
 .panel-content h1 {
-    margin:0.7em 0.5em;
+    margin:0.7em 0.4em;
 }
 
 .panel-content header h2 {
@@ -1502,6 +1537,16 @@ li.ui-menu-item {
     , .panel-content .category-title
     , .panel-content .sub-item-title {
         width:76%;
+    }
+
+    .panel-content h1 {
+        margin:0.7em 0.5em;
+    }
+}
+
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
+    .panel-content h1 {
+        margin:0.7em 0.35em;
     }
 }
 
@@ -1608,7 +1653,6 @@ li.ui-menu-item {
 
 .panel-content.course .course-sections ul.items li img.course-icon {
     vertical-align:top;
-
 }
 
 .panel-content.detail header.header div.link-detail
@@ -1647,8 +1691,6 @@ li.ui-menu-item {
 
 .panel-content.course .submenu.items > li {
     padding:10px;
-    margin-top:10px;
-    margin-bottom:10px;
 }
 
 .panel-content.course span[class*="completion"] {
@@ -1700,6 +1742,22 @@ li.ui-menu-item {
     padding-left:34px;
 }
 
+/* - SELF ENROLMENT */
+
+.selfenrolmentform {
+    padding:10px 10px 0;
+}
+
+.selfenrolmentform #enrolmentkey {
+    margin:10px 0;
+}
+
+.selfenrolmentform input[type="submit"] {
+    width:auto;
+    min-width:20%;
+    margin-top:10px;
+}
+
 /* - MODULES
 -------------------------------------------------------------------------- */
 
@@ -1721,19 +1779,8 @@ li.ui-menu-item {
     margin-left:6px
 }
 
-.panel-content.feedback.after-submit .sections {
-    margin-left:21px;
-    margin-right:-21px;
-}
-
 .panel-content.feedback.after-submit button {
     margin-top:20px;
-}
-
-@media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
-    .panel-content.feedback.after-submit .sections {
-        width:90%;
-    }
 }
 
 /* Notice. */
@@ -1769,8 +1816,13 @@ li.ui-menu-item {
 /* SCORM */
 
 #scorm-container {
-    width:100%;
-    height:100%;
+    width: auto;
+    height: auto;
+    clear: both;
+    float: none;
+    display: block;
+    border: none;
+    padding: 10px;
 }
 
 .panel-content.scorm-launch ul#scorm-attempts {
@@ -1796,10 +1848,6 @@ li.ui-menu-item {
 
 .panel-content.scorm-launch #scorm-form .cancel {
     margin-top:4%
-}
-
-.panel-content.scorm-view a#back {
-    margin:1em;
 }
 
 /* Styling for user content (e.g. page resource, label) */
@@ -1847,22 +1895,13 @@ li.ui-menu-item {
     padding:5% 20%;
 }
 
-@media only screen and (min-device-width : 234px) {
-    .panel-content.home .sections {
-        padding:5%
-    }
+@media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
+
 }
 
 .panel-content.home button
 , .panel-content.home a.button {
     width:25%;
-}
-
-@media only screen and (min-device-width : 234px) {
-    .panel-content.home button
-    , .panel-content.home a.button {
-        width:50%;
-    }
 }
 
 .panel-content.home a.button:active {
@@ -1872,4 +1911,33 @@ li.ui-menu-item {
 .panel-content.home button.view-menu {
     margin-top:2%;
     margin-bottom:2%;
+}
+
+@media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
+    .panel-content.home button
+    , .panel-content.home a.button {
+        width:50%;
+    }
+
+    .panel-content.home .sections {
+        padding:5%
+    }
+}
+
+/* Plug-in .section adjustments. */
+
+/* - URL, FEEDBACK
+-------------------------------------------------------------------------- */
+
+.panel-content.feedback.after-submit .sections
+, .panel-content.url .sections {
+    margin-left:21px;
+    margin-right:-21px;
+}
+
+@media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
+    .panel-content.feedback.after-submit .sections
+    , .panel-content.url .sections {
+        width:90%;
+    }
 }
