@@ -148,6 +148,9 @@ define(requires, function(selfEnrolForm, coursesTpl) {
 
         _getCategoriesSuccessful: function(data) {
             MM.plugins.findcourses.categories = data;
+            _.each(data, function(category) {
+                MM.db.insert('categories', category);
+            });
             $(document).trigger('categories_found');
         },
 
@@ -167,6 +170,9 @@ define(requires, function(selfEnrolForm, coursesTpl) {
 
         _getCoursesSuccessful: function(data) {
             MM.plugins.findcourses.courses = data;
+            _.each(data, function(course) {
+                MM.db.insert('courses', course);
+            });
             $(document).trigger('courses_found');
         },
 
@@ -260,10 +266,12 @@ define(requires, function(selfEnrolForm, coursesTpl) {
             var courseId = element.data('courseid');
             MM.plugins.findcourses.lastEnrolledCourse = courseId;
 
+            var course = MM.db.get('courses', courseId);
+
             // Render
             var enrolmentFormHTML = MM.tpl.render(
                 MM.plugins.findcourses.templates.courseEnrolment.html, {
-                    title: "[COURSE TITLE PLACEHOLDER]"
+                    title: course.get('fullname')
                 }
             );
 
