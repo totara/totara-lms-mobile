@@ -187,5 +187,6 @@
 "home-viewcourses" : "VIEW MY COURSES",
 "menu-homepage" : "Homepage",
 "default_homepage": "Home",
-"text-separator": "&nbsp;&#45;&nbsp;"
+"text-separator": "&nbsp;&#45;&nbsp;",
+"url-instructional-text": "Click the link below to open the resource."
 }

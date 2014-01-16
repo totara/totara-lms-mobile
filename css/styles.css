@@ -1721,19 +1721,8 @@ li.ui-menu-item {
     margin-left:6px
 }
 
-.panel-content.feedback.after-submit .sections {
-    margin-left:21px;
-    margin-right:-21px;
-}
-
 .panel-content.feedback.after-submit button {
     margin-top:20px;
-}
-
-@media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
-    .panel-content.feedback.after-submit .sections {
-        width:90%;
-    }
 }
 
 /* Notice. */
@@ -1872,4 +1861,22 @@ li.ui-menu-item {
 .panel-content.home button.view-menu {
     margin-top:2%;
     margin-bottom:2%;
+}
+
+/* Plug-in .section adjustments. */
+
+/* - URL, FEEDBACK
+-------------------------------------------------------------------------- */
+
+.panel-content.feedback.after-submit .sections
+, .panel-content.url .sections {
+    margin-left:21px;
+    margin-right:-21px;
+}
+
+@media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
+    .panel-content.feedback.after-submit .sections
+    , .panel-content.url .sections {
+        width:90%;
+    }
 }
