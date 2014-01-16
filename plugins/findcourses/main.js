@@ -263,13 +263,12 @@ define(requires, function(selfEnrolForm, coursesTpl) {
             // Render
             var enrolmentFormHTML = MM.tpl.render(
                 MM.plugins.findcourses.templates.courseEnrolment.html, {
-                    title: "[COURSE TITLE PLACEHOLDER]",
-                    summary: "[COURSE SUMMARY PLACEHOLDER]"
+                    title: "[COURSE TITLE PLACEHOLDER]"
                 }
             );
 
             var options = {
-                title: "[COURSE TITLE PLACEHOLDER]",
+                title: MM.lang.s("course-self-enrol-dialog"),
                 buttons: {}
             };
 
