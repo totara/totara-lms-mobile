@@ -1,6 +1,9 @@
 <div class='selfenrolmentform hidden'>
     <div class='errormessage'>
     </div>
-    <input type='text' value='' placeholder='Enrolment Key' id='enrolmentkey' />
-    <a href='#' id='enrol'>Enrol Me</a>
+    <h3><%= title %></h3>
+    <form id="enrolment" method="post" action="#">
+        <input type='text' value='' placeholder='Enrolment Key' id='enrolmentkey' />
+        <input type="button" class="link" id="enrol" value="<%= MM.lang.s('course-enrol') %>" />
+    </form>
 </div>
