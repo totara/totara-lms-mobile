@@ -175,9 +175,14 @@ define(templates,function (participantsTpl, participantTpl) {
                 // Load the active user plugins.
 
                 var userPlugins = [];
+                var wantedPlugins = [
+                    "addcontact",
+                    "addnote",
+                    "sendmessage"
+                ];
                 for (var el in MM.plugins) {
                     var plugin = MM.plugins[el];
-                    if (plugin.settings.type == "user") {
+                    if (_.indexOf(wantedPlugins, plugin.settings.name) !== -1) {
                         userPlugins.push(plugin.settings);
                     }
                 }
