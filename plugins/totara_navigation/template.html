@@ -1,0 +1,61 @@
+<ul id="default-navigation" class="nav nav-v js-accordion">
+    <li class="nav-item no-submenu">
+        <span class="no-link">
+            <img src="<%= MM.util.getMoodleFilePath(user.profileimageurl) %>" class="plugin-ico" width="32" height="32" border="0">
+            <span class="plugin-name">
+                <%= user.fullname %>
+            </span>
+        </span>
+    </li>
+
+    <% _.each(plugins, function(plugin) { %>
+        <% if (typeof plugin.subMenus == "undefined" || plugin.subMenus.length == 0) { %>
+            <li class="nav-item no-submenu is-link">
+                <a href="<%= plugin.menuURL %>" class="alink touch-row">
+                    <% if (plugin.icon) { %>
+                        <img src="<%= plugin.icon %>" class="plugin-ico" border="0" width="32" height="32">
+                    <% } %>
+                    <span class="plugin-name">
+                        <%= MM.lang.pluginName(plugin.name) %>
+                    </span>
+                </a>
+            </li>
+        <% } else { %>
+            <li class="nav-item">
+                <% if (plugin.toogler) { %>
+                    <a class="toogler expand touch-row">
+                <% } else { %>
+                    <a>
+                <% }  %>
+                    <% if (plugin.icon) { %>
+                        <img src="<%= plugin.icon %>" class="plugin-ico" border="0" width="32" height="32">
+                    <% } %>
+                    <span class="plugin-name">
+                        <%= MM.lang.pluginName(plugin.name) %>
+                    </span>
+                </a>
+                <% if (plugin.toogler) { %>
+                    <ul class="nav submenu">
+                <% } else { %>
+                    <ul class="nav">
+                <% }  %>
+                    <% _.each(plugin.subMenus, function(menu) { %>
+                        <li class="nav-item is-link">
+                            <a href="<%= menu.menuURL %>" class="alink touch-row">
+                                <% if (menu.icon) { %>
+                                    <img src="<%= menu.icon %>" class="plugin-ico" border="0" width="32" height="32">
+                                <% } %>
+                                <span class="plugin-name">
+                                    <%= MM.lang.s(menu.name) %>
+                                </span>
+                            </a>
+                        </li>
+                    <% }); %>
+                </ul>
+            </li>
+        <% } %>
+    <% }); %>
+    <li>
+        <%= MM.plugins.buttonblock.sidemenu.display() %>
+    </li>
+</ul>

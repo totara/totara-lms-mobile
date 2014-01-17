@@ -16,7 +16,6 @@
 	"findcourses",
 	"course",
 	"notifications",
-	"default_navigation",
 	"settings",
     "buttonblock",
     "scorm",
@@ -27,10 +26,11 @@
     "findprograms",
     "program",
     "feedback",
-	"mylearning",
+    "alerts",
     "mybookings",
 	"tasks",
-	"alerts"
+    "mylearning",
+    "totara_navigation"
 ],
 "wsservice" : "moodle_mobile_app",
 "presets" : {"url": "", "username": ""},
@@ -67,7 +67,7 @@
     }
 ],
 "menu_items": ["mybookings", "tasks", "alerts"],
-"menu_type":"default_navigation",
+"menu_type":"totara_navigation",
 "homepage":"default_homepage",
 "homepageurl":"#homepage"
 }
