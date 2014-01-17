@@ -32,17 +32,10 @@ require(templates, function(config, navTpl) {
         populate: function() {
             var plugins = [];
 
-            for (var el in MM.config.plugins) {
-                var index = MM.config.plugins[el];
-                var plugin = MM.plugins[index];
-                if (typeof plugin == 'undefined') {
-                    continue;
-                }
-                if (_.indexOf(
-                        MM.plugins.totara_navigation.config.wantedPlugins,
-                        plugin.settings.name
-                    ) !== -1
-                ) {
+            for (var key in MM.plugins.totara_navigation.config.wantedPlugins) {
+                var pluginName = MM.plugins.totara_navigation.config.wantedPlugins[key];
+                var plugin = MM.plugins[pluginName];
+                if (typeof plugin !== 'undefined') {
                     plugins.push(plugin.settings);
                 }
             }
@@ -67,6 +60,10 @@ require(templates, function(config, navTpl) {
 
             // Links, when clicked, need to close the navigation.
             $('#default-navigation .is-link a.alink').on(MM.clickType, function(event){
+                if (MM.touchMoving === true) {
+                    return false;
+                }
+
                 // Hide the side menu
                 MM.navigation.toggle();
                 var link = $(event.target).closest('a').attr('href');
@@ -80,10 +77,27 @@ require(templates, function(config, navTpl) {
                     document.location.href = link;
                 }
             });
+
+            // Render any button blocks
+            var buttonblocks = $(document).find('#panel-left .buttonblock');
+            _.each(buttonblocks, function(buttonblock) {
+                var typeofblock = $(buttonblock).data('buttonblock');
+                if (MM.plugins.buttonblock.exists(typeofblock)) {
+                    $(buttonblock).append(MM.plugins.buttonblock[typeofblock].display());
+                } else {
+                    $(document).on('buttonblock:loaded', function(event, area, html) {
+                        $(buttonblock).append(html);
+                    });
+                    MM.plugins.buttonblock.load(typeofblock);
+                }
+            });
         },
 
         // Creates and shows the side menu.
         show: function() {
+            if (MM.navigation.visible === true) {
+                return;
+            }
             var panel = MM.config.menu_panel;
             $("#panel-left").show();
 
