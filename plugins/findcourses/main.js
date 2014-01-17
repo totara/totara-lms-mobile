@@ -271,7 +271,9 @@ define(requires, function(selfEnrolForm, coursesTpl) {
             // Render
             var enrolmentFormHTML = MM.tpl.render(
                 MM.plugins.findcourses.templates.courseEnrolment.html, {
-                    title: course.get('fullname')
+                    title: course.get('fullname'),
+                    self_enrol_enabled: $(this).hasClass('self-enrol'),
+                    key_required: $(this).hasClass('key-required')
                 }
             );
 
