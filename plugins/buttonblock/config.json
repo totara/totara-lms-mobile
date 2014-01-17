@@ -1,20 +1,6 @@
 {
     "sidemenu":{
         "buttons":[{
-            "langstring":"website",
-            "additionalitemclasses":["no-arrow"],
-            "additionallinkclasses":["touch-row"],
-            "url":"origin",
-            "target":"_blank",
-            "icon":"img/ico-network.png"
-        }, {
-            "langstring":"help",
-            "additionalitemclasses":["no-arrow"],
-            "additionallinkclasses":["touch-row"],
-            "url":"docsurl",
-            "target":"_blank",
-            "icon":"img/ico-help.png"
-        }, {
             "langstring":"settings",
             "additionalitemclasses":[],
             "additionallinkclasses":["touch-row"],
