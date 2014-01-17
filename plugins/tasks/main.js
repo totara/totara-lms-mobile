@@ -8,8 +8,8 @@ define(templates, function(layoutTpl) {
             name: "tasks",
             type: "general",
             title: "Tasks",
-            icon: "img/icon/tasks.png",
-            alticon: "img/icon/tasks-grey.png",
+            icon: "img/totara/icon/tasks.png",
+            alticon: "img/totara/icon/tasks-grey.png",
             lang: {
                 component: "core"
             },

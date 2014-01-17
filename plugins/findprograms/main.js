@@ -7,7 +7,7 @@ define(requires, function(programsTpl) {
             name: "findprograms",
             type: "general",
             title: "Find programs",
-            icon: "img/icon/find-programs.png",
+            icon: "img/totara/icon/find-programs.png",
             lang: {
                 component: "core"
             },

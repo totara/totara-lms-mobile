@@ -6,14 +6,14 @@
             "additionallinkclasses":["touch-row"],
             "url":"#settings",
             "target":"",
-            "icon":"img/icon/settings.png"
+            "icon":"img/totara/icon/settings.png"
         }, {
             "langstring":"logout",
             "additionalitemclasses":[],
             "additionallinkclasses":["touch-row"],
             "url":"#logout",
             "target":"",
-            "icon":"img/icon/logout.png"
+            "icon":"img/totara/icon/logout.png"
         }],
         "templates":{
             "layout":"layout.html",

@@ -8,7 +8,7 @@ define(requires, function(selfEnrolForm, coursesTpl) {
             name: "findcourses",
             type: "general",
             title: "Find Courses",
-            icon: "img/icon/find-courses.png",
+            icon: "img/totara/icon/find-courses.png",
             lang: {
                 component: "core"
             },

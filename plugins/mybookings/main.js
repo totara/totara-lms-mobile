@@ -8,8 +8,8 @@ define(templates, function(layoutTpl) {
             name: "mybookings",
             type: "general",
             title: "My Bookings",
-            icon: "img/icon/my-bookings.png",
-            alticon: "img/icon/my-bookings-grey.png",
+            icon: "img/totara/icon/my-bookings.png",
+            alticon: "img/totara/icon/my-bookings-grey.png",
             lang: {
                 component: "core"
             },
