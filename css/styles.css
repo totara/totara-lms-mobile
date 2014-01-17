@@ -56,6 +56,11 @@ body {
     }
 }
 
+@media only screen and (max-device-width : 720px) {
+    html {
+        font-size:90%;
+    }
+}
 
 @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
     html {
@@ -87,7 +92,7 @@ h1, h2, h3, h4, h5, h6, p, ul, ol {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    line-height:1em;
+    line-height:normal;
 }
 
 h1 {
@@ -151,6 +156,20 @@ sub {
     }
 }
 
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
+    h1 {
+        font-size:2.5rem;
+    }
+
+    h2 {
+        font-size:1.4rem;
+    }
+
+    h3 a {
+        font-size:1.1rem;
+    }
+}
+
 /* =1.5 - Embedded content
 --------------------------------------------------------*/
 img {
@@ -200,7 +219,7 @@ button
     border-radius: 4pt;
     border: 1pt solid #CCC;
     border-bottom: #B3B3B3;
-    height: 30pt;
+    height: auto;
     width: 40%;
     color: #666;
     text-align: center;
@@ -1133,13 +1152,12 @@ button {
     padding: 4px;
 }
 
-.checkbox-setting-s {
+.checkbox-setting-s{
     text-align: left;
-    height: 40px;
-    padding: 4px;
+    height: auto;
+    padding: 10px;
     overflow: auto;
 }
-
 
 .checkbox-label {
     float: left;
@@ -1149,6 +1167,7 @@ button {
 .checkbox-label-s {
     float: left;
     text-align: left;
+    max-width:90%;
 }
 
 .checkbox-setting span{
@@ -1544,6 +1563,15 @@ li.ui-menu-item {
     }
 }
 
+@media only screen and (max-device-width : 720px) {
+    .panel-content h3[class*="title"]
+    , .panel-content .question-title
+    , .panel-content .category-title
+    , .panel-content .sub-item-title {
+        width:70%;
+    }
+}
+
 @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
     .panel-content h1 {
         margin:0.7em 0.35em;
@@ -1671,6 +1699,22 @@ li.ui-menu-item {
     , .panel-content.detail section div.link-detail {
         min-width:50%;
         max-width:70%;
+    }
+}
+
+@media only screen and (max-device-width : 720px) {
+    .panel-content.detail header.header div.link-detail
+    , .panel-content.detail section div.link-detail {
+        min-width:50%;
+        max-width:70%;
+    }
+}
+
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
+    .panel-content.detail header.header div.link-detail
+    , .panel-content.detail section div.link-detail {
+        min-width:50%;
+        max-width:80%;
     }
 }
 
