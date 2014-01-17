@@ -1948,6 +1948,10 @@ li.ui-menu-item {
     width:25%;
 }
 
+.panel-content.home button {
+    padding:12px;
+}
+
 .panel-content.home a.button:active {
     border:solid 2px #838280;
 }
