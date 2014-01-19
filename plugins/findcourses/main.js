@@ -306,12 +306,7 @@ define(requires, function(selfEnrolForm, coursesTpl) {
         },
 
         _selfEnrollSuccess: function(data) {
-            if (data === 0) {
-                // Something went wrong - wrong key?
-                $(document).find(".selfenrolmentform .errormessage").html(
-                    "Please check the enrolment key and try again."
-                );
-            } else {
+            if (data.enrolled) {
                 // Clear the enrolment key.
                 $(document).find('.selfenrolmentform input#enrolmentkey').val("");
                 // Remove the event handler from the button
@@ -325,6 +320,8 @@ define(requires, function(selfEnrolForm, coursesTpl) {
 
                 // All working well, user has self enrolled, now go to the course page.
                 MM.Router.navigate('#/courses/' + courseId, {trigger:true});
+            } else {
+                MM.popErrorMessage(MM.lang.s("self-enrol-error"));
             }
         },
 

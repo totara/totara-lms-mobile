@@ -203,5 +203,6 @@
 "course-enrol": "Enrol Me",
 "url-instructional-text": "Click the link below to open the resource.",
 "top-nav-menu": "Menu",
-"self-enrol-disabled": "Self-enrolment is not enabled for this course"
+"self-enrol-disabled": "Self-enrolment is not enabled for this course",
+"self-enrol-error": "Please check the enrolment key and try again."
 }
