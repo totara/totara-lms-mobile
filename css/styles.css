@@ -226,6 +226,7 @@ button
     padding: 7px;
     display:block;
     margin:auto;
+    min-width:100px;
 }
 
 button#cancel
@@ -468,14 +469,8 @@ ol {
 .header-main #top-nav .nav-item {
     background:none;
     text-align:center;
-    padding:0 25px;
+    padding:0 10px;
     width:auto;
-}
-
-@media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
-    .header-main #top-nav .nav-item {
-        padding:0 12px;
-    }
 }
 
 .header-main #top-nav .nav .nav-item:first-child {
@@ -496,11 +491,11 @@ ol {
     height:32px;
 }
 
-.header-main #top-nav .nav-item > a span {
+.header-main #top-nav a span.top-nav-text {
     text-transform: uppercase;
     white-space: nowrap;
-    font-size:0.6rem;
     display:block;
+    font-size:0.6rem;
     margin-top:8px;
     color:#fff;
     font-family:helvetica, sans-serif;
@@ -1132,7 +1127,7 @@ button {
     border-radius: 4pt;
     border: 1pt solid #CCC;
     border-bottom: #B3B3B3;
-    height: 30pt;
+    height: auto;
     width: 40%;
     color: #666;
 }
