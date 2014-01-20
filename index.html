@@ -111,13 +111,18 @@
     <ul class="nav">
         <li class="nav-item home menu-home">
             <a href="#" class="ir" id="mainmenu">
-                <img src="img/icon/totara-grey.png" alt="<%= MM.lang.s('openmenu') %>" title="<%= MM.lang.s('openmenu') %>" width="32" height="32" />
+                <img src="img/totara/icon/totara-grey.png" alt="<%= MM.lang.s('openmenu') %>" title="<%= MM.lang.s('openmenu') %>" width="32" height="32" />
+				<span class="top-nav-text"><%= MM.lang.s("top-nav-menu") %></span>
             </a>
         </li>
         <% _.each(menu_items, function(menu_item) { %>
             <li class="nav-item">
                 <a href="<%= menu_item.href %>" class="item" id="topnav-<%= menu_item.id %>" title="<%= menu_item.title %>">
                     <img src="<%= menu_item.alticon %>" alt="<%= menu_item.name %>" title="<%= menu_item.title %>" />
+					<span class="top-nav-text"><%= menu_item.title %></span>
+                    <span class="menu-items-new">
+                        10
+                    </span>
                 </a>
             </li>
         <% }); %>

@@ -8,11 +8,11 @@ require(templates, function(mainTpl) {
             name: "default_homepage",
             type: "general",
             title: "Homepage",
-            icon: "img/icon/home.png",
+            icon: "img/totara/icon/home.png",
             lang: {
                 component: "core"
             },
-            menuurl:"#homepage"
+            menuURL:"#homepage"
         },
 
         templates: {

@@ -7,7 +7,7 @@ define(templates, function(myCoursesTpl, participantsTpl, participantTpl) {
             name: "mycourses",
             title: "My Courses",
             type: "general",
-            icon: "img/icon/my-courses.png",
+            icon: "img/totara/icon/my-courses.png",
             lang: {
                 component: "core"
             },

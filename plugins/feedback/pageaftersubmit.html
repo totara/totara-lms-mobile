@@ -1,4 +1,11 @@
+<div class="panel-content feedback after-submit">
+    <div id="top">
+        <header class="header">
+            <h2 class="name"><%= name %><%= MM.lang.s("text-separator") %><%= MM.lang.s("feedback-submitted") %></h2>
+        </header>
+    </div>
+    <div class="sections">
+        <%= page_after_submit %>
+        <button name="continue" id="continue">Continue</button>
+    </div>
 <div>
-    <%= page_after_submit %>
-    <button name="continue" id="continue">Continue</button>
-</div>

@@ -1,0 +1,13 @@
+<div class='selfenrolmentform hidden'>
+    <h3><%= title %></h3>
+    <% if (self_enrol_enabled) { %>
+        <form id="enrolment" method="post" action="#">
+            <% if (key_required) { %>
+                <input type='text' value='' placeholder='Enrolment Key' id='enrolmentkey' />
+            <% } %>
+            <input type="button" class="link" id="enrol" value="<%= MM.lang.s('course-enrol') %>" />
+        </form>
+    <% } else { %>
+        <p><%= MM.lang.s('self-enrol-disabled') %></p>
+    <% } %>
+</div>

@@ -19,7 +19,9 @@ body {
 
 .header-main {
     height:76px;
-    position:relative;
+    position:fixed;
+    z-index:9999;
+    width:100%;
 }
 
 #panel-top {
@@ -49,9 +51,11 @@ body {
     padding-right: 50px;
 }
 
-#panel-center
+#panel-left
+, #panel-center
 , #panel-right {
-    top:76px
+    top:76px;
+    padding-bottom:2rem;
 }
 
 #panel-left.animate {
@@ -90,13 +94,14 @@ body {
     min-width:80%;
     max-width:100%;
     padding:0;
+    min-height:42px;
 }
 
 .panel-content.find header.header {
     min-height:72px;
 }
 
-@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+@media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
     .panel-content header {
         width:80%;
     }
@@ -140,6 +145,50 @@ body {
 
 .panel-content header.header .header-detail {
     margin-top:1em;
+}
+
+/* Settings. */
+
+.panel-content.settings .sites-list {
+    padding:0 20px;
+}
+
+.panel-content.settings .sites-list li {
+    border:none;
+}
+
+.panel-content.settings #cache_expiration_time button {
+    display:inline;
+}
+
+.panel-content.settings #cache_expiration_time {
+    padding: 10px !important; /* override inline styles. */
+    width:100px !important; /* overrides inline style. */
+}
+
+.panel-content.settings #cache_expiration_time-text {
+    display:inline-block;
+    margin-top:1rem;
+}
+
+.panel-content.settings .centered {
+    clear:both;
+}
+
+.panel-content.settings .settings-info {
+    padding: 0 20px;
+}
+
+.panel-content.settings #list .nav-item > div {
+    padding-left: 0.61538rem;
+}
+
+.panel-content.settings p {
+    padding: 0.61538rem;
+}
+
+.panel-content.settings .device p {
+    padding: 0;
 }
 
 @media only screen and (min-device-width : 234px) and (max-device-width : 767px) {

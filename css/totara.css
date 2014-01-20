@@ -141,6 +141,43 @@ button
     color:#fff;
 }
 
+.panel.user-menu .menu-items-indicator {
+    position:absolute;
+    right:18px;
+    font-size:0.8rem;
+    opacity:0.7;
+    background-color:#323137;
+    padding:4px 10px;
+    border-radius:4px;
+    width:34px;
+    text-align:center;
+}
+
+.header-main #top-nav .nav-item .menu-items-new
+, .panel.user-menu .menu-items-new {
+    position:absolute;
+    right:6px;
+    top:3px;
+    background-color:#e83187;
+    border-radius:12px;
+    color:#fff;
+    font-size:0.8rem;
+    width:1.5rem;
+    height:1.5rem;
+    text-align:center;
+    line-height:1.5rem;
+
+}
+
+.header-main #top-nav .nav-item .menu-items-new {
+    right:0;
+    top:-5px;
+}
+
+.header-main #top-nav .nav-item > a span {
+    color:#7c7a80;
+}
+
 /* Content. */
 
 .panel-content h1
@@ -153,11 +190,16 @@ button
 }
 
 .panel-content .nav-item {
-    border-bottom:solid 1px #dad9dc;
+    border-bottom:solid 1px #9a979b;
 }
 
 .panel-content .nav-item:first-child {
-    border-top:solid 1px #dad9dc;
+    border-top:solid 1px #9a979b;
+}
+
+.panel-content .nav-item .nav-item {
+    border-top:solid 1px #d3d2d5;
+    margin-right:10px;
 }
 
 @media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
@@ -249,6 +291,12 @@ div.program-info ul {
 .panel-content div.expand.no-items a {
     color:#dad9dc;
     cursor:default;
+}
+
+/* Settings. */
+
+.panel-content.settings #list ul:nth-child(2) li:first-child {
+    border-top:none
 }
 
 /* Alerts / Tasks. */

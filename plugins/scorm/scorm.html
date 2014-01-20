@@ -2,13 +2,13 @@
     <div id="top">
         <a href="#" title="Back" id="back"></a>
         <header class="header">
-            <h2 class="name">SCORM NAME</h2>
-            <p class="header-sub-item">COURSE NAME</p>
+            <h2 class="name"><%= scorm.scorm_name %></h2>
+            <p class="header-sub-item"><%= scorm.course_full_name %></p>
         </header>
     </div>
     <div class="sections">
         <section>
-            <p class="summary">SCORM SUMMARY</p>
+            <p class="summary"><%= scorm.scorm_intro %></p>
         </section>
         <section>
             <ul id="scorm-attempts">

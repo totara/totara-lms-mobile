@@ -9,6 +9,7 @@ define(templates,function (participantsTpl, participantTpl) {
             name: "participants",
             type: "course",
             menuURL: "#participants/",
+            title: "Participants",
             lang: {
                 component: "core"
             },
@@ -25,20 +26,28 @@ define(templates,function (participantsTpl, participantTpl) {
             ["participant/:courseId/:userId", "participants", "showParticipant"],
         ],
 
+        templates: {
+            "participant": {
+                model: "participant",
+                html: participantTpl
+            },
+            "participants": {
+                html: participantsTpl
+            }
+        },
+
         sizes: undefined,
 
         _getSizes: function() {
             // Default tablet.
             MM.plugins.participants.sizes = {
                 withSideBar: {
-                    left:MM.navigation.getWidth(),
-                    center:($(document).innerWidth() - MM.navigation.getWidth())/2,
-                    right:($(document).innerWidth() - MM.navigation.getWidth())/2
+                    center:$(document).innerWidth() - MM.navigation.getWidth(),
+                    left:MM.navigation.getWidth()
                 },
                 withoutSideBar: {
-                    left:0,
-                    center:$(document).innerWidth() / 2,
-                    right:$(document).innerWidth() / 2
+                    center:$(document).innerWidth(),
+                    left:0
                 }
             };
 
@@ -66,18 +75,10 @@ define(templates,function (participantsTpl, participantTpl) {
                     'width':MM.plugins.participants.sizes.withSideBar.center,
                     'left':MM.plugins.participants.sizes.withSideBar.left
                 });
-                $("#panel-right").css({
-                    'width':MM.plugins.participants.sizes.withSideBar.right,
-                    'left':MM.plugins.participants.sizes.withSideBar.center + MM.navigation.getWidth()
-                });
             } else {
                 $("#panel-center").css({
                     'width':MM.plugins.participants.sizes.withoutSideBar.center,
                     'left':MM.plugins.participants.sizes.withoutSideBar.left
-                });
-                $("#panel-right").css({
-                    'width':MM.plugins.participants.sizes.withoutSideBar.right,
-                    'left':MM.plugins.participants.sizes.withoutSideBar.center
                 });
             }
 
@@ -88,7 +89,7 @@ define(templates,function (participantsTpl, participantTpl) {
                 });
             }
 
-            $("#panel-right").show();
+            $("#panel-right").hide();
         },
 
         cleanUp: function() {
@@ -102,23 +103,25 @@ define(templates,function (participantsTpl, participantTpl) {
             };
             MM.moodleWSCall('moodle_user_get_users_by_courseid', data, function(users) {
                 // Removing loading icon.
-                $('a[href="#participants/' +courseId+ '"]').removeClass('loading-row');
-                var tpl = {users: users, deviceType: MM.deviceType, courseId: courseId};
-                var html = MM.tpl.render(MM.plugins.participants.templates.participants.html, tpl);
+                $('a[href="#participants/' + courseId + '"]').removeClass('loading-row');
+                var tpl = {
+                    users: users,
+                    deviceType: MM.deviceType,
+                    courseId: courseId,
+                    title: MM.plugins.participants.settings.title
+                };
+                var html = MM.tpl.render(
+                    MM.plugins.participants.templates.participants.html, tpl
+                );
 
                 var course = MM.db.get("courses", parseInt(courseId, 10));
                 var pageTitle = course.get("shortname") + " - " + MM.lang.s("participants");
 
                 MM.panels.show('center', html, {title: pageTitle});
-                // Load the first user
-                if (MM.deviceType == "tablet" && users.length > 0) {
-                    $("#panel-center li:eq(0)").addClass("selected-row");
-                    MM.plugins.participants.showParticipant(courseId, users.shift().id);
-                    $("#panel-center li:eq(0)").addClass("selected-row");
-                }
+                MM.util.setupBackButton();
             }, null, function(m) {
                 // Removing loading icon.
-                $('a[href="#participants/' +courseId+ '"]').removeClass('loading-row');
+                $('a[href="#participants/' + courseId + '"]').removeClass('loading-row');
             });
         },
 
@@ -127,9 +130,6 @@ define(templates,function (participantsTpl, participantTpl) {
 
             MM.panels.showLoading('center');
 
-            if (MM.deviceType == "tablet") {
-                MM.panels.showLoading('right');
-            }
             // Adding loading icon.
             $('a[href="#participants/' + courseId + '"]').addClass('loading-row');
 
@@ -175,15 +175,24 @@ define(templates,function (participantsTpl, participantTpl) {
                 // Load the active user plugins.
 
                 var userPlugins = [];
+                var wantedPlugins = [
+                    "addcontact",
+                    "addnote",
+                    "sendmessage"
+                ];
                 for (var el in MM.plugins) {
                     var plugin = MM.plugins[el];
-                    if (plugin.settings.type == "user") {
+                    if (_.indexOf(wantedPlugins, plugin.settings.name) !== -1) {
                         userPlugins.push(plugin.settings);
                     }
                 }
 
                 var newUser = users.shift();
 
+                // It's possible that courses haven't been queried at this point.
+                // If that's the case then we query them, so we have the courses
+                // stored and then we can use the data to get the page title
+                // for the course.
                 if (MM.db.length("courses") === 0 ||
                     MM.db.get("courses", courseId) === undefined
                 ) {
@@ -209,23 +218,20 @@ define(templates,function (participantsTpl, participantTpl) {
                     var course = MM.db.get("courses", courseId);
                     var pageTitle = course.get("shortname") + " - " + MM.lang.s("participants");
 
-                    var tpl = {"user": newUser, "plugins": userPlugins, "courseid": courseId};
-                    var html = MM.tpl.render(MM.plugins.participants.templates.participant.html, tpl);
+                    var tpl = {
+                        "user": newUser,
+                        "plugins": userPlugins,
+                        "courseid": courseId
+                    };
+                    var html = MM.tpl.render(
+                        MM.plugins.participants.templates.participant.html, tpl
+                    );
 
                     MM.db.insert("users", newUser);
-                    MM.panels.show('right', html, {title: pageTitle});
+                    MM.panels.show('center', html, {title: pageTitle});
+                    MM.util.setupBackButton();
                 }
             });
-        },
-
-        templates: {
-            "participant": {
-                model: "participant",
-                html: participantTpl
-            },
-            "participants": {
-                html: participantsTpl
-            }
         }
     }
 

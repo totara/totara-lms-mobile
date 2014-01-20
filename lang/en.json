@@ -172,6 +172,7 @@
 "filesizeunit" : "&nbsp;MB",
 "openmenu" : "Open Menu",
 "feedback-submitanswers" : "SUBMIT YOUR ANSWERS",
+"feedback-submitted": "Feedback Submitted",
 "cancelandreturn" : "CANCEL &amp; RETURN",
 "externalpassword": "Please enter your password to continue",
 "viewonmainsite" : "VIEW ON MAIN SITE",
@@ -195,5 +196,13 @@
 "mybookings" : "My Bookings",
 "tasks" : "Tasks",
 "mylearning": "My Learning",
-"alerts" : "Alerts"
+"alerts" : "Alerts",
+"text-separator": "&nbsp;&#45;&nbsp;",
+"text-separator": "&nbsp;&#45;&nbsp;",
+"course-self-enrol-dialog": "Course Self Enrolment",
+"course-enrol": "Enrol Me",
+"url-instructional-text": "Click the link below to open the resource.",
+"top-nav-menu": "Menu",
+"self-enrol-disabled": "Self-enrolment is not enabled for this course",
+"self-enrol-error": "Please check the enrolment key and try again."
 }

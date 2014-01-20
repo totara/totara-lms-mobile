@@ -1,50 +1,75 @@
+<div class="panel-content participant">
+    <div id="top">
+        <a href="#" title="Back" id="back"></a>
+        <header class="header">
+            <h2 class="name"><%= MM.util.formatText(user.fullname) %></h2>
+        </header>
+    </div>
+
     <div class="user-card">
         <div class="content">
             <div class="user-picture">
                 <img src="<%= MM.util.getMoodleFilePath(user.profileimageurl) %>" alt="<% print( MM.util.formatText(user.fullname)); %>" />
-                &nbsp;&nbsp;<strong><% print( MM.util.formatText(user.fullname)); %></strong>
+                &nbsp;&nbsp;
+                <strong>
+                    <%= MM.util.formatText(user.fullname) %>
+                </strong>
             </div>
 
             <h2><%= MM.lang.s("contact") %></h2>
 
             <ul class="user-data">
-            <% var fields = ["email", "address", "city", "country", "phone1", "phone2"]; %>
-            <% _.each(fields, function(field) { %>
-            <% if (user[field]) { %>
-                <li><% print(MM.lang.s(field)); %>:
-                <% if (field == "phone1" || field == "phone2") { %>
-                    <a href="tel:<% print(user[field]); %>"><% print(user[field]); %></a>
+                <% var fields = [
+                    "email", "address", "city", "country", "phone1", "phone2"
+                ] %>
+                <% _.each(fields, function(field) { %>
+                    <% if (user[field]) { %>
+                        <li><%= MM.lang.s(field) %>:
+                        <% if (field == "phone1" || field == "phone2") { %>
+                            <a href="tel:<% print(user[field]); %>">
+                                <%= user[field] %>
+                            </a>
+                        <% } else if (field == "address") { %>
+                            <% var add = user[field]; %>
+                            <% add += (user["city"]) ? "," + user["city"] : ""; %>
+                            <% add += (user["country"]) ? "," + user["country"] : ""; %>
+                            <% add = encodeURIComponent(add); %>
 
-                <% } else if (field == "address") { %>
-                    <% var add = user[field]; %>
-                    <% add += (user["city"]) ? "," + user["city"] : ""; %>
-                    <% add += (user["country"]) ? "," + user["country"] : ""; %>
-                    <% add = encodeURIComponent(add); %>
+                            <% if (MM.deviceOS == "android") { %>
+                                <a href="geo:<% print(add); %>" target="_blank">
+                                    <%= user[field] %>
+                                </a>
+                            <% } else { %>
+                                <a href="http://maps.google.com?q=<% print(add); %>" target="_blank">
+                                    <%= user[field] %>
+                                </a>
+                            <% }  %>
 
-                    <% if (MM.deviceOS == "android") { %>
-                        <a href="geo:<% print(add); %>" target="_blank"><% print(user[field]); %></a>
-                    <% } else { %>
-                        <a href="http://maps.google.com?q=<% print(add); %>" target="_blank"><% print(user[field]); %></a>
-                    <% }  %>
-
-                <% } else { %>
-                    <% print( MM.util.formatText(user[field])); %>
-                <% } %>
-                </li>
-            <% } %>
-            <% }); %>
+                        <% } else { %>
+                            <%= MM.util.formatText(user[field]) %>
+                        <% } %>
+                        </li>
+                    <% } %>
+                <% }); %>
             </ul>
 
             <% if (user.description) { %>
                 <h2><%= MM.lang.s("description") %></h2>
-                <div class="user-description"><% print( MM.util.formatText(user.description)); %></div>
+                <div class="user-description">
+                    <%= MM.util.formatText(user.description) %>
+                </div>
             <% } %>
-            <hr>
-
+            <hr />
         </div>
         <div class="buttons">
             <% _.each(plugins, function(plugin) { %>
-            <div><a href="<%= plugin.menuURL %>/<%= courseid %>/<%= user.id %>"><button><%= MM.lang.s(plugin.name) %></button></a></div>
+                <div>
+                    <a href="<%= plugin.menuURL %>/<%= courseid %>/<%= user.id %>">
+                        <%= MM.lang.s(plugin.name) %>
+                    </a>
+                </div>
             <% }); %>
         </div>
     </div>
+<div>
+
