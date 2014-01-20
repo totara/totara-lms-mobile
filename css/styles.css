@@ -220,7 +220,7 @@ button
     border: 1pt solid #CCC;
     border-bottom: #B3B3B3;
     height: auto;
-    width: 40%;
+    width: 20%;
     color: #666;
     text-align: center;
     padding: 7px;
@@ -233,7 +233,13 @@ button#cancel
 , a#cancel {
     font-size:0.8em;
     margin-top:20px;
-    width:30%;
+    width:15%;
+}
+
+button.plus
+, button.minus {
+    min-width:30px;
+    min-height:30px;
 }
 
 @media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
@@ -999,7 +1005,8 @@ form div.error {
 
 .site-info {
     float: left;
-    width: 90%
+    width: 90%;
+    padding-bottom:2rem;
 }
 
 .site-actions {
@@ -1128,7 +1135,6 @@ button {
     border: 1pt solid #CCC;
     border-bottom: #B3B3B3;
     height: auto;
-    width: 40%;
     color: #666;
 }
 
@@ -1607,7 +1613,7 @@ li.ui-menu-item {
 #button-container button {
     display:block;
     margin:auto;
-    min-width:20%;
+    min-width:15%;
 }
 
 #button-container button.cancel {
