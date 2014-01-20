@@ -483,7 +483,7 @@ ol {
 }
 
 .header-main #top-nav .nav-item > a {
-    display:table-cell;
+    display:table;
     height:60px;
     vertical-align: middle;
     width:56px;
