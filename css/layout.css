@@ -54,7 +54,8 @@ body {
 #panel-left
 , #panel-center
 , #panel-right {
-    top:76px
+    top:76px;
+    padding-bottom:2rem;
 }
 
 #panel-left.animate {
