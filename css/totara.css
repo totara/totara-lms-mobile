@@ -106,6 +106,7 @@ button
     border-radius:0;
     text-transform: capitalize;
     width:49%;
+    min-width:49%;
     height:auto;
 }
 
