@@ -68,7 +68,15 @@
                                             <% if (course.started == 1 || course.completed == 1) { %>
                                                 <a href="#courses/<%= course.id %>" class="sub-item-title item-course">
                                             <% } else { %>
+                                                <% if (course.self_enrol_enabled) { %>
+                                                    <% if (course.self_enrol_key_required) { %>
+                                                        <a href="#" data-courseid=<%= course.id %> class="sub-item-title item-course unstarted self-enrol key-required">
+                                                    <% } else { %>
+                                                        <a href="#" data-courseid=<%= course.id %> class="sub-item-title item-course unstarted self-enrol">
+                                                    <% } %>
+                                                <% } else { %>
                                                 <a href="#" data-courseid=<%= course.id %> class="sub-item-title item-course unstarted">
+                                                <% } %>
                                             <% } %>
                                                 <%= course.fullname %>
                                             </a>

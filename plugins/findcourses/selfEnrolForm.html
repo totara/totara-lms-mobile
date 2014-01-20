@@ -1,9 +1,13 @@
 <div class='selfenrolmentform hidden'>
-    <div class='errormessage'>
-    </div>
     <h3><%= title %></h3>
-    <form id="enrolment" method="post" action="#">
-        <input type='text' value='' placeholder='Enrolment Key' id='enrolmentkey' />
-        <input type="button" class="link" id="enrol" value="<%= MM.lang.s('course-enrol') %>" />
-    </form>
+    <% if (self_enrol_enabled) { %>
+        <form id="enrolment" method="post" action="#">
+            <% if (key_required) { %>
+                <input type='text' value='' placeholder='Enrolment Key' id='enrolmentkey' />
+            <% } %>
+            <input type="button" class="link" id="enrol" value="<%= MM.lang.s('course-enrol') %>" />
+        </form>
+    <% } else { %>
+        <p><%= MM.lang.s('self-enrol-disabled') %></p>
+    <% } %>
 </div>
