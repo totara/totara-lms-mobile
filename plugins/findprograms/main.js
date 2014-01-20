@@ -175,13 +175,13 @@ define(requires, function(programsTpl) {
                     category.programs = [];
                     category.subcategories = [];
                     category.categoryName = category.name;
-                    _.each(programs, function(course, index) {
-                        if (course.category === category.id) {
-                            // TODO: Query db to set whether the course is in
+                    _.each(programs, function(program, index) {
+                        if (program.categoryid === category.id) {
+                            // TODO: Query db to set whether the program is in
                             // progress or not.
-                            course.started = 0;
-                            course.completed = 0;
-                            category.programs.push(course);
+                            program.started = 0;
+                            program.completed = 0;
+                            category.programs.push(program);
                         }
                     });
                     categories[category.id] = category;
