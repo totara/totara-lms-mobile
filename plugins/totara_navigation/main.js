@@ -120,6 +120,9 @@ require(templates, function(config, navTpl) {
                 });
 
             }
+
+            $(".menu-home img").attr("src", "img/totara/icon/totara-green.png");
+
         },
 
         hide: function() {
@@ -129,6 +132,9 @@ require(templates, function(config, navTpl) {
                 'width': '100%'
             });
             $("#panel-center").show();
+
+            $(".menu-home img").attr("src", "img/totara/icon/totara-grey.png");
+
         }
     };
 
