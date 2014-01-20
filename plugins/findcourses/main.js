@@ -8,7 +8,7 @@ define(requires, function(selfEnrolForm, coursesTpl) {
             name: "findcourses",
             type: "general",
             title: "Find Courses",
-            icon: "img/icon/find-courses.png",
+            icon: "img/totara/icon/find-courses.png",
             lang: {
                 component: "core"
             },
@@ -271,7 +271,9 @@ define(requires, function(selfEnrolForm, coursesTpl) {
             // Render
             var enrolmentFormHTML = MM.tpl.render(
                 MM.plugins.findcourses.templates.courseEnrolment.html, {
-                    title: course.get('fullname')
+                    title: course.get('fullname'),
+                    self_enrol_enabled: $(this).hasClass('self-enrol'),
+                    key_required: $(this).hasClass('key-required')
                 }
             );
 
@@ -304,12 +306,7 @@ define(requires, function(selfEnrolForm, coursesTpl) {
         },
 
         _selfEnrollSuccess: function(data) {
-            if (data === 0) {
-                // Something went wrong - wrong key?
-                $(document).find(".selfenrolmentform .errormessage").html(
-                    "Please check the enrolment key and try again."
-                );
-            } else {
+            if (data.enrolled) {
                 // Clear the enrolment key.
                 $(document).find('.selfenrolmentform input#enrolmentkey').val("");
                 // Remove the event handler from the button
@@ -323,6 +320,8 @@ define(requires, function(selfEnrolForm, coursesTpl) {
 
                 // All working well, user has self enrolled, now go to the course page.
                 MM.Router.navigate('#/courses/' + courseId, {trigger:true});
+            } else {
+                MM.popErrorMessage(MM.lang.s("self-enrol-error"));
             }
         },
 

@@ -8,8 +8,8 @@ define(templates, function(layoutTpl) {
             name: "alerts",
             type: "general",
             title: "Alerts",
-            icon: "img/icon/alerts.png",
-            alticon: "img/icon/alerts-grey.png",
+            icon: "img/totara/icon/alerts.png",
+            alticon: "img/totara/icon/alerts-grey.png",
             lang: {
                 component: "core"
             },

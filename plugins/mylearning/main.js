@@ -8,7 +8,7 @@ define(templates, function(layoutTpl) {
             name: "mylearning",
             type: "general",
             title: "My Learning",
-            icon: "img/icon/my-learning.png",
+            icon: "img/totara/icon/my-learning.png",
             lang: {
                 component: "core"
             },

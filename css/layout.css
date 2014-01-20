@@ -19,7 +19,9 @@ body {
 
 .header-main {
     height:76px;
-    position:relative;
+    position:fixed;
+    z-index:9999;
+    width:100%;
 }
 
 #panel-top {
@@ -49,9 +51,11 @@ body {
     padding-right: 50px;
 }
 
-#panel-center
+#panel-left
+, #panel-center
 , #panel-right {
-    top:76px
+    top:76px;
+    padding-bottom:2rem;
 }
 
 #panel-left.animate {
@@ -153,9 +157,18 @@ body {
     border:none;
 }
 
-.panel-content.settings button {
-    width:auto;
+.panel-content.settings #cache_expiration_time button {
+    display:inline;
+}
 
+.panel-content.settings #cache_expiration_time {
+    padding: 10px !important; /* override inline styles. */
+    width:100px !important; /* overrides inline style. */
+}
+
+.panel-content.settings #cache_expiration_time-text {
+    display:inline-block;
+    margin-top:1rem;
 }
 
 .panel-content.settings .centered {
