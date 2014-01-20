@@ -64,12 +64,40 @@ h3 a {
 button
 , .button
 , input[type="submit"]
-, #add-site input[type="submit"] {
+, #add-site input[type="submit"]
+, #add-site input[type="submit"]:hover
+, #add-site input[type="submit"]:active {
     background:none #9bae20;
     color:#fff;
     font-weight:bold;
     text-transform: uppercase;
     font-family:'open sans', arial, sans-serif;
+    font-size:1.2rem;
+}
+
+.button {
+    padding:15px 7px;
+}
+
+button
+, .button
+, #add-site input[type="submit"]
+, .panel-content input[type="submit"]
+, #button-container button {
+    min-height:56px;
+    min-width:180px;
+    width:auto;
+}
+
+@media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
+    button
+    , .button
+    , input[type="submit"]
+    , #add-site input[type="submit"]
+    , #add-site input[type="submit"]:hover
+    , #add-site input[type="submit"]:active {
+        font-size:1.1rem;
+    }
 }
 
 #add-site button.remember-option {
@@ -77,11 +105,41 @@ button
     border:solid 1px #d3d2d5;
     border-radius:0;
     text-transform: capitalize;
+    width:49%;
+    height:auto;
 }
 
 #add-site .remember-option.selected {
     background-color:#7c7a80;
     color:#fff;
+}
+
+#add-site input[type="submit"] {
+    float:none;
+    width:100%;
+    font-style:normal;
+}
+
+#button-container button.cancel
+, button#cancel
+, a#cancel {
+    font-size:0.9rem;
+}
+
+button#cancel
+, a#cancel {
+    width:auto;
+}
+
+button.plus
+, button.minus {
+    min-width:30px;
+    min-height:30px;
+}
+
+.panel-content.home button
+, .panel-content.home a.button {
+    width:60%;
 }
 
 /* Panels. */
@@ -95,10 +153,17 @@ button
 #add-site {
     background: none #fff;
     padding-bottom:700px;
+    padding-top:2rem;
+}
+
+#add-site form {
+    width:60%;
 }
 
 #add-site #login-remember {
-    width:80%;
+    width:100%;
+    margin:0;
+    padding:0;
 }
 
 #add-site #remember-details {
@@ -121,14 +186,34 @@ button
     height:auto;
 }
 
+#add-site fieldset + p {
+    margin-top:4px;
+}
+
 #helplogin a {
     color:#7c7a80;
 }
 
 /* Home. */
 
-.home .button.view-courses {
-    font-size:0.9rem;
+.panel-content.home button.view-menu
+, .home .button.view-courses {
+    text-align:left;
+    padding:12px 40px 12px 12px
+}
+
+.home .button.view-courses span {
+    display:block;
+    margin-left:2px;
+    margin-top:4px;
+}
+
+@media only screen and (min-device-width : 234px) and (max-device-width:480px) and (orientation:portrait)  {
+    .panel-content.home button.view-menu
+    , .panel-content.home a.button {
+        width:70%;
+        max-width:70%;
+    }
 }
 
 /* Navigation. */
@@ -153,6 +238,10 @@ button
     text-align:center;
 }
 
+.header-main #top-nav .nav-item {
+    padding:0 2%;
+}
+
 .header-main #top-nav .nav-item .menu-items-new
 , .panel.user-menu .menu-items-new {
     position:absolute;
@@ -166,12 +255,11 @@ button
     height:1.5rem;
     text-align:center;
     line-height:1.5rem;
-
 }
 
 .header-main #top-nav .nav-item .menu-items-new {
-    right:0;
-    top:-5px;
+    right:4px;
+    top:4px;
 }
 
 .header-main #top-nav .nav-item > a span {
@@ -183,6 +271,11 @@ button
 .panel-content h1
 , h2.name {
     color:#9bae20;
+}
+
+h2.name {
+    line-height:2rem;
+    margin-top:-4px;
 }
 
 .panel-content div.expand {
@@ -321,8 +414,38 @@ div.program-info ul {
 }
 
 .panel-content.info a.button {
-    display:inline;
+    display:inline-block;
     font-size:0.8rem;
+    margin-top:10px;
+    width:auto;
+}
+
+.button.view-menu {
+    background:url('../img/totara/sprites/white-icons-sprite.png') scroll no-repeat 98% 10px #9bae20;
+}
+
+.home .button.view-courses {
+    background:url('../img/totara/sprites/white-icons-sprite.png') scroll no-repeat 98% -48px #9bae20;
+}
+
+/* Unsupported activities. */
+
+.unsupported .sections a {
+    width:50%;
+}
+
+.unsupported .sections a#cancel {
+    width:45%;
+}
+
+@media only screen and (min-device-width : 234px) and (max-device-width : 480px) and (orientation:portrait) {
+    .unsupported .sections a {
+        width:80%;
+    }
+
+    .unsupported .sections a#cancel {
+        width:75%;
+    }
 }
 
 @media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
@@ -339,6 +462,18 @@ div.program-info ul {
         font-size:0.8rem;
     }
 
+}
+
+@media only screen and (max-device-width : 480px) and (orientation: portrait) {
+    #add-site form {
+        width:80%;
+    }
+}
+
+@media only screen and (max-device-width : 480px) and (orientation: landscape) {
+    #add-site form {
+        width:60%;
+    }
 }
 
 
