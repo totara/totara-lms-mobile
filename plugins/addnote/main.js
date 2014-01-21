@@ -33,7 +33,7 @@ define(function () {
                 }
 
                 MM.widgets.dialogClose();
-                MM.moodleWSCall('moodle_notes_create_notes', data, function(r){
+                MM.moodleWSCall('core_notes_create_notes', data, function(r){
                     MM.popMessage(MM.lang.s("noteadded"));
                 }, {sync: true,
                     syncData: {

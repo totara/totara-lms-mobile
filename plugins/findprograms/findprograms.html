@@ -26,9 +26,9 @@
                             <ul>
                                 <% _.each(data.subcategories, function(subcat) { %>
                                 <li>
-                                    <a href="#find_programs/<%= subcat.attributes.id %>" class="sub-item-title">
-                                        <%= subcat.attributes.name %>
-                                        <%= subcat.attributes.programcount %>
+                                    <a href="#find_programs/<%= categories[subcat].id %>" class="sub-item-title">
+                                        <%= categories[subcat].name %>
+                                        <%= categories[subcat].coursecount %>
                                     </a>
                                 </li>
                                 <% }); %>
