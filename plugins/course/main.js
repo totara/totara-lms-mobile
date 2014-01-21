@@ -116,7 +116,12 @@ define(templates, function(courseTpl) {
             var courseInfo = response[0];
             MM.plugins.course.currentCourseInfo = response[0];
             var method= "core_course_get_contents";
-            var data = { courseid: courseInfo.id };
+            var data = {
+                courseid: courseInfo.id, 
+                options: [
+                    {name: 'userid', value: MM.site.get("userid")},
+                ]
+            };
             var callback = MM.plugins.course.courseContentsCallback;
             var presets = { omitExpires: true, cache: false };
             var errorCallback = MM.plugins.course.errorCallback;
