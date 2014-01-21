@@ -95,7 +95,7 @@ define(templates, function(courseTpl) {
             MM.assignCurrentPlugin(MM.plugins.course);
             MM.panels.showLoading("center");
 
-            var method = 'moodle_enrol_get_users_courses';
+            var method = 'core_enrol_get_users_courses';
             var data = {userid: MM.site.get('userid')};
             var presets = { omitExpires: true, cache: false };
             var errorCallback = MM.plugins.course.errorCallback;
