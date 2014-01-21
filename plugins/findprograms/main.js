@@ -91,6 +91,8 @@ define(requires, function(programsTpl) {
         cleanUp: function() {
             $("#panel-center").html("");
             $("#panel-right").show();
+            $(document).off('categories_found');
+            $(document).off('programs_found');
         },
 
         main: function(subCatId) {
