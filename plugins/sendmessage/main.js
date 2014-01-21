@@ -30,7 +30,7 @@ define(function () {
                 }
 
                 MM.widgets.dialogClose();
-                MM.moodleWSCall('core_message_send_instant_messages', data, function(r){
+                MM.moodleWSCall('moodle_message_send_instantmessages', data, function(r){
                     MM.popMessage(MM.lang.s("messagesent"));
                 }, {sync: true,
                     syncData: {

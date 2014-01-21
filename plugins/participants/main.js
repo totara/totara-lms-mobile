@@ -101,7 +101,7 @@ define(templates,function (participantsTpl, participantTpl) {
             var data = {
                 "courseid" : courseId
             };
-            MM.moodleWSCall('core_enrol_get_enrolled_users', data, function(users) {
+            MM.moodleWSCall('moodle_user_get_users_by_courseid', data, function(users) {
                 // Removing loading icon.
                 $('a[href="#participants/' + courseId + '"]').removeClass('loading-row');
                 var tpl = {
@@ -171,7 +171,7 @@ define(templates,function (participantsTpl, participantTpl) {
                 "userlist[0][userid]": userId,
                 "userlist[0][courseid]": courseId
             }
-            MM.moodleWSCall('core_user_get_course_user_profiles', data, function(users) {
+            MM.moodleWSCall('moodle_user_get_course_participants_by_id', data, function(users) {
                 // Load the active user plugins.
 
                 var userPlugins = [];
