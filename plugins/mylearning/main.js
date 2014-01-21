@@ -83,6 +83,7 @@ define(templates, function(layoutTpl) {
         cleanUp: function() {
             $("#panel-center").html("");
             $("#panel-right").show();
+            $(document).off('section_loaded');
         },
 
         courses:undefined,
