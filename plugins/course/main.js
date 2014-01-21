@@ -132,9 +132,15 @@ define(templates, function(courseTpl) {
             MM.assignCurrentPlugin(MM.plugins.course);
             var course = MM.plugins.course.currentCourseInfo;
             course.contents = response;
+            course.num_modules = 0;
+            course.num_modules_completed = 0;
 			$.each(course.contents, function(i, section) {
                 $.each(section.modules, function(j, module) {
                     MM.db.insert("courseModules", module);
+                    course.num_modules++;
+                    if (module.completed) {
+                        course.num_modules_completed++;
+                    }
                 });
             });
             var template = MM.plugins.course.templates.course;
