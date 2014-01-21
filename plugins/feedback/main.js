@@ -210,10 +210,10 @@ define(
          * Validates the input based on the presentation of the question defined
          * by questionId.
          * Currently only validates numeric input and 'required' elements.
-         * Returns TRUE if no errors are found. FALSE otherwise.
+         * Returns TRUE if errors are found. FALSE otherwise.
          */
         _validateInput: function(questionId, input) {
-            var result = true;
+            var result = false;
             input = input.trim();
             var question = MM.db.get('questions', questionId);
             if (input.length !== 0) {
@@ -223,12 +223,12 @@ define(
                         var range = presentation.split("|");
                         input = parseFloat(input);
                         if (input < parseFloat(range[0]) || input > parseFloat(range[1])) {
-                            result = false;
+                            result = true;
                         }
                     }
                 }
             } else if (question.get('required') === 1 && input.length == 0) {
-                result = false;
+                result = true;
             }
 
             return result;
@@ -246,6 +246,8 @@ define(
                 var answer = $(answer);
                 var value = answer.val();
 
+                var required = answer.closest("li").hasClass('required');
+
                 // A multi-select with no options selected will have a value
                 // of null.
                 if (value !== null) {
@@ -256,7 +258,7 @@ define(
 
                         // Text boxes don't have a value, they have text.
                         if (value.trim().length === 0) {
-                            value = answer.text();
+                            value = answer.text().trim();
                         }
 
                         errors = errors || MM.plugins.feedback._validateInput(
@@ -271,8 +273,12 @@ define(
                     {'questionid':answer.data('questionid'), 'answer':value}
                 );
             });
-            if (!errors) {
+            if (errors) {
                 console.log("There were errors, check for the class 'error'");
+                $(document).find(".errors.hidden").html(
+                    "Errors were found. Please check your answers conform to the feedback requirements"
+                );
+                $(document).find(".errors.hidden").removeClass('hidden');
             } else {
                 var callBack = MM.plugins.feedback._sendAnswersSuccess;
                 var errorCallBack = MM.plugins.feedback._sendAnswersFailure;
@@ -315,6 +321,9 @@ define(
             $(document).find("#continue").on(
                 'click', MM.plugins.feedback._continueClicked
             );
+            if (!$(document).find(".errors").hasClass('hidden')) {
+                $(document).find(".errors").addClass('hidden').html('');
+            }
         },
 
         _continueClicked: function() {
