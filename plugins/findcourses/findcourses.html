@@ -47,9 +47,13 @@
                                     <ul>
                                         <% _.each(data.subcategories, function(subcat) { %>
                                         <li>
+                                            <% if (categories[subcat].subcategories.length > 0) { %>
+                                                <div class='number-of-subcategories'>
+                                                    <%= categories[subcat].subcategories.length %>
+                                                </div>
+                                            <% } %>
                                             <a href="#find_courses/<%= categories[subcat].id %>" class="sub-item-title">
                                                 <%= categories[subcat].name %>
-                                                <%= categories[subcat].coursecount %>
                                             </a>
                                         </li>
                                         <% }); %>
