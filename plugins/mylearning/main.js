@@ -83,6 +83,10 @@ define(templates, function(layoutTpl) {
         cleanUp: function() {
             $("#panel-center").html("");
             $("#panel-right").show();
+            MM.plugins.mylearning._removeListeners();
+        },
+
+        _removeListeners: function() {
             $(document).off('section_loaded');
         },
 
@@ -160,6 +164,7 @@ define(templates, function(layoutTpl) {
                 MM.plugins.mylearning.programs !== undefined &&
                 MM.plugins.mylearning.learning !== undefined
             ) {
+                MM.plugins.mylearning._removeListeners();
                 var values = {
                     'courses':MM.plugins.mylearning.courses,
                     'programs':MM.plugins.mylearning.programs,

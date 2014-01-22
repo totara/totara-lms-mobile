@@ -95,6 +95,10 @@ define(requires, function(selfEnrolForm, coursesTpl) {
         cleanUp: function() {
             $("#panel-center").html("");
             $("#panel-right").show();
+            MM.plugins.findcourses._removeListeners();
+        },
+
+        _removeListeners: function() {
             $(document).off('categories_found');
             $(document).off('course_completions_found');
             $(document).off('courses_found');
@@ -191,6 +195,7 @@ define(requires, function(selfEnrolForm, coursesTpl) {
             if (MM.plugins.findcourses.categories !== undefined &&
                 MM.plugins.findcourses.courses !== undefined
             ) {
+                MM.plugins.findcourses._removeListeners();
                 if (MM.plugins.findcourses.showingCategoryId === 0) {
                     MM.Router.navigate(
                         "find_courses"

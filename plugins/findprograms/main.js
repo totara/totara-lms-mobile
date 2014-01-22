@@ -91,6 +91,10 @@ define(requires, function(programsTpl) {
         cleanUp: function() {
             $("#panel-center").html("");
             $("#panel-right").show();
+            MM.plugins.findprograms._removeListeners();
+        },
+
+        _removeListeners: function() {
             $(document).off('categories_found');
             $(document).off('programs_found');
         },
@@ -158,6 +162,7 @@ define(requires, function(programsTpl) {
             if (MM.plugins.findprograms.categories !== undefined &&
                 MM.plugins.findprograms.programs !== undefined
             ) {
+                MM.plugins.findprograms._removeListeners();
                 if (MM.plugins.findprograms.showingCategoryId === 0) {
                     MM.Router.navigate(
                         "find_programs"

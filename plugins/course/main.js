@@ -95,7 +95,7 @@ define(templates, function(courseTpl) {
             MM.assignCurrentPlugin(MM.plugins.course);
             MM.panels.showLoading("center");
 
-            var method = 'core_enrol_get_users_courses';
+            var method = 'moodle_enrol_get_users_courses';
             var data = {userid: MM.site.get('userid')};
             var presets = { omitExpires: true, cache: false };
             var errorCallback = MM.plugins.course.errorCallback;
@@ -117,7 +117,7 @@ define(templates, function(courseTpl) {
             MM.plugins.course.currentCourseInfo = response[0];
             var method= "core_course_get_contents";
             var data = {
-                courseid: courseInfo.id, 
+                courseid: courseInfo.id,
                 options: [
                     {name: 'userid', value: MM.site.get("userid")},
                     {name: 'forcedescription', value: 'true'}
