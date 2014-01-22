@@ -314,18 +314,18 @@ define(requires, function(selfEnrolForm, coursesTpl) {
         },
 
         _selfEnrollSuccess: function(data) {
+            // Clear the enrolment key.
+            $(document).find('.selfenrolmentform input#enrolmentkey').val("");
+            // Remove the event handler from the button
+            $(document).find('.selfenrolmentform a#enrol').off(MM.clickType);
+            // Hide the form
+            $(document).find(".selfenrolmentform").addClass('hidden');
+
+            // Remove the course id from memory.
+            var courseId = MM.plugins.findcourses.lastEnrolledCourse;
+            MM.plugins.findcourses.lastEnrolledCourse = undefined;
+
             if (data.enrolled) {
-                // Clear the enrolment key.
-                $(document).find('.selfenrolmentform input#enrolmentkey').val("");
-                // Remove the event handler from the button
-                $(document).find('.selfenrolmentform a#enrol').off(MM.clickType);
-                // Hide the form
-                $(document).find(".selfenrolmentform").addClass('hidden');
-
-                // Remove the course id from memory.
-                var courseId = MM.plugins.findcourses.lastEnrolledCourse;
-                MM.plugins.findcourses.lastEnrolledCourse = undefined;
-
                 // All working well, user has self enrolled, now go to the course page.
                 MM.Router.navigate('#/courses/' + courseId, {trigger:true});
             } else {
