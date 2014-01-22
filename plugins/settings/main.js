@@ -46,9 +46,9 @@ require(templates, function(deviceInfoTpl, showReportBug, showLog,
             ['settings/sites/:siteid', 'settings_sites_show_site', "showSite"],
             ['settings/sites/add', 'settings_sites_add_site', "addSite"],
             ['settings/sites/delete/:siteid', 'settings_sites_delete_site', "deleteSite"],
-            ['settings/general/purgecaches', 'settings_general_purgecaches', MM.cache.purge],
-            ['settings/sync/lang', 'settings_sync_lang', function() { MM.lang.sync(true); }],
-            ['settings/sync/css', 'settings_sync_css', function() { MM.sync.css(true); }],
+            ['settings/general/purgecaches', 'settings_general_purgecaches', "purgeCache"],
+            ['settings/sync/lang', 'settings_sync_lang', "syncLang"],
+            ['settings/sync/css', 'settings_sync_css', "syncCSS"],
             ['settings/development/', 'showDevelopment', "showDevelopment"],
             ['settings/development/device', 'show_device_info', "showDeviceInfo"],
             ['settings/development/log/:filter', 'settings_show_log', "showLog"],
@@ -56,6 +56,18 @@ require(templates, function(deviceInfoTpl, showReportBug, showLog,
         ],
 
         sizes: undefined,
+
+        syncCSS: function() {
+            MM.sync.css(true);
+        },
+
+        syncLang: function() {
+            MM.lang.sync(true);
+        },
+
+        purgeCache: function() {
+            MM.cache.purge();
+        },
 
         _getSizes: function() {
             // Default tablet.
