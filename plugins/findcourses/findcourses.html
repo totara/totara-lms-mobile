@@ -47,9 +47,9 @@
                                     <ul>
                                         <% _.each(data.subcategories, function(subcat) { %>
                                         <li>
-                                            <% if (categories[subcat].subcategories.length > 0) { %>
-                                                <div class='number-of-subcategories'>
-                                                    <%= categories[subcat].subcategories.length %>
+                                            <% if (categories[subcat].coursecount > 0) { %>
+                                                <div class='submenu-number-of-items'>
+                                                    <%= categories[subcat].coursecount %>
                                                 </div>
                                             <% } %>
                                             <a href="#find_courses/<%= categories[subcat].id %>" class="sub-item-title">

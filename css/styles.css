@@ -1604,12 +1604,12 @@ li.ui-menu-item {
     display:none;
 }
 
-.panel-content div.number-of-subcategories {
+.panel-content div.submenu-number-of-items {
     float:right;
     margin: 0.5em 20px;
 }
 
-.oanel-content .collapse div.number-of-subcategories {
+.oanel-content .collapse div.submenu-number-of-items {
     display:none;
 }
 
