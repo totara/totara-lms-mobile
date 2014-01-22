@@ -1,8 +1,25 @@
 <div class="panel-content find find-programs">
-    <h1><%= title %></h1>
+    <% if (filter !== 0) { %>
+        <div id="top">
+            <a href="#" title="Back" id="back"></a>
+            <header class="header">
+                <h2 class="name"><%= title %></h2>
+            </header>
+        </div>
+        <% } else { %>
+        <h1><%= title %></h1>
+    <% } %>
     <ul class="nav nav-v js-accordion">
+        <% // All categories %>
+        <% // Go through each, if the category isnt undefined %>
+        <!--
+            Go through each category. If the category isn't undefined then,
+            if the parent id is the one used for the filter, grab that.
+        -->
+        <!-- Show all categories with the specified parent id. -->
+        <!-- Each category will give their sub categories too anyway -->
         <% _.each(categories, function(data, key) { %>
-            <% if (data !== undefined) { %>
+            <% if (data !== undefined && data.parent == filter || filter !== 0 && data.id == filter) { %>
                 <li class="nav-item">
                     <div class="name toogler expand touch-row">
                         <h3 class="program-title">
@@ -13,55 +30,63 @@
                         <div class="number-of-items">
                             <%= data.programs.length %>
                         </div>
-                        <a href="#" class="close toogler collapse touch-row" ><%= MM.lang.s("close") %></a>
+                        <a href="#" class="close toogler collapse touch-row" >
+                            <%= MM.lang.s("close") %>
+                        </a>
                     </div>
-                    <% if (data.subcategories.length > 0 || data.programs.length > 0) { %>
-                    <ul class="nav submenu">
-                        <% if (data.subcategories.length > 0) { %>
-                        <% // Sub Categories %>
-                        <li>
-                            <h5><%= MM.lang.s("subcategories") %></h5>
-                        </li>
-                        <li>
-                            <ul>
-                                <% _.each(data.subcategories, function(subcat) { %>
+                    <% if ((data.subcategories !== undefined && data.subcategories.length > 0) ||
+                        (data.programs !== undefined && data.programs.length > 0)
+                    ) { %>
+                        <ul class="nav submenu">
+                            <% if (data.subcategories.length > 0) { %>
+                                <% // Sub Categories %>
                                 <li>
-                                    <a href="#find_programs/<%= categories[subcat].id %>" class="sub-item-title">
-                                        <%= categories[subcat].name %>
-                                        <%= categories[subcat].coursecount %>
-                                    </a>
+                                    <h5><%= MM.lang.s("subcategories") %></h5>
                                 </li>
-                                <% }); %>
-                            </ul>
-                        </li>
-                        <% } %>
-                        <% if (data.programs.length > 0) { %>
-                        <% // Programs %>
-                        <li>
-                            <h5><%= MM.lang.s("programs") %></h5>
-                        </li>
-                        <li>
-                            <ul>
-                                <% _.each(data.programs, function(program) { %>
                                 <li>
-                                    <% // ToDo - Add check to see if user is enroled on program.  %>
-                                    <a href="#programs/<%= program.id %>" class="sub-item-title">
-                                        <%= program.fullname %>
-                                    </a>
-                                    <% // Currently always 'not-started' as not getting the correct data. %>
-                                    <% if (program.started == 1) { %>
-                                    <span class="completion-inprogress"></span>
-                                    <% } else if (program.completed == 1) { %>
-                                    <span class="completion-complete"></span>
-                                    <% } else { %>
-                                    <span class="completion-notstarted"></span>
-                                    <% } %>
+                                    <ul>
+                                        <% _.each(data.subcategories, function(subcat) { %>
+                                        <li>
+                                            <% if (categories[subcat].coursecount > 0) { %>
+                                                <div class='submenu-number-of-items'>
+                                                    <%= categories[subcat].coursecount %>
+                                                </div>
+                                            <% } %>
+                                            <a href="#find_programs/<%= categories[subcat].id %>" class="sub-item-title">
+                                                <%= categories[subcat].name %>
+                                            </a>
+                                        </li>
+                                        <% }); %>
+                                    </ul>
                                 </li>
-                                <% }); %>
-                            </ul>
-                        </li>
-                        <% } %>
-                    </ul>
+                            <% } %>
+                            <% if (data.programs.length > 0) { %>
+                            <% // Programs %>
+                            <li>
+                                <h5><%= MM.lang.s("programs") %></h5>
+                            </li>
+                            <li>
+                                <ul>
+                                    <% _.each(data.programs, function(program) { %>
+                                    <li>
+                                        <% // ToDo - Add check to see if user is enroled on program.  %>
+                                        <a href="#programs/<%= program.id %>" class="sub-item-title">
+                                            <%= program.fullname %>
+                                        </a>
+                                        <% // Currently always 'not-started' as not getting the correct data. %>
+                                        <% if (program.started == 1) { %>
+                                        <span class="completion-inprogress"></span>
+                                        <% } else if (program.completed == 1) { %>
+                                        <span class="completion-complete"></span>
+                                        <% } else { %>
+                                        <span class="completion-notstarted"></span>
+                                        <% } %>
+                                    </li>
+                                    <% }); %>
+                                </ul>
+                            </li>
+                            <% } %>
+                        </ul>
                     <% } %>
                 </li>
             <% } %>
