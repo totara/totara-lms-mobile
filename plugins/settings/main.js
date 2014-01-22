@@ -683,7 +683,7 @@ require(templates, function(deviceInfoTpl, showReportBug, showLog,
             var html = MM.tpl.render(
                 MM.plugins.settings.templates.showReportBug, {
                     title: MM.lang.s("settings") + " - " + MM.lang.s("development"),
-                    mailInfo: mailInfo
+                    mailInfo: encodeURIComponent(mailInfo)
                 }
             );
 
