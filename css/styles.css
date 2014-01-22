@@ -1604,6 +1604,15 @@ li.ui-menu-item {
     display:none;
 }
 
+.panel-content div.number-of-subcategories {
+    float:right;
+    margin: 0.5em 20px;
+}
+
+.oanel-content .collapse div.number-of-subcategories {
+    display:none;
+}
+
 #button-container {
     width:100%;
     text-align:center;
