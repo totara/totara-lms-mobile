@@ -7,7 +7,13 @@
         <li class="item">
             <p>
                 <%= MM.widgets.parseMoodleMultiChoice(
-                    presentation, ["question-answer"], {'data-questionid':id, 'displayhidden':options}, answer.value
+                    presentation, ["question-answer"],
+                    {
+                        'data-questionid':id,
+                        'displayhidden':options,
+                        'data-required':required
+                    },
+                    answer.value
                 ) %>
             </p>
         </li>

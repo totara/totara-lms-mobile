@@ -246,8 +246,6 @@ define(
                 var answer = $(answer);
                 var value = answer.val();
 
-                var required = answer.closest("li").hasClass('required');
-
                 // A multi-select with no options selected will have a value
                 // of null.
                 if (value !== null) {
@@ -257,7 +255,9 @@ define(
                     if (!_.isArray(value)) {
 
                         // Text boxes don't have a value, they have text.
-                        if (value.trim().length === 0) {
+                        // However select elements have a text value that
+                        // is the concatenation of all their options.
+                        if (value.trim().length === 0 && !answer.is("select")) {
                             value = answer.text().trim();
                         }
 
@@ -274,7 +274,6 @@ define(
                 );
             });
             if (errors) {
-                console.log("There were errors, check for the class 'error'");
                 $(document).find(".errors.hidden").html(
                     "Errors were found. Please check your answers conform to the feedback requirements"
                 );
