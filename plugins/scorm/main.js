@@ -119,25 +119,28 @@ define(templates, function(scormTpl, scormLaunchTpl) {
             MM.Router.navigate(url, true);
         },
 
+        /**
+         * Launches a SCORM with the specified cmid and mode either redirecting
+         * directly to the site ( because there's no offline ) option for SCORM
+         * or going via a login page.
+         *
+         * @param int    cmid       Course Module ID
+         * @param int    mode       The mode the scorm is played in.
+         *                          Popup, inline, normal
+         * @param string newAttempt 'new-attemp' or blank string.
+         */
         scormLaunch: function(cmid, mode, newAttempt) {
             MM.assignCurrentPlugin(MM.plugins.label);
             MM.panels.showLoading("center");
             MM.requireMainSiteLogin(function() {
-                MM.plugins.scorm._launch(cmid, mode, newAttempt);
+                newAttempt = (newAttempt === "new-attempt") ? "on" : "off";
+                var url = MM.config.current_site.siteurl;
+                url += "/mod/scorm/player.php?cm=" + cmid;
+                url += "&mode=" + mode;
+                url += "&newattempt=" + newAttempt;
+                url += "&display=embedded&scoid";
+                window.location.replace(url);
             });
-        },
-
-        _launch: function(cmid, mode, newAttempt) {
-            var template = MM.plugins.scorm.templates.scormLaunch;
-            var context = {
-                cmid: cmid,
-                mode: mode,
-                newAttempt: (newAttempt === "new-attempt") ? "on" : "off",
-                title: "[SCORM NAME]"
-            };
-            var html = MM.tpl.render(template.html, context);
-            MM.panels.show("center", html);
-            MM.util.setupBackButton();
         },
 
         errorCallback: function(error) {
