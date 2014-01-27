@@ -97,8 +97,17 @@ define(templates, function(unsupportedActivityTpl) {
             var html = MM.tpl.render(template.html, context);
             MM.panels.show("center", html);
             MM.util.setupBackButton();
-        }
+            $(document).find("#continue").on(
+                'click', MM.plugins.unsupportedActivity._showInPopup
+            );
+        },
+        _showInPopup: function(e) {
+            var link = $(e.target);
+            var url = link.data('url');
+            window.open(url);
 
+            return false;
+        }
     }
 
     MM.registerPlugin(plugin);
