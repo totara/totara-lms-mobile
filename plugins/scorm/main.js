@@ -84,7 +84,7 @@ define(templates, function(scormTpl, scormLaunchTpl) {
             $("#panel-right").show();
         },
 
-        currentCourseInfo: null,
+        currentScorm:undefined,
 
         scorm: function(cmid) {
             MM.assignCurrentPlugin(MM.plugins.label);
@@ -100,9 +100,14 @@ define(templates, function(scormTpl, scormLaunchTpl) {
 
         scormCallback: function(response) {
             var scorm = response;
+
+            // Record what the current scorm is for later use.
+            MM.plugins.scorm.currentScorm = scorm;
+
             var template = MM.plugins.scorm.templates.scorm;
             var context = { scorm: scorm };
             var html = MM.tpl.render(template.html, context);
+
             MM.panels.show("center", html);
             MM.util.setupBackButton();
             $(document).find("#submitter").on('click', function(ev) {
@@ -153,14 +158,32 @@ define(templates, function(scormTpl, scormLaunchTpl) {
             MM.assignCurrentPlugin(MM.plugins.label);
             MM.panels.showLoading("center");
             MM.requireMainSiteLogin(function() {
-                newAttempt = (newAttempt === "new-attempt") ? "on" : "off";
-                var url = MM.config.current_site.siteurl;
-                url += "/mod/scorm/player.php?cm=" + cmid;
-                url += "&mode=" + mode;
-                url += "&newattempt=" + newAttempt;
-                url += "&display=embedded&scoid";
-                window.location.replace(url);
+                MM.plugins.scorm._launch(cmid, mode, newAttempt);
             });
+        },
+
+        _launch: function(cmid, mode, newAttempt) {
+            var scorm = MM.plugins.scorm.currentScorm;
+            var template = MM.plugins.scorm.templates.scormLaunch;
+            var context = {
+                cmid: cmid,
+                mode: mode,
+                newAttempt: (newAttempt === "new-attempt") ? "on" : "off",
+                title: scorm === undefined ? 'SCORM NAME' : scorm.scorm_name
+            };
+            var html = MM.tpl.render(template.html, context);
+            MM.panels.show("center", html);
+            MM.util.setupBackButton();
+            $(document).find("#loadinpopup").on(
+                'click', MM.plugins.scorm._loadInPopup
+            );
+        },
+
+        _loadInPopup: function() {
+            var src = $(document).find("iframe").attr('src');
+            window.open(src);
+
+            return false;
         },
 
         errorCallback: function(error) {

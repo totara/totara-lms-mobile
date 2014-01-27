@@ -5,5 +5,8 @@
             <h2 class="name"><%= title %></h2>
         </header>
     </div>
-    <iframe id="scorm-container" src="<%= MM.config.current_site.siteurl %>/mod/scorm/player.php?cm=<%= cmid %>&mode=<%= mode %>&newattempt=<%= newAttempt %>&display=embedded&scoid"></iframe>
+    <p>
+        If the SCORM fails to load, please <a href='#' id='loadinpopup'>click here</a> to load it in a new window.
+    </p>
+    <iframe id="scorm-container" src="<%= MM.config.current_site.siteurl %>/mod/scorm/player.php?cm=<%= cmid %>&mode=<%= mode %>&newattempt=<%= newAttempt %>&display=embedded&scoid" style="display:none"></iframe>
 </div>
