@@ -176,7 +176,6 @@ define(templates,function (participantsTpl, participantTpl) {
 
                 var userPlugins = [];
                 var wantedPlugins = [
-                    "addcontact",
                     "addnote",
                     "sendmessage"
                 ];
