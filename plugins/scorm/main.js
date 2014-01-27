@@ -105,18 +105,38 @@ define(templates, function(scormTpl, scormLaunchTpl) {
             var html = MM.tpl.render(template.html, context);
             MM.panels.show("center", html);
             MM.util.setupBackButton();
-            $("#scorm-form").submit(MM.plugins.scorm.scormFormSubmitHandler);
+            $(document).find("#submitter").on('click', function(ev) {
+                var element = $(ev.target);
+                var form = element.closest("form")
+                MM.plugins.scorm.scormFormSubmitHandler(form);
+                return false;
+            });
+            $(document).find("#cancel").on(
+                'click', MM.plugins.scorm.cancelClicked
+            );
         },
 
-        scormFormSubmitHandler: function(ev) {
-            ev.preventDefault();
+        scormFormSubmitHandler: function(form) {
             MM.panels.showLoading("center");
-            var cmid = $(this).find("#cmid").val();
-            var mode = $(this).find("input[name='mode']:checked").val();
-            var newAttempt =  $(this).find("#new-attempt").is(":checked");
+            var cmid = $(form).find("#cmid").val();
+            var mode = $(form).find("input[name='mode']:checked").val();
+            var newAttempt =  $(form).find("#new-attempt").is(":checked");
             var url = "scorm/" + cmid + "/launch/" + mode;
             if (newAttempt) url += "/new-attempt";
             MM.Router.navigate(url, true);
+
+            return false;
+        },
+
+        cancelClicked: function() {
+            var back = $(document).find("#back");
+            if (back.length === 0) {
+                window.history.back();
+            } else {
+                back.click();
+            }
+
+            return false;
         },
 
         /**
