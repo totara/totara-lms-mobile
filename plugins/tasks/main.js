@@ -111,7 +111,6 @@ define(templates, function(layoutTpl) {
                 MM.clickType, MM.plugins.tasks._rejectTask
             );
             MM.util.setupAccordion($("#panel-center"));
-            MM.util.setupBackButton();
         },
 
         _getTasksFailure: function() {

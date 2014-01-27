@@ -108,7 +108,6 @@ define(templates, function(layoutTpl) {
                 MM.clickType, MM.plugins.alerts._dismissAlert
             );
             MM.util.setupAccordion($("#panel-center"));
-            MM.util.setupBackButton();
         },
 
         _getAlertsFailure: function() {

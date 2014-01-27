@@ -116,7 +116,6 @@ define(templates, function(layoutTpl) {
             );
             MM.panels.show('center', html, {hideRight: true});
             MM.util.setupAccordion($("#panel-center"));
-            MM.util.setupBackButton();
         },
 
         _getBookingsFailure: function() {
