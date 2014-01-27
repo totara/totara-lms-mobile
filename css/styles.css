@@ -925,6 +925,13 @@ form div.error {
     display: none;
 }
 
+.errors {
+    text-align:center;
+    margin:5px;
+    padding:5px;
+    border:2px solid red;
+}
+
 .loading-icon {
     text-align: center;
     margin: auto;
