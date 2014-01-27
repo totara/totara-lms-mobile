@@ -935,6 +935,7 @@ form div.error {
 .loading-icon {
     text-align: center;
     margin: auto;
+    margin-top: 32px;
 }
 
 .content-index .content-table {
