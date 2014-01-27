@@ -97,11 +97,19 @@ define(templates, function(layoutTpl) {
 
         _getBookingsSuccess: function(data) {
 
+            var bookings = [];
+            _.each(data, function(booking) {
+                // Sorted index only returns where the value *would* go.
+                var insertIndex = _.sortedIndex(bookings, booking, 'timestart');
+
+                // We still actually have to insert it.
+                bookings.splice(insertIndex, 0, booking);
+            });
+
             var values = {
-                'bookings':data,
+                'bookings':bookings,
                 'title': MM.plugins.mybookings.settings.title
             };
-
 
             var html = MM.tpl.render(
                 MM.plugins.mybookings.templates.layout, values, {}
