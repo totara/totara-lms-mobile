@@ -78,20 +78,25 @@
                                 <% if (module.completion==2) { %>disabled="disabled"<% } %>
                             />
                         <% } %>
-                        <img src="<%= module.modicon %>" class="course-icon" alt="Course Icon" />
+
                         <div class="link-detail">
                             <% if (module.visible) { %>
                                 <% if (['feedback', 'scorm', 'page', 'label', 'url'].indexOf(module.modname) >= 0) { %>
                                     <a href="#<%= module.modname %>/<%= module.id %>">
+                                        <img src="<%= module.modicon %>" class="course-icon" alt="Course Icon" />
                                         <%= module.name %>
                                     </a>
                                 <% } else { %>
                                     <a href="#courses/<%= course.id %>/unsupported-activity/<%= module.id %>">
+                                        <img src="<%= module.modicon %>" class="course-icon" alt="Course Icon" />
                                         <%= module.name %>
                                     </a>
                                 <% } %>
                             <% } else { %>
-                                <span><%= module.name %></span>
+                                <span>
+                                    <img src="<%= module.modicon %>" class="course-icon" alt="Course Icon" />
+                                    <%= module.name %>
+                                </span>
                             <% } %>
                             <div class="detail">
                             <% _.each(module.contents, function(module_content) { %>
