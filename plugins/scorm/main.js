@@ -105,39 +105,62 @@ define(templates, function(scormTpl, scormLaunchTpl) {
             var html = MM.tpl.render(template.html, context);
             MM.panels.show("center", html);
             MM.util.setupBackButton();
-            $("#scorm-form").submit(MM.plugins.scorm.scormFormSubmitHandler);
+            $(document).find("#submitter").on('click', function(ev) {
+                var element = $(ev.target);
+                var form = element.closest("form")
+                MM.plugins.scorm.scormFormSubmitHandler(form);
+                return false;
+            });
+            $(document).find("#cancel").on(
+                'click', MM.plugins.scorm.cancelClicked
+            );
         },
 
-        scormFormSubmitHandler: function(ev) {
-            ev.preventDefault();
+        scormFormSubmitHandler: function(form) {
             MM.panels.showLoading("center");
-            var cmid = $(this).find("#cmid").val();
-            var mode = $(this).find("input[name='mode']:checked").val();
-            var newAttempt =  $(this).find("#new-attempt").is(":checked");
+            var cmid = $(form).find("#cmid").val();
+            var mode = $(form).find("input[name='mode']:checked").val();
+            var newAttempt =  $(form).find("#new-attempt").is(":checked");
             var url = "scorm/" + cmid + "/launch/" + mode;
             if (newAttempt) url += "/new-attempt";
             MM.Router.navigate(url, true);
+
+            return false;
         },
 
+        cancelClicked: function() {
+            var back = $(document).find("#back");
+            if (back.length === 0) {
+                window.history.back();
+            } else {
+                back.click();
+            }
+
+            return false;
+        },
+
+        /**
+         * Launches a SCORM with the specified cmid and mode either redirecting
+         * directly to the site ( because there's no offline ) option for SCORM
+         * or going via a login page.
+         *
+         * @param int    cmid       Course Module ID
+         * @param int    mode       The mode the scorm is played in.
+         *                          Popup, inline, normal
+         * @param string newAttempt 'new-attemp' or blank string.
+         */
         scormLaunch: function(cmid, mode, newAttempt) {
             MM.assignCurrentPlugin(MM.plugins.label);
             MM.panels.showLoading("center");
             MM.requireMainSiteLogin(function() {
-                MM.plugins.scorm._launch(cmid, mode, newAttempt);
+                newAttempt = (newAttempt === "new-attempt") ? "on" : "off";
+                var url = MM.config.current_site.siteurl;
+                url += "/mod/scorm/player.php?cm=" + cmid;
+                url += "&mode=" + mode;
+                url += "&newattempt=" + newAttempt;
+                url += "&display=embedded&scoid";
+                window.location.replace(url);
             });
-        },
-
-        _launch: function(cmid, mode, newAttempt) {
-            var template = MM.plugins.scorm.templates.scormLaunch;
-            var context = {
-                cmid: cmid,
-                mode: mode,
-                newAttempt: (newAttempt === "new-attempt") ? "on" : "off",
-                title: "[SCORM NAME]"
-            };
-            var html = MM.tpl.render(template.html, context);
-            MM.panels.show("center", html);
-            MM.util.setupBackButton();
         },
 
         errorCallback: function(error) {
