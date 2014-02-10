@@ -29,8 +29,7 @@ define(function () {
                     "notes[0][publishstate]": 'personal',
                     "notes[0][courseid]": courseId,
                     "notes[0][text]": $("#addnotetext").val(),
-                    "notes[0][format]": "1",
-                    "notes[0][clientnoteid]" : "1",
+                    "notes[0][format]": "1"
                 }
 
                 MM.widgets.dialogClose();
