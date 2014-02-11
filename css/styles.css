@@ -506,7 +506,20 @@ ol {
     color:#fff;
     font-family:helvetica, sans-serif;
 }
+.header-main #online-status{
+    float:right;
+    margin: 20px;
+    font-size: 2em;
+    color:#9bae20;
+}
+.header-main #online-status.off{
+    float:right;
+    margin: 10px 20px;
+    font-size: 2em;
+    color:#7c7a80;
 
+
+}
 .header-main .nav-item.content {
     background-image: url(../img/header-content.png);
 }
