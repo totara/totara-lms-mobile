@@ -508,15 +508,21 @@ ol {
 }
 .header-main #online-status{
     float:right;
-    margin: 20px;
+    margin: 10px 20px;
     font-size: 2em;
     color:#9bae20;
+    transition: color 0.5s ease 0.5s;
 }
 .header-main #online-status.off{
     float:right;
     margin: 10px 20px;
     font-size: 2em;
     color:#7c7a80;
+    -webkit-transition: color .5s ease 0.5s;
+    -moz-transition: color .5s ease 0.5s;
+    -ms-transition: color .5s ease 0.5s;
+    -o-transition: color .5s ease 0.5s;
+    transition: color .5s ease 0.5s;
 
 
 }
