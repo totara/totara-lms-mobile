@@ -115,6 +115,7 @@
 "reportbuginfo": "Tap on the email button for sending a bug report via email<br /> <br /> <b>Don't forget to write a detailed description of the problem in the email body</b><br /> <br />Note that some debugging information will be attached (not private information)",
 "requiredfields": "All required fields must be completed.",
 "resetapp": "Reset application",
+"return": "Return",
 "save": "Save",
 "saving": "Saving...",
 "select": "Select",

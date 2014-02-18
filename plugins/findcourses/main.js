@@ -148,7 +148,7 @@ define(requires, function(selfEnrolForm, coursesTpl) {
                 'core_course_get_categories',
                 {},
                 MM.plugins.findcourses._getCategoriesSuccessful,
-                {},
+                {'cache':false},
                 MM.plugins.findcourses._getCategoriesFailure
             );
         },
@@ -170,7 +170,7 @@ define(requires, function(selfEnrolForm, coursesTpl) {
                 'core_list_courses',
                 {},
                 MM.plugins.findcourses._getCoursesSuccessful,
-                {},
+                {'cache':false},
                 MM.plugins.findcourses._getCoursesFailure
             );
         },
