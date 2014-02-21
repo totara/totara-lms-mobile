@@ -1,0 +1,19 @@
+<div class="panel-content download">
+    <div id="top">
+        <a href="#" title="Back" id="back"></a>
+        <header class="header">
+            <h2 class="name"><%= module.name %></h2>
+        </header>
+    </div>
+    <div class="sections">
+        <%= module.description %>
+        <p>Author: <%= download.author %></p>
+        <p>License: <%= MM.lang.s(download.license) %></p>
+        <a href="<%= download.downloadURL %>" id="continue" class="button" download="<%= download.filename %>">
+            <%= MM.lang.s("downloadremotefile") %>
+        </a>
+        <button class="cancel" id="cancel" title="<%= MM.lang.s("cancelandreturn") %>">
+            <%= MM.lang.s("cancelandreturn") %>
+        </button>
+    </div>
+</div>

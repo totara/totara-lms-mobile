@@ -8,43 +8,43 @@
                 <% if (i == 0) { %>
                     <div class="course-sections header-detail">
                         <div class="section-<%= i %>" data-id="<%= section.id %>">
-                        <div class="summary"><%= course.contents[0].summary %></div>
+                            <div class="summary"><%= course.contents[0].summary %></div>
                             <ul class="items">
                                 <% _.each(section.modules, function(module) { %>
-                                <li class="item" data-id="<%= module.id %>">
-                                    <% if ((module.visible) && (module.completion)) { %>
-                                        <input type="checkbox" class="set-activity-completion" data-cmid="<%= module.id %>"
-                                            <% if (module.completed) { %>checked="checked"<% } %>
-                                            <% if (module.completion==2) { %>disabled="disabled"<% } %>
-                                        />
-                                    <% } %>
-                                    <img src="<%= module.modicon %>" class="course-icon" alt="Course Icon" />
-                                    <div class="link-detail">
-                                    <% if (module.visible) { %>
-                                        <% if (['feedback', 'scorm', 'page', 'label', 'url'].indexOf(module.modname) >= 0) { %>
-                                            <a href="#<%= module.modname %>/<%= module.id %>">
-						                        <%= module.name %>
-						                    </a>
-						                <% } else { %>
-                                        	<a href="#courses/<%= course.id %>/unsupported-activity/<%= module.id %>">
-												<%= module.name %>
-											</a>
-										<% } %>
-                                    <% } else { %>
-                                        <span><%= module.name %></span>
-                                    <% } %>
-                                    <div class="detail">
-                                    <% _.each(module.contents, function(module_content) { %>
-                                        <% if (module_content.filesize > 0) { %>
-                                        	<span><%= MM.lang.s("filesize") %><%= MM.widgets.toMegabytes(module_content.filesize) %><%= MM.lang.s("filesizeunit") %></span>
+                                    <li class="item" data-id="<%= module.id %>">
+                                        <% if ((module.visible) && (module.completion)) { %>
+                                            <input type="checkbox" class="set-activity-completion" data-cmid="<%= module.id %>"
+                                                <% if (module.completed) { %>checked="checked"<% } %>
+                                                <% if (module.completion==2) { %>disabled="disabled"<% } %>
+                                            />
                                         <% } %>
-                                        <% if (!module.visible) { %>
-                                        	<span><%= MM.lang.s("itemnotviewable") %></span>
-                                    	<% } %>
-                                    <% }); %>
-									</div>
-                                    </div>
-                                </li>
+                                        <img src="<%= module.modicon %>" class="course-icon" alt="Course Icon" />
+                                        <div class="link-detail">
+                                            <% if (module.visible) { %>
+                                                <% if (['feedback', 'scorm', 'page', 'label', 'url', 'resource'].indexOf(module.modname) >= 0) { %>
+                                                    <a href="#<%= module.modname %>/<%= module.id %>">
+        						                        <%= module.name %>
+        						                    </a>
+        						                <% } else { %>
+                                                	<a href="#courses/<%= course.id %>/unsupported-activity/<%= module.id %>">
+        												<%= module.name %>
+        											</a>
+        										<% } %>
+                                            <% } else { %>
+                                                <span><%= module.name %></span>
+                                            <% } %>
+                                            <div class="detail">
+                                            <% _.each(module.contents, function(module_content) { %>
+                                                <% if (module_content.filesize > 0) { %>
+                                                	<span><%= MM.lang.s("filesize") %><%= MM.widgets.toMegabytes(module_content.filesize) %><%= MM.lang.s("filesizeunit") %></span>
+                                                <% } %>
+                                                <% if (!module.visible) { %>
+                                                	<span><%= MM.lang.s("itemnotviewable") %></span>
+                                            	<% } %>
+                                            <% }); %>
+        									</div>
+                                        </div>
+                                    </li>
                                 <% }); %>
                             </ul>
                         </div>

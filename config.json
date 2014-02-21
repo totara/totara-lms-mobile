@@ -24,7 +24,8 @@
     "page",
     "label",
     "url",
-    "feedback"
+    "feedback",
+    "download"
 ],
 "wsservice" : "moodle_mobile_app",
 "presets" : {"url": "", "username": "", "cache": false},
