@@ -40,31 +40,21 @@ html {
     /* 2 */
     -ms-text-size-adjust: 100%;
     /* 2 */
+    font-size:62.5%; /* 10px base size. */
 }
 
 body {
     color: #666666;
     font-family: Helvetica, sans-serif;
     font-size: 14px;
+    font-size:1.4rem;
     line-height: 24px;
     margin: 0;
 }
 
-@media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
+@media only screen and (min-width : 234px) and (max-width : 480px) {
     html {
-        font-size:96%;
-    }
-}
-
-@media only screen and (max-device-width : 720px) {
-    html {
-        font-size:90%;
-    }
-}
-
-@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
-    html {
-        font-size:110%;
+        font-size:56.25%; /* 9px base size for phones. */
     }
 }
 
@@ -97,20 +87,18 @@ h1, h2, h3, h4, h5, h6 {
 
 h1 {
     font-size:48px;
-    font-size:3rem;
+    font-size:4.8rem;
 }
 
 h2 {
-    /*font-size:2.1em; *//* 29px. */
     font-size:29px;
-    font-size:1.8rem;
+    font-size:2.9rem;
 }
 
 h3
 , h3 a{
-    /*font-size:1.5em; *//* 21px. */
     font-size:21px;
-    font-size:1.3rem;
+    font-size:2.1rem;
 }
 
 h4 {
@@ -142,34 +130,6 @@ sub {
     bottom: -0.25em;
 }
 
-@media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
-    h1 {
-        font-size:2.5rem;
-    }
-
-    h2 {
-        font-size:1.4rem;
-    }
-
-    h3 a {
-        font-size:1.1rem;
-    }
-}
-
-@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
-    h1 {
-        font-size:2.5rem;
-    }
-
-    h2 {
-        font-size:1.4rem;
-    }
-
-    h3 a {
-        font-size:1.1rem;
-    }
-}
-
 /* =1.5 - Embedded content
 --------------------------------------------------------*/
 img {
@@ -190,7 +150,8 @@ input,
 select,
 textarea {
     font-family: inherit;
-    font-size: 100%;
+    font-size:16px;
+    font-size:1.6rem;
     margin: 0;
 }
 
@@ -220,20 +181,21 @@ button
     border: 1pt solid #CCC;
     border-bottom: #B3B3B3;
     height: auto;
-    width: 20%;
+    max-width:40%;
+    width:auto;
     color: #666;
     text-align: center;
     padding: 7px;
     display:block;
     margin:auto;
-    min-width:100px;
+
 }
 
 button#cancel
 , a#cancel {
-    font-size:0.8em;
+    font-size:10px;
+    font-size:1rem;
     margin-top:20px;
-    width:15%;
 }
 
 button.plus
@@ -246,8 +208,8 @@ button.plus
     button
     , .button
     , input[type="submit"] {
-        width: 70%;
-        font-size:0.9rem;
+        max-width:60%;
+        width:auto;
     }
 
     button#cancel
@@ -421,8 +383,7 @@ ol {
 .panel .content {
     border-top: 1px solid #f4f4f4;
     padding: 0.61538rem 1.23077rem;
-    font-size: 14px;
-    font-size: 0.875rem;
+
 }
 .panel footer {
     font-size: 14px;
@@ -501,7 +462,8 @@ ol {
     text-transform: uppercase;
     white-space: nowrap;
     display:block;
-    font-size:0.6rem;
+    font-size:10px;
+    font-size:1rem;
     margin-top:8px;
     color:#fff;
     font-family:helvetica, sans-serif;
@@ -562,7 +524,7 @@ ol {
     border:0;
     padding:0;
     font-size:21px;
-    font-size:1.3rem;
+    font-size:2.1rem;
     font-weight:normal;
 }
 
@@ -570,7 +532,7 @@ ol {
 , .panel.user-menu .nav-item .no-link {
     font-size:inherit;
     font-weight:normal;
-    padding:1rem 0 1rem 0.61538rem;
+    padding:1.6rem 0 1.6rem 1rem;
     display:block;
     border-top:1px solid rgba(255, 255, 255, 0.2);
     border-bottom:1px solid rgba(0, 0, 0, 0.15);
@@ -736,15 +698,20 @@ i {
     font-family: Georgia, serif;
     font-style: italic;
     padding: 1rem;
-    font-size:1rem;
     width: 100%;
+}
+
+#add-site input[type="submit"]
+, #add-site button {
+    font-size:14px;
+    font-size:1.4rem;
 }
 
 #add-site input[type="submit"] {
     background: #fff;
     color: #aaa;
     float: right;
-    padding: 0.30769rem 1.23077rem;
+    padding: 0.5rem 2.1rem;
     width: auto;
 }
 
@@ -766,7 +733,6 @@ i {
     color:#aaa;
     cursor:pointer;
     margin:10px auto;
-    font-size:1rem;
 }
 
 #add-site .remember-option.selected {
@@ -784,10 +750,6 @@ i {
 @media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
     #add-site {
         padding-top: 2rem;
-    }
-
-    #add-site input {
-        padding: 0.8rem;
     }
 }
 
@@ -1404,7 +1366,8 @@ button {
 
 .users-index-list .nav-item > a h3{
     font-weight: normal;
-    font-size: 14px;
+    font-size:16px;
+    font-size:1.6rem;
     color: #666;
 }
 
@@ -1517,7 +1480,7 @@ li.ui-menu-item {
     color:#fff;
     text-transform: uppercase;
     font-size:11px;
-    font-size:0.67rem;
+    font-size:1.1rem;
     transition: background-color 0.5s ease;
 }
 
@@ -1544,10 +1507,13 @@ li.ui-menu-item {
 
 .panel-content header h2 {
     margin-bottom:0em;
+    line-height:1em;
 }
 
 .panel-content header p.header-sub-item {
     margin:0;
+    font-size:12px;
+    font-size:1.2rem;
 }
 
 .panel-content h3[class*="title"]
@@ -1590,7 +1556,7 @@ li.ui-menu-item {
 .sub-item-title
 , .nav-item a.sub-item-title {
     font-size:16px;
-    font-size:1rem;
+    font-size:1.6rem;
     margin-left:0;
     font-weight:normal;
     padding-top:0;
@@ -1634,7 +1600,8 @@ li.ui-menu-item {
 }
 
 #button-container button.cancel {
-    font-size:0.8em;
+    font-size:11px;
+    font-size:1.1rem;
     margin-top:20px;
 }
 
@@ -1710,6 +1677,8 @@ li.ui-menu-item {
     max-width:90%;
     width:100%;
     display:inline-block;
+    font-size:16px;
+    font-size:1.6rem;
 }
 
 @media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
@@ -1955,11 +1924,6 @@ li.ui-menu-item {
     margin:0 auto;
     text-align:center;
     padding:5% 10%;
-}
-
-.panel-content.home button
-, .panel-content.home a.button {
-    width:25%;
 }
 
 .panel-content.home button {
