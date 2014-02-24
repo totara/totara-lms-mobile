@@ -15,6 +15,7 @@
 	"findcourses",
 	"course",
 	"notifications",
+	"default_navigation",
     "buttonblock",
     "scorm",
     "unsupportedActivity",
@@ -31,6 +32,7 @@
     "alerts",
     "settings",
     "totara_navigation"
+    "download"
 ],
 "wsservice" : "moodle_mobile_app",
 "presets" : {"url": "", "username": ""},
