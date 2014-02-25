@@ -27,11 +27,15 @@
         <ul class="sections nav nav-v js-accordion">
             <% _.each(program.sets, function(set, i) { %>
             <li class="section-<%= i %> nav-item">
-                <div class="name toogler expand touch-row">
+                <div class="<% if (set.courses.length > 0) { %>name toogler expand touch-row<% } else { %>name expand no-items<% } %>">
                     <h3 class="topic-title">
+                        <% if (set.courses.length > 0) { %>
                         <a href="#">
                             <%= set.label %>
                         </a>
+                        <% } else { %>
+                            <%= set.label %>
+                        <% } %>
                     </h3>
                     <a href="#" class="close toogler collapse touch-row" ><%= MM.lang.s("close") %></a>
                 </div>

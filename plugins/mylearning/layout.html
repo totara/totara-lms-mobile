@@ -2,15 +2,15 @@
     <h1 class="title"><%= title %></h1>
     <ul class="nav nav-v js-accordion my-courses">
         <li class="nav-item">
-            <% if (courses.length) { %>
-            <div class="name toogler expand touch-row">
-            <% } else { %>
-            <div class="name expand no-items">
-             <% } %>
+            <div class="<% if (courses.length) { %>name toogler expand touch-row<% } else { %>name expand no-items<% } %>">
                 <h3 class="course-title">
+                    <% if (courses.length) { %>
                     <a href="#">
-                        Courses
+                        <%= MM.lang.s("my-learning-courses") %>
                     </a>
+                    <% } else { %>
+                        <%= MM.lang.s("my-learning-courses") %>
+                    <% } %>
                 </h3>
                 <a href="#" class="close toogler collapse touch-row"><%= MM.lang.s("close") %></a>
             </div>
@@ -32,15 +32,15 @@
     </ul>
     <ul class="nav nav-v js-accordion my-programs">
         <li class="nav-item">
-            <% if (programs.length) { %>
-            <div class="name toogler expand touch-row">
-            <% } else { %>
-            <div class="name expand no-items">
-            <% } %>
+            <div class="<% if (programs.length) { %>name toogler expand touch-row<% } else { %>name expand no-items<% } %>">
                 <h3 class="course-title">
+                    <% if (programs.length) { %>
                     <a href="#">
-                        Programs
+                        <%= MM.lang.s("my-learning-programs") %>
                     </a>
+                    <% } else { %>
+                        <%= MM.lang.s("my-learning-programs") %>
+                    <% } %>
                 </h3>
                 <a href="#" class="close toogler collapse touch-row"><%= MM.lang.s("close") %></a>
             </div>
@@ -62,15 +62,15 @@
     </ul>
     <ul class="nav nav-v js-accordion my-required-learning">
         <li class="nav-item">
-            <% if (learning.length) { %>
-            <div class="name toogler expand touch-row">
-            <% } else { %>
-            <div class="name expand no-items">
-            <% } %>
+            <div class="<% if (learning.length) { %>name toogler expand touch-row<% } else { %>name expand no-items<% } %>">
                 <h3 class="course-title">
+                    <% if (learning.length) { %>
                     <a href="#">
-                        Required Learning
+                        <%= MM.lang.s("my-learning-required-learning") %>
                     </a>
+                    <% } else { %>
+                        <%= MM.lang.s("my-learning-required-learning") %>
+                    <% } %>
                 </h3>
                 <a href="#" class="close toogler collapse touch-row"><%= MM.lang.s("close") %></a>
             </div>

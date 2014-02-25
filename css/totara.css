@@ -357,15 +357,6 @@ div.program-info ul {
     border-top:none;
 }
 
-.panel-content div.expand.no-items {
-    background:none;
-}
-
-.panel-content div.expand.no-items a {
-    color:#dad9dc;
-    cursor:default;
-}
-
 /* Settings. */
 
 .panel-content.settings #list ul:nth-child(2) li:first-child {
