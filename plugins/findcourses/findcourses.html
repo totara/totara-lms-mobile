@@ -21,11 +21,15 @@
         <% _.each(categories, function(data, key) { %>
             <% if (data !== undefined && data.parent == filter || filter !== 0 && data.id == filter) { %>
                 <li class="nav-item">
-                    <div class="name toogler expand touch-row">
+                    <div class="<% if (data.subcategories.length > 0 || data.courses.length > 0) { %>name toogler expand touch-row<% } else { %>name expand no-items<% } %>">
                         <h3 class="course-title">
+                            <% if (data.subcategories.length > 0 || data.courses.length > 0) { %>
                             <a href="#">
                                 <%= data.categoryName %>
                             </a>
+                            <% } else { %>
+                                <%= data.categoryName %>
+                            <% } %>
                         </h3>
                         <div class="number-of-items">
                             <%= data.courses.length %>

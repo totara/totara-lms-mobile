@@ -58,11 +58,15 @@
         <% _.each(course.contents, function(section, i) { %>
             <% if (i > 0) { %>
             <li class="section-<%= i %> nav-item" data-id="<%= section.id %>">
-                <div class="name toogler expand touch-row">
+                <div class="<% if (section.modules.length > 0) { %>name toogler expand touch-row<% } else { %>name expand no-items<% } %>">
                     <h3 class="topic-title">
+                    <% if (section.modules.length > 0) { %>
                     <a href="#">
                         <%= section.name %>
                     </a>
+                    <% } else { %>
+                        <%= section.name %>
+                    <% } %>
                     </h3>
                     <div class="number-of-items">
                         <%= course.contents[i].modules.length %>
