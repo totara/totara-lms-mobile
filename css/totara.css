@@ -6,7 +6,6 @@ body
 
 body {
     color:#49484c;
-   font-size:0.9rem;  /* 14px base font for elements without specific font size. */
 }
 
 body
@@ -19,47 +18,36 @@ body
     box-shadow: none;
 }
 
-/* Generic Fonts. */
-
-h1 {
-    font-size:48px;
-    font-size:3rem;
-    font-weight:300;
-}
-
 h2.name {
-    font-size:29px;
-    font-size:2rem;
+    font-size:32px;
+    font-size:3.2rem;
     font-weight:300;
 }
 
-h3 {
-    font-size:21px;
-    font-size:1.3rem;
-    font-weight:600;
-}
-
-a {
-    font-size:1rem;
-}
-
-h3 a {
-    font-size:21px;
-    font-size:1.3rem;
-    font-weight:600;
-}
-
-@media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
-    h1 {
-        font-size:2.5rem;
-    }
-
-    h3 a {
-        font-size:1.1rem;
-    }
+h3 a
+, a {
+    color:#49484c;
 }
 
 /* Buttons. */
+
+input[type="submit"]
+, button
+, .button
+, input
+, select
+, textarea
+, #add-site input[type="submit"] {
+    font-size:18px;
+    font-size:1.8rem;
+}
+
+#button-container button.cancel
+, button#cancel
+, a#cancel {
+    font-size:16px;
+    font-size:1.6rem;
+}
 
 button
 , .button
@@ -72,7 +60,6 @@ button
     font-weight:bold;
     text-transform: uppercase;
     font-family:'open sans', arial, sans-serif;
-    font-size:1.2rem;
 }
 
 .button {
@@ -90,14 +77,12 @@ button
 }
 
 @media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
-    button
-    , .button
-    , input[type="submit"]
-    , #add-site input[type="submit"]
-    , #add-site input[type="submit"]:hover
-    , #add-site input[type="submit"]:active {
-        font-size:1.1rem;
+
+    h1 {
+        font-size:44px;
+        font-size:4.4rem;
     }
+
 }
 
 #add-site button.remember-option {
@@ -119,12 +104,6 @@ button
     float:none;
     width:100%;
     font-style:normal;
-}
-
-#button-container button.cancel
-, button#cancel
-, a#cancel {
-    font-size:0.9rem;
 }
 
 button#cancel
@@ -169,7 +148,8 @@ button.plus
 
 #add-site #remember-details {
     color:#7c7a80;
-    font-size:1em;
+    font-size:14px;
+    font-size:1.4rem;
 }
 
 #add-site input {
@@ -269,6 +249,10 @@ button.plus
 
 /* Content. */
 
+.panel-content h1 {
+    font-weight:100;
+}
+
 .panel-content h1
 , h2.name {
     color:#9bae20;
@@ -277,6 +261,10 @@ button.plus
 h2.name {
     line-height:2rem;
     margin-top:-4px;
+}
+
+.panel-content header p.header-sub-item {
+    color:#969594;
 }
 
 .panel-content div.expand {
@@ -294,15 +282,6 @@ h2.name {
 .panel-content .nav-item .nav-item {
     border-top:solid 1px #d3d2d5;
     margin-right:10px;
-}
-
-@media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
-    .panel-content h3[class*="title"]
-    , .panel-content .question-title
-    , .panel-content .category-title
-    , .panel-content .sub-item-title {
-        padding-top:4px;
-    }
 }
 
 /* Dialog. */
@@ -416,7 +395,6 @@ div.program-info ul {
 
 .panel-content.info a.button {
     display:inline-block;
-    font-size:0.8rem;
     margin-top:10px;
     width:auto;
 }
@@ -436,7 +414,7 @@ div.program-info ul {
 }
 
 .unsupported .sections a#cancel {
-    width:45%;
+    width:30%;
 }
 
 @media only screen and (min-device-width : 234px) and (max-device-width : 480px) and (orientation:portrait) {
