@@ -24,6 +24,7 @@ define(templates,function (participantsTpl, participantTpl) {
         routes: [
             ["participants/:courseId", "participants", "showParticipants"],
             ["participant/:courseId/:userId", "participants", "showParticipant"],
+            ["note/:courseId/:userId", "note", "addNote"]
         ],
 
         templates: {
@@ -164,6 +165,113 @@ define(templates,function (participantsTpl, participantTpl) {
 
         },
 
+        addNote: function(e, courseId, userId) {
+            var element = $(e.target);
+            var userId = element.data('userid');
+            var courseId = element.data('courseid');
+            var addNote = MM.lang.s("addnote");
+
+            var options = {
+                title: addNote,
+                width: "90%",
+                buttons: {}
+            };
+
+            options.buttons[addNote] = function() {
+
+                var data = {
+                    "notes[0][userid]" : userId,
+                    "notes[0][publishstate]": 'personal',
+                    "notes[0][courseid]": courseId,
+                    "notes[0][text]": $("#addnotetext").val(),
+                    "notes[0][format]": "1"
+                }
+
+                MM.widgets.dialogClose();
+                MM.moodleWSCall('moodle_notes_create_notes', data, function(r){
+                    MM.popMessage(MM.lang.s("noteadded"));
+                }, {sync: true,
+                    syncData: {
+                        name: addNote,
+                        description: $("#addnotetext").val().substr(0, 30)
+                    }
+                    });
+
+                // Refresh the hash url for avoid navigation problems.
+                MM.Router.navigate("participant/" + courseId + "/" + userId);
+            };
+            options.buttons[MM.lang.s("cancel")] = function() {
+                MM.Router.navigate("participant/" + courseId + "/" + userId);
+                MM.widgets.dialogClose();
+            };
+
+            var rows = 5;
+            var cols = 5;
+            if (MM.deviceType == "tablet") {
+                rows = 15;
+                cols = 50;
+            }
+
+            var html = '\
+            <textarea id="addnotetext" rows="'+rows+'" cols="'+cols+'"></textarea>\
+            ';
+
+            MM.widgets.dialog(html, options);
+            return false;
+        },
+
+        sendMessage: function(e, courseId, userId) {
+            var element = $(e.target);
+            var userId = element.data('userid');
+            var courseId = element.data('courseid');
+            var sendMessage = MM.lang.s("sendmessage");
+            var options = {
+                title: sendMessage,
+                width: "90%",
+                buttons: {}
+            };
+
+            options.buttons[sendMessage] = function() {
+
+                var data = {
+                    "messages[0][touserid]" : userId,
+                    "messages[0][text]" : $("#sendmessagetext").val()
+                }
+
+                MM.widgets.dialogClose();
+                MM.moodleWSCall('moodle_message_send_instantmessages', data, function(r){
+                    MM.popMessage(MM.lang.s("messagesent"));
+                }, {sync: true,
+                    syncData: {
+                        name: sendMessage,
+                        description: $("#sendmessagetext").val().substr(0, 30)
+                    }
+                    });
+
+                // Refresh the hash url for avoid navigation problems.
+                MM.Router.navigate("participant/" + courseId + "/" + userId);
+            };
+            options.buttons[MM.lang.s("cancel")] = function() {
+                MM.Router.navigate("participant/" + courseId + "/" + userId);
+                MM.widgets.dialogClose();
+            };
+
+            var rows = 5;
+            var cols = 5;
+            if (MM.deviceType == "tablet") {
+                rows = 15;
+                cols = 50;
+            }
+
+            var html = '\
+            <textarea id="sendmessagetext" rows="'+rows+'" cols="'+cols+'"></textarea>\
+            ';
+
+            MM.widgets.dialog(html, options);
+
+            return false;
+        },
+
         showParticipant: function(courseId, userId) {
             MM.assignCurrentPlugin(MM.plugins.participants);
 
@@ -172,21 +280,8 @@ define(templates,function (participantsTpl, participantTpl) {
                 "userlist[0][courseid]": courseId
             }
             MM.moodleWSCall('moodle_user_get_course_participants_by_id', data, function(users) {
-                // Load the active user plugins.
-
-                var userPlugins = [];
-                var wantedPlugins = [
-                    "addnote",
-                    "sendmessage"
-                ];
-                for (var el in MM.plugins) {
-                    var plugin = MM.plugins[el];
-                    if (_.indexOf(wantedPlugins, plugin.settings.name) !== -1) {
-                        userPlugins.push(plugin.settings);
-                    }
-                }
-
                 var newUser = users.shift();
+
 
                 // It's possible that courses haven't been queried at this point.
                 // If that's the case then we query them, so we have the courses
@@ -219,7 +314,6 @@ define(templates,function (participantsTpl, participantTpl) {
 
                     var tpl = {
                         "user": newUser,
-                        "plugins": userPlugins,
                         "courseid": courseId
                     };
                     var html = MM.tpl.render(
@@ -228,6 +322,10 @@ define(templates,function (participantsTpl, participantTpl) {
 
                     MM.db.insert("users", newUser);
                     MM.panels.show('center', html, {title: pageTitle});
+                    
+                    $("#addnote").on(MM.clickType, MM.plugins.participants.addNote);
+                    $("#sendmessage").on(MM.clickType, MM.plugins.participants.sendMessage);
+                    
                     MM.util.setupBackButton();
                 }
             });

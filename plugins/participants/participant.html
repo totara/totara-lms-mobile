@@ -62,13 +62,18 @@
             <hr />
         </div>
         <div class="buttons">
-            <% _.each(plugins, function(plugin) { %>
+            
                 <div>
-                    <a href="<%= plugin.menuURL %>/<%= courseid %>/<%= user.id %>">
-                        <%= MM.lang.s(plugin.name) %>
+                    <a href="#" class="button" id="addnote" data-courseid="<%= courseid %>" data-userid="<%= user['id'] %>">
+                        <%= MM.lang.s("addnote") %>
                     </a>
                 </div>
-            <% }); %>
+                <div>
+                    <a href="#" class="button" id="sendmessage" data-courseid="<%= courseid %>" data-userid="<%= user['id'] %>">
+                        <%= MM.lang.s("sendmessage") %>
+                    </a>
+                </div>
+           
         </div>
     </div>
 <div>
