@@ -402,7 +402,7 @@ ol {
 }
 .nav-item > a {
     font-weight: bold;
-    padding: 0.61538rem 0 0.61538rem 0.61538rem;
+    padding: 0.61538rem 0 0.61538rem 1em;
 }
 
 .btn-container {
@@ -601,10 +601,10 @@ ol {
 .users-index h2 {
     background: #ccc;
     color: #fff;
-    font-size: 14px;
+    font-size: 18px;
     line-height: 24px;
     margin-bottom: 0;
-    padding-left: 1rem;
+    padding-left: 14px;
     height: 22px;
 }
 .content-index .media,
@@ -1522,7 +1522,7 @@ li.ui-menu-item {
 , .panel-content .sub-item-title {
     margin:0.5em 20px;
     display:inline-block;
-    width:90%;
+    width:80%;
 }
 
 @media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
@@ -1571,7 +1571,7 @@ li.ui-menu-item {
 .panel-content div.number-of-items {
     position:absolute;
     right:40px;
-    top:10px;
+    top:12px;
 }
 
 .panel-content .collapse div.number-of-items {
@@ -1755,6 +1755,7 @@ li.ui-menu-item {
 
 .panel-content.find .nav h5 {
     margin-bottom:0;
+    margin-left: 10px;
     border-bottom:solid 1px #9a979b;
     color:#9a979b;
 }
