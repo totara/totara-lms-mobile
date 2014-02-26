@@ -1720,10 +1720,11 @@ padding: 0px 3px;
 }
 
 /* End Items. */
-
+.panel-content.course header .item {background: #f3f3f3;}
+.panel-content.course header .item:nth-child(2n+2) {background: #fbfbfb} 
 .panel-content.course .items > li
 , .panel-content.course header .item {
-    padding:10px 0;
+    padding:10px;
     min-height:30px;
 }
 
