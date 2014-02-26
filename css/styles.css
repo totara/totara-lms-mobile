@@ -1568,12 +1568,16 @@ li.ui-menu-item {
 
 /* Number of courses. */
 
-.panel-content div.number-of-items {
-    position:absolute;
-    right:40px;
-    top:12px;
-}
 
+.panel-content div.number-of-items {
+line-height: 1.2;
+position: absolute;
+right: 40px;
+border: 1px solid #e0e0e0;
+top: 14px;
+border-radius: 100px;
+padding: 0px 3px;
+}
 .panel-content .collapse div.number-of-items {
     display:none;
 }
