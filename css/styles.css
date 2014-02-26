@@ -1502,7 +1502,7 @@ li.ui-menu-item {
 }
 
 .panel-content h1 {
-    margin:0.7em 0.4em;
+    margin:0.58em 0.4em;
 }
 
 .panel-content header h2 {
@@ -1523,6 +1523,9 @@ li.ui-menu-item {
     margin:0.5em 20px;
     display:inline-block;
     width:80%;
+}
+.panel-content #top {
+padding: 2em 2em 1em 2em;
 }
 
 @media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
