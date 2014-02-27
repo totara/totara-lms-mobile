@@ -6,12 +6,12 @@
         </header>
     </div>
     <div class="settings-detail settings-info">
-        <div>
+        <p>
             <%= MM.lang.s("reportbuginfo") %>
-        </div>
+        </p>
         <div class="centered">
-            <a href="mailto:<%= MM.lang.s("reportbugmail") %>?subject=[[Mobile App Bug]]&body=<%= mailInfo %>">
-                <button><%= MM.lang.s("email") %></button>
+            <a class="button" href="mailto:<%= MM.lang.s("reportbugmail") %>?subject=[[Mobile App Bug]]&body=<%= mailInfo %>">
+                <%= MM.lang.s("email") %>
             </a>
         </div>
     </div>

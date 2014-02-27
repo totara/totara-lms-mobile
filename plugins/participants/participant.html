@@ -61,15 +61,15 @@
             <% } %>
             <hr />
         </div>
-        <div class="buttons">
+        
             <% _.each(plugins, function(plugin) { %>
-                <div>
-                    <a href="<%= plugin.menuURL %>/<%= courseid %>/<%= user.id %>">
+                
+                    <a  class="button" href="<%= plugin.menuURL %>/<%= courseid %>/<%= user.id %>">
                         <%= MM.lang.s(plugin.name) %>
                     </a>
-                </div>
+               
             <% }); %>
-        </div>
+       
     </div>
 <div>
 

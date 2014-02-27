@@ -130,7 +130,7 @@
     <h1>
         <img src="img/login-logo.png" alt="Moodle">
     </h1>
-    <form action="">
+    <form>
         <p class='ui-front'>
             <select id="url" placeholder='<%= MM.lang.s("siteurl") %>'>
                 <option value=""><%= MM.lang.s("siteurl") %></option>
@@ -173,8 +173,11 @@
 
 <script type="text/template" id="main-site-login-template">
     <form id="main-site-login-form">
-        <label for="main-site-login-form-password"><%= MM.lang.s("externalpassword") %><br /></label>
-        <input type="password" name="main-site-login-form-password" id="main-site-login-form-password" />
+        <div>
+            <label for="main-site-login-form-password"><%= MM.lang.s("externalpassword") %></label>
+            <input type="password" name="main-site-login-form-password" id="main-site-login-form-password" />
+        </div>
+        <button class="button" type="submit">Enter</button>
         <% if (error) { %><div class="err"><%= error %></div><% } %>
     </form>
 </script>
