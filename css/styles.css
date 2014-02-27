@@ -72,6 +72,7 @@ a:focus {
 a:active,
 a:hover {
     outline: 0;
+    /*color: #fa8f1c;*/
 }
 
 /* =1.4 - Typography
@@ -1548,6 +1549,7 @@ padding: 2em 2em 1em 2em;
     .panel-content h1 {
         margin:0.7em 0.5em;
     }
+    
 }
 
 @media only screen and (max-device-width : 720px) {
