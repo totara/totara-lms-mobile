@@ -6,15 +6,13 @@
         </header>
     </div>
     <div class="settings-detail settings-info">
-        <div>
+        <p>
             <%= MM.lang.s("reportbuginfo") %>
-        </div>
+        </p>
         <div class="centered">
-            <form action="mailto:<%= MM.lang.s('reportbugmail') %>">
-                <input type="hidden" name="Subject" value="[[Mobile App Bug]]">
-                <input type="hidden" name="Body" value="<%= mailInfo %>">
-                <input type="submit" value="<%= MM.lang.s('email') %>">
-            </form>
+            <a class="button" href="mailto:<%= MM.lang.s("reportbugmail") %>?subject=[[Mobile App Bug]]&body=<%= mailInfo %>">
+                <%= MM.lang.s("email") %>
+            </a>
         </div>
     </div>
 </div>

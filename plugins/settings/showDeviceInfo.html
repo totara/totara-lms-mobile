@@ -26,8 +26,8 @@
             <% } %>
         <% }); %>
         <div class="centered">
-            <a href="mailto:<%= MM.config.current_site.username %>?subject=DeviceInfo&body=<%= mailBody %>">
-                <button><%= MM.lang.s("email") %></button>
+            <a class="button" href="mailto:<%= MM.config.current_site.username %>?subject=DeviceInfo&body=<%= mailBody %>">
+                <%= MM.lang.s("email") %>
             </a>
         </div>
     </div>

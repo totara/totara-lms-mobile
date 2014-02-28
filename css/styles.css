@@ -72,6 +72,7 @@ a:focus {
 a:active,
 a:hover {
     outline: 0;
+    /*color: #fa8f1c;*/
 }
 
 /* =1.4 - Typography
@@ -173,28 +174,43 @@ input[disabled] {
     cursor: default;
 }
 
-button
-, .button
-, input[type="submit"] {
-    background: -webkit-linear-gradient(top, #FEFEFE, #E7E7E7);
-    border-radius: 4pt;
-    border: 1pt solid #CCC;
-    border-bottom: #B3B3B3;
+button, .button, input[type="submit"] {
+    background: #fefefe; /* Old browsers */
+    background: -moz-linear-gradient(top,  #fefefe 0%, #e7e7e7 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fefefe), color-stop(100%,#e7e7e7)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #fefefe 0%,#e7e7e7 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #fefefe 0%,#e7e7e7 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #fefefe 0%,#e7e7e7 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #fefefe 0%,#e7e7e7 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefefe', endColorstr='#e7e7e7',GradientType=0 ); /* IE6-9 */
+    border-radius: 4px;
+    border: 1px solid #CCC;
+    border-bottom: 1px solid #B3B3B3;
     height: auto;
     max-width:40%;
+    min-width:40%;
     width:auto;
     color: #666;
     text-align: center;
     padding: 7px;
     display:block;
     margin:auto;
-
+}
+button:active,.button:active, input[type="submit"]:active,
+button:focus,.button:focus, input[type="submit"]:focus,
+button:hover,.button:hover, input[type="submit"]:hover{
+     background: #e7e7e7; /* Old browsers */
+    background: -moz-linear-gradient(top, #e7e7e7 0%, #fefefe 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e7e7e7), color-stop(100%,#fefefe)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #e7e7e7 0%, #fefefe 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #e7e7e7 0%, #fefefe 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #e7e7e7 0%, #fefefe 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #e7e7e7 0%, #fefefe 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e7e7e7', endColorstr='#fefefe',GradientType=0 ); /* IE6-9 */
 }
 
 button#cancel
 , a#cancel {
-    font-size:10px;
-    font-size:1rem;
     margin-top:20px;
 }
 
@@ -203,6 +219,9 @@ button.plus
     min-width:30px;
     min-height:30px;
 }
+
+#main-site-login-form div{ margin:40px auto; text-align: center;}
+#main-site-login-form div label{display: block; width: 100%}
 
 @media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
     button
@@ -402,7 +421,7 @@ ol {
 }
 .nav-item > a {
     font-weight: bold;
-    padding: 0.61538rem 0 0.61538rem 0.61538rem;
+    padding: 0.61538rem 0 0.61538rem 1em;
 }
 
 .btn-container {
@@ -617,10 +636,10 @@ ol {
 .users-index h2 {
     background: #ccc;
     color: #fff;
-    font-size: 14px;
+    font-size: 18px;
     line-height: 24px;
     margin-bottom: 0;
-    padding-left: 1rem;
+    padding-left: 14px;
     height: 22px;
 }
 .content-index .media,
@@ -1113,16 +1132,7 @@ form div.error {
     transform: rotate(-45deg);
 }
 
-button {
-    padding-left: 13pt;
-    padding-right: 13pt;
-    background: -webkit-linear-gradient(top, #FEFEFE, #E7E7E7);
-    border-radius: 4pt;
-    border: 1pt solid #CCC;
-    border-bottom: #B3B3B3;
-    height: auto;
-    color: #666;
-}
+
 
 .phone button {
     width: 60%;
@@ -1528,7 +1538,7 @@ li.ui-menu-item {
 }
 
 .panel-content h1 {
-    margin:0.7em 0.4em;
+    margin:0.58em 0.4em;
 }
 
 .panel-content header h2 {
@@ -1548,7 +1558,10 @@ li.ui-menu-item {
 , .panel-content .sub-item-title {
     margin:0.5em 20px;
     display:inline-block;
-    width:90%;
+    width:80%;
+}
+.panel-content #top {
+padding: 2em 2em 1em 2em;
 }
 
 @media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
@@ -1562,6 +1575,7 @@ li.ui-menu-item {
     .panel-content h1 {
         margin:0.7em 0.5em;
     }
+    
 }
 
 @media only screen and (max-device-width : 720px) {
@@ -1594,12 +1608,16 @@ li.ui-menu-item {
 
 /* Number of courses. */
 
-.panel-content div.number-of-items {
-    position:absolute;
-    right:40px;
-    top:10px;
-}
 
+.panel-content div.number-of-items {
+line-height: 1.2;
+position: absolute;
+right: 40px;
+border: 1px solid #e0e0e0;
+top: 14px;
+border-radius: 100px;
+padding: 0px 3px;
+}
 .panel-content .collapse div.number-of-items {
     display:none;
 }
@@ -1626,8 +1644,6 @@ li.ui-menu-item {
 }
 
 #button-container button.cancel {
-    font-size:11px;
-    font-size:1.1rem;
     margin-top:20px;
 }
 
@@ -1655,7 +1671,7 @@ li.ui-menu-item {
     height:26px;
     position:absolute;
     right:30px;
-    top:9px;
+    top:10px;
 }
 
 .panel-content .collapse span[class*="completion"] {
@@ -1739,10 +1755,11 @@ li.ui-menu-item {
 }
 
 /* End Items. */
-
+.panel-content.course header .item {background: #f3f3f3;}
+.panel-content.course header .item:nth-child(2n+2) {background: #fbfbfb} 
 .panel-content.course .items > li
 , .panel-content.course header .item {
-    padding:10px 0;
+    padding:10px;
     min-height:30px;
 }
 
@@ -1781,6 +1798,7 @@ li.ui-menu-item {
 
 .panel-content.find .nav h5 {
     margin-bottom:0;
+    margin-left: 10px;
     border-bottom:solid 1px #9a979b;
     color:#9a979b;
 }
