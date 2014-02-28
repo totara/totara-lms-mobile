@@ -1576,9 +1576,7 @@ padding: 2em 2em 1em 2em;
 line-height: 1.2;
 position: absolute;
 right: 40px;
-border: 1px solid #e0e0e0;
-top: 14px;
-border-radius: 100px;
+top: 16px;
 padding: 0px 3px;
 }
 .panel-content .collapse div.number-of-items {
