@@ -72,7 +72,6 @@ a:focus {
 a:active,
 a:hover {
     outline: 0;
-    /*color: #fa8f1c;*/
 }
 
 /* =1.4 - Typography
@@ -220,8 +219,13 @@ button.plus
     min-height:30px;
 }
 
-#main-site-login-form div{ margin:40px auto; text-align: center;}
-#main-site-login-form div label{display: block; width: 100%}
+#main-site-login-form div {
+	margin:40px auto; text-align: center;
+}
+
+#main-site-login-form div label {
+	display: block; width: 100%
+}
 
 @media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
     button
@@ -1116,8 +1120,6 @@ form div.error {
     transform: rotate(-45deg);
 }
 
-
-
 .phone button {
     width: 60%;
 }
@@ -1522,7 +1524,7 @@ li.ui-menu-item {
 }
 
 .panel-content h1 {
-    margin:0.58em 0.4em;
+    margin:0.34em 0.4em 0.4em;
 }
 
 .panel-content header h2 {
@@ -1544,9 +1546,6 @@ li.ui-menu-item {
     display:inline-block;
     width:80%;
 }
-.panel-content #top {
-padding: 2em 2em 1em 2em;
-}
 
 @media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
     .panel-content h3[class*="title"]
@@ -1555,11 +1554,6 @@ padding: 2em 2em 1em 2em;
     , .panel-content .sub-item-title {
         width:76%;
     }
-
-    .panel-content h1 {
-        margin:0.7em 0.5em;
-    }
-    
 }
 
 @media only screen and (max-device-width : 720px) {
@@ -1568,12 +1562,6 @@ padding: 2em 2em 1em 2em;
     , .panel-content .category-title
     , .panel-content .sub-item-title {
         width:70%;
-    }
-}
-
-@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
-    .panel-content h1 {
-        margin:0.7em 0.35em;
     }
 }
 
@@ -1845,8 +1833,8 @@ padding: 0px 3px;
 /* Notice. */
 
 #notice {
-    width: 80%;
     margin: 10px auto 30px;
+    padding:0 20px;
     clear: both;
     float: none;
 }

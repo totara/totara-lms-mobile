@@ -86,7 +86,7 @@ body {
 /* Panel Content */
 
 .panel-content #top {
-    padding:1em;
+    padding:2em 1.4em 1em 1.4em;
 }
 
 .panel-content header.header {
@@ -134,8 +134,7 @@ body {
 
 .panel-content div.sections {
     clear:both;
-    width:91%;
-    margin:0 -69px 0 69px;
+    padding:0 77px;
 }
 
 .panel-content div.collapse
@@ -191,9 +190,9 @@ body {
     padding: 0;
 }
 
-@media only screen and (min-device-width : 234px) and (max-device-width : 767px) {
+@media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
     .panel-content div.sections {
-        width:74%;
+        padding:0 20px;
     }
 }
 
