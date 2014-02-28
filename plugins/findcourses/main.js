@@ -240,6 +240,12 @@ define(requires, function(selfEnrolForm, coursesTpl) {
                     ].categoryName;
                 }
 
+
+                _.each(categories, function(category) {
+                    category.courseCount = category.courses.length +
+                        MM.plugins.findcourses._countSubCatCourses(categories, category);
+                });
+
                 var values = {
                     'title': title,
                     'categories': categories,
@@ -326,8 +332,20 @@ define(requires, function(selfEnrolForm, coursesTpl) {
         },
 
         _selfEnrollFailure: function(data) {
+        },
 
+        _countSubCatCourses: function(cats, cat) {
+            var i = 0;
+            _.each(cats, function(cat2) {
+                if (cat2.parent === cat.id) {
+                    i += cat2.courses.length + MM.plugins.findcourses._countSubCatCourses(cats, cat2);
+                }
+            });
+            return i;
         }
+
     };
+
     MM.registerPlugin(plugin);
 });
+

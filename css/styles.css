@@ -1259,6 +1259,16 @@ form div.error {
     background-repeat: no-repeat;
 }
 
+.panel-content .expand.no-items {
+    background:none;
+}
+
+.panel-content .expand.no-items
+, .panel-content .expand.no-items .number-of-items {
+    color:#9f9f9f;
+    cursor:default;
+}
+
 .expand-label {
     background-image: url(../img/expandgrey.png);
     background-position-x: 100%;
