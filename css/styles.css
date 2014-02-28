@@ -1612,7 +1612,7 @@ padding: 0px 3px;
 }
 
 .panel-content .completion-complete {
-    background:url('../img/sprites/course-completion-status.png') scroll no-repeat 0 -53px transparent;
+    background:url('../img/sprites/course-completion-status.png') scroll no-repeat 0 -52px transparent;
 }
 
 .panel-content span[class*="completion"] {
@@ -1621,7 +1621,7 @@ padding: 0px 3px;
     height:26px;
     position:absolute;
     right:30px;
-    top:10px;
+    top:11px;
 }
 
 .panel-content .collapse span[class*="completion"] {
@@ -1759,7 +1759,7 @@ padding: 0px 3px;
 
 .panel-content.find span[class*="completion"] {
     right:14px;
-    top:5px;
+    top:7px;
 }
 
 .panel-content.find .item-course {
