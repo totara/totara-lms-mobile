@@ -2210,8 +2210,8 @@ describe("MM", function() {
         expectedPanelHTML += 'log entry number five for testFilter<br />';
         expectedPanelHTML += 'log entry containing testFilter within the string<br />';
         expectedPanelHTML += '<div class="centered">';
-        expectedPanelHTML += '<a href="mailto:AUsername?subject=MMLog&body=testFilter%3A%20log%20entry%20number%20two%0AtestFilter%3A%20log%20entry%20number%20four%0AtestFilter%3A%20log%20entry%20duplicate%0Alog%20entry%20number%20five%20for%20testFilter%0Alog%20entry%20containing%20testFilter%20within%20the%20string%0A">';
-        expectedPanelHTML += '<button>Field:field</button></a></div>';
+        expectedPanelHTML += '<a class="button" href="mailto:AUsername?subject=MMLog&body=testFilter%3A%20log%20entry%20number%20two%0AtestFilter%3A%20log%20entry%20number%20four%0AtestFilter%3A%20log%20entry%20duplicate%0Alog%20entry%20number%20five%20for%20testFilter%0Alog%20entry%20containing%20testFilter%20within%20the%20string%0A">';
+        expectedPanelHTML += 'Field:field</a></div>';
 
         // Puts the log into the panels
         MM.showLog("testFilter");
