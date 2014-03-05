@@ -120,7 +120,8 @@ define(templates, function(courseTpl) {
                 courseid: courseInfo.id, 
                 options: [
                     {name: 'userid', value: MM.site.get("userid")},
-                    {name: 'forcedescription', value: 'true'}
+                    {name: 'forcedescription', value: 'true'},
+                    {name: 'uncached', value: 'true'}
                 ]
             };
             var callback = MM.plugins.course.courseContentsCallback;
