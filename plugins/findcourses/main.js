@@ -351,7 +351,6 @@ define(requires, function(selfEnrolForm, coursesTpl) {
             });
             return i;
         }
-
     };
 
     MM.registerPlugin(plugin);
