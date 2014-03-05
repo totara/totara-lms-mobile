@@ -278,7 +278,12 @@ define(
                 var errorCallBack = MM.plugins.feedback._sendAnswersFailure;
                 var preSets = {cache:false};
                 MM.moodleWSCall(
-                    'mod_feedback_send_answers', {'answers':response}, callBack,
+                    'mod_feedback_send_answers',
+                    {
+                        'answers':response,
+                        'userid': MM.site.get("userid")
+                    },
+                    callBack,
                     preSets, errorCallBack
                 );
             }
@@ -334,6 +339,7 @@ define(
 
             // Get the feedback for the course
             var data = {
+                'userid': MM.site.get("userid"),
                 'coursemoduleid':courseModuleId
             };
             var callBack = MM.plugins.feedback._getFeedbackQuestionsSuccess;
