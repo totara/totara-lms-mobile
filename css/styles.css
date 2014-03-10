@@ -198,6 +198,7 @@ button, .button, input[type="submit"] {
 button:active,.button:active, input[type="submit"]:active,
 button:focus,.button:focus, input[type="submit"]:focus,
 button:hover,.button:hover, input[type="submit"]:hover{
+    color:#333;
      background: #e7e7e7; /* Old browsers */
     background: -moz-linear-gradient(top, #e7e7e7 0%, #fefefe 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e7e7e7), color-stop(100%,#fefefe)); /* Chrome,Safari4+ */
