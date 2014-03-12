@@ -1347,6 +1347,7 @@ form div.error {
     margin-left: 1px;
     margin-right: 1px;
     text-align: center;
+    overflow:auto;
 }
 #app-dialog .modalFooter  {
     background: #fff;
@@ -1362,6 +1363,8 @@ form div.error {
 #app-dialog .modalFooter button{
     width:auto !important; /* !important to override inline style. */
     min-width:20%;
+    display:inline;
+    margin:0 5px;
 }
 
 #app-dialog .modalClear {
