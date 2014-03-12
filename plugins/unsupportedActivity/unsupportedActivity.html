@@ -11,7 +11,7 @@
             <img src="img/info.png" width="32" height="32" alt="Information" title="Information" />
             <p><%= MM.lang.s("unsupportedactivity") %></p>
         </section>
-        <a href="#" data-url="<%= courseModule.attributes.url %>" id="continue" class="button"><%= MM.lang.s("viewonmainsite") %></a>
+        <button data-url="<%= courseModule.attributes.url %>" id="continue" class="button"><%= MM.lang.s("viewonmainsite") %></button>
         <a href="#courses/<%= courseID %>" id="cancel" class="button"><%= MM.lang.s("cancelandreturn") %></a>
     </div>
 </div>
