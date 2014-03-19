@@ -46,26 +46,41 @@
                 <button class="cancel" id="cancel" title="<%= MM.lang.s('return') %>">
                     <%= MM.lang.s("return") %>
                 </button>
-            <% } else { %>
-                <form id="scorm-form">
-                    <input type="hidden" id="scormid" value="<%= scorm.id %>" />
-                    <input type="hidden" id="cmid" value="<%= scorm.cmid %>" />
-                    <fieldset>
-                        <input type="radio" id="mode-preview" name="mode" value="preview" />
-                        <label for="mode-preview">Preview</label>
-                        <input type="radio" id="mode-normal" name="mode" value="normal" checked="checked" />
-                        <label for="mode-normal">Normal</label>
-                        <% if (scorm.num_attempts_made > 0 && ((scorm.num_attempts_made < scorm.num_attempts_allowed) || scorm.num_attempts_allowed === 0)) { %>
-                            <input type="checkbox" id="new-attempt" />
-                            <label for="new-attempt">Start a new attempt</label>
-                        <% } %>
-               
-                        <button id="submitter" class="submit button" type="submit"><%= MM.lang.s('enter') %></button>
-                        <button class="cancel button" id="cancel" title="<%= MM.lang.s('cancelandreturn') %>">
-                            <%= MM.lang.s("cancelandreturn") %>
-                        </button>
-                    </fieldset>
-                </form>
+            <% } else{ %>
+                <% if(scorm.compat_tablet === 0 && MM.deviceOrientation == 'portrait') { %>
+                <article>
+                    <p>
+<span class="fa-stack fa-lg">
+<i class="fa fa-retweet fa-stack-1x"></i>
+<i class="fa fa-tablet fa-stack-2x" style="
+  -webkit-transform: rotate(90deg);
+     -moz-transform: rotate(90deg);
+      -ms-transform: rotate(90deg);
+       -o-transform: rotate(90deg);
+          transform: rotate(90deg);"></i>
+</span>
+This SCORM package might not be appropriate for your current device Orientation.<br /> Please try rotating your device to landscape</p>
+                </article>
+                    <% } else{ %>
+                        <form id="scorm-form">
+                            <input type="hidden" id="scormid" value="<%= scorm.id %>" />
+                            <input type="hidden" id="cmid" value="<%= scorm.cmid %>" />
+                            <fieldset>
+                                <input type="radio" id="mode-preview" name="mode" value="preview" />
+                                <label for="mode-preview">Preview</label>
+                                <input type="radio" id="mode-normal" name="mode" value="normal" checked="checked" />
+                                <label for="mode-normal">Normal</label>
+                                <% if (scorm.num_attempts_made > 0 && ((scorm.num_attempts_made < scorm.num_attempts_allowed) || scorm.num_attempts_allowed === 0)) { %>
+                                    <input type="checkbox" id="new-attempt" />
+                                    <label for="new-attempt">Start a new attempt</label>
+                                <% } %>
+                                <button id="submitter" class="submit button" type="submit"><%= MM.lang.s('enter') %></button>
+                                <button class="cancel button" id="cancel" title="<%= MM.lang.s('cancelandreturn') %>">
+                                    <%= MM.lang.s("cancelandreturn") %>
+                                </button>
+                            </fieldset>
+                        </form>
+                    <% } %>
             <% } %>
         </section>
     </div>

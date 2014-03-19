@@ -544,6 +544,7 @@ require(templates, function(deviceInfoTpl, showReportBug, showLog,
                 location : location.href,
                 currentLang : MM.lang.current,
                 deviceConnected : MM.deviceConnected(),
+                deviceOrientation : MM.deviceOrientation,
                 overflowScrollingSupported : MM.util.overflowScrollingSupported(),
                 'document' : {
                     'innerWidth':$(document).innerWidth(),
