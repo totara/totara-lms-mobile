@@ -571,6 +571,10 @@ ol {
 
 .user-menu .plugin-ico {
     float:none;
+    max-width:32px;
+    width:auto;
+    height:auto;
+    padding:0;
 }
 
 .panel.user-menu .no-arrow > a {
@@ -1788,7 +1792,7 @@ li.ui-menu-item {
 }
 
 .panel-content.find .item-course {
-    background:url('../img/icon/course-icon.png') no-repeat scroll 0 0 transparent;
+    background:url('../img/icon/course-icon.png') no-repeat scroll 0 -4px transparent;
     padding-left:34px;
 }
 
