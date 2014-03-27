@@ -1,22 +1,26 @@
 <div class="panel-content my-bookings">
     <h1><%= title %></h1>
     <section>
-        <% _.each(bookings, function(booking) { %>
-        <ul class="my-bookings-sections sections">
-            <li>
-                <h3><%= booking.coursename %></h3>
-            </li>
-            <li>
-                <%= booking.facetofacename %>
-            </li>
-            <li>
-                Start: <%= MM.widgets.formatDate(booking.timestart) %>
+        <% if (bookings.length === 0) { %>
+            <p><%= MM.lang.s("no-bookings") %></p>
+        <% } else { %>
+            <% _.each(bookings, function(booking) { %>
+            <ul class="my-bookings-sections sections">
+                <li>
+                    <h3><%= booking.coursename %></h3>
+                </li>
+                <li>
+                    <%= booking.facetofacename %>
+                </li>
+                <li>
+                    Start: <%= MM.widgets.formatDate(booking.timestart) %>
 
-            </li>
-            <li>
-                Finish: <%= MM.widgets.formatDate(booking.timefinish) %>
-            </li>
-        </ul>
-        <% }); %>
+                </li>
+                <li>
+                    Finish: <%= MM.widgets.formatDate(booking.timefinish) %>
+                </li>
+            </ul>
+            <% }); %>
+        <% } %>
     </section>
 </div>

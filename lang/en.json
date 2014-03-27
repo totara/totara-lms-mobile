@@ -209,5 +209,8 @@
 "self-enrol-error": "Please check the enrolment key and try again.",
 "my-learning-courses": "Courses",
 "my-learning-programs": "Programs",
-"my-learning-required-learning": "Required Learning"
+"my-learning-required-learning": "Required Learning",
+"no-bookings": "You have no bookings",
+"no-tasks": "You have no tasks",
+"no-alerts": "You have no alerts"
 }

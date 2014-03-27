@@ -1,27 +1,35 @@
 <div class="panel-content info alerts">
     <h1><%= title %></h1>
     <section>
-        <ul class="alerts-sections sections nav nav-v js-accordion">
-            <% _.each(alerts, function(alert, i) { %>
-            <li class="section-<%= i %> nav-item" data-messageid="<%= alert.id %>">
-                <div class="name toogler expand touch-row">
-                    <h3 class="topic-title">
-                        <a href="#">
-                            <%= alert.subject %>
+        <% if (alerts.length === 0) { %>
+            <p><%= MM.lang.s("no-alerts") %></p>
+        <% } else { %>
+            <ul class="alerts-sections sections nav nav-v js-accordion">
+                <% _.each(alerts, function(alert, i) { %>
+                <li class="section-<%= i %> nav-item" data-messageid="<%= alert.id %>">
+                    <div class="name toogler expand touch-row">
+                        <h3 class="topic-title">
+                            <a href="#">
+                                <%= alert.subject %>
+                            </a>
+                        </h3>
+                        <a href="#" class="close toogler collapse touch-row" >
+                            <%= MM.lang.s("close") %>
                         </a>
-                    </h3>
-                    <a href="#" class="close toogler collapse touch-row" ><%= MM.lang.s("close") %></a>
-                </div>
-                <ul class="nav submenu items">
-                    <li class="item">
-                        <p>
-                            <%= alert.fullmessage %>
-                        </p>
-                        <a href="#" class="alert dismiss button" data-messageid="<%= alert.id %>">Dismiss Alert</a>
-                    </li>
-                </ul>
-            </li>
-            <% }); %>
-        </ul>
+                    </div>
+                    <ul class="nav submenu items">
+                        <li class="item">
+                            <p>
+                                <%= alert.fullmessage %>
+                            </p>
+                            <a href="#" class="alert dismiss button" data-messageid="<%= alert.id %>">
+                                Dismiss Alert
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <% }); %>
+            </ul>
+        <% } %>
     </section>
 </div>

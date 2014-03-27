@@ -1,36 +1,41 @@
 <div class="panel-content info tasks">
     <h1><%= title %></h1>
     <section>
-        <ul class="task-sections sections nav nav-v js-accordion">
-            <% _.each(tasks, function(task, i) { %>
-            <li class="section-<%= i %> nav-item" data-messageid="<%= task.id %>">
-                <div class="name toogler expand touch-row">
-                    <h3 class="topic-title">
-                        <a href="#">
-                            <%= task.subject %>
+        <% if (tasks.length === 0) { %>
+            <p><%= MM.lang.s("no-tasks") %></p>
+        <% } else { %>
+            <ul class="task-sections sections nav nav-v js-accordion">
+                <% _.each(tasks, function(task, i) { %>
+                <li class="section-<%= i %> nav-item" data-messageid="<%= task.id %>">
+                    <div class="name toogler expand touch-row">
+                        <h3 class="topic-title">
+                            <a href="#">
+                                <%= task.subject %>
+                            </a>
+                        </h3>
+                        <a href="#" class="close toogler collapse touch-row" >
+                            <%= MM.lang.s("close") %>
                         </a>
-                    </h3>
-                    <a href="#" class="close toogler collapse touch-row" ><%= MM.lang.s("close") %></a>
-                </div>
-                <ul class="nav submenu items">
-                    <li class="item">
-                        <p>
-                            <%= task.fullmessage %>
-                        </p>
-                        <% if(task.showacceptbtn) { %>
-                            <a href="#" class="task accept button" data-messageid="<%= task.id %>"><%= task.acceptbtntext %></a>
-                        <% } %>
-                        <% if(task.showrejectbtn) { %>
-                            <a href="#" class="task reject button" data-messageid="<%= task.id %>"><%= task.rejectbtntext %></a>
-                        <% } %>
-                        <% if(task.showinfobtn) { %>
-                            <a href="<%= task.infobtnurl %>" class="button" target="_blank"><%= task.infobtntext %></a>
-                        <% } %>
-                    </li>
-                </ul>
-            </li>
-            <% }); %>
-        </ul>
-
+                    </div>
+                    <ul class="nav submenu items">
+                        <li class="item">
+                            <p>
+                                <%= task.fullmessage %>
+                            </p>
+                            <% if(task.showacceptbtn) { %>
+                                <a href="#" class="task accept button" data-messageid="<%= task.id %>"><%= task.acceptbtntext %></a>
+                            <% } %>
+                            <% if(task.showrejectbtn) { %>
+                                <a href="#" class="task reject button" data-messageid="<%= task.id %>"><%= task.rejectbtntext %></a>
+                            <% } %>
+                            <% if(task.showinfobtn) { %>
+                                <a href="<%= task.infobtnurl %>" class="button" target="_blank"><%= task.infobtntext %></a>
+                            <% } %>
+                        </li>
+                    </ul>
+                </li>
+                <% }); %>
+            </ul>
+        <% } %>
     </section>
 </div>
