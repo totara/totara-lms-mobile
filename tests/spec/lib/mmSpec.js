@@ -32,7 +32,8 @@ describe("MM", function() {
         resetMM();
 
         var config = {
-            'hello' : 'world'
+            'hello' : 'world',
+            'plugins' : []
         };
         var lang = JSON.stringify({
             'astring':'some phrase to return'
