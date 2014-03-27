@@ -45,7 +45,6 @@ require(templates, function(deviceInfoTpl, showReportBug, showLog,
             ['settings/:section/', 'settings_section', "showSection"],
             ['settings/sites/:siteid', 'settings_sites_show_site', "showSite"],
             ['settings/sites/add', 'settings_sites_add_site', "addSite"],
-            ['settings/sites/delete/:siteid', 'settings_sites_delete_site', "deleteSite"],
             ['settings/general/purgecaches', 'settings_general_purgecaches', "purgeCache"],
             ['settings/sync/lang', 'settings_sync_lang', "syncLang"],
             ['settings/sync/css', 'settings_sync_css', "syncCSS"],
@@ -151,10 +150,7 @@ require(templates, function(deviceInfoTpl, showReportBug, showLog,
                     MM.loadSite(siteId);
                 };
             }
-            /*
-            options.buttons[MM.lang.s("delete")] = function() {
-                MM.Router.navigate("settings/sites/delete/" + siteId, {trigger: true, replace: true});
-            };*/
+
             options.buttons[MM.lang.s('cancel')] = function() {
                 MM.widgets.dialogClose();
                 MM.Router.navigate('settings/sites/');
@@ -241,24 +237,6 @@ require(templates, function(deviceInfoTpl, showReportBug, showLog,
 
             MM.widgets.dialog(html, options);
             e.preventDefault();
-        },
-
-        deleteSite: function(siteId) {
-            var site = MM.db.get('sites', siteId);
-            MM.popConfirm(MM.lang.s('deletesite'), function() {
-                var count = MM.db.length('sites');
-                if (count == 1) {
-                    MM.db.remove('sites', siteId);
-                    setTimeout(function() {
-                        MM.logoutUser();
-                    }, 1000);
-                } else {
-                    MM.db.remove('sites', siteId);
-                    setTimeout(function() {
-                        MM.Router.navigate('settings/sites/');
-                    }, 1000);
-                }
-            });
         },
 
         display: function() {
