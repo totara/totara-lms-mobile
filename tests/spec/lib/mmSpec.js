@@ -90,7 +90,7 @@ describe("MM", function() {
     describe("init", function() {
         describe("MM.config has been set", function() {
             it("has the correct config", function() {
-                expect(MM.config).toEqual({'hello':'world'});
+                expect(MM.config).toEqual({'hello':'world', 'plugins':[]});
             });
         });
         describe("sets correct event type", function() {
@@ -125,6 +125,7 @@ describe("MM", function() {
                 };
                 MM.mq = {'hello':'world'};
                 spyOn(window, "matchMedia").andReturn(matchMediaResponse);
+                spyOn(MM, "setInComputerState").andReturn(false);
                 MM.init({});
                 expect(window.matchMedia).toHaveBeenCalledWith({'hello':'world'});
                 expect(MM.deviceType).toEqual('tablet');
@@ -209,14 +210,28 @@ describe("MM", function() {
 
         it("loads core models", function() {
             var modelsArray = [
-                'setting','site','course','user','cacheEl','syncEl'
+                'setting','site','user','cacheEl','syncEl', 'course'
             ];
             var collectionsArray = [
-                'settings', 'sites', 'courses', 'users', 'cache', 'sync'
+                'settings', 'sites', 'users', 'cache', 'sync', 'courses'
+            ];
+            var allItems = [
+                'setting', 'settings', 'site', 'sites', 'user', 'users',
+                'cacheEl', 'cache', 'syncEl', 'sync', 'course', 'courses'
             ];
             MM.init({});
-            expect(_.keys(MM.models)).toEqual(modelsArray);
-            expect(_.keys(MM.collections)).toEqual(collectionsArray);
+            var foundModels = [];
+            var foundCollections = [];
+            _.each(MM.storage, function(value, key) {
+                if (value.type === 'model') {
+                    foundModels.push(key);
+                } else if (value.type === 'collection') {
+                    foundCollections.push(key);
+                }
+            });
+            expect(_.keys(MM.storage)).toEqual(allItems);
+            expect(foundModels).toEqual(modelsArray);
+            expect(foundCollections).toEqual(collectionsArray);
         });
 
         it("loads routes", function() {
@@ -259,7 +274,6 @@ describe("MM", function() {
             // Overwrite the currently instantiated Router
             MM.Router = new myBackboneRouter();
 
-            spyOn(MM, 'showLog').andReturn('Some logging function');
             spyOn(MM, 'refresh').andReturn('Some refresh function');
 
             // Set the spy on our new router
@@ -272,18 +286,10 @@ describe("MM", function() {
                 [
                     ['helpmelogin', 'helpmelogin', "Help Me Login Text"],
                     ['settings', 'settings', 'Settings display'],
-                    ['refresh', 'refresh', 'Some refresh function'],
-                    ['settings/:section/', 'settings_section', 'Settings show Section'],
-                    ['settings/sites/:siteid', 'settings_sites_show_site', 'Settings show site'],
-                    ['settings/sites/add', 'settings_sites_add_site', 'Settings add site'],
-                    ['settings/sites/delete/:siteid', 'settings_sites_delete_site', 'Settings delete site'],
-                    ['settings/general/purgecaches', 'settings_general_purgecaches', 'Purge Cache Function'],
-                    ['settings/sync/lang', 'settings_sync_lang', MMSyncLangFunction],
-                    ['settings/sync/css', 'settings_sync_css', MMSyncCSSFunction],
-                    ['settings/development/log/:filter', 'settings_sync_css', 'Some logging function']
+                    ['refresh', 'refresh', 'Some refresh function']
                 ]
             );
-            expect(MM.Router.route.callCount).toBe(11);
+            expect(MM.Router.route.callCount).toBe(3);
         });
     });
 
@@ -319,18 +325,24 @@ describe("MM", function() {
         it("works when the device type is a phone", function() {
             spyOn(MM, 'log').andReturn();
             spyOn($.fn, 'css').andCallThrough();
+            var spy = jasmine.createSpy('event');
+            $(document).on('orientation_change', spy);
 
             MM.deviceType = 'phone';
 
             MM.orientationChangeHandler();
 
             expect(MM.log.callCount).toBe(2);
-            expect($.fn.css.callCount).toBe(5);
+            expect($.fn.css.callCount).toBe(3);
+            expect(spy).toHaveBeenCalled();
         });
+
+
         it("works when the device isn't a phone", function() {
             spyOn(MM, 'log').andReturn();
             spyOn($.fn, 'css').andCallThrough();
-            spyOn(MM.panels, 'resizePanels').andReturn();
+            var spy = jasmine.createSpy('event');
+            $(document).on('orientation_change', spy);
 
             MM.deviceType = 'not-a-phone';
 
@@ -338,60 +350,7 @@ describe("MM", function() {
 
             expect(MM.log.callCount).toBe(2);
             expect($.fn.css.callCount).toBe(3);
-            expect(MM.panels.resizePanels).toHaveBeenCalled();
-        });
-    });
-
-    /**
-     * Partially tests setUpTabletModeLayout
-     * @covers setUpTabletModeLayout (partially)
-     */
-    describe("can be set up for tablets", function() {
-        beforeEach(function() {
-            // Create required page elements
-            $(document.body).append(
-                $("<div>").attr('id', 'testElements').append(
-                    $("<div>").html(
-                        "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
-                    )
-                ).append(
-                    $("<div>").attr('id', 'mainmenu')
-                )
-            );
-        });
-        afterEach(function() {
-            $("#testElements").remove();
-        });
-
-        it("binds the main menu element", function() {
-            var e = {
-                preventDefault:function(){},
-                stopPropagation:function(){},
-                type:'someEventTrigger'
-            };
-
-            MM.panels = {
-                calculatePanelsSizes:function(){},
-                fixPanelsSize:function(){},
-                menuShow:function(){}
-            };
-
-            spyOn(MM.panels, 'calculatePanelsSizes').andReturn();
-            spyOn(MM.panels, 'fixPanelsSize').andReturn();
-            spyOn(MM.panels, 'menuShow').andReturn();
-            spyOn(e, 'preventDefault').andReturn();
-            spyOn(e, 'stopPropagation').andReturn();
-
-            MM.quickClick = 'someEventTrigger';
-
-            MM.setUpTabletModeLayout();
-            $("#mainmenu").trigger(e);
-
-            expect(MM.panels.calculatePanelsSizes).toHaveBeenCalled();
-            expect(MM.panels.fixPanelsSize).toHaveBeenCalled();
-            expect(MM.panels.menuShow).toHaveBeenCalled();
-            expect(e.preventDefault).toHaveBeenCalled();
-            expect(e.stopPropagation).toHaveBeenCalled();
+            expect(spy).toHaveBeenCalled();
         });
     });
 
@@ -457,9 +416,8 @@ describe("MM", function() {
         expect(MM.util.setPanelsMinScreenHeight).toHaveBeenCalled();
         expect(MM.util.avoidHorizontalScrolling).toHaveBeenCalled();
         expect($("#main-wrapper").css('overflow')).toEqual('visible');
-        expect($.fn.addClass.callCount).toEqual(2);
+        expect($.fn.addClass.callCount).toEqual(1);
         expect($("#panel-left").hasClass('no-overflow')).toBe(true);
-        expect($(".header-wrapper").hasClass('header-fixed')).toBe(true);
 
         $("#testElements").remove();
     });
@@ -483,49 +441,6 @@ describe("MM", function() {
             ['center'],
             ['right']
         ]);
-    });
-
-    /**
-     * Partially tests setUpPhoneModeLayout()
-     * @covers setUpPhoneModeLayout (partially)
-     */
-    describe("can be set up for phones", function() {
-        beforeEach(function() {
-            // Create required page elements
-            $(document.body).append(
-                $("<div>").attr('id', 'testElements').append(
-                    $("<div>").html(
-                        "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
-                    )
-                ).append(
-                    $("<div>").attr('id', 'mainmenu')
-                )
-            );
-        });
-        afterEach(function() {
-            $("#testElements").remove();
-        });
-        it("binds the main menu element", function() {
-            var e = {
-                preventDefault:function(){},
-                type:'someEventTrigger'
-            };
-
-            MM.panels = {
-                goBack:function(){}
-            };
-
-            spyOn(MM.panels, 'goBack').andReturn();
-            spyOn(e, 'preventDefault').andReturn();
-
-            MM.quickClick = 'someEventTrigger';
-
-            MM.setUpPhoneModeLayout();
-            $("#mainmenu").trigger(e);
-
-            expect(MM.panels.goBack).toHaveBeenCalled();
-            expect(e.preventDefault).toHaveBeenCalled();
-        });
     });
 
     /**
@@ -561,6 +476,7 @@ describe("MM", function() {
             expect(MM.log).toHaveBeenCalledSequentiallyWith(
                 [
                     ['Initializating app'],
+                    ["device.orientation : portrait"],
                     ['Internet connection checked ' + true]
                 ]
             );
@@ -584,6 +500,7 @@ describe("MM", function() {
             expect(MM.log).toHaveBeenCalledSequentiallyWith(
                 [
                     ['Initializating app'],
+                    ["device.orientation : portrait"],
                     ['Returning not connected (forced by settings)']
                 ]
             );
@@ -679,19 +596,15 @@ describe("MM", function() {
                     username:'defaultUsername'
                 }
             };
-            MM.tpl = {
-                render:function(){}
-            };
+
             MM.db = {
-                get:function(){}
+                get:function(){},
+                getSiteConfig: function(){}
             };
+
             MM.util = {
                 isTouchDevice:function(){},
                 overflowScrollingSupported:function(){}
-            };
-            MM.panels = {
-                calculatePanelsSizes:function(){},
-                fixPanelsSize:function(){}
             };
 
             matchMediaResponse = {
@@ -699,38 +612,50 @@ describe("MM", function() {
                 matches:true
             };
 
-            spyOn(MM.panels, 'calculatePanelsSizes').andReturn();
-            spyOn(MM.panels, 'fixPanelsSize').andReturn();
-            spyOn(MM, 'log').andReturn(false);
-            spyOn(MM.tpl, 'render').andReturn($("<form>"));
+            var fakeFunction = function(){};
+            MM.orientationChangeHandler = fakeFunction;
+
+            // Backbone.history.start is attached to a listener that will
+            // fire during this test. This stops a 'Backbone.history has already
+            // started' error.
             spyOn(Backbone.history, 'start').andReturn(true);
+
+            spyOn(MM, 'log').andReturn(false);
+            spyOn(MM, 'loadGlobalModels').andReturn(true);
+            spyOn(MM, 'loadSettings').andReturn(true);
+            spyOn($.fn, 'bind').andReturn(true);
             spyOn(window, 'matchMedia').andReturn(matchMediaResponse);
             spyOn(matchMediaResponse, 'addListener').andCallThrough();
+            spyOn(MM, 'setUpTabletModeLayout').andCallThrough();
             spyOn($.fn, 'innerHeight').andReturn(123);
+            spyOn($.fn, 'addClass').andCallThrough();
             spyOn(MM.util, 'isTouchDevice').andReturn(true);
             spyOn(MM.util, 'overflowScrollingSupported').andReturn(true);
             spyOn(MM, 'setUpOverflowScrolling').andReturn(true);
             spyOn(MM, 'getConfig').andReturn({id:1});
-            spyOn(MM.db, 'get').andReturn(true);
+            spyOn(MM, 'loadSiteModels').andReturn();
             spyOn(MM, 'loadSite').andReturn(true);
             spyOn(MM, 'loadExtraJs').andReturn(true);
-            spyOn(MM, 'setUpTabletModeLayout').andCallThrough();
+            spyOn(MM.db, 'get').andReturn(true);
 
             MM.loadLayout();
-            expect(MM.tpl.render).toHaveBeenCalledWith("");
-            expect($("#add-site").html()).toEqual("<form></form>");
+
+            expect(MM.loadGlobalModels).toHaveBeenCalled();
+            expect(MM.loadSettings).toHaveBeenCalled();
             expect($("#url").val()).toEqual("hello world");
             expect($("#username").val()).toEqual("defaultUsername");
+            expect($(window).bind).toHaveBeenCalledWith('orientationchange', fakeFunction);
             expect(matchMediaResponse.addListener).toHaveBeenCalled();
             expect(MM.setUpTabletModeLayout).toHaveBeenCalled();
+            expect(MM.setUpOverflowScrolling).toHaveBeenCalled();
             expect($("#add-site").css('height')).toEqual('123px');
             expect($("#panel-left").hasClass('overflow-scroll')).toBeTruthy();
             expect($("#panel-right").hasClass('overflow-scroll')).toBeTruthy();
             expect($("#panel-center").hasClass('overflow-scroll')).toBeTruthy();
-            expect(MM.setUpOverflowScrolling).toHaveBeenCalled();
+            expect(MM.util.isTouchDevice).toHaveBeenCalled();
+            expect(MM.util.overflowScrollingSupported).toHaveBeenCalled();
             expect(MM.getConfig).toHaveBeenCalledWith('current_site');
             expect(MM.db.get).toHaveBeenCalledWith('sites', 1);
-            expect(MM.loadSite).toHaveBeenCalledWith(1);
             expect(MM.loadExtraJs).toHaveBeenCalled();
             expect(MM.loadExtraJs.callCount).toEqual(1);
         });
@@ -743,54 +668,87 @@ describe("MM", function() {
                     username:'defaultUsername'
                 }
             };
-            MM.tpl = {
-                render:function(){}
+
+            MM.getConfig = function(configName) {
+                if (configName === 'installationdir') {
+                    return '/asubdir';
+                } else {
+                    return {};
+                }
             };
+
             MM.db = {
+                all:function(){},
                 get:function(){}
             };
             MM.util = {
                 isTouchDevice:function(){},
                 overflowScrollingSupported:function(){}
-            }
+            };
+            MM.tpl = {
+                render:function(){}
+            };
+
+            $.fn.combobox = function() {};
+
+            MM.addSite = function(){};
+
+            var fakeFunction = function(){};
+            MM.orientationChangeHandler = fakeFunction;
 
             matchMediaResponse = {
                 addListener: function() {},
                 matches:true
             };
 
-            spyOn(MM, 'log').andReturn(false);
-            spyOn(MM.tpl, 'render').andReturn($("<form>"));
             spyOn(Backbone.history, 'start').andReturn(true);
+
+            spyOn(MM, 'log').andReturn(false);
+            spyOn(MM, 'loadGlobalModels').andReturn(true);
+            spyOn(MM, 'loadSettings').andReturn(true);
+            spyOn($.fn, 'bind').andReturn(true);
             spyOn(window, 'matchMedia').andReturn(matchMediaResponse);
             spyOn(matchMediaResponse, 'addListener').andCallThrough();
+            spyOn(MM, 'setUpTabletModeLayout').andCallThrough();
             spyOn($.fn, 'innerHeight').andReturn(123);
+            spyOn($.fn, 'addClass').andCallThrough();
             spyOn(MM.util, 'isTouchDevice').andReturn(true);
             spyOn(MM.util, 'overflowScrollingSupported').andReturn(true);
             spyOn(MM, 'setUpOverflowScrolling').andReturn(true);
-            spyOn(MM, 'getConfig').andReturn({});
+            spyOn(MM, 'getConfig').andCallThrough();
+            spyOn(MM.tpl, 'render').andReturn($("<form>"));
             spyOn(MM, 'loadExtraJs').andReturn(true);
-            spyOn(MM.db, 'get').andReturn(true);
-            spyOn(MM, 'setUpTabletModeLayout').andCallThrough();
+            spyOn($.fn, 'trigger').andCallThrough();
+            spyOn(MM.db, 'all').andReturn({'models':true});
+            spyOn($.fn, 'combobox').andCallThrough();
+            spyOn($.fn, 'on').andReturn();
 
             MM.loadLayout();
-            expect(MM.tpl.render).toHaveBeenCalledWith("");
-            expect($("#add-site").html()).toEqual("<form></form>");
+
+            expect(MM.loadGlobalModels).toHaveBeenCalled();
+            expect(MM.loadSettings).toHaveBeenCalled();
             expect($("#url").val()).toEqual("hello world");
             expect($("#username").val()).toEqual("defaultUsername");
+            expect($(window).bind).toHaveBeenCalledWith('orientationchange', fakeFunction);
             expect(matchMediaResponse.addListener).toHaveBeenCalled();
             expect(MM.setUpTabletModeLayout).toHaveBeenCalled();
+            expect(MM.setUpOverflowScrolling).toHaveBeenCalled();
             expect($("#add-site").css('height')).toEqual('123px');
             expect($("#panel-left").hasClass('overflow-scroll')).toBeTruthy();
             expect($("#panel-right").hasClass('overflow-scroll')).toBeTruthy();
             expect($("#panel-center").hasClass('overflow-scroll')).toBeTruthy();
+            expect(MM.util.isTouchDevice).toHaveBeenCalled();
+            expect(MM.util.overflowScrollingSupported).toHaveBeenCalled();
             expect(MM.setUpOverflowScrolling).toHaveBeenCalled();
             expect(MM.getConfig).toHaveBeenCalledWith('current_site');
-            expect(MM.db.get).not.toHaveBeenCalled();
-            expect(MM.loadSite).not.toHaveBeenCalled;
+
+            expect($("#add-site").html()).toEqual("<form></form>");
+            expect($("#add-site form").on).toHaveBeenCalledWith('submit', MM.addSite);
+            expect($("#add-site").css('display')).toEqual('block');
             expect(MM.loadExtraJs).toHaveBeenCalled();
             expect(MM.loadExtraJs.callCount).toEqual(1);
-            expect($('#add-site').css('display')).toEqual('block');
+            expect($(document).trigger).toHaveBeenCalledWith('layoutLoaded');
+            expect($.fn.combobox.callCount).toEqual(2);
         });
 
         it("sets up overflow scrolling as phone", function() {
@@ -801,56 +759,68 @@ describe("MM", function() {
                     username:'defaultUsername'
                 }
             };
-            MM.tpl = {
-                render:function(){}
-            };
+
             MM.db = {
-                get:function(){}
+                get:function(){},
+                getSiteConfig: function(){}
             };
+
             MM.util = {
                 isTouchDevice:function(){},
                 overflowScrollingSupported:function(){}
-            }
+            };
 
             matchMediaResponse = {
                 addListener: function() {},
                 matches:false
             };
 
-            spyOn(MM, 'log').andReturn(false);
-            spyOn(MM.tpl, 'render').andReturn($("<form>"));
+            var fakeFunction = function(){};
+            MM.orientationChangeHandler = fakeFunction;
+
+            // Backbone.history.start is attached to a listener that will
+            // fire during this test. This stops a 'Backbone.history has already
+            // started' error.
             spyOn(Backbone.history, 'start').andReturn(true);
+
+            spyOn(MM, 'log').andReturn(false);
+            spyOn(MM, 'loadGlobalModels').andReturn(true);
+            spyOn(MM, 'loadSettings').andReturn(true);
+            spyOn($.fn, 'bind').andReturn(true);
             spyOn(window, 'matchMedia').andReturn(matchMediaResponse);
             spyOn(matchMediaResponse, 'addListener').andCallThrough();
+            spyOn(MM, 'setUpPhoneModeLayout').andCallThrough();
             spyOn($.fn, 'innerHeight').andReturn(123);
+            spyOn($.fn, 'addClass').andCallThrough();
             spyOn(MM.util, 'isTouchDevice').andReturn(true);
             spyOn(MM.util, 'overflowScrollingSupported').andReturn(true);
             spyOn(MM, 'setUpOverflowScrolling').andReturn(true);
-            spyOn(MM, 'getConfig').andReturn({});
+            spyOn(MM, 'getConfig').andReturn({id:1});
+            spyOn(MM, 'loadSiteModels').andReturn();
+            spyOn(MM, 'loadSite').andReturn(true);
             spyOn(MM, 'loadExtraJs').andReturn(true);
             spyOn(MM.db, 'get').andReturn(true);
-            spyOn(MM, 'setUpTabletModeLayout').andReturn(true);
-            spyOn(MM, 'setUpPhoneModeLayout').andReturn(true);
 
             MM.loadLayout();
-            expect(MM.tpl.render).toHaveBeenCalledWith("");
-            expect($("#add-site").html()).toEqual("<form></form>");
+
+            expect(MM.loadGlobalModels).toHaveBeenCalled();
+            expect(MM.loadSettings).toHaveBeenCalled();
             expect($("#url").val()).toEqual("hello world");
             expect($("#username").val()).toEqual("defaultUsername");
+            expect($(window).bind).toHaveBeenCalledWith('orientationchange', fakeFunction);
             expect(matchMediaResponse.addListener).toHaveBeenCalled();
-            expect(MM.setUpTabletModeLayout).not.toHaveBeenCalled();
             expect(MM.setUpPhoneModeLayout).toHaveBeenCalled();
+            expect(MM.setUpOverflowScrolling).toHaveBeenCalled();
             expect($("#add-site").css('height')).toEqual('123px');
             expect($("#panel-left").hasClass('overflow-scroll')).toBeTruthy();
             expect($("#panel-right").hasClass('overflow-scroll')).toBeTruthy();
             expect($("#panel-center").hasClass('overflow-scroll')).toBeTruthy();
-            expect(MM.setUpOverflowScrolling).toHaveBeenCalled();
+            expect(MM.util.isTouchDevice).toHaveBeenCalled();
+            expect(MM.util.overflowScrollingSupported).toHaveBeenCalled();
             expect(MM.getConfig).toHaveBeenCalledWith('current_site');
-            expect(MM.db.get).not.toHaveBeenCalled();
-            expect(MM.loadSite).not.toHaveBeenCalled;
+            expect(MM.db.get).toHaveBeenCalledWith('sites', 1);
             expect(MM.loadExtraJs).toHaveBeenCalled();
             expect(MM.loadExtraJs.callCount).toEqual(1);
-            expect($('#add-site').css('display')).toEqual('block');
         });
 
         it("sets up native scrolling", function() {
@@ -861,53 +831,68 @@ describe("MM", function() {
                     username:'defaultUsername'
                 }
             };
-            MM.tpl = {
-                render:function(){}
-            };
+
             MM.db = {
-                get:function(){}
+                get:function(){},
+                getSiteConfig: function(){}
             };
+
             MM.util = {
                 isTouchDevice:function(){},
                 overflowScrollingSupported:function(){}
             };
-            MM.deviceType = 'phone';
 
             matchMediaResponse = {
                 addListener: function() {},
                 matches:false
             };
 
-            spyOn(MM, 'log').andReturn(false);
-            spyOn(MM.tpl, 'render').andReturn($("<form>"));
+            MM.deviceType = 'phone';
+
+            var fakeFunction = function(){};
+            MM.orientationChangeHandler = fakeFunction;
+
+            // Backbone.history.start is attached to a listener that will
+            // fire during this test. This stops a 'Backbone.history has already
+            // started' error.
             spyOn(Backbone.history, 'start').andReturn(true);
+
+            spyOn(MM, 'log').andReturn(false);
+            spyOn(MM, 'loadGlobalModels').andReturn(true);
+            spyOn(MM, 'loadSettings').andReturn(true);
+            spyOn($.fn, 'bind').andReturn(true);
             spyOn(window, 'matchMedia').andReturn(matchMediaResponse);
             spyOn(matchMediaResponse, 'addListener').andCallThrough();
+            spyOn(MM, 'setUpPhoneModeLayout').andCallThrough();
             spyOn($.fn, 'innerHeight').andReturn(123);
-            spyOn(MM.util, 'isTouchDevice').andReturn(true);
+            spyOn($.fn, 'addClass').andCallThrough();
+            spyOn(MM.util, 'isTouchDevice').andReturn(false);
             spyOn(MM.util, 'overflowScrollingSupported').andReturn(false);
-            spyOn(MM, 'setUpOverflowScrolling').andReturn(false);
             spyOn(MM, 'setUpNativeScrolling').andReturn(true);
             spyOn(MM, 'getConfig').andReturn({id:1});
-            spyOn(MM.db, 'get').andReturn(true);
+            spyOn(MM, 'loadSiteModels').andReturn();
             spyOn(MM, 'loadSite').andReturn(true);
             spyOn(MM, 'loadExtraJs').andReturn(true);
+            spyOn(MM.db, 'get').andReturn(true);
 
             MM.loadLayout();
-            expect(MM.tpl.render).toHaveBeenCalledWith("");
-            expect($("#add-site").html()).toEqual("<form></form>");
+
+            expect(MM.loadGlobalModels).toHaveBeenCalled();
+            expect(MM.loadSettings).toHaveBeenCalled();
             expect($("#url").val()).toEqual("hello world");
             expect($("#username").val()).toEqual("defaultUsername");
+            expect($(window).bind).toHaveBeenCalledWith('orientationchange', fakeFunction);
             expect(matchMediaResponse.addListener).toHaveBeenCalled();
+            expect(MM.setUpPhoneModeLayout).toHaveBeenCalled();
+            expect(MM.setUpNativeScrolling).toHaveBeenCalled();
             expect($("#add-site").css('height')).toEqual('123px');
             expect($("#panel-left").hasClass('overflow-scroll')).toBeTruthy();
             expect($("#panel-right").hasClass('overflow-scroll')).toBeTruthy();
             expect($("#panel-center").hasClass('overflow-scroll')).toBeTruthy();
-            expect(MM.setUpOverflowScrolling).not.toHaveBeenCalled();
-            expect(MM.setUpNativeScrolling).toHaveBeenCalled();
+            expect(MM.util.isTouchDevice).toHaveBeenCalled();
+            expect(MM.util.overflowScrollingSupported).toHaveBeenCalled();
             expect(MM.getConfig).toHaveBeenCalledWith('current_site');
             expect(MM.db.get).toHaveBeenCalledWith('sites', 1);
-            expect(MM.loadSite).toHaveBeenCalledWith(1);
             expect(MM.loadExtraJs).toHaveBeenCalled();
             expect(MM.loadExtraJs.callCount).toEqual(1);
         });
@@ -920,55 +905,66 @@ describe("MM", function() {
                     username:'defaultUsername'
                 }
             };
-            MM.tpl = {
-                render:function(){}
-            };
+
             MM.db = {
-                get:function(){}
+                get:function(){},
+                getSiteConfig: function(){}
             };
+
             MM.util = {
                 isTouchDevice:function(){},
                 overflowScrollingSupported:function(){}
             };
-            MM.deviceType = 'computer'; // can be anything except 'phone'
 
             matchMediaResponse = {
                 addListener: function() {},
                 matches:false
             };
 
-            spyOn(MM, 'log').andReturn(false);
-            spyOn(MM.tpl, 'render').andReturn($("<form>"));
+            MM.deviceType = 'tablet';
+
+            var fakeFunction = function(){};
+            MM.orientationChangeHandler = fakeFunction;
+
+            // Backbone.history.start is attached to a listener that will
+            // fire during this test. This stops a 'Backbone.history has already
+            // started' error.
             spyOn(Backbone.history, 'start').andReturn(true);
+
+            spyOn(MM, 'log').andReturn(false);
+            spyOn(MM, 'loadGlobalModels').andReturn(true);
+            spyOn(MM, 'loadSettings').andReturn(true);
+            spyOn($.fn, 'bind').andReturn(true);
             spyOn(window, 'matchMedia').andReturn(matchMediaResponse);
             spyOn(matchMediaResponse, 'addListener').andCallThrough();
+            spyOn(MM, 'setUpPhoneModeLayout').andCallThrough();
             spyOn($.fn, 'innerHeight').andReturn(123);
-            spyOn(MM.util, 'isTouchDevice').andReturn(true);
-            spyOn(MM.util, 'overflowScrollingSupported').andReturn(false);
-            spyOn(MM, 'setUpOverflowScrolling').andReturn(false);
-            spyOn(MM, 'setUpNativeScrolling').andReturn(false);
+            spyOn($.fn, 'addClass').andCallThrough();
+            spyOn(MM.util, 'isTouchDevice').andReturn(false);
             spyOn(MM, 'setUpJavascriptScrolling').andReturn(true);
             spyOn(MM, 'getConfig').andReturn({id:1});
-            spyOn(MM.db, 'get').andReturn(true);
+            spyOn(MM, 'loadSiteModels').andReturn();
             spyOn(MM, 'loadSite').andReturn(true);
             spyOn(MM, 'loadExtraJs').andReturn(true);
+            spyOn(MM.db, 'get').andReturn(true);
 
             MM.loadLayout();
-            expect(MM.tpl.render).toHaveBeenCalledWith("");
-            expect($("#add-site").html()).toEqual("<form></form>");
+
+            expect(MM.loadGlobalModels).toHaveBeenCalled();
+            expect(MM.loadSettings).toHaveBeenCalled();
             expect($("#url").val()).toEqual("hello world");
             expect($("#username").val()).toEqual("defaultUsername");
+            expect($(window).bind).toHaveBeenCalledWith('orientationchange', fakeFunction);
             expect(matchMediaResponse.addListener).toHaveBeenCalled();
+            expect(MM.setUpPhoneModeLayout).toHaveBeenCalled();
+            expect(MM.setUpJavascriptScrolling).toHaveBeenCalled();
             expect($("#add-site").css('height')).toEqual('123px');
             expect($("#panel-left").hasClass('overflow-scroll')).toBeTruthy();
             expect($("#panel-right").hasClass('overflow-scroll')).toBeTruthy();
             expect($("#panel-center").hasClass('overflow-scroll')).toBeTruthy();
-            expect(MM.setUpOverflowScrolling).not.toHaveBeenCalled();
-            expect(MM.setUpNativeScrolling).not.toHaveBeenCalled();
-            expect(MM.setUpJavascriptScrolling).toHaveBeenCalled();
+            expect(MM.util.isTouchDevice).toHaveBeenCalled();
             expect(MM.getConfig).toHaveBeenCalledWith('current_site');
             expect(MM.db.get).toHaveBeenCalledWith('sites', 1);
-            expect(MM.loadSite).toHaveBeenCalledWith(1);
             expect(MM.loadExtraJs).toHaveBeenCalled();
             expect(MM.loadExtraJs.callCount).toEqual(1);
         });
@@ -991,13 +987,17 @@ describe("MM", function() {
             }
         };
 
+        MM.config.menu_items = [];
+
         spyOn(MM, 'log').andReturn();
         spyOn(MM.db, 'get').andCallThrough();
         spyOn(MM.sync, 'init').andReturn();
         spyOn(MM, 'setUpConfig').andReturn();
         spyOn(MM, 'setUpLanguages').andReturn();
+        spyOn(MM, 'isOnline').andReturn();
+        spyOn(MM.tpl, 'render').andReturn("hello world");
+
         spyOn(MM, 'moodleWSCall').andReturn();
-        spyOn(MM, 'loadCourses').andReturn();
         spyOn(MM, 'showAddSitePanel').andReturn();
 
         MM.loadSite(1);

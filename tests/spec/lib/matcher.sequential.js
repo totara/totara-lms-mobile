@@ -33,7 +33,8 @@ jasmine.Matchers.prototype.toHaveBeenCalledSequentiallyWith = function() {
         // Function called more times than expected
         positiveMessage = "Expected spy " + this.actual.identity;
         positiveMessage += " to have been called " + expectedArgs.length;
-        positiveMessage += " time but it was actually called " + actualArgs.length + " times.";
+        positiveMessage += " times but it was actually called " + actualArgs.length + " times.";
+        positiveMessage += JSON.stringify(actualArgs);
         response = false;
     } else {
         // For each actual arguments used in the function
