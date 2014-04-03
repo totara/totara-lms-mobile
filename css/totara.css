@@ -207,6 +207,10 @@ button.plus
     color:#fff;
 }
 
+.plugin-name {
+    padding-top:0;
+}
+
 .panel.user-menu .menu-items-indicator {
     position:absolute;
     right:18px;
