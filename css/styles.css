@@ -219,7 +219,7 @@ button.plus
     min-height:30px;
 }
 
-
+#main-site-login-form div {
     margin:40px auto; 
     text-align: center;
 }
