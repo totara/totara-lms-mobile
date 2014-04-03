@@ -290,6 +290,16 @@ h2.name {
     background-color:#9bae20;
 }
 
+/* My Courses. */
+
+.panel-content.my-courses div.expand {
+    background-position: 100% -30px;
+}
+
+.panel-content.my-courses span[class*="completion"] {
+    top:13px;
+}
+
 /* Programs. */
 
 div.program-info {
