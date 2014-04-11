@@ -8,12 +8,13 @@ var templates = [
     "root/externallib/text!root/plugins/settings/showSites.html",
     "root/externallib/text!root/plugins/settings/showSync.html",
     "root/externallib/text!root/plugins/settings/showSite.html",
-    "root/externallib/text!root/plugins/settings/main.html"
+    "root/externallib/text!root/plugins/settings/main.html",
+    "root/externallib/text!root/plugins/settings/showLang.html"
 ];
 
 require(templates, function(deviceInfoTpl, showReportBug, showLog,
     showDeviceInfo, showDevelopment, addSiteForm, showSites, showSync,
-    showSite, main
+    showSite, main, showLang
 ) {
     var plugin = {
         settings:{
@@ -37,7 +38,8 @@ require(templates, function(deviceInfoTpl, showReportBug, showLog,
             showDeviceInfo: showDeviceInfo,
             showLog: showLog,
             showReportBug: showReportBug,
-            mailBody: deviceInfoTpl
+            mailBody: deviceInfoTpl,
+            showLang: showLang
         },
 
         routes:[
@@ -51,7 +53,7 @@ require(templates, function(deviceInfoTpl, showReportBug, showLog,
             ['settings/development/', 'showDevelopment', "showDevelopment"],
             ['settings/development/device', 'show_device_info', "showDeviceInfo"],
             ['settings/development/log/:filter', 'settings_show_log', "showLog"],
-            ['settings/development/reportbug', 'settings_report_bug', "showReportBug"]
+            ['settings/development/reportbug', 'settings_report_bug', "showReportBug"],
         ],
 
         sizes: undefined,
@@ -133,6 +135,35 @@ require(templates, function(deviceInfoTpl, showReportBug, showLog,
             MM.plugins.settings[
                 'show' + section.charAt(0).toUpperCase() + section.slice(1)
             ]();
+        },
+
+        showLang: function() {
+            MM.assignCurrentPlugin(MM.plugins.settings);
+            var availableLangs = MM.config.available_langs;
+            var chosenLang = MM.getConfig("lang");
+            if (typeof(chosenLang) === "undefined") {
+                chosenLang =  availableLangs[0].code;
+            }
+            var html = MM.tpl.render(MM.plugins.settings.templates.showLang, {
+                title: MM.lang.s("settings") + " - " + MM.lang.s("languages"),
+                langs: availableLangs,
+                chosenLang: chosenLang 
+            });
+            MM.panels.show("center", html);
+            $(".lang-selector").click(function(ev) {
+                ev.preventDefault();
+                var $anchor = $(this);
+                var code = $anchor.attr("data-lang-code");
+                MM.setConfig("lang", code);
+                MM.lang.setup();
+                MM.lang.sync();
+                $(".lang-selector .completion-complete")
+                    .removeClass("completion-complete")
+                    .addClass("completion-notstarted");
+                $anchor.find(".completion-notstarted")
+                    .removeClass("completion-notstarted")
+                    .addClass("completion-complete");
+            });
         },
 
         showSite: function(siteId) {

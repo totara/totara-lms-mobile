@@ -1,0 +1,25 @@
+<div class="panel-content settings">
+    <div id="top">
+        <a href="#settings" title="Back" id="back"></a>
+        <header class="header">
+            <h2 class="name"><%= title %></h2>
+        </header>
+    </div>
+    <div class="settings-detail">
+        <ul class="nav nav-v">
+            <% _.each(langs, function(lang) { %>
+                <li class="nav-item">
+                    <a href="#" class="lang-selector menu1 touch-row" data-lang-code="<%= lang.code %>">
+                        <%= lang.name %>
+                        <% if (lang.code === chosenLang) { %>
+                            <span class="completion-complete"></span>
+                        <% } else { %>
+                            <span class="completion-notstarted"></span>
+                        <% } %>
+                        <br />
+                    </a>
+                </li>
+            <% }); %>
+        </ul>
+    </div>
+</div>
