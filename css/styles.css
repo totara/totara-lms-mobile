@@ -1243,9 +1243,7 @@ form div.error {
     display: block;
 }
 
-.overflow-scroll {
-    overflow: scroll;
-}
+.overflow-scroll {overflow: scroll;}
 
 .no-overflow {
     height: auto;
@@ -1984,6 +1982,7 @@ li.ui-menu-item {
     .panel-content.home .sections {
         padding:5%
     }
+    .nav{width:98%;}
 }
 
 /* Plug-in .section adjustments. */
@@ -2002,4 +2001,5 @@ li.ui-menu-item {
     , .panel-content.url .sections {
         width:90%;
     }
+    .nav{width:98%;}
 }
