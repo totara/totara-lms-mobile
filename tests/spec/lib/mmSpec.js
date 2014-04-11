@@ -77,6 +77,460 @@ describe("MM", function() {
     });
 
     /**
+     * Tests getConfig
+     * @covers getConfig
+     */
+    describe("can retrieve configuration", function() {
+        beforeEach(function() {
+            MM.config = {};
+        });
+
+        it("when nothing is provided", function() {
+            var response = MM.getConfig();
+            expect(response).toBeUndefined();
+        });
+        it("when just a name is provided but doesn't exist", function() {
+            var response = MM.getConfig("testField");
+            expect(response).toBeUndefined();
+        });
+        it("when just a name is provided and it does exist", function() {
+            MM.config['testField'] = "This is a test field";
+            var response = MM.getConfig("testField");
+            expect(response).toEqual("This is a test field");
+        });
+        it("when a name and optional have been provided and name exists", function() {
+            MM.config['testField'] = "This is a test field";
+            var response = MM.getConfig("testField", "optionalResponse");
+            expect(response).toEqual("This is a test field");
+        });
+        it("when a name and optional have been provided and name doesn't exist", function() {
+            var response = MM.getConfig("testField", "optionalResponse");
+            expect(response).toEqual("optionalResponse");
+        });
+    });
+
+    /**
+     * Tests addSite
+     * @covers addSite
+     */
+    describe("Can add a site", function() {
+        it("can add a site when url and password is missing", function() {
+            var url = "";
+            var username = "       LeadingSpacesUsername";
+            var password = "";
+
+            // DOM elements required
+            $(document.body).append(
+                $("<div>").attr('id', 'testElements').append(
+                    $("<div>").html(
+                        "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
+                    )
+                ).append(
+                   $("<input>").attr({'id':'url','type':'text'}).val(url)
+                ).append(
+                    $("<input>").attr({'id':'username','type':'text'}).val(username)
+                ).append(
+                    $("<input>").attr({'id':'password','type':'text'}).val(password)
+                )
+            );
+
+            MM.config = {
+                demo_sites:[
+                    // Needs 5, 3 & 4 need the same site.key === username
+                    {key:'AUserName', url:'AUrl', username:'AUsername', password:'APassword'},
+                    {key:'BUserName', url:'BUrl', username:'BUsername', password:'BPassword'},
+                    {key:'LeadingSpacesUsername', url:'CUrl', username:'CUsername', password:'CPassword'},
+                    {key:'LeadingSpacesUsername', url:'DUrl', username:'DUsername', password:'DPassword'},
+                    {key:'ShouldNotSeeThis', url:'EUrl', username:'EUsername', password:'EPassword'}
+                ]
+            };
+
+            $.fn.combobox = function() {};
+
+            var e = {
+                preventDefault:function(){}
+            };
+
+            spyOn(e, 'preventDefault').andCallThrough();
+            spyOn($.fn, 'combobox').andReturn(url);
+            spyOn(MM, 'validateURL').andReturn(true);
+            spyOn(MM, 'saveSite').andReturn();
+            spyOn(MM, '_siteExists').andReturn(false);
+
+            MM.addSite(e);
+            expect(e.preventDefault).toHaveBeenCalled();
+            expect($("#url").combobox).toHaveBeenCalled();
+            expect(MM._siteExists).toHaveBeenCalledWith('', 'LeadingSpacesUsername');
+            expect(MM.validateURL).toHaveBeenCalledWith("CUrl");
+            expect(MM.saveSite).toHaveBeenCalledWith("CUsername", "CPassword", 'CUrl', false);
+            $("#testElements").remove();
+        });
+
+        it("can add a site when the data is sensible", function() {
+            var url = "Some.URL/Trailing/Spaces#abcde?foo=bar        ";
+            var username = "       LeadingSpacesUsername";
+            var password = "PasswordNoSpaces";
+
+            // DOM elements required
+            $(document.body).append(
+                $("<div>").attr('id', 'testElements').append(
+                    $("<div>").html(
+                        "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
+                    )
+                ).append(
+                   $("<input>").attr({'id':'url','type':'text'}).val(url)
+                ).append(
+                    $("<input>").attr({'id':'username','type':'text'}).val(username)
+                ).append(
+                    $("<input>").attr({'id':'password','type':'text'}).val(password)
+                )
+            );
+
+            MM.config = {
+                demo_sites:[
+                    // Needs 5, 3 & 4 need the same site.key === username
+                    {key:'AUserName', url:'AUrl', username:'AUsername', password:'APassword'},
+                    {key:'BUserName', url:'BUrl', username:'BUsername', password:'BPassword'},
+                    {key:'LeadingSpacesUsername', url:'CUrl', username:'CUsername', password:'CPassword'},
+                    {key:'LeadingSpacesUsername', url:'DUrl', username:'DUsername', password:'DPassword'},
+                    {key:'ShouldNotSeeThis', url:'EUrl', username:'EUsername', password:'EPassword'}
+                ]
+            };
+
+            $.fn.combobox = function() {};
+
+            var e = {
+                preventDefault:function(){}
+            };
+
+            spyOn(e, 'preventDefault').andCallThrough();
+            spyOn($.fn, 'combobox').andReturn(url);
+            spyOn(MM, 'validateURL').andReturn(true);
+            spyOn(MM, 'saveSite').andReturn();
+            spyOn(MM, '_siteExists').andReturn(false);
+
+            MM.addSite(e);
+            expect(MM.validateURL).toHaveBeenCalledWith($.trim(url.toLowerCase()));
+            expect(MM.saveSite).toHaveBeenCalledWith(
+                "LeadingSpacesUsername", "PasswordNoSpaces", $.trim(url.toLowerCase()), false
+            );
+            $("#testElements").remove();
+        });
+
+        it("continues if the site is localhost", function() {
+            var url = "http://localhost/Trailing/Spaces#abcde?foo=bar        ";
+            var username = "       LeadingSpacesUsername";
+            var password = "PasswordNoSpaces";
+
+            // DOM elements required
+            $(document.body).append(
+                $("<div>").attr('id', 'testElements').append(
+                    $("<div>").html(
+                        "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
+                    )
+                ).append(
+                   $("<input>").attr({'id':'url','type':'text'}).val(url)
+                ).append(
+                    $("<input>").attr({'id':'username','type':'text'}).val(username)
+                ).append(
+                    $("<input>").attr({'id':'password','type':'text'}).val(password)
+                )
+            );
+
+            MM.config = {
+                demo_sites:[
+                    // Needs 5, 3 & 4 need the same site.key === username
+                    {key:'AUserName', url:'AUrl', username:'AUsername', password:'APassword'},
+                    {key:'BUserName', url:'BUrl', username:'BUsername', password:'BPassword'},
+                    {key:'LeadingSpacesUsername', url:'CUrl', username:'CUsername', password:'CPassword'},
+                    {key:'LeadingSpacesUsername', url:'DUrl', username:'DUsername', password:'DPassword'},
+                    {key:'ShouldNotSeeThis', url:'EUrl', username:'EUsername', password:'EPassword'}
+                ]
+            }
+
+            $.fn.combobox = function() {};
+
+            var e = {
+                preventDefault:function(){}
+            };
+
+            spyOn(e, 'preventDefault').andCallThrough();
+            spyOn($.fn, 'combobox').andReturn(url);
+
+            spyOn(MM, 'saveSite').andReturn();
+            spyOn(MM, 'validateURL').andReturn(true);
+            spyOn(MM, 'popErrorMessage').andReturn();
+
+            MM.addSite(e);
+            expect(MM.validateURL).not.toHaveBeenCalled(); // lazy conditional statement
+            expect(MM.saveSite).toHaveBeenCalled();
+            $("#testElements").remove();
+        });
+
+        it("errors if the site isn't localhost and url doesn't validate", function() {
+            var url = "Some.URL/Trailing/Spaces#abcde?foo=bar        ";
+            var username = "       LeadingSpacesUsername";
+            var password = "PasswordNoSpaces";
+
+            // DOM elements required
+            $(document.body).append(
+                $("<div>").attr('id', 'testElements').append(
+                    $("<div>").html(
+                        "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
+                    )
+                ).append(
+                   $("<input>").attr({'id':'url','type':'text'}).val(url)
+                ).append(
+                    $("<input>").attr({'id':'username','type':'text'}).val(username)
+                ).append(
+                    $("<input>").attr({'id':'password','type':'text'}).val(password)
+                )
+            );
+
+            MM.config = {
+                demo_sites:[
+                    // Needs 5, 3 & 4 need the same site.key === username
+                    {key:'AUserName', url:'AUrl', username:'AUsername', password:'APassword'},
+                    {key:'BUserName', url:'BUrl', username:'BUsername', password:'BPassword'},
+                    {key:'LeadingSpacesUsername', url:'CUrl', username:'CUsername', password:'CPassword'},
+                    {key:'LeadingSpacesUsername', url:'DUrl', username:'DUsername', password:'DPassword'},
+                    {key:'ShouldNotSeeThis', url:'EUrl', username:'EUsername', password:'EPassword'}
+                ]
+            };
+
+            MM.lang = {
+                s:function(field) {
+                    if (field == 'siteurlrequired') {
+                        return "site needed";
+                    }
+                    if (field == 'usernamerequired') {
+                        return "username needed";
+                    }
+                    if (field == 'passwordrequired') {
+                        return "password needed";
+                    }
+                }
+            };
+
+            $.fn.combobox = function() {};
+
+            var e = {
+                preventDefault:function(){}
+            };
+
+            spyOn(e, 'preventDefault').andCallThrough();
+            spyOn($.fn, 'combobox').andReturn(url);
+
+            spyOn(MM, 'saveSite').andReturn();
+            spyOn(MM, 'validateURL').andReturn(false);
+            spyOn(MM, 'popErrorMessage').andReturn();
+
+            MM.addSite(e);
+            expect(MM.validateURL).toHaveBeenCalledWith(
+                $.trim(url.toLowerCase())
+            );
+            expect(MM.saveSite).not.toHaveBeenCalled();
+            expect(MM.popErrorMessage).toHaveBeenCalledWith("site needed<br/>");
+            $("#testElements").remove();
+        });
+
+        it("errors when username isn't provided", function() {
+            var url = "Some.URL/Trailing/Spaces#abcde?foo=bar        ";
+            var username = "       ";
+            var password = "PasswordNoSpaces";
+
+            // DOM elements required
+            $(document.body).append(
+                $("<div>").attr('id', 'testElements').append(
+                    $("<div>").html(
+                        "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
+                    )
+                ).append(
+                   $("<input>").attr({'id':'url','type':'text'}).val(url)
+                ).append(
+                    $("<input>").attr({'id':'username','type':'text'}).val(username)
+                ).append(
+                    $("<input>").attr({'id':'password','type':'text'}).val(password)
+                )
+            );
+
+            MM.config = {
+                demo_sites:[
+                    // Needs 5, 3 & 4 need the same site.key === username
+                    {key:'AUserName', url:'AUrl', username:'AUsername', password:'APassword'},
+                    {key:'BUserName', url:'BUrl', username:'BUsername', password:'BPassword'},
+                    {key:'LeadingSpacesUsername', url:'CUrl', username:'CUsername', password:'CPassword'},
+                    {key:'LeadingSpacesUsername', url:'DUrl', username:'DUsername', password:'DPassword'},
+                    {key:'ShouldNotSeeThis', url:'EUrl', username:'EUsername', password:'EPassword'}
+                ]
+            };
+
+            MM.lang = {
+                s:function(field) {
+                    if (field == 'siteurlrequired') {
+                        return "site needed";
+                    }
+                    if (field == 'usernamerequired') {
+                        return "username needed";
+                    }
+                    if (field == 'passwordrequired') {
+                        return "password needed";
+                    }
+                }
+            };
+
+            $.fn.combobox = function() {};
+
+            var e = {
+                preventDefault:function(){}
+            };
+
+            spyOn(e, 'preventDefault').andCallThrough();
+            spyOn($.fn, 'combobox').andReturn(url);
+
+            spyOn(MM, 'saveSite').andReturn();
+            spyOn(MM, 'validateURL').andReturn(true);
+            spyOn(MM, 'popErrorMessage').andReturn();
+
+            MM.addSite(e);
+            expect(MM.validateURL).toHaveBeenCalledWith($.trim(url.toLowerCase()));
+            expect(MM.saveSite).not.toHaveBeenCalled();
+            expect(MM.popErrorMessage).toHaveBeenCalledWith("username needed<br/>");
+            $("#testElements").remove();
+        });
+
+        it("errors when password isn't provided", function() {
+            var url = "Some.URL/Trailing/Spaces#abcde?foo=bar        ";
+            var username = "       LeadingSpacesUsername";
+            var password = "";
+
+            // DOM elements required
+            $(document.body).append(
+                $("<div>").attr('id', 'testElements').append(
+                    $("<div>").html(
+                        "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
+                    )
+                ).append(
+                   $("<input>").attr({'id':'url','type':'text'}).val(url)
+                ).append(
+                    $("<input>").attr({'id':'username','type':'text'}).val(username)
+                ).append(
+                    $("<input>").attr({'id':'password','type':'text'}).val(password)
+                )
+            );
+
+            MM.config = {
+                demo_sites:[
+                    // Needs 5, 3 & 4 need the same site.key === username
+                    {key:'AUserName', url:'AUrl', username:'AUsername', password:'APassword'},
+                    {key:'BUserName', url:'BUrl', username:'BUsername', password:'BPassword'},
+                    {key:'LeadingSpacesUsername', url:'CUrl', username:'CUsername', password:'CPassword'},
+                    {key:'LeadingSpacesUsername', url:'DUrl', username:'DUsername', password:'DPassword'},
+                    {key:'ShouldNotSeeThis', url:'EUrl', username:'EUsername', password:'EPassword'}
+                ]
+            };
+
+            MM.lang = {
+                s:function(field) {
+                    if (field == 'siteurlrequired') {
+                        return "site needed";
+                    }
+                    if (field == 'usernamerequired') {
+                        return "username needed";
+                    }
+                    if (field == 'passwordrequired') {
+                        return "password needed";
+                    }
+                }
+            };
+
+            $.fn.combobox = function() {};
+
+            var e = {
+                preventDefault:function(){}
+            };
+
+            spyOn(e, 'preventDefault').andCallThrough();
+            spyOn($.fn, 'combobox').andReturn(url);
+
+            spyOn(MM, 'saveSite').andReturn();
+            spyOn(MM, 'validateURL').andReturn(true);
+            spyOn(MM, 'popErrorMessage').andReturn();
+
+            MM.addSite(e);
+            expect(MM.validateURL).toHaveBeenCalledWith($.trim(url.toLowerCase()));
+            expect(MM.saveSite).not.toHaveBeenCalled();
+            expect(MM.popErrorMessage).toHaveBeenCalledWith("password needed");
+            $("#testElements").remove();
+        });
+
+        it("errors completely when site, username and password wrong", function() {
+            var url = "Some.URL/Trailing/Spaces#abcde?foo=bar        ";
+            var username = "       ";
+            var password = "";
+
+            // DOM elements required
+            $(document.body).append(
+                $("<div>").attr('id', 'testElements').append(
+                    $("<div>").html(
+                        "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
+                    )
+                ).append(
+                   $("<input>").attr({'id':'url','type':'text'}).val(url)
+                ).append(
+                    $("<input>").attr({'id':'username','type':'text'}).val(username)
+                ).append(
+                    $("<input>").attr({'id':'password','type':'text'}).val(password)
+                )
+            );
+
+            MM.config = {
+                demo_sites:[
+                    // Needs 5, 3 & 4 need the same site.key === username
+                    {key:'AUserName', url:'AUrl', username:'AUsername', password:'APassword'},
+                    {key:'BUserName', url:'BUrl', username:'BUsername', password:'BPassword'},
+                    {key:'LeadingSpacesUsername', url:'CUrl', username:'CUsername', password:'CPassword'},
+                    {key:'LeadingSpacesUsername', url:'DUrl', username:'DUsername', password:'DPassword'},
+                    {key:'ShouldNotSeeThis', url:'EUrl', username:'EUsername', password:'EPassword'}
+                ]
+            };
+
+            MM.lang = {
+                s:function(field) {
+                    if (field == 'siteurlrequired') {
+                        return "site needed";
+                    }
+                    if (field == 'usernamerequired') {
+                        return "username needed";
+                    }
+                    if (field == 'passwordrequired') {
+                        return "password needed";
+                    }
+                }
+            };
+
+            $.fn.combobox = function() {};
+
+            var e = {
+                preventDefault:function(){}
+            };
+
+            spyOn(e, 'preventDefault').andCallThrough();
+            spyOn($.fn, 'combobox').andReturn(url);
+
+            spyOn(MM, 'saveSite').andReturn();
+            spyOn(MM, 'validateURL').andReturn(false);
+            spyOn(MM, 'popErrorMessage').andReturn();
+
+            MM.addSite(e);
+            expect(MM.validateURL).toHaveBeenCalledWith($.trim(url.toLowerCase()));
+            expect(MM.saveSite).not.toHaveBeenCalled();
+            expect(MM.popErrorMessage).toHaveBeenCalledWith("site needed<br/>username needed<br/>password needed");
+            $("#testElements").remove();
+        });
+    });
+
+    /**
      * Tests the init function.
      * @covers init
      * @covers setEventType
@@ -123,6 +577,7 @@ describe("MM", function() {
                 var matchMediaResponse = {
                     matches: true
                 };
+                window.device = "aDevice";
                 MM.mq = {'hello':'world'};
                 spyOn(window, "matchMedia").andReturn(matchMediaResponse);
                 spyOn(MM, "setInComputerState").andReturn(false);
@@ -987,6 +1442,8 @@ describe("MM", function() {
             }
         };
 
+        MM.getDeviceOrientation = function(){};
+
         MM.config.menu_items = [];
 
         spyOn(MM, 'log').andReturn();
@@ -996,9 +1453,14 @@ describe("MM", function() {
         spyOn(MM, 'setUpLanguages').andReturn();
         spyOn(MM, 'isOnline').andReturn();
         spyOn(MM.tpl, 'render').andReturn("hello world");
+        spyOn(MM.panels, 'html').andReturn();
 
         spyOn(MM, 'moodleWSCall').andReturn();
         spyOn(MM, 'showAddSitePanel').andReturn();
+        spyOn(MM, 'getDeviceOrientation').andReturn();
+        spyOn($.fn, 'bind').andCallThrough();
+        spyOn($.fn, 'trigger').andCallThrough();
+        spyOn(window, 'addEventListener').andCallThrough();
 
         MM.loadSite(1);
         expect(MM.log).toHaveBeenCalledWith('Loading site');
@@ -1006,12 +1468,12 @@ describe("MM", function() {
         expect(MM.sync.init).toHaveBeenCalled();
         expect(MM.setUpConfig).toHaveBeenCalled();
         expect(MM.setUpLanguages).toHaveBeenCalled();
-        expect(MM.moodleWSCall).toHaveBeenCalledWith(
-            'moodle_enrol_get_users_courses',
-            {userid:999},
-            MM.loadCourses,
-            {omitExpires:true},
-            MM.showAddSitePanel
+        expect(MM.isOnline).toHaveBeenCalled();
+        expect(MM.panels.html).toHaveBeenCalledWith('top', 'hello world');
+        expect($("#mainmenu").bind).toHaveBeenCalled();
+        expect($(document).trigger).toHaveBeenCalledWith('siteLoaded');
+        expect(window.addEventListener).toHaveBeenCalledWith(
+            'orientationchange', MM.getDeviceOrientation
         );
     });
 
@@ -1132,11 +1594,13 @@ describe("MM", function() {
             spyOn(MM, 'setConfig').andReturn();
             spyOn(MM.cache, 'getElement').andReturn("hello world");
             spyOn(MM.sync, 'css');
+            spyOn(MM.lang, 'sync');
             MM.loadCachedRemoteCSS();
             expect(MM.setConfig).toHaveBeenCalledWith('dev_css3transitions', true);
             expect(MM.cache.getElement).toHaveBeenCalledWith('css', true);
             expect($("#mobilecssurl").html()).toEqual("hello world");
             expect(MM.sync.css).toHaveBeenCalled();
+            expect(MM.lang.sync).toHaveBeenCalled();
         });
         it("and does not display when we don't have remote CSS", function() {
             MM.cache = {
@@ -1146,382 +1610,13 @@ describe("MM", function() {
             spyOn(MM, 'setConfig').andReturn();
             spyOn(MM.cache, 'getElement').andReturn(false);
             spyOn(MM.sync, 'css');
+            spyOn(MM.lang, 'sync');
             MM.loadCachedRemoteCSS();
             expect(MM.setConfig).toHaveBeenCalledWith('dev_css3transitions', true);
             expect(MM.cache.getElement).toHaveBeenCalledWith('css', true);
             expect($("#mobilecssurl").html()).toEqual("");
             expect(MM.sync.css).toHaveBeenCalled();
-        });
-    });
-
-    /**
-     * Tests addSite
-     * @covers addSite
-     */
-    describe("Can add a site", function() {
-        it("can add a site when url and password is missing", function() {
-            var url = "";
-            var username = "       LeadingSpacesUsername";
-            var password = "";
-
-            // DOM elements required
-            $(document.body).append(
-                $("<div>").attr('id', 'testElements').append(
-                    $("<div>").html(
-                        "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
-                    )
-                ).append(
-                   $("<input>").attr({'id':'url','type':'text'}).val(url)
-                ).append(
-                    $("<input>").attr({'id':'username','type':'text'}).val(username)
-                ).append(
-                    $("<input>").attr({'id':'password','type':'text'}).val(password)
-                )
-            );
-
-            MM.config = {
-                demo_sites:[
-                    // Needs 5, 3 & 4 need the same site.key === username
-                    {key:'AUserName', url:'AUrl', username:'AUsername', password:'APassword'},
-                    {key:'BUserName', url:'BUrl', username:'BUsername', password:'BPassword'},
-                    {key:'LeadingSpacesUsername', url:'CUrl', username:'CUsername', password:'CPassword'},
-                    {key:'LeadingSpacesUsername', url:'DUrl', username:'DUsername', password:'DPassword'},
-                    {key:'ShouldNotSeeThis', url:'EUrl', username:'EUsername', password:'EPassword'}
-                ]
-            }
-
-            spyOn(MM, 'saveSite').andReturn();
-            spyOn(MM, 'validateURL').andReturn(true);
-
-            var e = {
-                preventDefault:function(){}
-            };
-            MM.addSite(e);
-            expect(MM.validateURL).toHaveBeenCalledWith("https://CUrl");
-            expect(MM.saveSite).toHaveBeenCalledWith("CUsername", "CPassword", 'https://CUrl');
-            $("#testElements").remove();
-        });
-
-        it("can add a site when the data is sensible", function() {
-            var url = "Some.URL/Trailing/Spaces#abcde?foo=bar        ";
-            var username = "       LeadingSpacesUsername";
-            var password = "PasswordNoSpaces";
-
-            // DOM elements required
-            $(document.body).append(
-                $("<div>").attr('id', 'testElements').append(
-                    $("<div>").html(
-                        "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
-                    )
-                ).append(
-                   $("<input>").attr({'id':'url','type':'text'}).val(url)
-                ).append(
-                    $("<input>").attr({'id':'username','type':'text'}).val(username)
-                ).append(
-                    $("<input>").attr({'id':'password','type':'text'}).val(password)
-                )
-            );
-
-            MM.config = {
-                demo_sites:[
-                    // Needs 5, 3 & 4 need the same site.key === username
-                    {key:'AUserName', url:'AUrl', username:'AUsername', password:'APassword'},
-                    {key:'BUserName', url:'BUrl', username:'BUsername', password:'BPassword'},
-                    {key:'LeadingSpacesUsername', url:'CUrl', username:'CUsername', password:'CPassword'},
-                    {key:'LeadingSpacesUsername', url:'DUrl', username:'DUsername', password:'DPassword'},
-                    {key:'ShouldNotSeeThis', url:'EUrl', username:'EUsername', password:'EPassword'}
-                ]
-            }
-
-            spyOn(MM, 'saveSite').andReturn();
-            spyOn(MM, 'validateURL').andReturn(true);
-
-            var e = {
-                preventDefault:function(){}
-            };
-            MM.addSite(e);
-            expect(MM.validateURL).toHaveBeenCalledWith('https://' + $.trim(url.toLowerCase()));
-            expect(MM.saveSite).toHaveBeenCalledWith("LeadingSpacesUsername", "PasswordNoSpaces", 'https://' + $.trim(url.toLowerCase()));
-            $("#testElements").remove();
-        });
-
-        it("continues if the site is localhost", function() {
-            var url = "http://localhost/Trailing/Spaces#abcde?foo=bar        ";
-            var username = "       LeadingSpacesUsername";
-            var password = "PasswordNoSpaces";
-
-            // DOM elements required
-            $(document.body).append(
-                $("<div>").attr('id', 'testElements').append(
-                    $("<div>").html(
-                        "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
-                    )
-                ).append(
-                   $("<input>").attr({'id':'url','type':'text'}).val(url)
-                ).append(
-                    $("<input>").attr({'id':'username','type':'text'}).val(username)
-                ).append(
-                    $("<input>").attr({'id':'password','type':'text'}).val(password)
-                )
-            );
-
-            MM.config = {
-                demo_sites:[
-                    // Needs 5, 3 & 4 need the same site.key === username
-                    {key:'AUserName', url:'AUrl', username:'AUsername', password:'APassword'},
-                    {key:'BUserName', url:'BUrl', username:'BUsername', password:'BPassword'},
-                    {key:'LeadingSpacesUsername', url:'CUrl', username:'CUsername', password:'CPassword'},
-                    {key:'LeadingSpacesUsername', url:'DUrl', username:'DUsername', password:'DPassword'},
-                    {key:'ShouldNotSeeThis', url:'EUrl', username:'EUsername', password:'EPassword'}
-                ]
-            }
-
-            spyOn(MM, 'saveSite').andReturn();
-            spyOn(MM, 'validateURL').andReturn(true);
-
-            var e = {
-                preventDefault:function(){}
-            };
-            MM.addSite(e);
-            expect(MM.validateURL).not.toHaveBeenCalled(); // lazy conditional statement
-            expect(MM.saveSite).toHaveBeenCalledWith("LeadingSpacesUsername", "PasswordNoSpaces", $.trim(url.toLowerCase()));
-            $("#testElements").remove();
-        });
-
-        it("errors if the site isn't localhost and url doesn't validate", function() {
-            var url = "Some.URL/Trailing/Spaces#abcde?foo=bar        ";
-            var username = "       LeadingSpacesUsername";
-            var password = "PasswordNoSpaces";
-
-            // DOM elements required
-            $(document.body).append(
-                $("<div>").attr('id', 'testElements').append(
-                    $("<div>").html(
-                        "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
-                    )
-                ).append(
-                   $("<input>").attr({'id':'url','type':'text'}).val(url)
-                ).append(
-                    $("<input>").attr({'id':'username','type':'text'}).val(username)
-                ).append(
-                    $("<input>").attr({'id':'password','type':'text'}).val(password)
-                )
-            );
-
-            MM.config = {
-                demo_sites:[
-                    // Needs 5, 3 & 4 need the same site.key === username
-                    {key:'AUserName', url:'AUrl', username:'AUsername', password:'APassword'},
-                    {key:'BUserName', url:'BUrl', username:'BUsername', password:'BPassword'},
-                    {key:'LeadingSpacesUsername', url:'CUrl', username:'CUsername', password:'CPassword'},
-                    {key:'LeadingSpacesUsername', url:'DUrl', username:'DUsername', password:'DPassword'},
-                    {key:'ShouldNotSeeThis', url:'EUrl', username:'EUsername', password:'EPassword'}
-                ]
-            };
-
-            MM.lang = {
-                s:function(field) {
-                    if (field == 'siteurlrequired') {
-                        return "site needed";
-                    }
-                    if (field == 'usernamerequired') {
-                        return "username needed";
-                    }
-                    if (field == 'passwordrequired') {
-                        return "password needed";
-                    }
-                }
-            };
-
-            spyOn(MM, 'saveSite').andReturn();
-            spyOn(MM, 'validateURL').andReturn(false);
-            spyOn(MM, 'popErrorMessage').andReturn();
-
-            var e = {
-                preventDefault:function(){}
-            };
-            MM.addSite(e);
-            expect(MM.validateURL).toHaveBeenCalledWith('https://' + $.trim(url.toLowerCase()));
-            expect(MM.saveSite).not.toHaveBeenCalled();
-            expect(MM.popErrorMessage).toHaveBeenCalledWith("site needed<br/>");
-            $("#testElements").remove();
-        });
-
-        it("errors when username isn't provided", function() {
-            var url = "Some.URL/Trailing/Spaces#abcde?foo=bar        ";
-            var username = "       ";
-            var password = "PasswordNoSpaces";
-
-            // DOM elements required
-            $(document.body).append(
-                $("<div>").attr('id', 'testElements').append(
-                    $("<div>").html(
-                        "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
-                    )
-                ).append(
-                   $("<input>").attr({'id':'url','type':'text'}).val(url)
-                ).append(
-                    $("<input>").attr({'id':'username','type':'text'}).val(username)
-                ).append(
-                    $("<input>").attr({'id':'password','type':'text'}).val(password)
-                )
-            );
-
-            MM.config = {
-                demo_sites:[
-                    // Needs 5, 3 & 4 need the same site.key === username
-                    {key:'AUserName', url:'AUrl', username:'AUsername', password:'APassword'},
-                    {key:'BUserName', url:'BUrl', username:'BUsername', password:'BPassword'},
-                    {key:'LeadingSpacesUsername', url:'CUrl', username:'CUsername', password:'CPassword'},
-                    {key:'LeadingSpacesUsername', url:'DUrl', username:'DUsername', password:'DPassword'},
-                    {key:'ShouldNotSeeThis', url:'EUrl', username:'EUsername', password:'EPassword'}
-                ]
-            };
-
-            MM.lang = {
-                s:function(field) {
-                    if (field == 'siteurlrequired') {
-                        return "site needed";
-                    }
-                    if (field == 'usernamerequired') {
-                        return "username needed";
-                    }
-                    if (field == 'passwordrequired') {
-                        return "password needed";
-                    }
-                }
-            };
-
-            spyOn(MM, 'saveSite').andReturn();
-            spyOn(MM, 'validateURL').andReturn(true);
-            spyOn(MM, 'popErrorMessage').andReturn();
-
-            var e = {
-                preventDefault:function(){}
-            };
-            MM.addSite(e);
-            expect(MM.validateURL).toHaveBeenCalledWith('https://' + $.trim(url.toLowerCase()));
-            expect(MM.saveSite).not.toHaveBeenCalled();
-            expect(MM.popErrorMessage).toHaveBeenCalledWith("username needed<br/>");
-            $("#testElements").remove();
-        });
-
-        it("errors when password isn't provided", function() {
-            var url = "Some.URL/Trailing/Spaces#abcde?foo=bar        ";
-            var username = "       LeadingSpacesUsername";
-            var password = "";
-
-            // DOM elements required
-            $(document.body).append(
-                $("<div>").attr('id', 'testElements').append(
-                    $("<div>").html(
-                        "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
-                    )
-                ).append(
-                   $("<input>").attr({'id':'url','type':'text'}).val(url)
-                ).append(
-                    $("<input>").attr({'id':'username','type':'text'}).val(username)
-                ).append(
-                    $("<input>").attr({'id':'password','type':'text'}).val(password)
-                )
-            );
-
-            MM.config = {
-                demo_sites:[
-                    // Needs 5, 3 & 4 need the same site.key === username
-                    {key:'AUserName', url:'AUrl', username:'AUsername', password:'APassword'},
-                    {key:'BUserName', url:'BUrl', username:'BUsername', password:'BPassword'},
-                    {key:'LeadingSpacesUsername', url:'CUrl', username:'CUsername', password:'CPassword'},
-                    {key:'LeadingSpacesUsername', url:'DUrl', username:'DUsername', password:'DPassword'},
-                    {key:'ShouldNotSeeThis', url:'EUrl', username:'EUsername', password:'EPassword'}
-                ]
-            };
-
-            MM.lang = {
-                s:function(field) {
-                    if (field == 'siteurlrequired') {
-                        return "site needed";
-                    }
-                    if (field == 'usernamerequired') {
-                        return "username needed";
-                    }
-                    if (field == 'passwordrequired') {
-                        return "password needed";
-                    }
-                }
-            };
-
-            spyOn(MM, 'saveSite').andReturn();
-            spyOn(MM, 'validateURL').andReturn(true);
-            spyOn(MM, 'popErrorMessage').andReturn();
-
-            var e = {
-                preventDefault:function(){}
-            };
-            MM.addSite(e);
-            expect(MM.validateURL).toHaveBeenCalledWith('https://' + $.trim(url.toLowerCase()));
-            expect(MM.saveSite).not.toHaveBeenCalled();
-            expect(MM.popErrorMessage).toHaveBeenCalledWith("password needed");
-            $("#testElements").remove();
-        });
-
-        it("errors completely when site, username and password wrong", function() {
-            var url = "Some.URL/Trailing/Spaces#abcde?foo=bar        ";
-            var username = "       ";
-            var password = "";
-
-            // DOM elements required
-            $(document.body).append(
-                $("<div>").attr('id', 'testElements').append(
-                    $("<div>").html(
-                        "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
-                    )
-                ).append(
-                   $("<input>").attr({'id':'url','type':'text'}).val(url)
-                ).append(
-                    $("<input>").attr({'id':'username','type':'text'}).val(username)
-                ).append(
-                    $("<input>").attr({'id':'password','type':'text'}).val(password)
-                )
-            );
-
-            MM.config = {
-                demo_sites:[
-                    // Needs 5, 3 & 4 need the same site.key === username
-                    {key:'AUserName', url:'AUrl', username:'AUsername', password:'APassword'},
-                    {key:'BUserName', url:'BUrl', username:'BUsername', password:'BPassword'},
-                    {key:'LeadingSpacesUsername', url:'CUrl', username:'CUsername', password:'CPassword'},
-                    {key:'LeadingSpacesUsername', url:'DUrl', username:'DUsername', password:'DPassword'},
-                    {key:'ShouldNotSeeThis', url:'EUrl', username:'EUsername', password:'EPassword'}
-                ]
-            };
-
-            MM.lang = {
-                s:function(field) {
-                    if (field == 'siteurlrequired') {
-                        return "site needed";
-                    }
-                    if (field == 'usernamerequired') {
-                        return "username needed";
-                    }
-                    if (field == 'passwordrequired') {
-                        return "password needed";
-                    }
-                }
-            };
-
-            spyOn(MM, 'saveSite').andReturn();
-            spyOn(MM, 'validateURL').andReturn(false);
-            spyOn(MM, 'popErrorMessage').andReturn();
-
-            var e = {
-                preventDefault:function(){}
-            };
-            MM.addSite(e);
-            expect(MM.validateURL).toHaveBeenCalledWith('https://' + $.trim(url.toLowerCase()));
-            expect(MM.saveSite).not.toHaveBeenCalled();
-            expect(MM.popErrorMessage).toHaveBeenCalledWith("site needed<br/>username needed<br/>password needed");
-            $("#testElements").remove();
+            expect(MM.lang.sync).toHaveBeenCalled();
         });
     });
 
@@ -1573,13 +1668,17 @@ describe("MM", function() {
             sync:'someSyncFunction',
             route_two_part_three:'hello_world',
             route_one_part_three:'world_hello',
-            storage:'someStorage'
+
+            storage:{
+                somestorage: ['hello world']
+            }
         };
 
         var testRouter = {
             route:function(){}
         };
 
+        MM.storage = {};
         MM.plugins = {};
         MM.Router = testRouter;
         MM.lang = {
@@ -1590,7 +1689,6 @@ describe("MM", function() {
         };
 
         spyOn(MM.Router, 'route').andReturn();
-        spyOn(MM, 'loadModels').andReturn();
         spyOn(MM.lang, 'loadPluginLang').andReturn();
         spyOn(MM.sync, 'registerHook').andReturn();
 
@@ -1600,109 +1698,9 @@ describe("MM", function() {
             ['route_one_part_one', 'route_one_part_two', 'world_hello'],
             ['route_two_part_one', 'route_two_part_two', 'hello_world']
         ]);
-        expect(MM.loadModels).toHaveBeenCalledWith('someStorage');
         expect(MM.lang.loadPluginLang).toHaveBeenCalledWith('Test Plugin', {a:"one",b:"two",c:"three"});
         expect(MM.sync.registerHook).toHaveBeenCalledWith('Test Plugin', 'someSyncFunction');
-    });
-
-    /**
-     * Tests loadModels
-     * @covers loadModels
-     */
-    describe("can load models", function() {
-        it("when given a model", function() {
-            var elements = {
-                'testModel':{
-                    type:'model'
-                }
-            };
-
-            MM.models = {};
-
-            spyOn(Backbone.Model, 'extend').andReturn();
-            MM.loadModels(elements);
-            expect(Backbone.Model.extend).toHaveBeenCalledWith({});
-        });
-        it("when given a collection", function() {
-            var elements = {
-                'testCollection':{
-                    type:'collection',
-                    model:'testModel',
-                    bbproperties:{
-                        name:'testcollection'
-                    }
-                }
-            };
-
-            MM.models = {
-                'testModel':{}
-            };
-
-            MM.collections = {};
-
-            spyOn(MM, '_createNewStore').andReturn({});
-            spyOn(Backbone.Collection, 'extend').andCallThrough();
-
-            MM.loadModels(elements);
-
-            expect(MM._createNewStore).toHaveBeenCalledWith('testCollection');
-            expect(Backbone.Collection.extend).toHaveBeenCalledWith(elements['testCollection'].bbproperties);
-            expect(MM.collections['testCollection'].name).toEqual('testcollection');
-        });
-        it("When given a model and then a collection", function() {
-            var elements = {
-                'testModel':{
-                    type:'model'
-                },
-                'testCollection':{
-                    type:'collection',
-                    model:'testModel',
-                    bbproperties:{
-                        name:'testcollection'
-                    }
-                }
-            };
-            MM.models = {};
-            MM.collections = {};
-
-            spyOn(Backbone.Model, 'extend').andReturn({'name':'backbone extended model'});
-            spyOn(MM, '_createNewStore').andReturn({});
-            spyOn(Backbone.Collection, 'extend').andCallThrough();
-
-            MM.loadModels(elements);
-
-            expect(MM._createNewStore).toHaveBeenCalledWith('testCollection');
-            expect(Backbone.Collection.extend).toHaveBeenCalledWith(elements['testCollection'].bbproperties);
-            expect(MM.collections['testCollection'].name).toEqual('testcollection');
-            expect(MM.collections['testCollection'].model).toEqual({'name':'backbone extended model'});
-        });
-        it("Errors when given a collection and then a model", function() {
-            var elements = {
-                'testCollection':{
-                    type:'collection',
-                    model:'testModel',
-                    bbproperties:{
-                        name:'testcollection'
-                    }
-                },
-                'testModel':{
-                    type:'model'
-                }
-            };
-            MM.models = {};
-            MM.collections = {};
-
-            spyOn(Backbone.Model, 'extend').andReturn({'name':'backbone extended model'});
-            spyOn(MM, '_createNewStore').andReturn({});
-            spyOn(Backbone.Collection, 'extend').andCallThrough();
-
-            MM.loadModels(elements);
-
-            expect(MM._createNewStore).toHaveBeenCalledWith('testCollection');
-            expect(Backbone.Collection.extend).toHaveBeenCalledWith(elements['testCollection'].bbproperties);
-            expect(MM.collections['testCollection'].name).toEqual('testcollection');
-            expect(MM.collections['testCollection'].model).toBeUndefined();
-        });
+        expect(MM.storage.somestorage).toEqual(['hello world']);
     });
 
     /**
@@ -1761,291 +1759,6 @@ describe("MM", function() {
     });
 
     /**
-     * Tests getConfig
-     * @covers getConfig
-     */
-    describe("can retrieve configuration", function() {
-        beforeEach(function() {
-            MM.config = {};
-        });
-
-        it("when nothing is provided", function() {
-            var response = MM.getConfig();
-            expect(response).toBeUndefined();
-        });
-        it("when just a name is provided but doesn't exist", function() {
-            var response = MM.getConfig("testField");
-            expect(response).toBeUndefined();
-        });
-        it("when just a name is provided and it does exist", function() {
-            MM.config['testField'] = "This is a test field";
-            var response = MM.getConfig("testField");
-            expect(response).toEqual("This is a test field");
-        });
-        it("when a name and optional have been provided and name exists", function() {
-            MM.config['testField'] = "This is a test field";
-            var response = MM.getConfig("testField", "optionalResponse");
-            expect(response).toEqual("This is a test field");
-        });
-        it("when a name and optional have been provided and name doesn't exist", function() {
-            var response = MM.getConfig("testField", "optionalResponse");
-            expect(response).toEqual("optionalResponse");
-        });
-        it("when a name and site have been provided", function() {
-            MM.config.current_site = {'id':1};
-            MM.config['1-testField'] = "This is a test field for site One";
-            var response = MM.getConfig("testField", undefined, true);
-            expect(response).toEqual("This is a test field for site One");
-        });
-        it("when optional and site are provided", function() {
-            MM.config.current_site = {'id':1};
-            var response = MM.getConfig("", "optionalResponse", true);
-            expect(response).toEqual("optionalResponse");
-        });
-        it("when name, optional and site are all provided and name exists", function() {
-            MM.config.current_site = {'id':1};
-            MM.config['1-testField'] = "This is a test field for site One";
-            var response = MM.getConfig("testField", "optionalResponse", true);
-            expect(response).toEqual("This is a test field for site One");
-        });
-        it("when name, optional and site are all provided and name doesn't exists", function() {
-            MM.config.current_site = {'id':1};
-            var response = MM.getConfig("testField", "optionalResponse", true);
-            expect(response).toEqual("optionalResponse");
-        });
-    });
-
-    /**
-     * Test covers loadCourses
-     * @covers loadCourses
-     */
-    describe("can load courses", function() {
-        beforeEach(function() {
-            // DOM elements required
-            $(document.body).append(
-                $("<div>").attr('id', 'testElements').append(
-                    $("<div>").html(
-                        "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
-                    )
-                ).append(
-                   $("<div>").attr({'id':'menu_template'})
-                ).append(
-                    $("<div>").addClass('submenu')
-                ).append(
-                    $("<div>").addClass('submenu')
-                ).append(
-                    $("<div>").attr('id', 'add-site')
-                ).append(
-                    $("<div>").attr('id', 'main-wrapper')
-                ).append(
-                    $("<div>").addClass('toogler')
-                )
-            );
-
-            MM.config = {
-                plugins:{
-                    'plugin_one':'plugin_one_idx',
-                    'plugin_two':'plugin_two_idx',
-                    'plugin_three':'plugin_three_idx'
-                },
-                current_site:{
-                    id:123
-                }
-            };
-            MM.plugins = {
-                'plugin_one_idx':{
-                    settings: {
-                        type:'general'
-                    }
-                },
-                'plugin_two_idx':{
-                    settings: {
-                        type:'course'
-                    }
-                }
-            };
-            MM.site = {
-                get:function(field){
-                    if (field == 'fullname') {
-                        return "A Full Name";
-                    } else if (field == 'userpictureurl') {
-                        return "User Picture Url";
-                    } else if (field == 'siteurl') {
-                        return "Site URL";
-                    } else {
-                        return "Invalid Field";
-                    }
-                }
-            }
-            MM.tpl = {
-                render:function() {}
-            };
-            MM.panels = {
-                html:function(){},
-                menuShow:function(){},
-                hide:function(){}
-            };
-            MM.db = {
-                insert:function(){}
-            };
-            MM.lang = {
-                s:function() {}
-            };
-        });
-        afterEach(function() {
-            $("#testElements").remove();
-        });
-        it("can load general plugins with touchMoving = true", function() {
-            var expectedCourse = [
-                {id:'123-1', courseid:1},
-                {id:'123-2', courseid:2}
-            ];
-
-            MM.clickType = 'myTestClickType';
-            MM.touchMoving = true;
-            MM.deviceType = 'tablet';
-
-            spyOn(MM.site, 'get').andCallThrough();
-            spyOn(MM.tpl, 'render').andReturn('hello world');
-            spyOn(MM.panels, 'html').andReturn();
-            spyOn(MM.panels, 'menuShow').andReturn();
-            spyOn(MM.panels, 'hide').andReturn();
-            spyOn(MM.lang, 's').andReturn("Welcome Text");
-            spyOn(MM.db, 'insert').andCallFake(function(x, y) {
-                if (y.courseid == 1) {
-                    return expectedCourse[0];
-                } else if (y.courseid == 2) {
-                    return expectedCourse[1];
-                }
-            });
-
-            var arguments = {
-                'course_one':{
-                    id:1
-                },
-                'course_two':{
-                    id:2
-                }
-            };
-
-            MM.loadCourses(arguments);
-            $(".toogler").trigger(MM.clickType);
-
-            expect(MM.touchMoving).toEqual(false);
-            expect(MM.tpl.render).toHaveBeenCalledWith(
-                "",
-                {
-                    user : {
-                        fullname : 'A Full Name',
-                        profileimageurl : 'User Picture Url'
-                    },
-                    siteurl : 'Site URL',
-                    coursePlugins : [
-                        { type : 'course' }
-                    ],
-                    courses : {
-                        course_one : { id : 1 },
-                        course_two : { id : 2 }
-                    },
-                    plugins : [
-                        { type : 'general' }
-                    ]
-                }
-            );
-            expect(MM.panels.html).toHaveBeenCalledSequentiallyWith([
-                ['left', 'hello world'],
-                ['center', '<div class="welcome">Welcome Text</div>']
-            ]);
-            expect(MM.db.insert).toHaveBeenCalledSequentiallyWith([
-                ['courses', expectedCourse[0]],
-                ['courses', expectedCourse[1]]
-            ]);
-            expect($("#add-site").css('display')).toEqual('none');
-            expect($("#main-wrapper").css('display')).toEqual('block');
-            expect(MM.panels.menuShow).toHaveBeenCalledWith(true, {animate:false});
-            expect(MM.panels.hide).toHaveBeenCalledWith('right', '');
-        });
-        it("can load course plugins with touchMoving = false", function() {
-            var expectedCourse = [
-                {id:'123-1', courseid:1},
-                {id:'123-2', courseid:2}
-            ];
-
-            MM.clickType = 'myTestClickType';
-            MM.touchMoving = false;
-            MM.deviceType = 'tablet';
-
-            spyOn(MM.site, 'get').andCallThrough();
-            spyOn(MM.tpl, 'render').andReturn('hello world');
-            spyOn(MM.panels, 'html').andReturn();
-            spyOn(MM.panels, 'menuShow').andReturn();
-            spyOn(MM.panels, 'hide').andReturn();
-            spyOn(MM.lang, 's').andReturn("Welcome Text");
-            spyOn(MM.db, 'insert').andCallFake(function(x, y) {
-                if (y.courseid == 1) {
-                    return expectedCourse[0];
-                } else if (y.courseid == 2) {
-                    return expectedCourse[1];
-                }
-            });
-            var jQueryNextResponse = {
-                slideToggle:function(){}
-            };
-            spyOn($.fn, 'next').andReturn(jQueryNextResponse);
-            spyOn(jQueryNextResponse, 'slideToggle').andReturn();
-            spyOn($.fn, 'toggleClass').andReturn();
-
-            var arguments = {
-                'course_one':{
-                    id:1
-                },
-                'course_two':{
-                    id:2
-                }
-            };
-
-            MM.loadCourses(arguments);
-            $(".toogler").trigger(MM.clickType);
-
-            expect($.fn.next).toHaveBeenCalled();
-            expect(jQueryNextResponse.slideToggle).toHaveBeenCalledWith(300);
-            expect($.fn.toggleClass).toHaveBeenCalledWith("collapse expand");
-            expect(MM.tpl.render).toHaveBeenCalledWith(
-                "",
-                {
-                    user : {
-                        fullname : 'A Full Name',
-                        profileimageurl : 'User Picture Url'
-                    },
-                    siteurl : 'Site URL',
-                    coursePlugins : [
-                        { type : 'course' }
-                    ],
-                    courses : {
-                        course_one : { id : 1 },
-                        course_two : { id : 2 }
-                    },
-                    plugins : [
-                        { type : 'general' }
-                    ]
-                }
-            );
-            expect(MM.panels.html).toHaveBeenCalledSequentiallyWith([
-                ['left', 'hello world'],
-                ['center', '<div class="welcome">Welcome Text</div>']
-            ]);
-            expect(MM.db.insert).toHaveBeenCalledSequentiallyWith([
-                ['courses', expectedCourse[0]],
-                ['courses', expectedCourse[1]]
-            ]);
-            expect($("#add-site").css('display')).toEqual('none');
-            expect($("#main-wrapper").css('display')).toEqual('block');
-            expect(MM.panels.menuShow).toHaveBeenCalledWith(true, {animate:false});
-            expect(MM.panels.hide).toHaveBeenCalledWith('right', '');
-        });
-    });
-
-    /**
      * Tests setConfig
      * @covers setConfig
      */
@@ -2060,7 +1773,7 @@ describe("MM", function() {
         };
         spyOn(MM.db, 'insert').andReturn();
         MM.setConfig('testName', 'testValue', true);
-        expect(MM.db.insert).toHaveBeenCalledWith('settings', {id:'1-testName',name:'testName',value:'testValue'});
+        expect(MM.db.insert).toHaveBeenCalledWith('settings', {id:'testName',name:'testName',value:'testValue'});
     });
 
     /**
@@ -2163,72 +1876,6 @@ describe("MM", function() {
     });
 
     /**
-     * Tests showLog
-     * @covers showLog
-     */
-    it("can show log information for everyone", function() {
-        // DOM elements required
-        $(document.body).append(
-            $("<div>").attr('id', 'testElements').append(
-                $("<div>").html(
-                    "If this is still visible then one of the loadLayout tests hasn't removed it as expected."
-                )
-            ).append(
-               $("<input>").attr({'id':'logfilter', 'value':'testbutton'})
-            )
-        );
-
-        MM.panels = {
-            html:function(){}
-        };
-        MM.config = {
-            current_site:{
-                username:'AUsername'
-            }
-        }
-        MM.lang = {
-            s:function(field) {
-                return "Field:field";
-            }
-        }
-
-        var expected = "testFilter: log entry number two<br />";
-        expected += "testFilter: log entry number four<br />";
-        expected += "testFilter: log entry duplicate<br />";
-        expected += "log entry number five for testFilter<br />";
-        expected += "log entry containing testFilter within the string<br />";
-        spyOn(MM.lang, 's').andCallThrough();
-        spyOn(MM, 'getFormattedLog').andReturn(expected);
-        spyOn(MM.panels, 'html').andReturn();
-        spyOn(MM, 'showLog').andCallThrough();
-        spyOn($.fn, 'keyup').andCallThrough();
-
-        var expectedPanelHTML = '<input id="logfilter" type="text" placeholder="Filter"> ';
-        expectedPanelHTML += '<a href="javascript: MM.showLog()">Clear</a><br/><br/>';
-        expectedPanelHTML += 'testFilter: log entry number two<br />';
-        expectedPanelHTML += 'testFilter: log entry number four<br />';
-        expectedPanelHTML += 'testFilter: log entry duplicate<br />';
-        expectedPanelHTML += 'log entry number five for testFilter<br />';
-        expectedPanelHTML += 'log entry containing testFilter within the string<br />';
-        expectedPanelHTML += '<div class="centered">';
-        expectedPanelHTML += '<a class="button" href="mailto:AUsername?subject=MMLog&body=testFilter%3A%20log%20entry%20number%20two%0AtestFilter%3A%20log%20entry%20number%20four%0AtestFilter%3A%20log%20entry%20duplicate%0Alog%20entry%20number%20five%20for%20testFilter%0Alog%20entry%20containing%20testFilter%20within%20the%20string%0A">';
-        expectedPanelHTML += 'Field:field</a></div>';
-
-        // Puts the log into the panels
-        MM.showLog("testFilter");
-
-        // Triggers the showLog function because the listener is removed each call.
-        var e = {keyCode:13};
-        $("#logfilter").trigger('keyup', e);
-        expect(MM.lang.s).toHaveBeenCalledWith('email');
-        expect(MM.panels.html).toHaveBeenCalledWith('right', expectedPanelHTML);
-        expect(MM.showLog.callCount).toEqual(1);
-        expect($.fn.keyup.callCount).toEqual(1);
-
-        $("#testElements").remove();
-    });
-
-    /**
      * Tests popErrorMessage
      * @covers popErrorMessage
      */
@@ -2256,7 +1903,7 @@ describe("MM", function() {
             expect(MM.lang.s).toHaveBeenCalledWith('error');
             expect(MM.popMessage).toHaveBeenCalledWith('An error message', {
                 title:'hello world',
-                autoclose:4000
+                autoclose:5000
             });
         });
     });
@@ -2651,7 +2298,7 @@ describe("MM", function() {
         spyOn(MM.widgets, 'dialog').andReturn();
         MM.showModalLoading("aTitle", "some Text");
         expect(MM.widgets.dialog).toHaveBeenCalledWith(
-            '<div class="centered"><img src="img/loadingblack.gif"><br />some Text</div>',
+            '<div class="centered loading-icon"><img src="img/loadingblack.gif"><br />some Text</div>',
             { title : 'aTitle' }
         );
     });
@@ -3090,7 +2737,8 @@ describe("MM", function() {
                 siteurl:'some.site.url',
                 sync:false,
                 silently:false,
-                showModalLoading:true
+                showModalLoading:true,
+                responseExpected:true
             };
 
             var myErrorCallback = {
@@ -3126,7 +2774,8 @@ describe("MM", function() {
                 siteurl:'some.site.url',
                 sync:false,
                 silently:false,
-                showModalLoading:true
+                showModalLoading:true,
+                responseExpected:true
             };
 
             var myErrorCallback = {
@@ -3181,12 +2830,10 @@ describe("MM", function() {
             });
             spyOn(MM, 'showModalLoading').andReturn();
             spyOn(MM, 'popMessage').andReturn();
-            spyOn(window, 'setTimeout').andReturn();
 
             var result = MM.moodleWSCall(null, {}, null, presets, false);
 
             expect(result).toBe(undefined);
-            expect(window.setTimeout).toHaveBeenCalled();
             expect(MM.showModalLoading).toHaveBeenCalledWith("loading");
             expect(MM.popMessage).toHaveBeenCalledWith("lostconnection");
         });
@@ -3222,12 +2869,10 @@ describe("MM", function() {
             });
             spyOn(MM, 'showModalLoading').andReturn();
             spyOn(MM, 'popMessage').andReturn();
-            spyOn(window, 'setTimeout').andReturn();
 
             var result = MM.moodleWSCall(null, {}, null, presets, false);
 
             expect(result).toBe(undefined);
-            expect(window.setTimeout).toHaveBeenCalled();
             expect(MM.showModalLoading).toHaveBeenCalledWith("loading");
             expect(MM.popMessage).toHaveBeenCalledWith("lostconnection");
         });
@@ -3336,7 +2981,8 @@ describe("MM", function() {
             spyOn(myErrorCallback, 'error').andReturn();
             spyOn($, 'ajax').andCallFake(function(options) {
                 var data = {
-                    debuginfo: {}
+                    debuginfo: {},
+                    message: 'Hello World'
                 };
                 options.success(data);
             });
@@ -3349,7 +2995,7 @@ describe("MM", function() {
             expect(result).toBe(undefined);
             expect(MM.closeModalLoading).toHaveBeenCalled();
             expect(MM.showModalLoading).toHaveBeenCalledWith("loading");
-            expect(MM.popErrorMessage).toHaveBeenCalledWith("unexpectederror");
+            expect(MM.popErrorMessage).toHaveBeenCalledWith("Error. Hello World");
         });
 
         it("returns if data.debuginfo is not undefined with an error callback", function() {
@@ -3376,7 +3022,8 @@ describe("MM", function() {
             spyOn(myErrorCallback, 'error').andReturn();
             spyOn($, 'ajax').andCallFake(function(options) {
                 var data = {
-                    debuginfo:{}
+                    debuginfo:{},
+                    message: 'Hello World'
                 };
                 options.success(data);
             });
@@ -3387,7 +3034,7 @@ describe("MM", function() {
 
             expect(result).toBe(undefined);
             expect(MM.showModalLoading).toHaveBeenCalledWith("loading");
-            expect(myErrorCallback.error).toHaveBeenCalledWith('unexpectederror');
+            expect(myErrorCallback.error).toHaveBeenCalledWith('Error. Hello World');
         });
 
         it("calls our success callback otherwise", function() {
@@ -4125,7 +3772,7 @@ describe("MM", function() {
             window.plugins = _.clone(backup);
         });
 
-        it("that doesn't have access to window.plugins", function() {
+        it("that doesn't have access to window.plugins (infoBox undefined)", function() {
             // If plugins already exist, clone them and store them
             var backup = undefined;
             if (window.plugins != undefined) {
@@ -4137,15 +3784,53 @@ describe("MM", function() {
 
             window.plugins = undefined;
 
+            MM.plugins = {
+                contents: {
+                }
+            };
+
             MM.touchMoving = false;
             spyOn(MM, 'setFileLinksHREF').andReturn();
             spyOn(window, 'open').andReturn();
             spyOn(MM, 'log').andReturn();
             spyOn(MM, '_canUseChildBrowser').andReturn(false);
+            //spyOn(MM.plugins.contents.infoBox.remove();
             $("#mySelector").click();
             expect(MM.setFileLinksHREF).toHaveBeenCalled();
-            expect(MM.log).toHaveBeenCalledWith('Open external file using window.open');
-            expect(window.open).toHaveBeenCalledWith('some.place.extension', '_blank');
+
+            // Put the original plugins back.
+            window.plugins = _.clone(backup);
+        });
+
+        it("that doesn't have access to window.plugins (infoBox defined)", function() {
+            // If plugins already exist, clone them and store them
+            var backup = undefined;
+            if (window.plugins != undefined) {
+                backup = _.clone(window.plugins);
+            } else {
+                window.plugins = {};
+                backup = undefined;
+            }
+
+            window.plugins = undefined;
+
+            MM.plugins = {
+                contents: {
+                    infoBox:{
+                        remove:function(){}
+                    }
+                }
+            };
+
+            MM.touchMoving = false;
+            spyOn(MM, 'setFileLinksHREF').andReturn();
+            spyOn(window, 'open').andReturn();
+            spyOn(MM, 'log').andReturn();
+            spyOn(MM, '_canUseChildBrowser').andReturn(false);
+            spyOn(MM.plugins.contents.infoBox, 'remove').andReturn();
+            $("#mySelector").click();
+            expect(MM.setFileLinksHREF).toHaveBeenCalled();
+            expect(MM.plugins.contents.infoBox.remove).toHaveBeenCalled();
 
             // Put the original plugins back.
             window.plugins = _.clone(backup);
@@ -4159,7 +3844,7 @@ describe("MM", function() {
     describe("can download a moodle file and end with:", function() {
         it("success", function() {
             var url = 'url';
-            var path = 'some/path';
+            var path = {file:'some/path'};
             var testObject = {
                 successCallBack:function(path) {},
                 errorCallBack:function(path){}
@@ -4184,7 +3869,7 @@ describe("MM", function() {
         });
         it("failure", function() {
             var url = 'url';
-            var path = 'some/path';
+            var path = {file:'some/path'};
             var testObject = {
                 successCallBack:function(path) {},
                 errorCallBack:function(path){}
