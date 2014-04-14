@@ -494,6 +494,7 @@ ol {
     color:#fff;
     font-family:helvetica, sans-serif;
 }
+
 .header-main #online-status{
     float:right;
     margin: 5px 15px 5px 5px;
@@ -501,6 +502,7 @@ ol {
     color:#9bae20;
     transition: color 0.5s ease 0.5s;
 }
+
 .header-main #online-status.off{
     color:#7c7a80;
     -webkit-transition: color .5s ease 0.5s;
@@ -508,12 +510,12 @@ ol {
     -ms-transition: color .5s ease 0.5s;
     -o-transition: color .5s ease 0.5s;
     transition: color .5s ease 0.5s;
-
-
 }
+
 .header-main .nav-item.content {
     background-image: url(../img/header-content.png);
 }
+
 .header-main .nav-item.participants {
     background-image: url(../img/header-participants.png);
 }
@@ -588,6 +590,10 @@ ol {
 
 .user-menu .plugin-ico {
     float:none;
+    max-width:32px;
+    width:auto;
+    height:auto;
+    padding:0;
 }
 
 .panel.user-menu .no-arrow > a {
@@ -1805,7 +1811,7 @@ li.ui-menu-item {
 }
 
 .panel-content.find .item-course {
-    background:url('../img/totara/icon/course.png') no-repeat scroll 0 -4px transparent;
+    background:url('../img/icon/course-icon.png') no-repeat scroll 0 -4px transparent;
     padding-left:34px;
 }
 
