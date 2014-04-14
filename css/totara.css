@@ -207,6 +207,10 @@ button.plus
     color:#fff;
 }
 
+.plugin-name {
+    padding-top:0;
+}
+
 .panel.user-menu .menu-items-indicator {
     position:absolute;
     right:18px;
@@ -288,6 +292,16 @@ h2.name {
 
 #app-dialog > div {
     background-color:#9bae20;
+}
+
+/* My Courses. */
+
+.panel-content.my-courses div.expand {
+    background-position: 100% -30px;
+}
+
+.panel-content.my-courses span[class*="completion"] {
+    top:13px;
 }
 
 /* Programs. */
