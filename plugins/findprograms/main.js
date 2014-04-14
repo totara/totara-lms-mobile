@@ -100,6 +100,8 @@ define(requires, function(programsTpl) {
         },
 
         main: function(subCatId) {
+            MM.resetMenuItemsIndicator(MM.plugins.findprograms.name);
+
             if (subCatId === undefined) {
                 subCatId = 0;
             }

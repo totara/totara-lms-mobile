@@ -72,5 +72,15 @@
 "menu_type":"totara_navigation",
 "homepage":"default_homepage",
 "homepageurl":"#homepage",
-"installationdir": "/mobile"
+"installationdir": "/mobile",
+"menu_items_indicators_update_interval": 30000,
+"menu_items_indicators_updatable": [
+    {"pluginname": "findcourses",   "wsname": "find_courses"},
+    {"pluginname": "findprograms",  "wsname": "find_programs"},
+    {"pluginname": "mylearning",    "wsname": "my_learning"},
+    {"pluginname": "mycourses",     "wsname": "my_courses"},
+    {"pluginname": "mybookings",    "wsname": "bookings"},
+    {"pluginname": "tasks",         "wsname": "tasks"},
+    {"pluginname": "alerts",        "wsname": "alerts"}
+]   
 }

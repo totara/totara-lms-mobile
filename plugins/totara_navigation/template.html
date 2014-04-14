@@ -18,12 +18,14 @@
                     <span class="plugin-name">
                         <%= MM.lang.pluginName(plugin.name) %>
                     </span>
-                    <span class="menu-items-indicator">
-                        XXX
+                    <% if (plugin.name !== 'default_homepage') { %>
+                    <span id="menu-items-indicator-<%= plugin.name %>" class="menu-items-indicator">
+                        0
                     </span>
-                    <span class="menu-items-new">
-                        YYY
+                    <span id="menu-items-new-<%= plugin.name %>" class="menu-items-new">
+                        0
                     </span>
+                    <% } %>
                 </a>
             </li>
         <% } else { %>

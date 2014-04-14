@@ -159,6 +159,8 @@ define(templates, function(layoutTpl) {
         },
 
         main: function() {
+            MM.resetMenuItemsIndicator(MM.plugins.tasks.name);
+
             MM.panels.showLoading("center");
             MM.assignCurrentPlugin(MM.plugins.tasks);
             MM.plugins.tasks._getTasks();
