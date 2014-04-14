@@ -14,7 +14,6 @@
                             <div class="bd">
                                 <h3>
                                     <%= MM.util.formatText(site.sitename) %>
-                                    <% if (site.id == current_site) { print(" (*)"); }; %>
                                 </h3>
                                 <%= site.siteurl %>
                             </div>
@@ -23,10 +22,5 @@
                 </li>
             <% }); %>
         </ul>
-        <div class="centered">
-            <a class="add-site button" href="#settings/sites/add">
-                <%= MM.lang.s("addsite") %>
-            </a>
-        </div>
     </div>
 </div>

@@ -46,14 +46,14 @@ require(templates, function(deviceInfoTpl, showReportBug, showLog,
             ['settings', 'settings', "display"],
             ['settings/:section/', 'settings_section', "showSection"],
             ['settings/sites/:siteid', 'settings_sites_show_site', "showSite"],
-            ['settings/sites/add', 'settings_sites_add_site', "addSite"],
+            //['settings/sites/add', 'settings_sites_add_site', "addSite"],
             ['settings/general/purgecaches', 'settings_general_purgecaches', "purgeCache"],
             ['settings/sync/lang', 'settings_sync_lang', "syncLang"],
             ['settings/sync/css', 'settings_sync_css', "syncCSS"],
             ['settings/development/', 'showDevelopment', "showDevelopment"],
             ['settings/development/device', 'show_device_info', "showDeviceInfo"],
             ['settings/development/log/:filter', 'settings_show_log', "showLog"],
-            ['settings/development/reportbug', 'settings_report_bug', "showReportBug"],
+            //['settings/development/reportbug', 'settings_report_bug', "showReportBug"],
         ],
 
         sizes: undefined,
@@ -147,7 +147,7 @@ require(templates, function(deviceInfoTpl, showReportBug, showLog,
             var html = MM.tpl.render(MM.plugins.settings.templates.showLang, {
                 title: MM.lang.s("settings") + " - " + MM.lang.s("languages"),
                 langs: availableLangs,
-                chosenLang: chosenLang 
+                chosenLang: chosenLang
             });
             MM.panels.show("center", html);
             $(".lang-selector").click(function(ev) {
@@ -198,78 +198,6 @@ require(templates, function(deviceInfoTpl, showReportBug, showLog,
             MM.widgets.dialog(text, options);
         },
 
-        addSite: function(e, setting) {
-            var html = '';
-
-            var options = {
-                title: MM.lang.s('addsite'),
-                buttons: {}
-            };
-            options.buttons[MM.lang.s('add')] = function() {
-                var siteurl = $.trim($('#new-url').val());
-                var username = $.trim($('#new-username').val());
-                var password = $.trim($('#new-password').val());
-
-                $('form span.error').css('display', 'block').html('');
-
-                // Delete the last / if present.
-                if (siteurl.charAt(siteurl.length - 1) == '/') {
-                    siteurl = siteurl.substring(0, siteurl.length - 1);
-                }
-
-                // Convert siteurl to lower case for avoid validation problems.
-                // See MOBILE-294
-                siteurl = siteurl.toLowerCase();
-
-                var stop = false;
-
-                if (siteurl.indexOf('http://localhost') == -1 &&
-                    !MM.validateURL(siteurl)
-                ) {
-                    stop = true;
-                    $('#new-url').next().html(MM.lang.s('siteurlrequired'));
-                }
-
-                if (MM.db.get('sites', hex_md5(siteurl + username))) {
-                    // We must allow overrride sites
-                    //stop = true;
-                    //$('#new-url').next().html(MM.lang.s('siteexists'));
-                }
-
-                if (!username) {
-                    stop = true;
-                    $('#new-username').next().html(MM.lang.s('usernamerequired'));
-                }
-                if (!password) {
-                    stop = true;
-                    $('#new-password').next().html(MM.lang.s('passwordrequired'));
-                }
-
-                if (!stop) {
-                    MM.widgets.dialogClose();
-                    MM.saveSite(username, password, siteurl);
-                    if (MM.deviceType == 'phone') {
-                        location.href = "index.html";
-                    }
-                }
-            };
-
-            // Reset the route.
-            options.buttons[MM.lang.s('cancel')] = function() {
-                MM.widgets.dialogClose();
-                window.history.back();
-            };
-
-            html = MM.tpl.render(MM.plugins.settings.templates.addSiteForm, {
-                siteurl:MM.lang.s('siteurl'),
-                username:MM.lang.s('username'),
-                password:MM.lang.s('password')
-            });
-
-            MM.widgets.dialog(html, options);
-            e.preventDefault();
-        },
-
         display: function() {
             MM.assignCurrentPlugin(MM.plugins.settings);
 
@@ -289,11 +217,6 @@ require(templates, function(deviceInfoTpl, showReportBug, showLog,
             );
             MM.panels.show('center', html, {title: pageTitle});
             MM.util.setupBackButton();
-            /*if (MM.deviceType == 'tablet') {
-                $("#panel-center li:eq(0)").addClass("selected-row");
-                MM.plugins.settings.showSites();
-                MM.Router.navigate("#settings");
-            }*/
         },
 
         showSites: function() {
@@ -687,31 +610,6 @@ require(templates, function(deviceInfoTpl, showReportBug, showLog,
                 }
             });
             $("#clear").on('click', MM.plugins.settings.showLog);
-        },
-
-        showReportbug: function() {
-            MM.assignCurrentPlugin(MM.plugins.settings);
-
-            var info = MM.plugins.settings._getDeviceInfo();
-
-            // Some space for the user.
-            var mailInfo = MM.lang.s("writeherethebug") + "\n\n\n\n";
-            mailInfo += MM.tpl.render(
-                MM.plugins.settings.templates.mailBody, {'info':info}
-            );
-            mailInfo += "==========================\n\n";
-            mailInfo += MM.getFormattedLog();
-
-            var html = MM.tpl.render(
-                MM.plugins.settings.templates.showReportBug, {
-                    title: MM.lang.s("settings") + " - " + MM.lang.s("development"),
-                    mailInfo: encodeURIComponent(mailInfo)
-                }
-            );
-
-            MM.panels.show('center', html);
-
-            MM.util.setupBackButton();
         }
     };
 
