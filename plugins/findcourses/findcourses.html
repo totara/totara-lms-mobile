@@ -18,8 +18,9 @@
         -->
         <!-- Show all categories with the specified parent id. -->
         <!-- Each category will give their sub categories too anyway -->
+        <% filter = parseInt(filter) %>
         <% _.each(categories, function(data, key) { %>
-            <% if (data !== undefined && data.parent == filter || filter !== 0 && data.id == filter) { %>
+            <% if ((data !== undefined && data.parent == filter && filter === 0) || (filter !== 0 && data.id == filter)) { %>
                 <li class="nav-item">
                     <div class="<% if (data.subcategories.length > 0 || data.courses.length > 0) { %>name toogler expand touch-row<% } else { %>name expand no-items<% } %>">
                         <h3 class="course-title">
