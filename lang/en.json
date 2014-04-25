@@ -31,6 +31,8 @@
 "continue": "Continue",
 "country": "Country",
 "csssynced": "Remote CSS synced",
+"connectionlost": "Connection Lost",
+"connectionrestored" : "Connection Restored",
 "delete": "Delete",
 "deletesite": "Delete this site?",
 "description": "Description",

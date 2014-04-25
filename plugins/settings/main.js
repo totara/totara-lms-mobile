@@ -4,7 +4,6 @@ var templates = [
     "root/externallib/text!root/plugins/settings/showLog.html",
     "root/externallib/text!root/plugins/settings/showDeviceInfo.html",
     "root/externallib/text!root/plugins/settings/development.html",
-    "root/externallib/text!root/plugins/settings/addSiteForm.html",
     "root/externallib/text!root/plugins/settings/showSites.html",
     "root/externallib/text!root/plugins/settings/showSync.html",
     "root/externallib/text!root/plugins/settings/showSite.html",
@@ -12,8 +11,8 @@ var templates = [
     "root/externallib/text!root/plugins/settings/showLang.html"
 ];
 
-require(templates, function(deviceInfoTpl, showReportBug, showLog,
-    showDeviceInfo, showDevelopment, addSiteForm, showSites, showSync,
+require(templates, function(deviceInfoTpl, showLog,
+    showDeviceInfo, showDevelopment, showSites, showSync,
     showSite, main, showLang
 ) {
     var plugin = {
@@ -30,14 +29,12 @@ require(templates, function(deviceInfoTpl, showReportBug, showLog,
 
         templates:{
             main:main,
-            addSiteForm:addSiteForm,
             showSites:showSites,
             showSync:showSync,
             showSite:showSite,
             showDevelopment: showDevelopment,
             showDeviceInfo: showDeviceInfo,
             showLog: showLog,
-            showReportBug: showReportBug,
             mailBody: deviceInfoTpl,
             showLang: showLang
         },
@@ -46,14 +43,12 @@ require(templates, function(deviceInfoTpl, showReportBug, showLog,
             ['settings', 'settings', "display"],
             ['settings/:section/', 'settings_section', "showSection"],
             ['settings/sites/:siteid', 'settings_sites_show_site', "showSite"],
-            //['settings/sites/add', 'settings_sites_add_site', "addSite"],
             ['settings/general/purgecaches', 'settings_general_purgecaches', "purgeCache"],
             ['settings/sync/lang', 'settings_sync_lang', "syncLang"],
             ['settings/sync/css', 'settings_sync_css', "syncCSS"],
             ['settings/development/', 'showDevelopment', "showDevelopment"],
             ['settings/development/device', 'show_device_info', "showDeviceInfo"],
-            ['settings/development/log/:filter', 'settings_show_log', "showLog"],
-            //['settings/development/reportbug', 'settings_report_bug', "showReportBug"],
+            ['settings/development/log/:filter', 'settings_show_log', "showLog"]
         ],
 
         sizes: undefined,
