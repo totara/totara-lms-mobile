@@ -134,7 +134,7 @@ define(templates, function(layoutTpl) {
         },
 
         main: function() {
-            MM.resetMenuItemsIndicator(MM.plugins.alerts.name);
+            MM.resetMenuItemsIndicator(MM.plugins.alerts.settings.name);
 
             MM.panels.showLoading("center");
             MM.assignCurrentPlugin(MM.plugins.alerts);

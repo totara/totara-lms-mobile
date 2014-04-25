@@ -105,7 +105,7 @@ define(requires, function(selfEnrolForm, coursesTpl) {
         },
 
         main: function(subCatId) {
-            MM.resetMenuItemsIndicator(MM.plugins.findcourses.name);
+            MM.resetMenuItemsIndicator(MM.plugins.findcourses.settings.name);
 
             if (subCatId === undefined) {
                 subCatId = 0;
