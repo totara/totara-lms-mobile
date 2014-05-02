@@ -84,6 +84,8 @@ define(templates, function(myCoursesTpl, participantsTpl, participantTpl) {
         },
 
         myCourses: function() {
+            MM.resetMenuItemsIndicator(MM.plugins.mycourses.settings.name);
+
             MM.Router.navigate("my-courses");
             MM.assignCurrentPlugin(MM.plugins.mycourses);
             MM.panels.showLoading("center");

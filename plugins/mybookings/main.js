@@ -123,6 +123,8 @@ define(templates, function(layoutTpl) {
         },
 
         main: function() {
+            MM.resetMenuItemsIndicator(MM.plugins.mybookings.settings.name);
+
             MM.panels.showLoading("center");
             MM.assignCurrentPlugin(MM.plugins.mybookings);
             MM.plugins.mybookings._getBookings();

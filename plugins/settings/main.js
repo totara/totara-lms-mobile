@@ -1,6 +1,5 @@
 var templates = [
     "root/externallib/text!root/plugins/settings/deviceInfoTemplate.html",
-    "root/externallib/text!root/plugins/settings/showReportBug.html",
     "root/externallib/text!root/plugins/settings/showLog.html",
     "root/externallib/text!root/plugins/settings/showDeviceInfo.html",
     "root/externallib/text!root/plugins/settings/development.html",
