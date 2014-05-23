@@ -1445,6 +1445,7 @@ describe("MM", function() {
         MM.getDeviceOrientation = function(){};
 
         MM.config.menu_items = [];
+        MM.config.current_token = "aFakeToken";
 
         spyOn(MM, 'log').andReturn();
         spyOn(MM.db, 'get').andCallThrough();
@@ -1454,6 +1455,7 @@ describe("MM", function() {
         spyOn(MM, 'isOnline').andReturn();
         spyOn(MM.tpl, 'render').andReturn("hello world");
         spyOn(MM.panels, 'html').andReturn();
+        spyOn(window, 'setInterval').andReturn();
 
         spyOn(MM, 'moodleWSCall').andReturn();
         spyOn(MM, 'showAddSitePanel').andReturn();
@@ -1590,11 +1592,16 @@ describe("MM", function() {
             MM.cache = {
                 getElement:function(){}
             };
+            MM.config = {
+                'sync_cron':64000
+            };
             MM.deviceOS = 'ios';
             spyOn(MM, 'setConfig').andReturn();
             spyOn(MM.cache, 'getElement').andReturn("hello world");
             spyOn(MM.sync, 'css');
             spyOn(MM.lang, 'sync');
+            spyOn(window, 'setTimeout').andReturn();
+
             MM.loadCachedRemoteCSS();
             expect(MM.setConfig).toHaveBeenCalledWith('dev_css3transitions', true);
             expect(MM.cache.getElement).toHaveBeenCalledWith('css', true);
@@ -1606,11 +1613,15 @@ describe("MM", function() {
             MM.cache = {
                 getElement:function(){}
             };
+            MM.config = {
+                'sync_cron':64000
+            };
             MM.deviceOS = 'ios';
             spyOn(MM, 'setConfig').andReturn();
             spyOn(MM.cache, 'getElement').andReturn(false);
             spyOn(MM.sync, 'css');
             spyOn(MM.lang, 'sync');
+            spyOn(window, 'setTimeout').andReturn();
             MM.loadCachedRemoteCSS();
             expect(MM.setConfig).toHaveBeenCalledWith('dev_css3transitions', true);
             expect(MM.cache.getElement).toHaveBeenCalledWith('css', true);
