@@ -317,6 +317,7 @@ define(templates,function (participantsTpl, participantTpl) {
                     var pageTitle = course.get("shortname") + " - " + MM.lang.s("participants");
 
                     var tpl = {
+                        "currentUserId": MM.site.get('userid'),
                         "user": newUser,
                         "courseid": courseId
                     };
