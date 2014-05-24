@@ -305,7 +305,8 @@ define(requires, function(selfEnrolForm, coursesTpl) {
             MM.widgets.dialog(enrolmentFormHTML, options);
 
             $(document).find('.selfenrolmentform').removeClass('hidden');
-            $(document).find('.selfenrolmentform input#enrol').on(MM.clickType, function() {
+            $(document).find('.selfenrolmentform button#enrol').on(MM.clickType, function(ev) {
+                ev.preventDefault();
                 var enrolmentKey = $(document).find(
                     '.selfenrolmentform input#enrolmentkey'
                 ).val();
@@ -325,7 +326,7 @@ define(requires, function(selfEnrolForm, coursesTpl) {
             // Clear the enrolment key.
             $(document).find('.selfenrolmentform input#enrolmentkey').val("");
             // Remove the event handler from the button
-            $(document).find('.selfenrolmentform a#enrol').off(MM.clickType);
+            $(document).find('.selfenrolmentform button#enrol').off(MM.clickType);
             // Hide the form
             $(document).find(".selfenrolmentform").addClass('hidden');
 
