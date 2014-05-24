@@ -166,6 +166,7 @@ define(templates,function (participantsTpl, participantTpl) {
         },
 
         addNote: function(e, courseId, userId) {
+            e.preventDefault();
             var element = $(e.target);
             var userId = element.data('userid');
             var courseId = element.data('courseid');
@@ -177,7 +178,8 @@ define(templates,function (participantsTpl, participantTpl) {
                 buttons: {}
             };
 
-            options.buttons[addNote] = function() {
+            options.buttons[addNote] = function(ev) {
+                ev.preventDefault();
 
                 var data = {
                     "notes[0][userid]" : userId,
@@ -221,6 +223,7 @@ define(templates,function (participantsTpl, participantTpl) {
         },
 
         sendMessage: function(e, courseId, userId) {
+            e.preventDefault();
             var element = $(e.target);
             var userId = element.data('userid');
             var courseId = element.data('courseid');
@@ -231,7 +234,8 @@ define(templates,function (participantsTpl, participantTpl) {
                 buttons: {}
             };
 
-            options.buttons[sendMessage] = function() {
+            options.buttons[sendMessage] = function(ev) {
+                ev.preventDefault();
 
                 var data = {
                     "messages[0][touserid]" : userId,

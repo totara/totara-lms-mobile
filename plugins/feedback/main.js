@@ -171,7 +171,8 @@ define(
             );
         },
 
-        _cancelFeedback: function() {
+        _cancelFeedback: function(ev) {
+            ev.preventDefault();
             window.history.back();
         },
 
@@ -238,7 +239,8 @@ define(
             console.log("It died");
         },
 
-        _saveFeedback: function() {
+        _saveFeedback: function(ev) {
+            ev.preventDefault();
             var answers = $(document).find(".question-answer");
             var errors = false;
             var response = [];
@@ -330,7 +332,8 @@ define(
             }
         },
 
-        _continueClicked: function() {
+        _continueClicked: function(ev) {
+            ev.preventDefault();
             MM.Router.navigate(
                 'courses/' + MM.plugins.feedback.currentFeedback.course,
                 {trigger:true}

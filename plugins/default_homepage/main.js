@@ -119,7 +119,8 @@ require(templates, function(mainTpl) {
 
             MM.panels.html('center', output);
 
-            $(".view-menu").on(MM.clickType, function() {
+            $(".view-menu").on(MM.clickType, function(ev) {
+                ev.preventDefault();
                 var visible = MM.navigation.toggle();
                 if (MM.deviceType == 'tablet') {
                     if (visible) {

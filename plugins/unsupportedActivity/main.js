@@ -102,6 +102,7 @@ define(templates, function(unsupportedActivityTpl) {
             );
         },
         _showInPopup: function(e) {
+            e.preventDefault();
             var link = $(e.target);
             var url = link.data('url');
             window.open(url);

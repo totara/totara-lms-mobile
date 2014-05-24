@@ -115,6 +115,7 @@ define(templates, function(layoutTpl) {
         },
 
         _dismissAlert: function(e) {
+            e.preventDefault();
             var element = $(e.target);
             var messageId = element.data('messageid');
             var method = "totara_message_dismiss_alerts";

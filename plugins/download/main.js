@@ -91,7 +91,8 @@ define(templates, function(downloadTpl) {
             $("#panel-right").show();
         },
 
-        _cancelDownload: function() {
+        _cancelDownload: function(ev) {
+            ev.preventDefault();
             window.history.back();
         },
 

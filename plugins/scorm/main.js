@@ -111,6 +111,7 @@ define(templates, function(scormTpl, scormLaunchTpl) {
             MM.panels.show("center", html);
             MM.util.setupBackButton();
             $(document).find("#submitter").on('click', function(ev) {
+                ev.preventDefault();
                 var element = $(ev.target);
                 var form = element.closest("form")
                 MM.plugins.scorm.scormFormSubmitHandler(form);
@@ -133,7 +134,8 @@ define(templates, function(scormTpl, scormLaunchTpl) {
             return false;
         },
 
-        cancelClicked: function() {
+        cancelClicked: function(ev) {
+            ev.preventDefault();
             var back = $(document).find("#back");
             if (back.length === 0) {
                 window.history.back();
@@ -179,7 +181,8 @@ define(templates, function(scormTpl, scormLaunchTpl) {
             );
         },
 
-        _loadInPopup: function() {
+        _loadInPopup: function(ev) {
+            ev.preventDefault();
             var src = $(document).find("iframe").attr('src');
             window.open(src);
 

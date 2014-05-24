@@ -60,6 +60,7 @@ require(templates, function(config, navTpl) {
 
             // Links, when clicked, need to close the navigation.
             $('#default-navigation .is-link a.alink').on(MM.clickType, function(event){
+                event.preventDefault();
                 if (MM.touchMoving === true) {
                     return false;
                 }

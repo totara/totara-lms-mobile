@@ -398,6 +398,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
 
             // Hide the infobox on click in any link or inside itselfs
             $('#infobox-'+contentId+', a').bind('click', function(e) {
+                e.preventDefault();
                 if (typeof(MM.plugins.contents.infoBox) != "undefined") {
                     MM.plugins.contents.infoBox.remove();
                 }

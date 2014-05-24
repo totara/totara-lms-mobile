@@ -118,6 +118,7 @@ define(templates, function(layoutTpl) {
         },
 
         _acceptTask: function(e) {
+            e.preventDefault();
             var element = $(e.target);
             var messageId = element.data('messageid');
 
@@ -140,6 +141,7 @@ define(templates, function(layoutTpl) {
         },
 
         _rejectTask: function(e) {
+            e.preventDefault();
             var element = $(e.target);
             var messageId = element.data('messageid');
             var method = "totara_message_reject_task";
