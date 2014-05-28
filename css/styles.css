@@ -1573,6 +1573,10 @@ li.ui-menu-item {
     width:80%;
 }
 
+.panel-content.empty section {
+    margin: 0 20px;
+}
+
 @media only screen and (min-device-width : 234px) and (max-device-width : 480px) {
     .panel-content h3[class*="title"]
     , .panel-content .question-title

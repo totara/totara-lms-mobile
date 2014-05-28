@@ -1,4 +1,4 @@
-<div class="panel-content info alerts">
+<div class="panel-content info alerts <% if (alerts.length === 0) { %>empty<% } %>">
     <h1><%= title %></h1>
     <section>
         <% if (alerts.length === 0) { %>
