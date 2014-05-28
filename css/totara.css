@@ -72,7 +72,7 @@ button
 , .panel-content input[type="submit"]
 , #button-container button {
     min-height:56px;
-    min-width:210px;/*180px*/
+    min-width:160px;
     width:auto;
 }
 
