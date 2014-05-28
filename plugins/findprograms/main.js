@@ -213,6 +213,13 @@ define(requires, function(programsTpl) {
                         MM.plugins.findprograms.showingCategoryId
                     ].categoryName;
                 }
+
+                // Add program counts to categories and sub-categories
+                _.each(categories, function(category) {
+                    category.programCount = category.programs.length +
+                        MM.plugins.findprograms._countSubCatPrograms(categories, category);
+                });
+
                 var values = {
                     'title': title,
                     'categories': categories,
@@ -225,6 +232,16 @@ define(requires, function(programsTpl) {
                 MM.util.setupAccordion($("#panel-center"));
                 MM.util.setupBackButton();
             }
+        },
+
+        _countSubCatPrograms: function(cats, cat) {
+            var i = 0;
+            _.each(cats, function(cat2) {
+                if (cat2.parent === cat.id) {
+                    i += cat2.programs.length + MM.plugins.findprograms._countSubCatPrograms(cats, cat2);
+                }
+            });
+            return i;
         }
     };
     MM.registerPlugin(plugin);

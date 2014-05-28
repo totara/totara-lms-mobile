@@ -32,7 +32,7 @@
                             <% } %>
                         </h3>
                         <div class="number-of-items">
-                            <%= data.programs.length %>
+                            <%= data.programCount %>
                         </div>
                         <a href="#" class="close toogler collapse touch-row" >
                             <%= MM.lang.s("close") %>
@@ -51,11 +51,9 @@
                                     <ul>
                                         <% _.each(data.subcategories, function(subcat) { %>
                                         <li>
-                                            <% if (categories[subcat].coursecount > 0) { %>
-                                                <div class='submenu-number-of-items'>
-                                                    <%= categories[subcat].coursecount %>
-                                                </div>
-                                            <% } %>
+                                            <div class='submenu-number-of-items'>
+                                                <%= categories[subcat].programCount %>
+                                            </div>
                                             <a href="#find_programs/<%= categories[subcat].id %>" class="sub-item-title">
                                                 <%= categories[subcat].name %>
                                             </a>
