@@ -578,11 +578,9 @@ describe("MM", function() {
                     matches: true
                 };
                 window.device = "aDevice";
-                MM.mq = {'hello':'world'};
                 spyOn(window, "matchMedia").andReturn(matchMediaResponse);
                 spyOn(MM, "setInComputerState").andReturn(false);
                 MM.init({});
-                expect(window.matchMedia).toHaveBeenCalledWith({'hello':'world'});
                 expect(MM.deviceType).toEqual('tablet');
                 expect($("body").hasClass('tablet')).toEqual(true);
             });
