@@ -18,7 +18,7 @@
             <% } else { %>
                 <p>
                     <% if (typeof(value) == "boolean") { %>
-                        <b><%= key %></b>: <%= value ? "Yes" : "No" %>
+                        <b><%= key %></b>: <%= value ? "<%= MM.lang.s('yes') %>" : "<%= MM.lang.s('no') %>" %>
                     <% } else { %>
                         <b><%= key %></b>: <%= value %>
                     <% } %>

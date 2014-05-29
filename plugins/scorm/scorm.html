@@ -25,63 +25,63 @@
                     <% if (scorm.num_attempts_made > 0) { %>
                     <ul>
                         <% for (var i = 0; i < scorm.num_attempts_made; i++) { %>
-                            <li><%= MM.lang.s("scorm-gradeattempt") %> <%= i+1 %>&nbsp;<%= scorm.attempt_grades[i] %></li>
+                        <li><%= MM.lang.s("scorm-gradeattempt") %> <%= i+1 %>&nbsp;<%= scorm.attempt_grades[i] %></li>
                         <% } %>
                     </ul>
                     <% } %>
-                </li>
-                <li>
+                    </li>
+                    <li>
                     <%= MM.lang.s("scorm-gradingmethod") %><%= scorm.grading_method %>
-                </li>
-                <li>
+                    </li>
+                    <li>
                     <%= MM.lang.s("scorm-grade-report") %><%= scorm.grade_reported %>
-                </li>
-            </ul>
-            <% if (
+                    </li>
+                </ul>
+                <% if (
                 (scorm.compat_phone === 0 && MM.deviceType == 'phone') ||
                 (scorm.compat_tablet === 0 && MM.deviceType == 'tablet')
-            ) {
-            %>
-                <article>This SCORM package has been set as not appropriate for your device.</article>
+                ) {
+                %>
+                <article><%= MM.lang.s('scorm-not-appropriate') %></article>
                 <button class="cancel" id="cancel" title="<%= MM.lang.s('return') %>">
                     <%= MM.lang.s("return") %>
                 </button>
-            <% } else{ %>
+                <% } else{ %>
                 <% if(scorm.compat_tablet === 0 && MM.deviceOrientation == 'portrait') { %>
                 <article>
                     <p>
-<span class="fa-stack fa-lg">
-<i class="fa fa-retweet fa-stack-1x"></i>
-<i class="fa fa-tablet fa-stack-2x" style="
-  -webkit-transform: rotate(90deg);
-     -moz-transform: rotate(90deg);
-      -ms-transform: rotate(90deg);
-       -o-transform: rotate(90deg);
-          transform: rotate(90deg);"></i>
-</span>
-This SCORM package might not be appropriate for your current device Orientation.<br /> Please try rotating your device to landscape</p>
+                    <span class="fa-stack fa-lg">
+                        <i class="fa fa-retweet fa-stack-1x"></i>
+                        <i class="fa fa-tablet fa-stack-2x" style="
+                            -webkit-transform: rotate(90deg);
+                            -moz-transform: rotate(90deg);
+                            -ms-transform: rotate(90deg);
+                            -o-transform: rotate(90deg);
+                            transform: rotate(90deg);"></i>
+                    </span>
+                    <%= MM.lang.s('scorm-orientation') %><br /><%= MM.lang.s('scorm-rotate') %></p>
                 </article>
-                    <% } else{ %>
-                        <form id="scorm-form">
-                            <input type="hidden" id="scormid" value="<%= scorm.id %>" />
-                            <input type="hidden" id="cmid" value="<%= scorm.cmid %>" />
-                            <fieldset>
-                                <input type="radio" id="mode-preview" name="mode" value="preview" />
-                                <label for="mode-preview">Preview</label>
-                                <input type="radio" id="mode-normal" name="mode" value="normal" checked="checked" />
-                                <label for="mode-normal">Normal</label>
-                                <% if (scorm.num_attempts_made > 0 && ((scorm.num_attempts_made < scorm.num_attempts_allowed) || scorm.num_attempts_allowed === 0)) { %>
-                                    <input type="checkbox" id="new-attempt" />
-                                    <label for="new-attempt">Start a new attempt</label>
-                                <% } %>
-                                <button id="submitter" class="submit button" type="submit"><%= MM.lang.s('enter') %></button>
-                                <button class="cancel button" id="cancel" title="<%= MM.lang.s('cancelandreturn') %>">
-                                    <%= MM.lang.s("cancelandreturn") %>
-                                </button>
-                            </fieldset>
-                        </form>
-                    <% } %>
-            <% } %>
-        </section>
+                <% } else{ %>
+                <form id="scorm-form">
+                    <input type="hidden" id="scormid" value="<%= scorm.id %>" />
+                    <input type="hidden" id="cmid" value="<%= scorm.cmid %>" />
+                    <fieldset>
+                        <input type="radio" id="mode-preview" name="mode" value="preview" />
+                        <label for="mode-preview"><%= MM.lang.s('preview') %></label>
+                        <input type="radio" id="mode-normal" name="mode" value="normal" checked="checked" />
+                        <label for="mode-normal"><%= MM.lang.s('normal') %></label>
+                        <% if (scorm.num_attempts_made > 0 && ((scorm.num_attempts_made < scorm.num_attempts_allowed) || scorm.num_attempts_allowed === 0)) { %>
+                        <input type="checkbox" id="new-attempt" />
+                        <label for="new-attempt"><%= MM.lang.s('new-attempt') %></label>
+                        <% } %>
+                        <button id="submitter" class="submit button" type="submit"><%= MM.lang.s('enter') %></button>
+                        <button class="cancel button" id="cancel" title="<%= MM.lang.s('cancelandreturn') %>">
+                            <%= MM.lang.s("cancelandreturn") %>
+                        </button>
+                    </fieldset>
+                </form>
+                <% } %>
+                <% } %>
+            </section>
+        </div>
     </div>
-</div>

@@ -155,7 +155,7 @@
         </p>
         <fieldset id="login-remember">
             <label id="remember-details">
-                Remember Username and Password?
+                <%= MM.lang.s('remember-username-and-password') %>
             </label>
             <div>
                 <button class="remember-option yes" data-option="1">
@@ -185,7 +185,7 @@
             <label for="main-site-login-form-password"><%= MM.lang.s("externalpassword") %></label>
             <input type="password" name="main-site-login-form-password" id="main-site-login-form-password" />
         </div>
-        <button class="button" type="submit">Enter</button>
+        <button class="button" type="submit"><%= MM.lang.s('enter') %></button>
         <% if (error) { %><div class="err"><%= error %></div><% } %>
     </form>
 </script>

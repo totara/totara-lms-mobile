@@ -7,8 +7,8 @@
     </div>
     <div class="sections">
         <%= module.description %>
-        <p>Author: <%= download.author %></p>
-        <p>License: <%= MM.lang.s(download.license) %></p>
+        <p><%= MM.lang.s('author') %>: <%= download.author %></p>
+        <p><%= MM.lang.s('language') %>: <%= MM.lang.s(download.license) %></p>
         <a href="<%= download.downloadURL %>" id="continue" class="button" download="<%= download.filename %>">
             <%= MM.lang.s("downloadremotefile") %>
         </a>

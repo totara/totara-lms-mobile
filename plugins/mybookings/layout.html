@@ -13,11 +13,10 @@
                     <%= booking.facetofacename %>
                 </li>
                 <li>
-                    Start: <%= MM.widgets.formatDate(booking.timestart) %>
-
+                    <%= MM.lang.s('start') %>: <%= MM.widgets.formatDate(booking.timestart) %>
                 </li>
                 <li>
-                    Finish: <%= MM.widgets.formatDate(booking.timefinish) %>
+                    <%= MM.lang.s('finish') %>: <%= MM.widgets.formatDate(booking.timefinish) %>
                 </li>
             </ul>
             <% }); %>

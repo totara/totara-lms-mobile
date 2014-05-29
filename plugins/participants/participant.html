@@ -26,7 +26,7 @@
                     <% if (user[field]) { %>
                         <li><%= MM.lang.s(field) %>:
                         <% if (field == "phone1" || field == "phone2") { %>
-                            <a href="tel:<% print(user[field]); %>">
+                            <a href="<%= MM.lang.s('tel') %>:<% print(user[field]); %>">
                                 <%= user[field] %>
                             </a>
                         <% } else if (field == "address") { %>
