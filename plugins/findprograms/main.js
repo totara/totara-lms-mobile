@@ -122,7 +122,7 @@ define(requires, function(programsTpl) {
             MM.assignCurrentPlugin(MM.plugins.findprograms);
             MM.moodleWSCall(
                 'core_course_get_categories',
-                {},
+                {ignoremaxcategorydepth: 1},
                 MM.plugins.findprograms._getCategoriesSuccessful,
                 {},
                 MM.plugins.findprograms._getCategoriesFailure
