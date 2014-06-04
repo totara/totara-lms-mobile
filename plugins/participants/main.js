@@ -178,9 +178,7 @@ define(templates,function (participantsTpl, participantTpl) {
                 buttons: {}
             };
 
-            options.buttons[addNote] = function(ev) {
-                ev.preventDefault();
-
+            options.buttons[addNote] = function() {
                 var data = {
                     "notes[0][userid]" : userId,
                     "notes[0][publishstate]": 'personal',
@@ -234,9 +232,7 @@ define(templates,function (participantsTpl, participantTpl) {
                 buttons: {}
             };
 
-            options.buttons[sendMessage] = function(ev) {
-                ev.preventDefault();
-
+            options.buttons[sendMessage] = function() {
                 var data = {
                     "messages[0][touserid]" : userId,
                     "messages[0][text]" : $("#sendmessagetext").val()
