@@ -62,7 +62,9 @@
             <% }); %>
         </ul>
     </section>
-    <p id="program-end-note">
-        <%= MM.lang.s("program-programendnote") %><%= program.endnote %>
-    </p>
+    <% if (program.progress >= 100 && program.endnote.length > 0) { %>
+        <p id="program-end-note">
+            <%= MM.lang.s("program-programendnote") %><%= program.endnote %>
+        </p>
+    <% } %>
 </div>

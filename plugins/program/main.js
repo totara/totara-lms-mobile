@@ -100,7 +100,6 @@ define(templates, function(programTpl) {
         },
 
         programCallback: function(response) {
-            //console.log(response);
             var html = MM.tpl.render(MM.plugins.program.templates.program.html, {'program':response});
             MM.panels.show("center", html);
             MM.util.setupAccordion($("#panel-center"));
