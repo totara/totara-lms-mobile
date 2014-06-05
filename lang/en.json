@@ -68,7 +68,7 @@
 "general": "General",
 "grade": "Grade",
 "help": "Help",
-"helpmelogin": "<p>In order to log in, please verify that:</p>1. The Totara site is version 2.6 or above.<br />2. The Totara site administrator has enabled Mobile access.<br /><br /><p>To test the app in a Totara demo site type <i>teacher</i> or <i>student</i> in the <i>Username</i> field and click the <b>Add button</b>.</p><p><a href='http://docs.totara.org/en/Mobile_app' target='_blank'>Visit the Totara documentation site for more detailed information and help.</a></p>",
+"helpmelogin": "<p>In order to log in, please verify that:</p>1. The Totara site is version 2.6 or above.<br />2. The Totara site administrator has enabled Mobile access.",
 "icantlogin": "I can't login",
 "imagestored": "Your image has been stored in your private area",
 "info": "Info",
