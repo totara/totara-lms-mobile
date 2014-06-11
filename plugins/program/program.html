@@ -39,24 +39,28 @@
                     </h3>
                     <a href="#" class="close toogler collapse touch-row" ><%= MM.lang.s("close") %></a>
                 </div>
-                <ul class="nav submenu items">
-                    <% _.each(set.courses, function(course) { %>
-                    <li>
-                        <%= set.completiontype %>
-                    </li>
-                    <li class="nav">
-                        <% if (set.progress == 1) { %>
-                        <span class="completion-inprogress"></span>
-                        <% } else if (set.progress == 1) { %>
-                        <span class="completion-complete"></span>
-                        <% } else { %>
-                        <span class="completion-notstarted"></span>
-                        <% } %>
-                        <a href="#courses/<%= course.id %>">
-                            <%= course.fullname %>
-                        </a>
-                    </li>
-                    <% }); %>
+                <ul class="nav submenu" style="display: lock; overflow: hidden;">
+                    <li><h5><%= set.completiontype %></h5></li>
+                    <li><ul>
+                        <% _.each(set.courses, function(course) { %>
+                            <li>
+                                <% if (!course.enrolled) { %>
+                                    <% if (course.status > 10) { %>
+                                        <% if (course.status >=  50) { %>
+                                            <span class="completion-complete"></span>
+                                        <% } else { %>
+                                            <span class="completion-inprogress"></span>
+                                        <% } %>
+                                    <% } else { %>
+                                        <span class="completion-notstarted"></span>
+                                    <% } %>
+                                    <a class="sub-item-title item-course" href="#courses/<%= course.id %>"><%= course.fullname %></a>
+                                <% } else { %>
+                                    <span class="sub-item-title item-course disabled"><%= course.fullname %></span>
+                                <% } %>
+                            </li>
+                        <% }); %>
+                    </ul></li>
                 </ul>
             </li>
             <% }); %>

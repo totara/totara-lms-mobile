@@ -328,16 +328,51 @@ div.program-info ul {
     top: 3px;
 }
 
-.panel-content.program span[class*="completion"] {
+.panel-content.program ul.nav li {
     position:relative;
-    float:right;
-    top:0;
-    right:12px;
+    list-style-type:none;
 }
 
-.panel-content.program section ul.submenu {
-    margin-left:0.61538rem
+.panel-content.detail.program ul.nav li,
+.panel-content.detail.program .nav-item ul li:first-child {
+    padding: 0;
 }
+
+.panel-content.program .nav-item .toogler + ul {
+    padding-bottom: 0;
+}
+
+.panel-content.program .submenu li > ul {
+    padding-right:0;
+}
+
+.panel-content.program .nav h5 {
+    margin-bottom:0;
+    margin-left: 10px;
+    border-bottom:solid 1px #9a979b;
+    color:#9a979b;
+}
+
+.panel-content.program h3[class*="title"] {
+    width:81%;
+}
+
+.panel-content.program span[class*="completion"] {
+    right:14px;
+    top:7px;
+}
+
+.panel-content.program .item-course {
+    background:url('../img/icon/course-icon.png') no-repeat scroll 0 -4px transparent;
+    padding-left:34px;
+}
+
+.panel-content.program .sub-item-title {
+    margin-left: 0;
+}
+
+.panel-content.program .sub-item-title.disabled { 
+    color: #c4c3c3;
 
 .panel-content.detail .nav-item ul li {
     padding-top:0.7rem;

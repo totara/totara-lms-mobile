@@ -27,7 +27,7 @@ define(templates, function(programTpl) {
             programModules: {type: "collection", model: "programModule"}
         },
 
-        currentprogramInfo: null,
+        programData: null,
 
         sizes: undefined,
 
@@ -100,7 +100,29 @@ define(templates, function(programTpl) {
         },
 
         programCallback: function(response) {
-            var html = MM.tpl.render(MM.plugins.program.templates.program.html, {'program':response});
+            MM.plugins.program.programData = response;
+            var method = "moodle_enrol_get_users_courses";
+            var data = { userid: MM.site.get("userid") };
+            var callback = MM.plugins.program.coursesCallback;
+            var presets = { omitExpires: true, cache: false };
+            var errorCallback = MM.plugins.program.errorCallback;
+            MM.moodleWSCall(method, data, callback, presets, errorCallback);
+        },
+
+        coursesCallback: function(response) {
+            var enrolledCourses = response;
+            var enrolledCourseIds = _.map(enrolledCourses, function(course) {
+                return course.id;
+            });
+            _.each(MM.plugins.program.programData.sets, function(set) {
+                _.each(set.courses, function(course) {
+                    course.enrolled = _.contains(enrolledCourseIds, course.id);
+                });
+            });
+            var html = MM.tpl.render(
+                MM.plugins.program.templates.program.html, 
+                {'program': MM.plugins.program.programData}
+            );
             MM.panels.show("center", html);
             MM.util.setupAccordion($("#panel-center"));
             MM.util.setupBackButton();
