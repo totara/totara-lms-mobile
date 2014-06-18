@@ -226,6 +226,11 @@ define(
                         if (input < parseFloat(range[0]) || input > parseFloat(range[1])) {
                             result = true;
                         }
+                    } else if (question.get('typ') === 'textfield') {
+                        var maxlength = presentation.split("|")[1];
+                        if (input.length > maxlength) {
+                            result = true;
+                        }
                     }
                 }
             } else if (question.get('required') === 1 && input.length == 0) {
@@ -236,7 +241,11 @@ define(
         },
 
         _getFeedbackQuestionsFailure: function() {
-            console.log("It died");
+            $(document).find(".errors.hidden").html(
+                "Unable to retrieve feedback questions from the server."
+            );
+            $(document).find(".errors.hidden").removeClass('hidden');
+            $(".errors")[0].scrollIntoView();
         },
 
         _saveFeedback: function(ev) {
@@ -263,9 +272,15 @@ define(
                             value = answer.text().trim();
                         }
 
-                        errors = errors || MM.plugins.feedback._validateInput(
+                        error = MM.plugins.feedback._validateInput(
                             answer.data('questionid'), value
                         );
+
+                        if (error) {
+                            answer.addClass('error');
+                        }
+
+                        errors = errors || error
                     } else {
                         value = value.join("|");
                     }
@@ -280,6 +295,7 @@ define(
                     "Errors were found. Please check your answers conform to the feedback requirements"
                 );
                 $(document).find(".errors.hidden").removeClass('hidden');
+                $(".errors")[0].scrollIntoView();
             } else {
                 var callBack = MM.plugins.feedback._sendAnswersSuccess;
                 var errorCallBack = MM.plugins.feedback._sendAnswersFailure;
@@ -360,6 +376,25 @@ define(
                 'mod_feedback_get_questions', data, callBack, preSets,
                 errorCallBack
             );
+        },
+
+        parseTextFieldPresentation: function(presentation) {
+            var parts = presentation.split("|");
+            return "Maximum length " + parts[1] + " characters";
+        },
+
+        parseNumericPresentation: function(presentation) {
+            var parts = presentation.match(/([-]?\d+)?\|([-]?\d+)?/);
+            var result = "";
+            if (parts[1] !== undefined && parts[2] !== undefined) {
+                result = "from " + parts[1] + " to " + parts[2];
+            } else if (parts[1] !== undefined && parts[2] === undefined) {
+                result = "minimum " + parts[1];
+            } else if (parts[1] === undefined && parts[2] !== undefined) {
+                result = "maximum " + parts[2];
+            }
+
+            return result;
         },
 
         _displayQuestions: function() {
