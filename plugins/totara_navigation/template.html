@@ -22,9 +22,11 @@
                     <span id="menu-items-indicator-<%= plugin.name %>" class="menu-items-indicator">
                         0
                     </span>
-                    <span id="menu-items-new-<%= plugin.name %>" class="menu-items-new">
-                        0
-                    </span>
+                    <% if (plugin.name == 'mybookings' || plugin.name === 'tasks' || plugin.name === 'alerts') { %>
+                        <span id="menu-items-new-<%= plugin.name %>" class="menu-items-new">
+                            0
+                        </span>
+                    <% } %>
                     <% } %>
                 </a>
             </li>

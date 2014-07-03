@@ -76,12 +76,18 @@
 "installationdir": "/mobile",
 "menu_items_indicators_update_interval": 30000,
 "menu_items_indicators_updatable": [
-    {"pluginname": "findcourses",   "wsname": "find_courses"},
-    {"pluginname": "findprograms",  "wsname": "find_programs"},
-    {"pluginname": "mylearning",    "wsname": "my_learning"},
-    {"pluginname": "mycourses",     "wsname": "my_courses"},
-    {"pluginname": "mybookings",    "wsname": "bookings"},
-    {"pluginname": "tasks",         "wsname": "tasks"},
-    {"pluginname": "alerts",        "wsname": "alerts"}
+    {"indicator": "menu-items-indicator-findcourses",   "wskey": "find_courses"},
+    {"indicator": "menu-items-indicator-findprograms",  "wskey": "find_programs"},
+    {"indicator": "menu-items-indicator-mylearning",    "wskey": "my_learning"},
+    {"indicator": "menu-items-indicator-mycourses",     "wskey": "my_courses"},
+    {"indicator": "menu-items-indicator-mybookings",    "wskey": "bookings"},
+    {"indicator": "menu-items-indicator-tasks",         "wskey": "tasks"},
+    {"indicator": "menu-items-indicator-alerts",        "wskey": "alerts"},
+    {"indicator": "menu-items-new-mybookings",          "wskey": "bookings_new"},
+    {"indicator": "menu-items-new-tasks",               "wskey": "tasks_new"},
+    {"indicator": "menu-items-new-alerts",              "wskey": "alerts_new"},
+    {"indicator": "top-menu-items-new-mybookings",      "wskey": "bookings_new"},
+    {"indicator": "top-menu-items-new-tasks",           "wskey": "tasks_new"},
+    {"indicator": "top-menu-items-new-alerts",          "wskey": "alerts_new"}
 ]   
 }

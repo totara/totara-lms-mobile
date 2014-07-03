@@ -88,7 +88,12 @@ define(templates, function(layoutTpl) {
 
         _getBookings: function() {
             var method = "totara_my_get_bookings";
-            var data = {'userid':MM.site.get("userid") };
+            var data = {
+                'userid': MM.site.get("userid"),
+                'options': [ 
+                    {'name': 'markseenonmobile', 'value': true},
+                ]
+            }
             var callback = MM.plugins.mybookings._getBookingsSuccess;
             var presets = { omitExpires: true, cache: false };
             var errorCallback = MM.plugins.mybookings._getBookingsFailure;
@@ -96,7 +101,8 @@ define(templates, function(layoutTpl) {
         },
 
         _getBookingsSuccess: function(data) {
-
+            $("#menu-items-new-mybookings").text(0);
+            $("#top-menu-items-new-mybookings").text(0);
             var bookings = [];
             _.each(data, function(booking) {
                 // Sorted index only returns where the value *would* go.
@@ -123,8 +129,6 @@ define(templates, function(layoutTpl) {
         },
 
         main: function() {
-            MM.resetMenuItemsIndicator(MM.plugins.mybookings.settings.name);
-
             MM.panels.showLoading("center");
             MM.assignCurrentPlugin(MM.plugins.mybookings);
             MM.plugins.mybookings._getBookings();

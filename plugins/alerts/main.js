@@ -88,7 +88,13 @@ define(templates, function(layoutTpl) {
 
         _getAlerts: function() {
             var method = "totara_message_get_alerts";
-            var data = {'userid':MM.site.get("userid") };
+            var data = {
+                'userid': MM.site.get("userid"),
+                'options': [ 
+                    {'name': 'markseenonmobile', 'value': true},
+                    {'name': 'limit', 'value': false},
+                ]
+            };
             var callback = MM.plugins.alerts._getAlertsSuccess;
             var presets = { omitExpires: true, cache: false };
             var errorCallback = MM.plugins.alerts._getAlertsFailure;
@@ -96,6 +102,8 @@ define(templates, function(layoutTpl) {
         },
 
         _getAlertsSuccess: function(data) {
+            $("#menu-items-new-alerts").text(0);
+            $("#top-menu-items-new-alerts").text(0);
             var values = {
                 'alerts':data,
                 'title':MM.plugins.alerts.settings.title
@@ -135,8 +143,6 @@ define(templates, function(layoutTpl) {
         },
 
         main: function() {
-            MM.resetMenuItemsIndicator(MM.plugins.alerts.settings.name);
-
             MM.panels.showLoading("center");
             MM.assignCurrentPlugin(MM.plugins.alerts);
             MM.plugins.alerts._getAlerts();

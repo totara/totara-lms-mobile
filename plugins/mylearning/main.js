@@ -148,8 +148,6 @@ define(templates, function(layoutTpl) {
         },
 
         main: function() {
-            MM.resetMenuItemsIndicator(MM.plugins.mylearning.settings.name);
-
             MM.assignCurrentPlugin(MM.plugins.mylearning);
             MM.panels.showLoading("center");
 

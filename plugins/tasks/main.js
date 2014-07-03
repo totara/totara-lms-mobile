@@ -88,7 +88,13 @@ define(templates, function(layoutTpl) {
 
         _getTasks: function() {
             var method = "totara_message_get_tasks";
-            var data = {'userid':MM.site.get("userid") };
+            var data = {
+                'userid': MM.site.get("userid"),
+                'options': [ 
+                    {'name': 'markseenonmobile', 'value': true},
+                    {'name': 'limit', 'value': false},
+                ]
+            };
             var callback = MM.plugins.tasks._getTasksSuccess;
             var presets = { omitExpires: true, cache: false };
             var errorCallback = MM.plugins.tasks._getTasksFailure;
@@ -96,6 +102,8 @@ define(templates, function(layoutTpl) {
         },
 
         _getTasksSuccess: function(data) {
+            $("#menu-items-new-tasks").text(0);
+            $("#top-menu-items-new-tasks").text(0);
             var values = {
                 'tasks':data,
                 'title': MM.plugins.tasks.settings.title
@@ -161,8 +169,6 @@ define(templates, function(layoutTpl) {
         },
 
         main: function() {
-            MM.resetMenuItemsIndicator(MM.plugins.tasks.settings.name);
-
             MM.panels.showLoading("center");
             MM.assignCurrentPlugin(MM.plugins.tasks);
             MM.plugins.tasks._getTasks();
