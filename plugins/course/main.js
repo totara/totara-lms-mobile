@@ -94,30 +94,10 @@ define(templates, function(courseTpl) {
             MM.Router.navigate("courses/" + courseID);
             MM.assignCurrentPlugin(MM.plugins.course);
             MM.panels.showLoading("center");
-
-            var method = 'moodle_enrol_get_users_courses';
-            var data = {userid: MM.site.get('userid')};
-            var presets = { omitExpires: true, cache: false };
-            var errorCallback = MM.plugins.course.errorCallback;
-            MM.moodleWSCall(
-                method, data, function(courses) {
-                    for(var i = 0; i < courses.length; i++) {
-                        if (courses[i].id == courseID) {
-                            MM.plugins.course.courseInfoCallback([courses[i]]);
-                            break;
-                        }
-                    }
-                },
-                presets, errorCallback
-            );
-        },
-
-        courseInfoCallback: function(response) {
-            var courseInfo = response[0];
-            MM.plugins.course.currentCourseInfo = response[0];
+            MM.plugins.course.currentCourseInfo = MM.db.get("courses", courseID);
             var method= "core_course_get_contents";
             var data = {
-                courseid: courseInfo.id,
+                courseid: courseID,
                 options: [
                     {name: 'userid', value: MM.site.get("userid")},
                     {name: 'forcedescription', value: 'true'},
