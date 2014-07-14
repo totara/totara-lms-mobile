@@ -44,7 +44,7 @@
                     <li><ul>
                         <% _.each(set.courses, function(course) { %>
                             <li>
-                                <% if (program.enrolled || course.enrolled) { %>
+                                <% if (program.enrolled && course.enrolled) { %>
                                     <% if (course.status > 10) { %>
                                         <% if (course.status >=  50) { %>
                                             <span class="completion-complete"></span>
