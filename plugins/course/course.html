@@ -3,7 +3,7 @@
     <a href="#" title="Back" id="back"></a>
     <header class="header">
         <h2 class="name"><%= course.attributes.fullname %></h2>
-        <p class="completion header-sub-item">Completed <%= course.num_modules_completed %> of <%= course.num_modules %> activities</p>
+        <p class="completion header-sub-item"><%= MM.lang.s("completedxofy", "core", {x: course.num_modules_completed, y:course.num_modules}) %></p>
 	<p class="header-sub-item"><a href="#participants/<%= course.id %>"><%= MM.lang.s("viewcourseparticipants") %></a></p>
             <% _.each(course.contents, function(section, i) { %>
                 <% if (i == 0) { %>

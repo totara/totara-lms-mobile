@@ -235,5 +235,19 @@
 "scorm-rotate": "Please try rotating your device to landscape",
 "preview": "Preview",
 "normal": "Normal",
-"new-attempt": "Start a new attempt"
+"new-attempt": "Start a new attempt",
+"completedxofy": "Completed {x} of {y} activites",
+"enrolmentkey": "Enrolment Key",
+"january": "January",
+"february": "February",
+"march": "March",
+"april": "April",
+"may": "May",
+"june": "June",
+"july": "July",
+"august": "August",
+"september": "September",
+"october": "Octover",
+"november": "November",
+"december": "December"
 }
