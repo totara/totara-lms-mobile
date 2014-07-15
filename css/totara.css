@@ -1,3 +1,7 @@
+.task-link {
+    text-decoration: underline;
+}
+
 body
 , input
 , #add-site input {

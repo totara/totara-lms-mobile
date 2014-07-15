@@ -102,10 +102,19 @@ define(templates, function(layoutTpl) {
         },
 
         _getTasksSuccess: function(data) {
+            var tasks = data;
+
+            // Replace URLS with anchor elements
+            var anchorRegex = /(http[^ ]+)/g;
+            var anchorReplace = '<a href="$1" class="task-link">$1</a>';
+            _.each(tasks, function(task) {
+                task.fullmessage = task.fullmessage.replace(anchorRegex, anchorReplace);
+            });
+
             $("#menu-items-new-tasks").text(0);
             $("#top-menu-items-new-tasks").text(0);
             var values = {
-                'tasks':data,
+                'tasks': tasks,
                 'title': MM.plugins.tasks.settings.title
             };
             var html = MM.tpl.render(
