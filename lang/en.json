@@ -228,7 +228,7 @@
 "dismiss-alert": "Dismiss Alert",
 "start": "Start",
 "finish": "Finish",
-"scorm-fails-to-load": "If the SCORM fails to load, please use the butto to try reloading it.",
+"scorm-fails-to-load": "If the SCORM fails to load, please use the button to try reloading it.",
 "reload-scorm": "Reload SCORM",
 "scorm-not-appropriate": "This SCORM package has been set as not appropriate for your device.",
 "scorm-orientation": "This SCORM package might not be appropriate for your current device orientation",
