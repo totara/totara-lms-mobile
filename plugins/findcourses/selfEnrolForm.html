@@ -3,7 +3,7 @@
     <% if (self_enrol_enabled) { %>
         <form id="enrolment" method="post" action="#">
             <% if (key_required) { %>
-                <input type='text' value='' placeholder='MM.lang.s("enrolmentkey")' id='enrolmentkey' />
+                <input type='text' value='' placeholder="<%= MM.lang.s("enrolmentkey") %>" id='enrolmentkey' />
             <% } %>
             <button class="button" id="enrol"><%= MM.lang.s('course-enrol') %> </button>
         </form>
