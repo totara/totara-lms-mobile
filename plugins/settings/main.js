@@ -236,7 +236,6 @@ require(templates, function(deviceInfoTpl, showLog,
 
             MM.util.setupBackButton();
             $("#panel-center").show();
-
         },
 
         resetApp: function(e) {
@@ -252,7 +251,6 @@ require(templates, function(deviceInfoTpl, showLog,
             });
 
             e.preventDefault();
-
         },
 
         showSync: function() {
@@ -389,7 +387,6 @@ require(templates, function(deviceInfoTpl, showLog,
                     label: MM.lang.s('deviceinfo'),
                     handler: MM.plugins.settings.showDeviceInfo
                 },
-                //{id: 'dev_fakenotifications', type: 'button', label: MM.lang.s('addfakenotifications'), handler: MM.plugins.settings.addFakeNotifications},
                 {
                     id: 'dev_showlog',
                     type: 'button',
@@ -403,14 +400,6 @@ require(templates, function(deviceInfoTpl, showLog,
                     handler: MM.plugins.settings.resetApp
                 }
             ];
-
-            /*
-            if (!MM.rdebugger.enabled) {
-                settingsB.push({id: 'dev_rdebugging', type: 'button', label: MM.lang.s('enablerdebugger'), handler: MM.rdebugger.start});
-            } else {
-                settingsB.push({id: 'dev_rdebugging', type: 'button', label: MM.lang.s('disablerdebugger'), handler: MM.rdebugger.finish});
-            }
-            */
 
             var html = MM.tpl.render(
                 MM.plugins.settings.templates.showDevelopment, {
@@ -451,11 +440,13 @@ require(templates, function(deviceInfoTpl, showLog,
                 urlparams: 'additional data',
                 aps: {alert: 'Fake notification'}
             };
+
             if (MM.plugins.notifications) {
                 MM.plugins.notifications.saveAndDisplay({
                     notification: notification
                 });
             }
+
             // This is for preserving the Backbone hash navigation.
             e.preventDefault();
         },

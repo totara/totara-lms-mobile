@@ -42,11 +42,11 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                 MM.panels.showLoading('right');
             }
             // Adding loading icon.
-            $('a[href="#course/contents/' +courseId+ '"]').addClass('loading-row');
+            $('a[href="#course/contents/' + courseId + '"]').addClass('loading-row');
 
             var data = {
-            "options[0][name]" : "",
-            "options[0][value]" : ""
+                "options[0][name]" : "",
+                "options[0][value]" : ""
             };
             data.courseid = courseId;
 
@@ -72,7 +72,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             }, null, function(m) {
                 // Error callback.
                 // Removing loading icon.
-                $('a[href="#course/contents/' +courseId+ '"]').removeClass('loading-row');
+                $('a[href="#course/contents/' + courseId + '"]').removeClass('loading-row');
             });
         },
 
@@ -84,8 +84,8 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             }
 
             var data = {
-            "options[0][name]" : "",
-            "options[0][value]" : ""
+                "options[0][name]" : "",
+                "options[0][value]" : ""
             };
             data.courseid = courseId;
 
@@ -160,9 +160,8 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                         MM.db.insert("contents", content);
 
                         // Sync content files.
-
                         if (typeof(content.contents) != "undefined") {
-                            $.each(content.contents, function (index3, file) {
+                            $.each(content.contents, function(index3, file) {
 
                                 if (file.fileurl.indexOf(MM.config.current_site.siteurl) == -1) {
                                     return true;
@@ -183,11 +182,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                                     },
                                     siteid: MM.config.current_site.id,
                                     type: "content"
-                                   };
-
-                                // Disabled auto sync temporaly
-                                //MM.log("Sync: Adding content: " + el.syncData.name + ": " + el.url);
-                                //MM.db.insert("sync", el);
+                                };
 
                                 var extension = file.filename.substr(file.filename.lastIndexOf(".") + 1);
 
@@ -202,7 +197,6 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                     });
 
                     finalContents.push(sections);
-
                 });
 
                 var tpl = {
@@ -262,25 +256,26 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                         function(fullpath) {
                            MM.log("Content: Error downloading " + fullpath + " URL: " + downloadURL);
                            $(downCssId).attr("src", "img/download.png");
-                         });
+                        }
+                    );
                 });
             });
         },
 
         viewFolder: function(courseId, sectionId, contentId) {
-
             var course = MM.db.get("courses", MM.config.current_site.id + "-" + courseId);
             var content = MM.db.get("contents", MM.config.current_site.id + "-" + contentId);
             content = content.toJSON();
 
             var data = {
-            "options[0][name]" : "",
-            "options[0][value]" : ""
+                "options[0][name]" : "",
+                "options[0][value]" : ""
             };
             data.courseid = courseId;
 
             var sectionName = "";
-            // Now, we found the section of the content, sectionId may be -1 if we are watching all the contents so it's not a valid clue.
+            // Now, we found the section of the content, sectionId may be -1 if
+            // we are watching all the contents so it's not a valid clue.
             // Notice that we will retrieve the info from cache.
             MM.moodleWSCall('core_course_get_contents', data, function(sections) {
                 $.each(sections, function(index, section) {
@@ -297,17 +292,16 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             });
 
             var tpl = {
-                    course: course,
-                    sectionId: sectionId,
-                    courseId: courseId,
-                    contentId: contentId,
-                    content: content,
-                    sectionName: sectionName
-                }
+                course: course,
+                sectionId: sectionId,
+                courseId: courseId,
+                contentId: contentId,
+                content: content,
+                sectionName: sectionName
+            }
 
             var html = MM.tpl.render(MM.plugins.contents.templates.folder.html, tpl);
             MM.panels.html('right', html);
-
         },
 
         infoContent: function(courseId, sectionId, contentId, index) {
@@ -335,9 +329,9 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                 skipFiles = true;
             }
 
-            var information = '<p><strong>'+content.name+'</strong></p>';
+            var information = '<p><strong>' + content.name + '</strong></p>';
             if (typeof(content.description) != "undefined") {
-                information += '<p>'+content.description+'</p>';
+                information += '<p>' + content.description + '</p>';
             }
 
             if (! skipFiles) {
@@ -360,11 +354,11 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                             case "filesize":
                                 value = file[param] / 1024;
                                 // Round to 2 decimals.
-                                value = Math.round(value*100)/100 + " kb"
+                                value = Math.round(value * 100) / 100 + " kb"
                                 break;
                             case "localpath":
                                 var url = MM.fs.getRoot() + '/' + value;
-                                value = '<a href="' + url + '" rel="external">' +url + '</a>';
+                                value = '<a href="' + url + '" rel="external">' + url + '</a>';
                                 break;
                             default:
                                 value = file[param];
@@ -384,20 +378,28 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             }
             information += "</p>";
 
-            information += '<p><a href="'+content.url+'" target="_blank">'+content.url+'</a></p>';
+            information += '<p><a href="' + content.url + '" target="_blank">' + content.url + '</a></p>';
 
-            MM.plugins.contents.infoBox = $('<div id="infobox-'+contentId+'"><div class="arrow-box-contents">'+information+'</div></div>').addClass("arrow_box");
+            MM.plugins.contents.infoBox = $(
+                '<div id="infobox-' + contentId + '">
+                    <div class="arrow-box-contents">' + information + '</div>
+                </div>'
+            ).addClass("arrow_box");
             $('body').append(MM.plugins.contents.infoBox);
 
             var width = $("#panel-right").width() / 2;
-            $('#infobox-'+contentId).css("top", i.top - 30).css("left", i.left - width - 35).width(width);
+            $('#infobox-' + contentId).css(
+                "top", i.top - 30
+            ).css(
+                "left", i.left - width - 35
+            ).width(width);
 
             // Android, open in new browser
-            MM.handleExternalLinks('#infobox-'+contentId+' a[target="_blank"]');
-            MM.handleFiles('#infobox-'+contentId+' a[rel="external"]');
+            MM.handleExternalLinks('#infobox-' + contentId + ' a[target="_blank"]');
+            MM.handleFiles('#infobox-' + contentId + ' a[rel="external"]');
 
             // Hide the infobox on click in any link or inside itselfs
-            $('#infobox-'+contentId+', a').bind('click', function(e) {
+            $('#infobox-' + contentId + ', a').bind('click', function(e) {
                 e.preventDefault();
                 if (typeof(MM.plugins.contents.infoBox) != "undefined") {
                     MM.plugins.contents.infoBox.remove();
@@ -410,7 +412,6 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                     MM.plugins.contents.infoBox.remove();
                 }
             });
-
         },
 
         showLabel: function(courseId, sectionId, contentId) {
@@ -421,7 +422,9 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
                 $("#link-" + contentId + " h3").html(content.description);
                 MM.handleExternalLinks('#link-' + contentId + ' h3 a[target="_blank"]');
             }
-            $("#link-" + contentId).attr("href", $("#link-" + contentId).attr("href").replace("label", "hidelabel"));
+            $("#link-" + contentId).attr(
+                "href", $("#link-" + contentId).attr("href").replace("label", "hidelabel")
+            );
             $("#link-" + contentId).toggleClass("collapse-label expand-label");
         },
 
@@ -457,10 +460,12 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
         },
 
         getModuleIcon: function(moduleName) {
-            var mods = ["assign", "assignment", "book", "chat", "choice",
-            "data", "database", "date", "external-tool", "feedback", "file",
-            "folder", "forum", "glossary", "ims", "imscp", "label", "lesson",
-            "lti", "page", "quiz", "resource", "scorm", "survey", "url", "wiki", "workshop"
+            var mods = [
+                "assign", "assignment", "book", "chat", "choice",
+                "data", "database", "date", "external-tool", "feedback", "file",
+                "folder", "forum", "glossary", "ims", "imscp", "label", "lesson",
+                "lti", "page", "quiz", "resource", "scorm", "survey", "url",
+                "wiki", "workshop"
             ];
 
             if (mods.indexOf(moduleName) < 0) {

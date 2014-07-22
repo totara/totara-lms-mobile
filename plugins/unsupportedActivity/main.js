@@ -89,6 +89,7 @@ define(templates, function(unsupportedActivityTpl) {
             $("#panel-center").html("");
             $("#panel-right").show();
         },
+
         unsupportedActivity: function(courseID, courseModuleID) {
             MM.panels.showLoading("center");
             var courseModule = MM.db.get("courseModules", courseModuleID);
@@ -101,6 +102,7 @@ define(templates, function(unsupportedActivityTpl) {
                 'click', MM.plugins.unsupportedActivity._showInPopup
             );
         },
+
         _showInPopup: function(e) {
             e.preventDefault();
             var link = $(e.target);

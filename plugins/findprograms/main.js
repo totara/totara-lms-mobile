@@ -207,7 +207,7 @@ define(requires, function(programsTpl) {
                 //       a 1D array of programs.
                 var title = MM.plugins.findprograms.settings.title;
                 if (MM.plugins.findprograms.showingCategoryId !== 0) {
-                    title += ' within ' + categories[
+                    title += ' ' + MM.lang.s("within") +' ' + categories[
                         MM.plugins.findprograms.showingCategoryId
                     ].categoryName;
                 }

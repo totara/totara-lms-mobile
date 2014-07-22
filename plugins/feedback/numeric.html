@@ -6,7 +6,7 @@
     <ul class="nav submenu items">
         <li class="item">
             <p><%= name %>(<%= MM.plugins.feedback.parseNumericPresentation(presentation) %>)</p>
-            <input type="text" value="<%= answer.value %>" placeholder="Enter a number" class="numeric-input question-answer" data-questionid="<%= id %>" data-required=<%= required %>/>
+            <input type="text" value="<%= answer.value %>" placeholder="<%= MM.lang.s("input-numeric-placeholder") %>" class="numeric-input question-answer" data-questionid="<%= id %>" data-required=<%= required %>/>
         </li>
     </ul>
 </li>

@@ -84,7 +84,6 @@ define(templates, function(labelTpl) {
 
         label: function(cmid) {
             MM.assignCurrentPlugin(MM.plugins.label);
-            console.log("LABEL");
             MM.panels.showLoading("center");
             var method= "mod_label_get_label_details";
             var data = { cmid: cmid };
@@ -95,7 +94,6 @@ define(templates, function(labelTpl) {
         },
 
         labelDetailsCallback: function(response) {
-            console.log("CALLBACK");
             var label = response;
             var template = MM.plugins.label.templates.label;
             var context = { label: label};
@@ -103,7 +101,6 @@ define(templates, function(labelTpl) {
             MM.panels.show("center", html);
             MM.util.setupBackButton();
         }
-
     }
 
     MM.registerPlugin(plugin);

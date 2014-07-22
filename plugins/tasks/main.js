@@ -90,7 +90,7 @@ define(templates, function(layoutTpl) {
             var method = "totara_message_get_tasks";
             var data = {
                 'userid': MM.site.get("userid"),
-                'options': [ 
+                'options': [
                     {'name': 'markseenonmobile', 'value': true},
                     {'name': 'limit', 'value': false},
                 ]

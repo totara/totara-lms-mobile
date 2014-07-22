@@ -59,7 +59,7 @@ require(templates, function(config, navTpl) {
             MM.util.setupAccordion($("#panel-left"));
 
             // Links, when clicked, need to close the navigation.
-            $('#default-navigation .is-link a.alink').on(MM.clickType, function(event){
+            $('#default-navigation .is-link a.alink').on(MM.clickType, function(event) {
                 event.preventDefault();
                 if (MM.touchMoving === true) {
                     return false;
@@ -123,7 +123,6 @@ require(templates, function(config, navTpl) {
             }
 
             $(".menu-home img").attr("src", "img/totara/icon/totara-green.png");
-
         },
 
         hide: function() {
@@ -135,7 +134,6 @@ require(templates, function(config, navTpl) {
             $("#panel-center").show();
 
             $(".menu-home img").attr("src", "img/totara/icon/totara-grey.png");
-
         }
     };
 

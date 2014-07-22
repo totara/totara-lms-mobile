@@ -55,7 +55,6 @@ define(requires, function (notifsTpl) {
                     }
                 };
             }
-
         },
 
         resize: function() {
@@ -188,7 +187,7 @@ define(requires, function (notifsTpl) {
                 pushNotification.setApplicationIconBadgeNumber(successHandler, event.badge);
             }
 
-            pushNotification.setApplicationIconBadgeNumber(function(){},0);
+            pushNotification.setApplicationIconBadgeNumber(function() {}, 0);
 
             // Store the notification in the app.
             MM.db.insert("notifications", {

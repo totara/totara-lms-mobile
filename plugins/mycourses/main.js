@@ -67,7 +67,7 @@ define(templates, function(myCoursesTpl, participantsTpl, participantTpl) {
                     'left':MM.plugins.mycourses.sizes.withoutSideBar.left
                 });
             }
-            
+
             if (MM.deviceType === "phone") {
                 $("#panel-center").css({
                     'width':'100%',

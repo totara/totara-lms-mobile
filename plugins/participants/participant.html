@@ -1,6 +1,6 @@
 <div class="panel-content participant">
     <div id="top">
-        <a href="#" title="Back" id="back"></a>
+        <a href="#" title="<%= MM.lang.s("back") %>" id="back"></a>
         <header class="header">
             <h2 class="name"><%= MM.util.formatText(user.fullname) %></h2>
         </header>
@@ -62,7 +62,7 @@
             <hr />
         </div>
         <div class="buttons">
-            
+
                 <div>
                     <a href="#" class="button" id="addnote" data-courseid="<%= courseid %>" data-userid="<%= user['id'] %>">
                         <%= MM.lang.s("addnote") %>
@@ -76,7 +76,7 @@
                         </a>
                     </div>
                 <% } %>
-           
+
         </div>
     </div>
 <div>

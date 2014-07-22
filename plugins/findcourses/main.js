@@ -248,7 +248,6 @@ define(requires, function(selfEnrolForm, coursesTpl) {
                     ].categoryName;
                 }
 
-
                 _.each(categories, function(category) {
                     category.courseCount = category.courses.length +
                         MM.plugins.findcourses._countSubCatCourses(categories, category);

@@ -1,6 +1,6 @@
 <div class="panel-content detail course" data-id="<%= course.id %>">
     <div id="top">
-    <a href="#" title="Back" id="back"></a>
+    <a href="#" title="<%= MM.lang.s("back") %>" id="back"></a>
     <header class="header">
         <h2 class="name"><%= course.attributes.fullname %></h2>
         <p class="completion header-sub-item"><%= MM.lang.s("completedxofy", "core", {x: course.num_modules_completed, y:course.num_modules}) %></p>

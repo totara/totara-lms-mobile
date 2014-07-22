@@ -90,7 +90,7 @@ define(templates, function(layoutTpl) {
             var method = "totara_my_get_bookings";
             var data = {
                 'userid': MM.site.get("userid"),
-                'options': [ 
+                'options': [
                     {'name': 'markseenonmobile', 'value': true},
                 ]
             }

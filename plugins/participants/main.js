@@ -144,7 +144,7 @@ define(templates,function (participantsTpl, participantTpl) {
                     function(data) {
                         if (data.length === 0) {
                             MM.plugins.participants._refreshCoursesFailure(
-                                "", "No courses returned from web service"
+                                "", MM.lang.s("participants-no-courses")
                             );
                         }
                         _.each(data, function(x){
@@ -162,7 +162,7 @@ define(templates,function (participantsTpl, participantTpl) {
         },
 
         _refreshCoursesFailure: function(xhr, statusText) {
-
+            MM.popErrorMessage(statusText);
         },
 
         addNote: function(e, courseId, userId) {
@@ -188,18 +188,25 @@ define(templates,function (participantsTpl, participantTpl) {
                 }
 
                 MM.widgets.dialogClose();
-                MM.moodleWSCall('moodle_notes_create_notes', data, function(r){
-                    MM.popMessage(MM.lang.s("noteadded"));
-                }, {sync: true,
-                    syncData: {
-                        name: addNote,
-                        description: $("#addnotetext").val().substr(0, 30)
+                MM.moodleWSCall(
+                    'moodle_notes_create_notes',
+                    data,
+                    function(r) {
+                        MM.popMessage(MM.lang.s("noteadded"));
+                    },
+                    {
+                        sync: true,
+                        syncData: {
+                            name: addNote,
+                            description: $("#addnotetext").val().substr(0, 30)
+                        }
                     }
-                    });
+                );
 
                 // Refresh the hash url for avoid navigation problems.
                 MM.Router.navigate("participant/" + courseId + "/" + userId);
             };
+
             options.buttons[MM.lang.s("cancel")] = function() {
                 MM.Router.navigate("participant/" + courseId + "/" + userId);
                 MM.widgets.dialogClose();
@@ -213,7 +220,7 @@ define(templates,function (participantsTpl, participantTpl) {
             }
 
             var html = '\
-            <textarea id="addnotetext" rows="'+rows+'" cols="'+cols+'"></textarea>\
+            <textarea id="addnotetext" rows="' + rows + '" cols="' + cols + '"></textarea>\
             ';
 
             MM.widgets.dialog(html, options);
@@ -239,14 +246,20 @@ define(templates,function (participantsTpl, participantTpl) {
                 }
 
                 MM.widgets.dialogClose();
-                MM.moodleWSCall('moodle_message_send_instantmessages', data, function(r){
-                    MM.popMessage(MM.lang.s("messagesent"));
-                }, {sync: true,
-                    syncData: {
-                        name: sendMessage,
-                        description: $("#sendmessagetext").val().substr(0, 30)
+                MM.moodleWSCall(
+                    'moodle_message_send_instantmessages',
+                    data,
+                    function(r) {
+                        MM.popMessage(MM.lang.s("messagesent"));
+                    },
+                    {
+                        sync: true,
+                        syncData: {
+                            name: sendMessage,
+                            description: $("#sendmessagetext").val().substr(0, 30)
+                        }
                     }
-                    });
+                );
 
                 // Refresh the hash url for avoid navigation problems.
                 MM.Router.navigate("participant/" + courseId + "/" + userId);
@@ -264,7 +277,7 @@ define(templates,function (participantsTpl, participantTpl) {
             }
 
             var html = '\
-            <textarea id="sendmessagetext" rows="'+rows+'" cols="'+cols+'"></textarea>\
+            <textarea id="sendmessagetext" rows="' + rows + '" cols="' + cols + '"></textarea>\
             ';
 
             MM.widgets.dialog(html, options);
@@ -296,7 +309,7 @@ define(templates,function (participantsTpl, participantTpl) {
                         function(data){
                             if (data.length === 0) {
                                 MM.plugins.participants._refreshCoursesFailure(
-                                    "", "No courses returned from web service"
+                                    "", MM.lang.s("participants-no-courses")
                                 );
                             }
                             _.each(data, function(x){
@@ -323,10 +336,10 @@ define(templates,function (participantsTpl, participantTpl) {
 
                     MM.db.insert("users", newUser);
                     MM.panels.show('center', html, {title: pageTitle});
-                    
+
                     $("#addnote").on(MM.clickType, MM.plugins.participants.addNote);
                     $("#sendmessage").on(MM.clickType, MM.plugins.participants.sendMessage);
-                    
+
                     MM.util.setupBackButton();
                 }
             });

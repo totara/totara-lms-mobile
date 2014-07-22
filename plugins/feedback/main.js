@@ -242,7 +242,7 @@ define(
 
         _getFeedbackQuestionsFailure: function() {
             $(document).find(".errors.hidden").html(
-                "Unable to retrieve feedback questions from the server."
+                MM.lang.s("feedback-questions-failure")
             );
             $(document).find(".errors.hidden").removeClass('hidden');
             $(".errors")[0].scrollIntoView();
@@ -292,7 +292,7 @@ define(
             });
             if (errors) {
                 $(document).find(".errors.hidden").html(
-                    "Errors were found. Please check your answers conform to the feedback requirements"
+                    MM.lang.s("feedback-submit-failure")
                 );
                 $(document).find(".errors.hidden").removeClass('hidden');
                 $(".errors")[0].scrollIntoView();
@@ -332,7 +332,7 @@ define(
 
             var value = MM.plugins.feedback.currentFeedback;
             if (value.page_after_submit === "") {
-                value.page_after_submit = "Please select continue to return to the course page";
+                value.page_after_submit = MM.lang.s("feedback-page-after-submit-message");
             }
 
             var html = MM.tpl.render(
@@ -380,18 +380,19 @@ define(
 
         parseTextFieldPresentation: function(presentation) {
             var parts = presentation.split("|");
-            return "Maximum length " + parts[1] + " characters";
+            return MM.lang.s("input-maximum-length") + " " + parts[1] + " " + MM.lang.s("characters");
         },
 
         parseNumericPresentation: function(presentation) {
             var parts = presentation.match(/([-]?\d+)?\|([-]?\d+)?/);
             var result = "";
             if (parts[1] !== undefined && parts[2] !== undefined) {
-                result = "from " + parts[1] + " to " + parts[2];
+                result = MM.lang.s("input-numeric-from") + " " + parts[1];
+                result += " " + MM.lang.s("input-numeric-to") +" " + parts[2];
             } else if (parts[1] !== undefined && parts[2] === undefined) {
-                result = "minimum " + parts[1];
+                result = MM.lang.s("input-numeric-minimum") + " " + parts[1];
             } else if (parts[1] === undefined && parts[2] !== undefined) {
-                result = "maximum " + parts[2];
+                result = MM.lang.s("input-numeric-maximum") + " " + parts[2];
             }
 
             return result;
