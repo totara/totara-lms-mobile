@@ -961,55 +961,6 @@ describe("MM", function() {
     });
 
     /**
-     * Tests _defaultErrorFunction
-     * @covers _defaultErrorFunction
-     */
-    describe("has a default error function", function() {
-        beforeEach(function(){
-            MM.lang = {
-                s:function(field){
-                    if (field == 'cannotconnect') {
-                        return "Cannot Connect";
-                    } else if (field == 'invalidscheme') {
-                        return "Invalid Scheme";
-                    } else {
-                        return "Invalid Field";
-                    }
-                }
-            };
-        });
-        it("when we have a 404 error", function() {
-            spyOn(MM.lang, 's').andCallThrough();
-            spyOn(MM, 'popErrorMessage').andReturn();
-
-            var xhr = {
-                status:404
-            };
-            MM._defaultErrorFunction(xhr);
-
-            expect(MM.lang.s).toHaveBeenCalledSequentiallyWith([
-                ['cannotconnect'],
-                ['invalidscheme']
-            ]);
-            expect(MM.lang.s.callCount).toEqual(2);
-            expect(MM.popErrorMessage).toHaveBeenCalledWith('Invalid Scheme');
-        });
-        it("when we have a different error", function() {
-            spyOn(MM.lang, 's').andCallThrough();
-            spyOn(MM, 'popErrorMessage').andReturn();
-
-            var xhr = {
-                status:123
-            };
-            MM._defaultErrorFunction(xhr);
-
-            expect(MM.lang.s).toHaveBeenCalledWith('cannotconnect');
-            expect(MM.lang.s.callCount).toEqual(1);
-            expect(MM.popErrorMessage).toHaveBeenCalledWith('Cannot Connect');
-        });
-    });
-
-    /**
      * Tests loadLayout
      * @covers loadLayout
      */
@@ -2750,14 +2701,9 @@ describe("MM", function() {
                 responseExpected:true
             };
 
-            var myErrorCallback = {
-                error:function() {}
-            };
-
             spyOn(MM, '_verifyPresets').andReturn(presets);
             spyOn(MM, '_getDataFromCache').andReturn(false);
             spyOn(MM, 'deviceConnected').andReturn(true);
-            spyOn(myErrorCallback, 'error').andReturn();
             spyOn($, 'ajax').andCallFake(function(options) {
                 var data = false;
                 options.success(data);
@@ -2768,8 +2714,9 @@ describe("MM", function() {
             var result = MM.moodleWSCall(null, {}, null, presets, false);
 
             expect(result).toBe(undefined);
-            expect(MM.showModalLoading).toHaveBeenCalledWith("loading");
-            expect(MM.popErrorMessage).toHaveBeenCalledWith("cannotconnect");
+            expect(MM._verifyPresets).toHaveBeenCalled();
+            expect(MM._getDataFromCache).toHaveBeenCalled();
+            expect(MM.deviceConnected).toHaveBeenCalled();
         });
 
         it("returns if the ajax request succeeds but returns no data with an error callback", function() {
