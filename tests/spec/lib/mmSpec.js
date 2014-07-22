@@ -2686,7 +2686,7 @@ describe("MM", function() {
             expect(myErrorCallback.error).toHaveBeenCalled();
         });
 
-        it("returns if the ajax request succeeds but returns no data with a popErrorMessage", function() {
+        it("returns if the ajax request succeeds but returns no data", function() {
             MM.config = {
                 current_site: {
                     id: 1
@@ -2709,7 +2709,6 @@ describe("MM", function() {
                 options.success(data);
             });
             spyOn(MM, 'showModalLoading').andReturn();
-            spyOn(MM, 'popErrorMessage').andReturn();
 
             var result = MM.moodleWSCall(null, {}, null, presets, false);
 
