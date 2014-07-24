@@ -244,6 +244,7 @@ button.plus
     height:1.5rem;
     text-align:center;
     line-height:1.5rem;
+    visibility: hidden;
 }
 
 .header-main #top-nav .nav-item .menu-items-new {

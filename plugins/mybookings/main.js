@@ -101,8 +101,8 @@ define(templates, function(layoutTpl) {
         },
 
         _getBookingsSuccess: function(data) {
-            $("#menu-items-new-mybookings").text(0);
-            $("#top-menu-items-new-mybookings").text(0);
+            $("#menu-items-new-mybookings").css('visibility', 'hidden');
+            $("#top-menu-items-new-mybookings").css('visibility', 'hidden');
             var bookings = [];
             _.each(data, function(booking) {
                 // Sorted index only returns where the value *would* go.

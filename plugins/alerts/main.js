@@ -102,8 +102,8 @@ define(templates, function(layoutTpl) {
         },
 
         _getAlertsSuccess: function(data) {
-            $("#menu-items-new-alerts").text(0);
-            $("#top-menu-items-new-alerts").text(0);
+            $("#menu-items-new-alerts").css('visibility', 'hidden');
+            $("#top-menu-items-new-alerts").css('visibility', 'hidden');
             var values = {
                 'alerts':data,
                 'title':MM.plugins.alerts.settings.title

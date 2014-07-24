@@ -111,8 +111,8 @@ define(templates, function(layoutTpl) {
                 task.fullmessage = task.fullmessage.replace(anchorRegex, anchorReplace);
             });
 
-            $("#menu-items-new-tasks").text(0);
-            $("#top-menu-items-new-tasks").text(0);
+            $("#menu-items-new-tasks").css('visibility', 'hidden');
+            $("#top-menu-items-new-tasks").css('visibility', 'hidden');
             var values = {
                 'tasks': tasks,
                 'title': MM.plugins.tasks.settings.title
