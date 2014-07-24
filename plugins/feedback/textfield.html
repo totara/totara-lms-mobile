@@ -1,11 +1,12 @@
 <li class="nav-item <% if (required) { %>required<% } %> textfield">
     <div class="toogler expand touch-row">
-        <h3 class="item-title"><%= name %></h3><%= MM.plugins.feedback.parseTextFieldPresentation(presentation) %>
+        <h3 class="item-title"><%= name %></h3>
         <a href="#" class="close toogler collapse touch-row" >
             <%= MM.lang.s("close") %>
         </a>
     </div>
     <ul class="nav submenu items">
+        <li class="item"><%= MM.plugins.feedback.parseTextFieldPresentation(presentation) %></li>
         <li class="item">
             <input type="text" value="<%= answer.value %>" placeholder="" class="question-answer" data-questionid="<%= id %>" data-required=<%= required %> />
         </li>
