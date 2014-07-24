@@ -44,16 +44,16 @@
                     <li><ul>
                         <% _.each(set.courses, function(course) { %>
                             <li>
-                                <% if (program.enrolled && course.enrolled) { %>
-                                    <% if (course.status > 10) { %>
-                                        <% if (course.status >=  50) { %>
-                                            <span class="completion-complete"></span>
-                                        <% } else { %>
-                                            <span class="completion-inprogress"></span>
-                                        <% } %>
+                                <% if (course.status > 10) { %>
+                                    <% if (course.status >=  50) { %>
+                                        <span class="completion-complete"></span>
                                     <% } else { %>
-                                        <span class="completion-notstarted"></span>
+                                        <span class="completion-inprogress"></span>
                                     <% } %>
+                                <% } else { %>
+                                    <span class="completion-notstarted"></span>
+                                <% } %>
+                                <% if (program.enrolled && course.enrolled) { %>
                                     <a class="sub-item-title item-course" href="#courses/<%= course.id %>"><%= course.fullname %></a>
                                 <% } else { %>
                                     <span class="sub-item-title item-course disabled"><%= course.fullname %></span>
