@@ -244,7 +244,7 @@
 "reload-scorm": "Reload SCORM",
 "scorm-not-appropriate": "This SCORM package has been set as not appropriate for your device.",
 "scorm-orientation": "This SCORM package might not be appropriate for your current device orientation",
-"scorm-rotate": "Please try rotating your device to landscape",
+"scorm-rotate": "This content may work best in landscape mode",
 "preview": "Preview",
 "normal": "Normal",
 "new-attempt": "Start a new attempt",
