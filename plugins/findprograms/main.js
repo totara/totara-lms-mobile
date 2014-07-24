@@ -139,7 +139,7 @@ define(requires, function(programsTpl) {
         _getPrograms: function() {
             MM.moodleWSCall(
                 'totara_program_get_programs',
-                {},
+                {userid: MM.site.get("userid")},
                 MM.plugins.findprograms._getProgramsSuccessful,
                 {},
                 MM.plugins.findprograms._getProgramsFailure
@@ -184,10 +184,6 @@ define(requires, function(programsTpl) {
                     category.categoryName = category.name;
                     _.each(programs, function(program, index) {
                         if (program.categoryid === category.id) {
-                            // TODO: Query db to set whether the program is in
-                            // progress or not.
-                            program.started = 0;
-                            program.completed = 0;
                             category.programs.push(program);
                         }
                     });

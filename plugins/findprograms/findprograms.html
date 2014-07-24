@@ -71,14 +71,10 @@
                                 <ul>
                                     <% _.each(data.programs, function(program) { %>
                                     <li>
-                                        <% // ToDo - Add check to see if user is enroled on program.  %>
                                         <a href="#programs/<%= program.id %>" class="sub-item-title">
                                             <%= program.fullname %>
                                         </a>
-                                        <% // Currently always 'not-started' as not getting the correct data. %>
-                                        <% if (program.started == 1) { %>
-                                        <span class="completion-inprogress"></span>
-                                        <% } else if (program.completed == 1) { %>
+                                        <% if (program.completed == 1) { %>
                                         <span class="completion-complete"></span>
                                         <% } else { %>
                                         <span class="completion-notstarted"></span>
