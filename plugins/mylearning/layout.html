@@ -17,10 +17,10 @@
             <ul class="nav submenu">
                 <% _.each(courses, function(course) { %>
                 <li class="nav-item">
-                    <% if (course.started == 1) { %>
-                    <span class="completion-inprogress"></span>
-                    <% } else if (course.completed == 1) { %>
+                    <% if (course.completed == 1) { %>
                     <span class="completion-complete"></span>
+                    <% } else if (course.started == 1) { %>
+                    <span class="completion-inprogress"></span>
                     <% } else { %>
                     <span class="completion-notstarted"></span>
                     <% } %>
