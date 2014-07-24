@@ -76,18 +76,18 @@
 "installationdir": "/mobile",
 "menu_items_indicators_update_interval": 30000,
 "menu_items_indicators_updatable": [
-    {"indicator": "menu-items-indicator-findcourses",   "wskey": "find_courses"},
-    {"indicator": "menu-items-indicator-findprograms",  "wskey": "find_programs"},
-    {"indicator": "menu-items-indicator-mylearning",    "wskey": "my_learning"},
-    {"indicator": "menu-items-indicator-mycourses",     "wskey": "my_courses"},
-    {"indicator": "menu-items-indicator-mybookings",    "wskey": "bookings"},
-    {"indicator": "menu-items-indicator-tasks",         "wskey": "tasks"},
-    {"indicator": "menu-items-indicator-alerts",        "wskey": "alerts"},
-    {"indicator": "menu-items-new-mybookings",          "wskey": "bookings_new"},
-    {"indicator": "menu-items-new-tasks",               "wskey": "tasks_new"},
-    {"indicator": "menu-items-new-alerts",              "wskey": "alerts_new"},
-    {"indicator": "top-menu-items-new-mybookings",      "wskey": "bookings_new"},
-    {"indicator": "top-menu-items-new-tasks",           "wskey": "tasks_new"},
-    {"indicator": "top-menu-items-new-alerts",          "wskey": "alerts_new"}
+    {"indicator": "menu-items-indicator-findcourses",   "wskey": "find_courses",    "hideWhenZero": false},
+    {"indicator": "menu-items-indicator-findprograms",  "wskey": "find_programs",   "hideWhenZero": false},
+    {"indicator": "menu-items-indicator-mylearning",    "wskey": "my_learning",     "hideWhenZero": false},
+    {"indicator": "menu-items-indicator-mycourses",     "wskey": "my_courses",      "hideWhenZero": false},
+    {"indicator": "menu-items-indicator-mybookings",    "wskey": "bookings",        "hideWhenZero": false},
+    {"indicator": "menu-items-indicator-tasks",         "wskey": "tasks",           "hideWhenZero": false},
+    {"indicator": "menu-items-indicator-alerts",        "wskey": "alerts",          "hideWhenZero": false},
+    {"indicator": "menu-items-new-mybookings",          "wskey": "bookings_new",    "hideWhenZero": false},
+    {"indicator": "menu-items-new-tasks",               "wskey": "tasks_new",       "hideWhenZero": false},
+    {"indicator": "menu-items-new-alerts",              "wskey": "alerts_new",      "hideWhenZero": false},
+    {"indicator": "top-menu-items-new-mybookings",      "wskey": "bookings_new",    "hideWhenZero": true},
+    {"indicator": "top-menu-items-new-tasks",           "wskey": "tasks_new",       "hideWhenZero": true},
+    {"indicator": "top-menu-items-new-alerts",          "wskey": "alerts_new",      "hideWhenZero": true}
 ]   
 }
