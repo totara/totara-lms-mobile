@@ -381,9 +381,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             information += '<p><a href="' + content.url + '" target="_blank">' + content.url + '</a></p>';
 
             MM.plugins.contents.infoBox = $(
-                '<div id="infobox-' + contentId + '">
-                    <div class="arrow-box-contents">' + information + '</div>
-                </div>'
+                '<div id="infobox-' + contentId + '"><div class="arrow-box-contents">' + information + '</div></div>'
             ).addClass("arrow_box");
             $('body').append(MM.plugins.contents.infoBox);
 
