@@ -177,6 +177,9 @@ define(templates, function(layoutTpl) {
                 MM.panels.show('center', html, {hideRight: true});
                 MM.util.setupAccordion($("#panel-center"));
                 MM.util.setupBackButton();
+                MM.plugins.mylearning.courses = undefined;
+                MM.plugins.mylearning.programs = undefined;
+                MM.plugins.mylearning.learning = undefined;
             }
         }
     }

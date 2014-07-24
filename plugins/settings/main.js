@@ -338,6 +338,7 @@ require(templates, function(deviceInfoTpl, showLog,
                     checked: false,
                     handler: MM.plugins.settings.checkboxHandler
                 },
+                /*
                 {
                     id: 'cache_expiration_time',
                     type: 'spinner',
@@ -360,6 +361,7 @@ require(templates, function(deviceInfoTpl, showLog,
                         }
                     }
                 }
+                */
             ];
 
             // Load default values
