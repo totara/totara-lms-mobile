@@ -63,12 +63,6 @@
         </div>
         <div class="buttons">
 
-                <div>
-                    <a href="#" class="button" id="addnote" data-courseid="<%= courseid %>" data-userid="<%= user['id'] %>">
-                        <%= MM.lang.s("addnote") %>
-                    </a>
-                </div>
-
                 <% if (user.id !== currentUserId) { %>
                     <div>
                         <a href="#" class="button" id="sendmessage" data-courseid="<%= courseid %>" data-userid="<%= user['id'] %>">
