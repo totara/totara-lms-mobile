@@ -2869,7 +2869,7 @@ describe("MM", function() {
 
             expect(result).toBe(undefined);
             expect(MM.showModalLoading).toHaveBeenCalledWith("loading");
-            expect(MM.popErrorMessage).toHaveBeenCalledWith("Error. some other error");
+            expect(MM.popErrorMessage).toHaveBeenCalledWith("error: some other error");
         });
 
         it("returns if data.exception is not undefined with an error callback", function() {
@@ -2909,7 +2909,7 @@ describe("MM", function() {
 
             expect(result).toBe(undefined);
             expect(MM.showModalLoading).toHaveBeenCalledWith("loading");
-            expect(myErrorCallback.error).toHaveBeenCalledWith('Error. some other error');
+            expect(myErrorCallback.error).toHaveBeenCalledWith('error: some other error');
         });
 
         it("returns if data.debuginfo is not undefined with popErrorMessage", function() {
@@ -2950,7 +2950,7 @@ describe("MM", function() {
             expect(result).toBe(undefined);
             expect(MM.closeModalLoading).toHaveBeenCalled();
             expect(MM.showModalLoading).toHaveBeenCalledWith("loading");
-            expect(MM.popErrorMessage).toHaveBeenCalledWith("Error. Hello World");
+            expect(MM.popErrorMessage).toHaveBeenCalledWith("error: Hello World");
         });
 
         it("returns if data.debuginfo is not undefined with an error callback", function() {
@@ -2989,7 +2989,7 @@ describe("MM", function() {
 
             expect(result).toBe(undefined);
             expect(MM.showModalLoading).toHaveBeenCalledWith("loading");
-            expect(myErrorCallback.error).toHaveBeenCalledWith('Error. Hello World');
+            expect(myErrorCallback.error).toHaveBeenCalledWith('error: Hello World');
         });
 
         it("calls our success callback otherwise", function() {
