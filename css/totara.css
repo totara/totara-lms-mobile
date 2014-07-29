@@ -1,3 +1,12 @@
+
+.my-bookings section {
+    margin: 0 20px;
+}
+
+.my-bookings ul {
+    list-style-type:none;
+}
+
 .task-link {
     text-decoration: underline;
 }
