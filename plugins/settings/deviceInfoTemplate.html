@@ -5,7 +5,11 @@
         <% }); %>
     <% } else { %>
         <% if (typeof(value) == "boolean") { %>
-            <%= key %>: <%= value ? "<%= MM.lang.s('yes') %>" : "<%= MM.lang.s('no') %>" %>
+            <% if (value) { %>
+                <%= key %>: <%= MM.lang.s('yes') %>
+            <% } else { %>
+                <%= key %>: <%= MM.lang.s('no') %>
+            <% } %>
         <% } else { %>
             <%= key %>: <%= value %>
         <% } %>
