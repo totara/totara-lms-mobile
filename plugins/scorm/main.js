@@ -179,6 +179,7 @@ define(templates, function(scormTpl, scormLaunchTpl) {
             $(document).find("#loadinpopup").on(
                 'click', MM.plugins.scorm._loadInPopup
             );
+            MM.plugins.scorm._updateIframeLoadingMessage();
         },
 
         _loadInPopup: function(ev) {
@@ -187,6 +188,16 @@ define(templates, function(scormTpl, scormLaunchTpl) {
             window.open(src);
 
             return false;
+        },
+
+        _updateIframeLoadingMessage: function() {
+            var iframe = document.getElementById("scorm-container");
+            var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+            if (iframeDoc.readyState == "complete") {
+                $("#scorm-iframe-loading").hide();
+            } else {
+                setTimeout(MM.plugins.scorm._updateIframeLoadingMessage, 100);
+            }
         },
 
         errorCallback: function(error) {
