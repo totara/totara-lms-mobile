@@ -72,7 +72,7 @@
                                     <ul>
                                         <% _.each(data.courses, function(course) { %>
                                         <li>
-                                            <% if (course.started == 1 || course.completed == 1) { %>
+                                            <% if (course.enrolled) { %>
                                                 <a href="#courses/<%= course.id %>" class="sub-item-title item-course">
                                             <% } else { %>
                                                 <% if (course.self_enrol_enabled) { %>

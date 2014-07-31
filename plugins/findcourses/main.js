@@ -105,6 +105,14 @@ define(requires, function(selfEnrolForm, coursesTpl) {
         },
 
         main: function(subCatId) {
+            // Clear the "cache", we should grab everything on each page load,
+            // otherwise we'd be working with out-of-date data.
+            MM.plugins.findcourses.categories = undefined;
+            MM.plugins.findcourses.courses = undefined;
+            MM.plugins.findcourses.completions = undefined;
+            MM.db.reset('categories');
+            MM.db.reset('courses');
+
             if (subCatId === undefined) {
                 subCatId = 0;
             }
@@ -218,10 +226,14 @@ define(requires, function(selfEnrolForm, coursesTpl) {
                     _.each(courses, function(course, index) {
                         if (course.category === category.id) {
                             // Course completion status.
+                            course.started = false;
+                            course.completed = false;
+                            course.enrolled = false;
                             _.each(MM.plugins.findcourses.completions, function(completion) {
                                 if (completion.id == course.id) {
                                     course.started = completion.started;
                                     course.completed = completion.completed;
+                                    course.enrolled = true;
                                 }
                             });
                             category.courses.push(course);
@@ -252,7 +264,6 @@ define(requires, function(selfEnrolForm, coursesTpl) {
                     category.courseCount = category.courses.length +
                         MM.plugins.findcourses._countSubCatCourses(categories, category);
                 });
-
                 var values = {
                     'title': title,
                     'categories': categories,
