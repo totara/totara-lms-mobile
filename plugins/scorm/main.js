@@ -80,14 +80,19 @@ define(templates, function(scormTpl, scormLaunchTpl) {
         },
 
         cleanUp: function() {
+            MM.plugins.scorm.removeListeners();
             $("#panel-center").html("");
             $("#panel-right").show();
+        },
+
+        removeListeners: function() {
+            $(document).off('orientationchange');
         },
 
         currentScorm:undefined,
 
         scorm: function(cmid) {
-            MM.assignCurrentPlugin(MM.plugins.label);
+            MM.assignCurrentPlugin(MM.plugins.scorm);
             MM.Router.navigate("scorm/" + cmid);
             MM.panels.showLoading("center");
             var method = "mod_scorm_get_attempt_status";
@@ -120,6 +125,9 @@ define(templates, function(scormTpl, scormLaunchTpl) {
             $(document).find("#cancel").on(
                 'click', MM.plugins.scorm.cancelClicked
             );
+            $(document).on('orientationchange', function(ev, orientation) {
+                location.reload();
+            });
         },
 
         scormFormSubmitHandler: function(form) {
@@ -157,7 +165,8 @@ define(templates, function(scormTpl, scormLaunchTpl) {
          * @param string newAttempt 'new-attemp' or blank string.
          */
         scormLaunch: function(cmid, mode, newAttempt) {
-            MM.assignCurrentPlugin(MM.plugins.label);
+            MM.plugins.scorm.removeListeners();
+            MM.assignCurrentPlugin(MM.plugins.scorm);
             MM.panels.showLoading("center");
             MM.requireMainSiteLogin(function() {
                 MM.plugins.scorm._launch(cmid, mode, newAttempt);
