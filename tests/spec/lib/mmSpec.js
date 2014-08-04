@@ -825,15 +825,9 @@ describe("MM", function() {
 
         spyOn(MM, 'log').andReturn();
         spyOn(MM.util, 'setPanelsScreenHeight').andReturn();
-        MM.touchMoving = false;
         MM.setUpOverflowScrolling();
         expect(MM.log).toHaveBeenCalledWith('Overflow supported');
         expect(MM.util.setPanelsScreenHeight).toHaveBeenCalled();
-        $("#panel-center").trigger('touchmove');
-        expect(MM.touchMoving).toBe(true);
-        $("#panel-center").trigger('touchend');
-        expect(MM.touchMoving).toBe(false);
-
         $("#testElements").remove();
     });
 
@@ -1887,7 +1881,7 @@ describe("MM", function() {
             };
             spyOn(MM.widgets, 'dialog').andReturn();
             MM.popMessage("Some text");
-            expect(MM.widgets.dialog).toHaveBeenCalledWith('Some text', {autoclose:4000});
+            expect(MM.widgets.dialog).toHaveBeenCalledWith('Some text', {});
         });
     });
 

@@ -61,21 +61,19 @@ require(templates, function(config, navTpl) {
             // Links, when clicked, need to close the navigation.
             $('#default-navigation .is-link a.alink').on(MM.clickType, function(event) {
                 event.preventDefault();
-                if (MM.touchMoving === true) {
-                    return false;
-                }
+                if (!MM.touchMoving) {
+                    // Hide the side menu
+                    MM.navigation.toggle();
+                    var link = $(event.target).closest('a').attr('href');
+                    var newUrl = document.location.href;
 
-                // Hide the side menu
-                MM.navigation.toggle();
-                var link = $(event.target).closest('a').attr('href');
-                var newUrl = document.location.href;
-
-                // If we have an anchor link then replace the one that exists currently, if one does exist
-                // else go directly to the link
-                if (link.indexOf('#') !== -1) {
-                    document.location.href = newUrl.indexOf('#') === -1 ? newUrl + link : newUrl.replace(/#.*$/, link);
-                } else {
-                    document.location.href = link;
+                    // If we have an anchor link then replace the one that exists currently, if one does exist
+                    // else go directly to the link
+                    if (link.indexOf('#') !== -1) {
+                        document.location.href = newUrl.indexOf('#') === -1 ? newUrl + link : newUrl.replace(/#.*$/, link);
+                    } else {
+                        document.location.href = link;
+                    }
                 }
             });
 
