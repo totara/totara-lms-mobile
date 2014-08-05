@@ -120,11 +120,18 @@ define(
         currentFeedback:undefined,
 
         _getFeedbackQuestionsSuccess: function(data) {
-            var feedback = data.feedback;
+            var feedback = data.feedback[0];
             var questions = data.questions;
             var answers = data.answers;
-            MM.plugins.feedback.currentFeedback = feedback[0];
+            MM.plugins.feedback.currentFeedback = feedback;
             var html = "";
+
+            // Clear old data before saving new version
+            MM.db.remove('feedbacks', feedback.id);
+            var oldQuestions = MM.db.where('questions', {'feedback': feedback.id});
+            _.each(oldQuestions, function(oldQuestion) {
+                MM.db.remove('questions', oldQuestion.id);
+            });
 
             // Save the feedback
             MM.db.insert('feedbacks', feedback);
@@ -147,7 +154,7 @@ define(
                 MM.db.insert('questions', question);
             });
 
-            MM.plugins.feedback._displayFeedback(feedback[0]);
+            MM.plugins.feedback._displayFeedback(feedback);
         },
 
         _displayFeedback: function(feedback) {
