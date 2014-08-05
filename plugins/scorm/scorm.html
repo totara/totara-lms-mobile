@@ -48,12 +48,12 @@
                 </button>
                 <% } else{ %>
                 <% if(scorm.compat_tablet === 0 && MM.deviceOrientation == 'portrait') { %>
+                <br />
                 <article>
                     <p>
-                    <span class="fa-stack fa-lg">
-                        <i class="fa fa-retweet fa-stack-1x"></i>
-                    </span>
-                    <%= MM.lang.s('scorm-orientation') %><br /><%= MM.lang.s('scorm-rotate') %></p>
+                        <span class="fa-stack fa-lg"><i class="fa fa-retweet fa-stack-1x"></i></span>
+                        <span><%= MM.lang.s('scorm-orientation') %>&nbsp;<%= MM.lang.s('scorm-rotate') %></span>
+                    </p>
                 </article>
                 <% } else{ %>
                 <form id="scorm-form">

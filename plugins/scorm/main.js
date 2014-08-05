@@ -86,7 +86,7 @@ define(templates, function(scormTpl, scormLaunchTpl) {
         },
 
         removeListeners: function() {
-            $(document).off('orientationchange');
+            $(document).off('orientation_change');
         },
 
         currentScorm:undefined,
@@ -125,7 +125,7 @@ define(templates, function(scormTpl, scormLaunchTpl) {
             $(document).find("#cancel").on(
                 'click', MM.plugins.scorm.cancelClicked
             );
-            $(document).on('orientationchange', function(ev, orientation) {
+            $(document).on('orientation_change', function() {
                 location.reload();
             });
         },
