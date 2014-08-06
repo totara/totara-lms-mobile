@@ -100,12 +100,16 @@ define(templates, function(programTpl) {
         },
 
         programCallback: function(response) {
-            var prog = response;
+            var prog = response
+            console.log("%c---", "background: #bada55");
+            console.log(prog);
             var prevIsComplete = true;
-            _.each(prog.sets, function(set) {
+            _.each(prog.sets, function(set, i) {
                 set.prevcomplete = prevIsComplete;
                 prevIsComplete = set.iscomplete;
             });
+            console.log("%c---", "background: #a55bad");
+            console.log(prog);
             MM.plugins.program.programData = prog;
             var method = "moodle_enrol_get_users_courses";
             var data = { userid: MM.site.get("userid") };

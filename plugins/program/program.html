@@ -53,7 +53,7 @@
                                 <% } else { %>
                                     <span class="completion-notstarted"></span>
                                 <% } %>
-                                <% if (program.enrolled && course.enrolled) { %>
+                                <% if (set.prevcomplete) { %>
                                     <a class="sub-item-title item-course" href="#courses/<%= course.id %>"><%= course.fullname %></a>
                                 <% } else { %>
                                     <span class="sub-item-title item-course disabled"><%= course.fullname %></span>
