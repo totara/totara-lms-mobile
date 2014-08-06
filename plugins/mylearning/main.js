@@ -94,6 +94,7 @@ define(templates, function(layoutTpl) {
         learning:undefined,
 
         _getCourses: function() {
+            MM.db.reset('courses');
             var method = "totara_program_get_users_courses";
             var data = { userid: MM.site.get("userid") };
             var callback = MM.plugins.mylearning._getCoursesSuccess;
@@ -103,6 +104,9 @@ define(templates, function(layoutTpl) {
         },
 
         _getCoursesSuccess: function(data) {
+            _.each(data, function(course) {
+                MM.db.insert('courses', course);
+            });
             MM.plugins.mylearning.courses = data;
             $(document).trigger('section_loaded');
         },
