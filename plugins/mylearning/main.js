@@ -7,7 +7,6 @@ define(templates, function(layoutTpl) {
         settings: {
             name: "mylearning",
             type: "general",
-            title: "My Learning",
             icon: "img/totara/icon/my-learning.png",
             lang: {
                 component: "core"
@@ -168,8 +167,7 @@ define(templates, function(layoutTpl) {
                 var values = {
                     'courses':MM.plugins.mylearning.courses,
                     'programs':MM.plugins.mylearning.programs,
-                    'learning':MM.plugins.mylearning.learning,
-                    title:MM.plugins.mylearning.settings.title
+                    'learning':MM.plugins.mylearning.learning
                 };
                 var html = MM.tpl.render(
                     MM.plugins.mylearning.templates.layout, values, {}

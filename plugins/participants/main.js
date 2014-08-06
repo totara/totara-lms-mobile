@@ -9,7 +9,6 @@ define(templates,function (participantsTpl, participantTpl) {
             name: "participants",
             type: "course",
             menuURL: "#participants/",
-            title: "Participants",
             lang: {
                 component: "core"
             },
@@ -107,8 +106,7 @@ define(templates,function (participantsTpl, participantTpl) {
                 var tpl = {
                     users: users,
                     deviceType: MM.deviceType,
-                    courseId: courseId,
-                    title: MM.plugins.participants.settings.title
+                    courseId: courseId
                 };
                 var html = MM.tpl.render(
                     MM.plugins.participants.templates.participants.html, tpl

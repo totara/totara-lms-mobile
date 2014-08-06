@@ -6,7 +6,6 @@ define(requires, function(programsTpl) {
         settings: {
             name: "findprograms",
             type: "general",
-            title: "Find programs",
             icon: "img/totara/icon/find-programs.png",
             lang: {
                 component: "core"
@@ -201,7 +200,7 @@ define(requires, function(programsTpl) {
                 // NOTE: At this point we have an object of categories (indexed by
                 //       category id) that contain a 1D array of subcategories and
                 //       a 1D array of programs.
-                var title = MM.plugins.findprograms.settings.title;
+                var title = MM.lang.pluginName('findprograms');
                 if (MM.plugins.findprograms.showingCategoryId !== 0) {
                     title += ' ' + MM.lang.s("within") +' ' + categories[
                         MM.plugins.findprograms.showingCategoryId

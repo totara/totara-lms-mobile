@@ -7,7 +7,6 @@ define(templates, function(layoutTpl) {
         settings: {
             name: "mybookings",
             type: "general",
-            title: "My Bookings",
             icon: "img/totara/icon/my-bookings.png",
             alticon: "img/totara/icon/my-bookings-grey.png",
             lang: {
@@ -113,8 +112,7 @@ define(templates, function(layoutTpl) {
             });
 
             var values = {
-                'bookings':bookings,
-                'title': MM.plugins.mybookings.settings.title
+                'bookings':bookings
             };
 
             var html = MM.tpl.render(

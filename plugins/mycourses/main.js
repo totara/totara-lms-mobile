@@ -5,7 +5,6 @@ define(templates, function(myCoursesTpl, participantsTpl, participantTpl) {
     var plugin = {
         settings: {
             name: "mycourses",
-            title: "My Courses",
             type: "general",
             icon: "img/totara/icon/my-courses.png",
             lang: {
@@ -99,7 +98,7 @@ define(templates, function(myCoursesTpl, participantsTpl, participantTpl) {
             MM.assignCurrentPlugin(MM.plugins.mycourses);
             var courses = response;
             var template = MM.plugins.mycourses.templates.myCourses;
-            var context = { courses: courses, title: MM.plugins.mycourses.settings.title };
+            var context = { courses: courses };
             var html = MM.tpl.render(template.html, context);
             MM.panels.show("center", html);
             MM.util.setupAccordion($("#panel-center"));

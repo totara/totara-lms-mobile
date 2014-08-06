@@ -7,7 +7,6 @@ define(templates, function(layoutTpl) {
         settings: {
             name: "alerts",
             type: "general",
-            title: "Alerts",
             icon: "img/totara/icon/alerts.png",
             alticon: "img/totara/icon/alerts-grey.png",
             lang: {
@@ -105,8 +104,7 @@ define(templates, function(layoutTpl) {
             $("#menu-items-new-alerts").css('visibility', 'hidden');
             $("#top-menu-items-new-alerts").css('visibility', 'hidden');
             var values = {
-                'alerts':data,
-                'title':MM.plugins.alerts.settings.title
+                'alerts':data
             };
             var html = MM.tpl.render(
                 MM.plugins.alerts.templates.layout, values, {}

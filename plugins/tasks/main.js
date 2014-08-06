@@ -7,7 +7,6 @@ define(templates, function(layoutTpl) {
         settings: {
             name: "tasks",
             type: "general",
-            title: "Tasks",
             icon: "img/totara/icon/tasks.png",
             alticon: "img/totara/icon/tasks-grey.png",
             lang: {
@@ -114,8 +113,7 @@ define(templates, function(layoutTpl) {
             $("#menu-items-new-tasks").css('visibility', 'hidden');
             $("#top-menu-items-new-tasks").css('visibility', 'hidden');
             var values = {
-                'tasks': tasks,
-                'title': MM.plugins.tasks.settings.title
+                'tasks': tasks
             };
             var html = MM.tpl.render(
                 MM.plugins.tasks.templates.layout, values, {}

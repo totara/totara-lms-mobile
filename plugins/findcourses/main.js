@@ -7,7 +7,6 @@ define(requires, function(selfEnrolForm, coursesTpl) {
         settings: {
             name: "findcourses",
             type: "general",
-            title: "Find Courses",
             icon: "img/totara/icon/find-courses.png",
             lang: {
                 component: "core"
@@ -253,7 +252,7 @@ define(requires, function(selfEnrolForm, coursesTpl) {
                 // NOTE: At this point we have an object of categories (indexed by
                 //       category id) that contain a 1D array of subcategories and
                 //       a 1D array of courses.
-                var title = MM.plugins.findcourses.settings.title;
+                var title = MM.lang.pluginName('mycourses');
                 if (MM.plugins.findcourses.showingCategoryId !== 0) {
                     title += ' within ' + categories[
                         MM.plugins.findcourses.showingCategoryId

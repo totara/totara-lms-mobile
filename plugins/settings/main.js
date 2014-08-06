@@ -19,7 +19,6 @@ require(templates, function(deviceInfoTpl, showLog,
             name: "settings",
             type: "general-settings",
             menuURL: "#settings",
-            title: "Settings",
             lang: {
                 component: "core"
             },
@@ -207,7 +206,7 @@ require(templates, function(deviceInfoTpl, showLog,
             var pageTitle = MM.lang.s("settings");
             var html = MM.tpl.render(
                 MM.plugins.settings.templates.main,
-                {plugins: plugins, title: MM.plugins.settings.settings.title}
+                {plugins: plugins}
             );
             MM.panels.show('center', html, {title: pageTitle});
             MM.util.setupBackButton();
