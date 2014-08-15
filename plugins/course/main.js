@@ -19,6 +19,7 @@ define(templates, function(courseTpl) {
         },
 
         routes: [,
+            ["programs/:programID/courses/:courseID", "programcourse", "programcourse"],
             ["courses/:courseID", "course", "course"]
         ],
 
@@ -90,8 +91,17 @@ define(templates, function(courseTpl) {
             $("#panel-right").show();
         },
 
+        programcourse: function(programID, courseID) {
+            MM.Router.navigate("programs/" + programID + "/courses/" + courseID);
+            MM.plugins.course.courseInner(courseID, programID);
+        },
+
         course: function(courseID) {
             MM.Router.navigate("courses/" + courseID);
+            MM.plugins.course.courseInner(courseID);
+        },
+
+        courseInner: function(courseID, programID) {
             MM.assignCurrentPlugin(MM.plugins.course);
             MM.panels.showLoading("center");
             MM.plugins.course.currentCourseInfo = MM.db.get("courses", courseID);
@@ -104,6 +114,12 @@ define(templates, function(courseTpl) {
                     {name: 'uncached', value: 'true'}
                 ]
             };
+            if (programID) {
+                data['options'].push({
+                    name: 'programid',
+                    value: programID
+                });
+            }
             var callback = MM.plugins.course.courseContentsCallback;
             var presets = { omitExpires: true, cache: false };
             var errorCallback = MM.plugins.course.errorCallback;
@@ -144,7 +160,8 @@ define(templates, function(courseTpl) {
             var data = {
                 cmid: cmid,
                 userid: MM.site.get("userid"),
-                completed: completed
+                completed: completed,
+                createcoursecomp: 1
             };
             var callback = function() {};
             var presets = { omitExpires: true, cache: false };
