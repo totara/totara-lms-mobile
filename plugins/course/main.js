@@ -29,6 +29,8 @@ define(templates, function(courseTpl) {
         },
 
         currentCourseInfo: null,
+        currentCourseID: null,
+        currentProgramID: null,
 
         sizes: undefined,
 
@@ -102,22 +104,44 @@ define(templates, function(courseTpl) {
         },
 
         courseInner: function(courseID, programID) {
+            MM.plugins.course.currentCourseID = courseID;
+            MM.plugins.course.currentProgramID = programID;
             MM.assignCurrentPlugin(MM.plugins.course);
             MM.panels.showLoading("center");
-            MM.plugins.course.currentCourseInfo = MM.db.get("courses", courseID);
+            MM.plugins.course.currentCourseInfo = MM.db.get("courses", MM.plugins.course.currentCourseID);
+            if (MM.plugins.course.currentCourseInfo) {
+                MM.plugins.course.courseCallback();
+            } else {
+                MM.moodleWSCall(
+                    'core_list_courses',
+                    {'options': {'ids': [MM.plugins.course.currentCourseID]}},
+                    MM.plugins.course.courseCallback,
+                    {'cache':false},
+                    MM.plugins.course.errorCallback
+                );
+            }
+        },
+
+        courseCallback: function(response) {
+            if (typeof(response) !== 'undefined') {
+                _.each(response, function(course) {
+                    MM.db.insert('courses', course);
+                });
+                MM.plugins.course.currentCourseInfo = MM.db.get("courses", MM.plugins.course.currentCourseID);
+            }
             var method= "core_course_get_contents";
             var data = {
-                courseid: courseID,
+                courseid: MM.plugins.course.currentCourseID,
                 options: [
                     {name: 'userid', value: MM.site.get("userid")},
                     {name: 'forcedescription', value: 'true'},
                     {name: 'uncached', value: 'true'}
                 ]
             };
-            if (programID) {
+            if (MM.plugins.course.currentProgramID) {
                 data['options'].push({
                     name: 'programid',
-                    value: programID
+                    value: MM.plugins.course.currentProgramID
                 });
             }
             var callback = MM.plugins.course.courseContentsCallback;
