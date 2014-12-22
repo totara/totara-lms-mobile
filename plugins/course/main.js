@@ -113,7 +113,7 @@ define(templates, function(courseTpl) {
                 MM.plugins.course.courseCallback();
             } else {
                 MM.moodleWSCall(
-                    'core_list_courses',
+                    'tm_core_list_courses',
                     {'options': {'ids': [MM.plugins.course.currentCourseID]}},
                     MM.plugins.course.courseCallback,
                     {'cache':false},
@@ -133,17 +133,10 @@ define(templates, function(courseTpl) {
             var data = {
                 courseid: MM.plugins.course.currentCourseID,
                 options: [
-                    {name: 'userid', value: MM.site.get("userid")},
                     {name: 'forcedescription', value: 'true'},
                     {name: 'uncached', value: 'true'}
                 ]
             };
-            if (MM.plugins.course.currentProgramID) {
-                data['options'].push({
-                    name: 'programid',
-                    value: MM.plugins.course.currentProgramID
-                });
-            }
             var callback = MM.plugins.course.courseContentsCallback;
             var presets = { omitExpires: true, cache: false };
             var errorCallback = MM.plugins.course.errorCallback;
@@ -180,10 +173,9 @@ define(templates, function(courseTpl) {
             ev.preventDefault();
             var cmid = $(this).attr("data-cmid");
             var completed = $(this).is(":checked") ? 1 : 0;
-            var method = "core_course_set_activity_completion";
+            var method = "tm_core_course_set_activity_completion";
             var data = {
                 cmid: cmid,
-                userid: MM.site.get("userid"),
                 completed: completed,
                 createcoursecomp: 1
             };

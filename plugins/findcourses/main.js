@@ -174,7 +174,7 @@ define(requires, function(selfEnrolForm, coursesTpl) {
 
         _getCourses: function() {
             MM.moodleWSCall(
-                'core_list_courses',
+                'tm_core_list_courses',
                 {},
                 MM.plugins.findcourses._getCoursesSuccessful,
                 {'cache':false},

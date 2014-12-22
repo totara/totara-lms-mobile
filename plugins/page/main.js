@@ -101,10 +101,9 @@ define(templates, function(pageTpl) {
             MM.panels.show("center", html);
             MM.util.setupBackButton();
             if (page.complete_on_view) {
-                var method = "core_course_set_activity_completion";
+                var method = "tm_core_course_set_activity_completion";
                 var data = {
                     cmid: page.cmid,
-                    userid: MM.site.get("userid"),
                     completed: 1
                 };
                 var callback = function() {};
