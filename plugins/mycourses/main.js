@@ -86,8 +86,8 @@ define(templates, function(myCoursesTpl, participantsTpl, participantTpl) {
             MM.Router.navigate("my-courses");
             MM.assignCurrentPlugin(MM.plugins.mycourses);
             MM.panels.showLoading("center");
-            var method = "core_enrol_get_users_course_completions";
-            var data = { userid: MM.site.get("userid") };
+            var method = "tm_core_enrol_get_users_course_completions";
+            var data = {};
             var callback = MM.plugins.mycourses.myCoursesCallback;
             var preSets = { omitExpires: true, cache: false };
             var errorCallBack = MM.plugins.mycourses.errorCallback;

@@ -131,8 +131,8 @@ define(requires, function(selfEnrolForm, coursesTpl) {
         },
 
         _getCourseCompletions: function() {
-            var method = 'core_enrol_get_users_course_completions';
-            var data = {userid: MM.site.get("userid")};
+            var method = 'tm_core_enrol_get_users_course_completions';
+            var data = {};
             var successCallback = MM.plugins.findcourses._getCourseCompletionsSuccess;
             var errorCallback = MM.plugins.findcourses._getCourseCompletionsFailure;
             var preSets = {'cache':false};
@@ -318,7 +318,7 @@ define(requires, function(selfEnrolForm, coursesTpl) {
                 var enrolmentKey = $(document).find(
                     '.selfenrolmentform input#enrolmentkey'
                 ).val();
-                var method = 'enrol_self_enrol';
+                var method = 'tm_enrol_self_enrol';
                 var data = {
                     courseid:MM.plugins.findcourses.lastEnrolledCourse,
                     enrolmentkey:enrolmentKey
