@@ -50,7 +50,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             };
             data.courseid = courseId;
 
-            MM.moodleWSCall('core_course_get_contents', data, function(contents) {
+            MM.moodleWSCall('tm_core_course_get_contents', data, function(contents) {
                 // Removing loading icon.
                 $('a[href="#course/contents/' +courseId+ '"]').removeClass('loading-row');
                 var course = MM.db.get("courses", MM.config.current_site.id + "-" + courseId);
@@ -89,7 +89,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             };
             data.courseid = courseId;
 
-            MM.moodleWSCall('core_course_get_contents', data, function(contents) {
+            MM.moodleWSCall('tm_core_course_get_contents', data, function(contents) {
                 var course = MM.db.get("courses", MM.config.current_site.id + "-" + courseId);
                 var courseName = course.get("fullname");
 
@@ -277,7 +277,7 @@ define(templates,function (sectionsTpl, contentsTpl, folderTpl, mimeTypes) {
             // Now, we found the section of the content, sectionId may be -1 if
             // we are watching all the contents so it's not a valid clue.
             // Notice that we will retrieve the info from cache.
-            MM.moodleWSCall('core_course_get_contents', data, function(sections) {
+            MM.moodleWSCall('tm_core_course_get_contents', data, function(sections) {
                 $.each(sections, function(index, section) {
                     $.each(section.modules, function(index2, module) {
                         if (module.id == contentId) {

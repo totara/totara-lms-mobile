@@ -129,7 +129,7 @@ define(templates, function(courseTpl) {
                 });
                 MM.plugins.course.currentCourseInfo = MM.db.get("courses", MM.plugins.course.currentCourseID);
             }
-            var method= "core_course_get_contents";
+            var method= "tm_core_course_get_contents";
             var data = {
                 courseid: MM.plugins.course.currentCourseID,
                 options: [

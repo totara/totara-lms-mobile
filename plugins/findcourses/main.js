@@ -153,7 +153,7 @@ define(requires, function(selfEnrolForm, coursesTpl) {
             MM.assignCurrentPlugin(MM.plugins.findcourses);
             MM.moodleWSCall(
                 'core_course_get_categories',
-                {ignoremaxcategorydepth: 1},
+                {},
                 MM.plugins.findcourses._getCategoriesSuccessful,
                 {'cache':false},
                 MM.plugins.findcourses._getCategoriesFailure

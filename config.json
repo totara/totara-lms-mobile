@@ -35,7 +35,7 @@
     "totara_navigation",
     "download"
 ],
-"wsservice" : "moodle_mobile_app",
+"wsservice" : "totara_mobile_app",
 "presets" : {"url": "", "username": ""},
 "sync_ws_on" : true,
 "sync_lang_on" : true,
