@@ -85,7 +85,7 @@ define(templates, function(pageTpl) {
         page: function(cmid) {
             MM.assignCurrentPlugin(MM.plugins.page);
             MM.panels.showLoading("center");
-            var method= "mod_page_get_page_details";
+            var method= "tm_mod_page_get_page_details";
             var data = { cmid: cmid };
             var callback = MM.plugins.page.pageDetailsCallback;
             var presets = { omitExpires: true, cache: false };
