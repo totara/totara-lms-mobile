@@ -85,7 +85,7 @@ define(templates, function(urlTpl) {
         url: function(cmid) {
             MM.assignCurrentPlugin(MM.plugins.url);
             MM.panels.showLoading("center");
-            var method= "mod_url_get_url_details";
+            var method= "tm_mod_url_get_url_details";
             var data = { cmid: cmid };
             var callback = MM.plugins.url.urlDetailsCallback;
             var presets = { omitExpires: true, cache: false };
