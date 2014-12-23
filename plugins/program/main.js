@@ -91,8 +91,8 @@ define(templates, function(programTpl) {
         },
 
         program: function(programID) {
-            var method = "totara_program_get_program";
-            var data = { programid: programID, userid: MM.site.get("userid") };
+            var method = "tm_totara_program_get_program";
+            var data = { programid: programID };
             var callback = MM.plugins.program.programCallback;
             var presets = { omitExpires: true, cache: false };
             var errorCallback = MM.plugins.program.errorCallback;
@@ -107,7 +107,7 @@ define(templates, function(programTpl) {
                 prevIsComplete = set.iscomplete;
             });
             MM.plugins.program.programData = prog;
-            var method = "moodle_enrol_get_users_courses";
+            var method = "core_enrol_get_users_courses";
             var data = { userid: MM.site.get("userid") };
             var callback = MM.plugins.program.coursesCallback;
             var presets = { omitExpires: true, cache: false };

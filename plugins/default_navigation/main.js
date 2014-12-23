@@ -51,7 +51,7 @@ require(templates, function(navTpl) {
 
             // For loading a site, we need the list of courses.
             MM.moodleWSCall(
-                method          = 'moodle_enrol_get_users_courses',
+                method          = 'core_enrol_get_users_courses',
                 data            = {userid: MM.site.get('userid')},
                 callBack        = MM.plugins.default_navigation._loadCourses,
                 preSets         = {omitExpires: true},

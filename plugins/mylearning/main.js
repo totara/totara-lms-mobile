@@ -95,8 +95,8 @@ define(templates, function(layoutTpl) {
 
         _getCourses: function() {
             MM.db.reset('courses');
-            var method = "totara_program_get_users_courses";
-            var data = { userid: MM.site.get("userid") };
+            var method = "tm_totara_program_get_users_courses";
+            var data = {};
             var callback = MM.plugins.mylearning._getCoursesSuccess;
             var preSets = { omitExpires: true, cache: false };
             var errorCallBack = MM.plugins.mylearning._getCoursesFailure;
@@ -115,8 +115,8 @@ define(templates, function(layoutTpl) {
         },
 
         _getPrograms: function() {
-            var method = "totara_program_get_users_programs";
-            var data = { userid: MM.site.get("userid") };
+            var method = "tm_totara_program_get_users_programs";
+            var data = {};
             var callback = MM.plugins.mylearning._getProgramsSuccess;
             var preSets = { omitExpires: true, cache: false };
             var errorCallBack = MM.plugins.mylearning._getProgramsFailure;
@@ -133,8 +133,8 @@ define(templates, function(layoutTpl) {
         },
 
         _getRequiredLearning: function() {
-            var method = "totara_program_get_users_required_programs";
-            var data = { userid: MM.site.get("userid") };
+            var method = "tm_totara_program_get_users_required_programs";
+            var data = {};
             var callback = MM.plugins.mylearning._getRequiredLearingSuccess;
             var preSets = { omitExpires: true, cache: false };
             var errorCallBack = MM.plugins.mylearning._getRequiredLearningFailure;

@@ -137,8 +137,8 @@ define(requires, function(programsTpl) {
 
         _getPrograms: function() {
             MM.moodleWSCall(
-                'totara_program_get_programs',
-                {userid: MM.site.get("userid")},
+                'tm_totara_program_get_programs',
+                {},
                 MM.plugins.findprograms._getProgramsSuccessful,
                 {},
                 MM.plugins.findprograms._getProgramsFailure

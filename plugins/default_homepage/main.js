@@ -93,7 +93,7 @@ require(templates, function(mainTpl) {
 
         main: function() {
             // Grab homepage from web service and display on page
-            var method = "core_webservice_get_mobile_homepage";
+            var method = "tm_webservice_get_mobile_homepage";
             var data = {};
             var callback = MM.homepage.loadSuccess;
             var presets = { omitExpires: true, cache: false };
