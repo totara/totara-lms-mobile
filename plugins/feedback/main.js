@@ -120,7 +120,7 @@ define(
         currentFeedback:undefined,
 
         _getFeedbackQuestionsSuccess: function(data) {
-            var feedback = data.feedback[0];
+            var feedback = data.feedback;
             var questions = data.questions;
             var answers = data.answers;
             MM.plugins.feedback.currentFeedback = feedback;
@@ -308,10 +308,9 @@ define(
                 var errorCallBack = MM.plugins.feedback._sendAnswersFailure;
                 var preSets = {cache:false};
                 MM.moodleWSCall(
-                    'mod_feedback_send_answers',
+                    'tm_mod_feedback_send_answers',
                     {
-                        'answers':response,
-                        'userid': MM.site.get("userid")
+                        'answers':response
                     },
                     callBack,
                     preSets, errorCallBack
@@ -373,14 +372,13 @@ define(
 
             // Get the feedback for the course
             var data = {
-                'userid': MM.site.get("userid"),
                 'coursemoduleid':courseModuleId
             };
             var callBack = MM.plugins.feedback._getFeedbackQuestionsSuccess;
             var preSets = {cache:false};
             var errorCallBack = MM.plugins.feedback._getFeedbackQuestionsFailure;
             MM.moodleWSCall(
-                'mod_feedback_get_questions', data, callBack, preSets,
+                'tm_mod_feedback_get_questions', data, callBack, preSets,
                 errorCallBack
             );
         },
