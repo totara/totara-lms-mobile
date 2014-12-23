@@ -86,13 +86,12 @@ define(templates, function(layoutTpl) {
         },
 
         _getBookings: function() {
-            var method = "totara_my_get_bookings";
+            var method = "tm_mod_facetoface_get_my_bookings";
             var data = {
-                'userid': MM.site.get("userid"),
                 'options': [
-                    {'name': 'markseenonmobile', 'value': true},
+                    {'name': 'markseenonmobile', 'value': true}
                 ]
-            }
+            };
             var callback = MM.plugins.mybookings._getBookingsSuccess;
             var presets = { omitExpires: true, cache: false };
             var errorCallback = MM.plugins.mybookings._getBookingsFailure;
