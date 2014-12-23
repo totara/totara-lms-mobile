@@ -85,7 +85,7 @@ define(templates, function(labelTpl) {
         label: function(cmid) {
             MM.assignCurrentPlugin(MM.plugins.label);
             MM.panels.showLoading("center");
-            var method= "mod_label_get_label_details";
+            var method= "tm_mod_label_get_label_details";
             var data = { cmid: cmid };
             var callback = MM.plugins.label.labelDetailsCallback;
             var presets = { omitExpires: true, cache: false };
