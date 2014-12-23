@@ -95,7 +95,7 @@ define(templates, function(scormTpl, scormLaunchTpl) {
             MM.assignCurrentPlugin(MM.plugins.scorm);
             MM.Router.navigate("scorm/" + cmid);
             MM.panels.showLoading("center");
-            var method = "mod_scorm_get_attempt_status";
+            var method = "tm_mod_scorm_get_attempt_status";
             var data = {cmid: cmid};
             var callback = MM.plugins.scorm.scormCallback;
             var presets = { omitExpires: true, cache: false };
