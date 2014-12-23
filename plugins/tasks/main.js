@@ -86,12 +86,11 @@ define(templates, function(layoutTpl) {
         },
 
         _getTasks: function() {
-            var method = "totara_message_get_tasks";
+            var method = "tm_totara_message_get_tasks";
             var data = {
-                'userid': MM.site.get("userid"),
                 'options': [
                     {'name': 'markseenonmobile', 'value': true},
-                    {'name': 'limit', 'value': false},
+                    {'name': 'limit', 'value': false}
                 ]
             };
             var callback = MM.plugins.tasks._getTasksSuccess;
@@ -137,7 +136,7 @@ define(templates, function(layoutTpl) {
             var element = $(e.target);
             var messageId = element.data('messageid');
 
-            var method = "totara_message_accept_task";
+            var method = "tm_totara_message_accept_task";
             var data = {'messageid':messageId };
             var callback = MM.plugins.tasks._acceptTaskSuccess;
             var presets = { omitExpires: true, cache: false };
@@ -159,7 +158,7 @@ define(templates, function(layoutTpl) {
             e.preventDefault();
             var element = $(e.target);
             var messageId = element.data('messageid');
-            var method = "totara_message_reject_task";
+            var method = "tm_totara_message_reject_task";
             var data = {'messageid':messageId };
             var callback = MM.plugins.tasks._rejectTaskSuccess;
             var presets = { omitExpires: true, cache: false };
