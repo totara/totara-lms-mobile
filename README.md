@@ -1,11 +1,24 @@
-Moodle Mobile
-============
+Totara Mobile Application
+=========================
 
-This is the primary repository of source code for the official Moodle Mobile app.
+The Totara Mobile app comes in two parts:
 
-To file bugs and feature requests, use the Moodle Tracker:  https://tracker.moodle.org/browse/MOBILE
+* A separate web application to be installed in a separate location on your server
+  (this code).
+* A local plugin to be installed in your existing Totara LMS site.
 
-To build the app, refer to:
-http://docs.moodle.org/dev/Moodle_Mobile_Building_the_app_for_Android
-http://docs.moodle.org/dev/Moodle_Mobile_Building_the_app_for_iOS
+This application and the local plugin are based on code by C&G Kineo.
+
+Please note that this application is provided as-is and is not covered by the Totara LMS
+support agreement.
+
+Installation:
+
+* Install the local plugin into local/ directory on your Totara LMS site
+  (Totara 2.7.0 or greater required).
+* Configure your web server to make the application directory available via the web.
+* Go to "Home / Site administration / Plugins / Web services / Totara mobile" and tick
+  "Enable Totara mobile" checkbox and hit "Save changes" button
+* Visit the URL of this application that you configured above in a web browser.
+* Login to Totara mobile app and try it out.
 
