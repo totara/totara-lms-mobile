@@ -8,5 +8,5 @@
         <p><%= MM.lang.s('scorm-fails-to-load') %></p>
         <button class="button" id='loadinpopup'><%= MM.lang.s('reload-scorm') %></button>
     </div>
-    <iframe id="scorm-container" src="<%= MM.config.current_site.siteurl %>/mod/scorm/player.php?cm=<%= cmid %>&mode=<%= mode %>&newattempt=<%= newAttempt %>&display=embedded&scoid" style="display:none"></iframe>
+    <iframe id="scorm-container" src="<%= MM.config.current_site.siteurl %>/mod/scorm/player.php?cm=<%= cmid %>&mode=<%= mode %>&newattempt=<%= newAttempt %>&display=popup&scoid" style="display:block"></iframe>
 </div>
