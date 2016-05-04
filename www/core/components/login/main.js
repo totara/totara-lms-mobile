@@ -59,7 +59,9 @@ angular.module('mm.core.login', [])
         templateUrl: 'core/components/login/templates/credentials.html',
         controller: 'mmLoginCredentialsCtrl',
         params: {
-            siteurl: ''
+            siteurl: '',
+            username: '',
+            urltoopen: '' // For content links.
         },
         onEnter: function($state, $stateParams) {
             // Do not allow access to this page when the URL was not passed.
@@ -92,7 +94,7 @@ angular.module('mm.core.login', [])
 })
 
 .run(function($log, $state, $mmUtil, $translate, $mmSitesManager, $rootScope, $mmSite, $mmURLDelegate, $ionicHistory,
-                $mmEvents, $mmLoginHelper, mmCoreEventSessionExpired, $mmApp) {
+                $mmEvents, $mmLoginHelper, mmCoreEventSessionExpired, $mmApp, mmCoreConfigConstants) {
 
     $log = $log.getInstance('mmLogin');
 
@@ -113,7 +115,7 @@ angular.module('mm.core.login', [])
             return;
         }
 
-        if (toState.name.substr(0, 8) === 'redirect') {
+        if (toState.name.substr(0, 8) === 'redirect' || toState.name.substr(0, 15) === 'mm_contentlinks') {
             return;
         } else if ((toState.name.substr(0, 8) !== 'mm_login' || toState.name === 'mm_login.reconnect') && !$mmSite.isLoggedIn()) {
             // We are not logged in.
@@ -134,7 +136,7 @@ angular.module('mm.core.login', [])
                 disableAnimate: true,
                 disableBack: true
             });
-            $state.transitionTo('site.mm_courses');
+            $mmLoginHelper.goToSiteInitialPage();
         }
 
     });
@@ -176,12 +178,13 @@ angular.module('mm.core.login', [])
 
     // Function to handle URL received by Custom URL Scheme. If it's a SSO login, perform authentication.
     function appLaunchedByURL(url) {
-        var ssoScheme = 'moodlemobile://token=';
+        var ssoScheme = mmCoreConfigConstants.customurlscheme + '://token=';
         if (url.indexOf(ssoScheme) == -1) {
             return false;
         }
 
         // App opened using custom URL scheme. Probably an SSO authentication.
+        $mmLoginHelper.setSSOLoginOngoing(true);
         $log.debug('App launched by URL');
 
         var modal = $mmUtil.showModalLoading('mm.login.authenticating', true);
@@ -199,19 +202,17 @@ angular.module('mm.core.login', [])
 
         $mmLoginHelper.validateBrowserSSOLogin(url).then(function(sitedata) {
 
-            $mmLoginHelper.handleSSOLoginAuthentication(sitedata.siteurl, sitedata.token).then(function() {
-                $state.go('site.mm_courses');
-            }, function(error) {
-                $mmUtil.showErrorModal(error);
-            }).finally(function() {
-                modal.dismiss();
+            return $mmLoginHelper.handleSSOLoginAuthentication(sitedata.siteurl, sitedata.token).then(function() {
+                return $mmLoginHelper.goToSiteInitialPage();
             });
 
-        }, function(errorMessage) {
-            modal.dismiss();
-            if (typeof(errorMessage) === 'string' && errorMessage != '') {
+        }).catch(function(errorMessage) {
+            if (typeof errorMessage === 'string' && errorMessage !== '') {
                 $mmUtil.showErrorModal(errorMessage);
             }
+        }).finally(function() {
+            modal.dismiss();
+            $mmLoginHelper.setSSOLoginOngoing(false);
         });
 
         return true;

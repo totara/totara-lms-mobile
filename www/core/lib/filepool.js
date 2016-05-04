@@ -21,6 +21,9 @@ angular.module('mm.core')
 .constant('mmFilepoolLinksStore', 'files_links')
 .constant('mmFilepoolPackagesStore', 'filepool_packages')
 
+.constant('mmFilepoolWifiDownloadThreshold', 20971520) // 20MB.
+.constant('mmFilepoolDownloadThreshold', 2097152) // 2MB.
+
 .config(function($mmAppProvider, $mmSitesFactoryProvider, mmFilepoolStore, mmFilepoolLinksStore, mmFilepoolQueueStore,
             mmFilepoolPackagesStore) {
     var siteStores = [
@@ -168,7 +171,7 @@ angular.module('mm.core')
 .factory('$mmFilepool', function($q, $log, $timeout, $mmApp, $mmFS, $mmWS, $mmSitesManager, $mmEvents, md5, mmFilepoolStore,
         mmFilepoolLinksStore, mmFilepoolQueueStore, mmFilepoolFolder, mmFilepoolQueueProcessInterval, mmCoreEventQueueEmpty,
         mmCoreDownloaded, mmCoreDownloading, mmCoreNotDownloaded, mmCoreOutdated, mmCoreNotDownloadable, mmFilepoolPackagesStore,
-        mmCoreEventPackageStatusChanged) {
+        mmCoreEventPackageStatusChanged, $mmText, $mmUtil, mmFilepoolWifiDownloadThreshold, mmFilepoolDownloadThreshold) {
 
     $log = $log.getInstance('$mmFilepool');
 
@@ -183,7 +186,8 @@ angular.module('mm.core')
         revisionRegex = new RegExp('/content/([0-9]+)/'),
         queueDeferreds = {}, // To handle file downloads using the queue.
         packagesPromises = {}, // To prevent downloading packages twice at the same time.
-        filePromises = {}; // To prevent downloading files twice at the same time.
+        filePromises = {}, // To prevent downloading files twice at the same time.
+        sizeCache = {}; // A "cache" to store file sizes to prevent performing too many HEAD requests.
 
     // Queue status codes.
     var QUEUE_RUNNING = 'mmFilepool:QUEUE_RUNNING',
@@ -607,10 +611,14 @@ angular.module('mm.core')
 
         // Set package as downloading.
         dwnPromise = self.storePackageStatus(siteId, component, componentId, mmCoreDownloading, revision, timemod).then(function() {
-            var promises = [];
+            var promises = [],
+                deferred = $q.defer(),
+                packageLoaded = 0; // Use a deferred to be able to use notify.
 
             angular.forEach(fileList, function(file) {
-                var path;
+                var path,
+                    promise,
+                    fileLoaded = 0;
 
                 if (dirPath) {
                     // Calculate the path to the file.
@@ -622,13 +630,27 @@ angular.module('mm.core')
                 }
 
                 if (prefetch) {
-                    promises.push(self.addToQueueByUrl(siteId, file.fileurl, component, componentId, file.timemodified, path));
+                    promise = self.addToQueueByUrl(siteId, file.fileurl, component, componentId, file.timemodified, path);
                 } else {
-                    promises.push(self.downloadUrl(siteId, file.fileurl, false, component, componentId, file.timemodified, path));
+                    promise = self.downloadUrl(siteId, file.fileurl, false, component, componentId, file.timemodified, path);
                 }
+
+                // Using undefined for success & fail will pass the success/failure to the parent promise.
+                promises.push(promise.then(undefined, undefined, function(progress) {
+                    if (progress && progress.loaded) {
+                        // Add the new size loaded to the package loaded.
+                        packageLoaded = packageLoaded + (progress.loaded - fileLoaded);
+                        fileLoaded = progress.loaded;
+                        deferred.notify({
+                            packageDownload: true,
+                            loaded: packageLoaded,
+                            fileProgress: progress
+                        });
+                    }
+                }));
             });
 
-            return $q.all(promises).then(function() {
+            $q.all(promises).then(function() {
                 // Success prefetching, store package as downloaded.
                 return self.storePackageStatus(siteId, component, componentId, mmCoreDownloaded, revision, timemod);
             }).catch(function() {
@@ -636,7 +658,9 @@ angular.module('mm.core')
                 return self.setPackagePreviousStatus(siteId, component, componentId).then(function() {
                     return $q.reject();
                 });
-            });
+            }).then(deferred.resolve, deferred.reject);
+
+            return deferred.promise;
         }).finally(function() {
             // Download finished, delete the promise.
             delete packagesPromises[siteId][packageId];
@@ -699,10 +723,15 @@ angular.module('mm.core')
             promise;
 
         if ($mmFS.isAvailable()) {
-            return self._fixPluginfileURL(siteId, fileUrl).then(function(fileUrl) {
+            return self._fixPluginfileURL(siteId, fileUrl).then(function(fixedUrl) {
+                fileUrl = fixedUrl;
                 timemodified = timemodified || 0;
                 revision = self.getRevisionFromUrl(fileUrl);
                 fileId = self._getFileIdByUrl(fileUrl);
+
+                // Restore old file if needed.
+                return self._restoreOldFileIfNeeded(siteId, fileId, fileUrl, filePath);
+            }).then(function() {
 
                 return self._hasFileInPool(siteId, fileId).then(function(fileObject) {
 
@@ -789,7 +818,7 @@ angular.module('mm.core')
         promise = $mmSitesManager.getSite(siteId).then(function(site) {
 
             if (!site.canDownloadFiles()) {
-                return $q.reject({drop: true});
+                return $q.reject();
             }
 
             return $mmWS.downloadFile(fileUrl, filePath).then(function(fileEntry) {
@@ -851,6 +880,23 @@ angular.module('mm.core')
     self._fixPluginfileURL = function(siteId, fileUrl) {
         return $mmSitesManager.getSite(siteId).then(function(site) {
             return site.fixPluginfileURL(fileUrl);
+        });
+    };
+
+    /**
+     * Get the links of a file.
+     *
+     * @module mm.core
+     * @ngdoc method
+     * @name $mmFilepool#_getFileLinks
+     * @param  {String} siteId The site ID.
+     * @param  {String} fileId The file ID.
+     * @return {Promise}       Promise resolved with the links.
+     * @protected
+     */
+    self._getFileLinks = function(siteId, fileId) {
+        return getSiteDb(siteId).then(function(db) {
+            return db.query(mmFilepoolLinksStore, ['fileId', '=', fileId]);
         });
     };
 
@@ -962,12 +1008,12 @@ angular.module('mm.core')
      * @module mm.core
      * @ngdoc method
      * @name $mmFilepool#getPackageStatus
-     * @param {String} siteId           Site ID.
-     * @param {String} component        Package's component.
-     * @param {Number} [componentId]    An ID to use in conjunction with the component.
-     * @param {Number} [revision=0]     Package's revision.
-     * @param {Number} [timemodified=0] Package's timemodified.
-     * @return {Promise}                Promise resolved with the status.
+     * @param {String} siteId              Site ID.
+     * @param {String} component           Package's component.
+     * @param {Number} [componentId]       An ID to use in conjunction with the component.
+     * @param {Number|String} [revision=0] Package's revision.
+     * @param {Number} [timemodified=0]    Package's timemodified.
+     * @return {Promise}                   Promise resolved with the status.
      */
     self.getPackageStatus = function(siteId, component, componentId, revision, timemodified) {
         revision = revision || 0;
@@ -979,7 +1025,7 @@ angular.module('mm.core')
             // Get status.
             return db.get(mmFilepoolPackagesStore, packageId).then(function(entry) {
                 if (entry.status === mmCoreDownloaded) {
-                    if (revision > entry.revision || timemodified > entry.timemodified) {
+                    if (revision != entry.revision || timemodified > entry.timemodified) {
                         // File is outdated. Let's change its status.
                         entry.status = mmCoreOutdated;
                         entry.updated = new Date().getTime();
@@ -988,10 +1034,45 @@ angular.module('mm.core')
                             self._triggerPackageStatusChanged(siteId, component, componentId, mmCoreOutdated);
                         });
                     }
+                } else if (entry.status === mmCoreOutdated) {
+                    if (revision === entry.revision && timemodified === entry.timemodified) {
+                        // File isn't outdated anymore. Let's change its status.
+                        entry.status = mmCoreDownloaded;
+                        entry.updated = new Date().getTime();
+                        db.insert(mmFilepoolPackagesStore, entry).then(function() {
+                            // Success inserting, trigger event.
+                            self._triggerPackageStatusChanged(siteId, component, componentId, mmCoreDownloaded);
+                        });
+                    }
                 }
                 return entry.status;
             }, function() {
                 return mmCoreNotDownloaded;
+            });
+        });
+    };
+
+    /**
+     * Get a package timemodified.
+     *
+     * @module mm.core
+     * @ngdoc method
+     * @name $mmFilepool#getPackageTimemodified
+     * @param {String} siteId              Site ID.
+     * @param {String} component           Package's component.
+     * @param {Number} [componentId]       An ID to use in conjunction with the component.
+     * @return {Promise}                   Promise resolved with the timemodified.
+     */
+    self.getPackageTimemodified = function(siteId, component, componentId) {
+        return $mmSitesManager.getSite(siteId).then(function(site) {
+            var db = site.getDb(),
+                packageId = self.getPackageId(component, componentId);
+
+            // Get status.
+            return db.get(mmFilepoolPackagesStore, packageId).then(function(entry) {
+                return entry.timemodified;
+            }, function() {
+                return -1;
             });
         });
     };
@@ -1114,18 +1195,63 @@ angular.module('mm.core')
     /**
      * Creates a unique ID based on a URL.
      *
-     * This has a minimal handling of pluginfiles in order to generate a clean
-     * file ID which will not change if pointing to the same pluginfile URL even
-     * if the token or extra attributes have changed.
+     * This has a minimal handling of pluginfiles in order to generate a clean file ID which will not change if
+     * pointing to the same pluginfile URL even if the token or extra attributes have changed.
+     *
+     * The implementation of this function changed in version 2.9 to be able to have readable file names.
+     * The old implementation is in the function _getNonReadableFileIdByUrl.
      *
      * @module mm.core
      * @ngdoc method
      * @name $mmFilepool#_getFileIdByUrl
      * @param {String} fileUrl The absolute URL to the file.
-     * @return {Promise} The file ID.
+     * @return {Promise}       Promise resolved with the file ID.
      * @protected
      */
     self._getFileIdByUrl = function(fileUrl) {
+        var url = self._removeRevisionFromUrl(fileUrl),
+            filename,
+            candidate,
+            extension = '';
+
+        // Decode URL.
+        url = $mmText.decodeHTML(decodeURIComponent(url));
+
+        if (url.indexOf('/webservice/pluginfile') !== -1) {
+            // Remove attributes that do not matter.
+            angular.forEach(urlAttributes, function(regex) {
+                url = url.replace(regex, '');
+            });
+        }
+
+        // Try to guess the filename the target file should have. We want to keep the original file name so
+        // people can easily identify the files after the download.
+        filename = self._guessFilenameFromUrl(url);
+
+        // We need the extension for the inAppBrowser to open the files properly, e.g. the extension needs to be
+        // part of the file name. Also, we need the mimetype to open the file with web intents. The easiest way to
+        // provide such information is to keep the extension in the file ID. Developers should not care about it,
+        // but as we are using the file ID in the file path, devs and system can guess it.
+        candidate = self._guessExtensionFromUrl(url);
+        if (candidate && candidate !== 'php') {
+            extension = '.' + candidate;
+        }
+
+        return filename + '_' + md5.createHash('url:' + url) + extension;
+    };
+
+    /**
+     * Old specification of _getFileIdByUrl. Creates a non readable fileId (hash).
+     *
+     * @module mm.core
+     * @ngdoc method
+     * @name $mmFilepool#_getNonReadableFileIdByUrl
+     * @param {String} fileUrl The absolute URL to the file.
+     * @return {String}        The file ID.
+     * @protected
+     * @since 2.9
+     */
+    self._getNonReadableFileIdByUrl = function(fileUrl) {
         var url = self._removeRevisionFromUrl(fileUrl),
             candidate,
             extension = '';
@@ -1156,13 +1282,14 @@ angular.module('mm.core')
      * @module mm.core
      * @ngdoc method
      * @name $mmFilepool#_getFileUrlByUrl
-     * @param {String} siteId The site ID.
-     * @param {String} fileUrl The absolute URL to the file.
-     * @param {String} [mode=url] The type of URL to return. Accepts 'url' or 'src'.
-     * @param {String} component The component to link the file to.
-     * @param {Number} [componentId] An ID to use in conjunction with the component.
-     * @param {Number} [timemodified=0] The time this file was modified.
-     * @return {Promise} Resolved with the URL to use. When rejected, nothing could be done.
+     * @param {String} siteId            The site ID.
+     * @param {String} fileUrl           The absolute URL to the file.
+     * @param {String} [mode=url]        The type of URL to return. Accepts 'url' or 'src'.
+     * @param {String} component         The component to link the file to.
+     * @param {Number} [componentId]     An ID to use in conjunction with the component.
+     * @param {Number} [timemodified=0]  The time this file was modified.
+     * @param {Boolean} [checkSize=true] True if we shouldn't download files if their size is big, false otherwise.
+     * @return {Promise}                 Resolved with the URL to use. When rejected, nothing could be done.
      * @description
      * This will return a URL pointing to the content of the requested URL.
      *
@@ -1174,27 +1301,36 @@ angular.module('mm.core')
      * When the file cannot be found, and we are offline, then we reject the promise because
      * there was nothing we could do.
      */
-    self._getFileUrlByUrl = function(siteId, fileUrl, mode, component, componentId, timemodified) {
+    self._getFileUrlByUrl = function(siteId, fileUrl, mode, component, componentId, timemodified, checkSize) {
         var fileId,
             revision;
 
-        return self._fixPluginfileURL(siteId, fileUrl).then(function(fileUrl) {
+        if (typeof checkSize == 'undefined') {
+            checkSize = true;
+        }
+
+        return self._fixPluginfileURL(siteId, fileUrl).then(function(fixedUrl) {
+            fileUrl = fixedUrl;
             timemodified = timemodified || 0;
             revision = self.getRevisionFromUrl(fileUrl);
-            var fileId = self._getFileIdByUrl(fileUrl);
+            fileId = self._getFileIdByUrl(fileUrl);
+
+            // Restore old file if needed.
+            return self._restoreOldFileIfNeeded(siteId, fileId, fileUrl);
+        }).then(function() {
+
             return self._hasFileInPool(siteId, fileId).then(function(fileObject) {
                 var response,
-                    addToQueue = false,
                     fn;
 
                 if (typeof fileObject === 'undefined') {
                     // We do not have the file, add it to the queue, and return real URL.
-                    self.addToQueueByUrl(siteId, fileUrl, component, componentId, timemodified);
+                    addToQueueIfNeeded();
                     response = fileUrl;
 
                 } else if (self._isFileOutdated(fileObject, revision, timemodified) && $mmApp.isOnline()) {
                     // The file is outdated, we add to the queue and return real URL.
-                    self.addToQueueByUrl(siteId, fileUrl, component, componentId, timemodified);
+                    addToQueueIfNeeded();
                     response = fileUrl;
 
                 } else {
@@ -1215,7 +1351,7 @@ angular.module('mm.core')
                         // we had it, we will delete the entries associated with that ID.
                         $log.debug('File ' + fileId + ' not found on disk');
                         self._removeFileById(siteId, fileId);
-                        self.addToQueueByUrl(siteId, fileUrl, component, componentId, timemodified);
+                        addToQueueIfNeeded();
 
                         if ($mmApp.isOnline()) {
                             // We still have a chance to serve the right content.
@@ -1229,10 +1365,42 @@ angular.module('mm.core')
                 return response;
             }, function() {
                 // We do not have the file in store yet.
-                self.addToQueueByUrl(siteId, fileUrl, component, componentId, timemodified);
+                addToQueueIfNeeded();
                 return fileUrl;
             });
         });
+
+        function addToQueueIfNeeded() {
+            var promise;
+
+            if (checkSize) {
+                if (!$mmApp.isOnline()) {
+                    return;
+                }
+
+                if (typeof sizeCache[fileUrl] != 'undefined') {
+                    promise = $q.when(sizeCache[fileUrl]);
+                } else {
+                    promise = $mmWS.getRemoteFileSize(fileUrl);
+                }
+
+                // Calculate the size of the file.
+                promise.then(function(size) {
+                    if (size > 0) {
+                        // Store the size in the cache.
+                        sizeCache[fileUrl] = size;
+
+                        // We were able to calculate the size. Check that it's below the thresholds.
+                        var isWifi = !$mmApp.isNetworkAccessLimited();
+                        if (size <= mmFilepoolDownloadThreshold || (isWifi && size <= mmFilepoolWifiDownloadThreshold)) {
+                            self.addToQueueByUrl(siteId, fileUrl, component, componentId, timemodified);
+                        }
+                    }
+                });
+            } else {
+                self.addToQueueByUrl(siteId, fileUrl, component, componentId, timemodified);
+            }
+        }
     };
 
     /**
@@ -1286,10 +1454,15 @@ angular.module('mm.core')
         var fileId,
             revision;
 
-        return self._fixPluginfileURL(siteId, fileUrl).then(function(fileUrl) {
+        return self._fixPluginfileURL(siteId, fileUrl).then(function(fixedUrl) {
+            fileUrl = fixedUrl;
             timemodified = timemodified || 0;
             revision = self.getRevisionFromUrl(fileUrl);
             fileId = self._getFileIdByUrl(fileUrl);
+
+            // Restore old file if needed.
+            return self._restoreOldFileIfNeeded(siteId, fileId, fileUrl);
+        }).then(function() {
 
             return self._hasFileInQueue(siteId, fileId).then(function() {
                 return mmCoreDownloading;
@@ -1372,6 +1545,49 @@ angular.module('mm.core')
     };
 
     /**
+     * Get the path to a directory to store a package files. We use the old implementation of getFileId.
+     *
+     * This does not check if the file exists or not.
+     *
+     * @module mm.core
+     * @ngdoc method
+     * @name $mmFilepool#getPackageDirPathByUrl
+     * @param  {String} siteId The site ID.
+     * @param  {String} url    An URL to identify the package.
+     * @return {Promise}       Promise resolved with the path of the package.
+     * @since 2.9
+     */
+    self.getPackageDirPathByUrl = function(siteId, url) {
+        return self._fixPluginfileURL(siteId, url).then(function(fixedUrl) {
+            var fileId = self._getNonReadableFileIdByUrl(fixedUrl);
+            return self._getFilePath(siteId, fileId);
+        });
+    };
+
+    /**
+     * Returns the local URL of a package directory.
+     *
+     * @module mm.core
+     * @ngdoc method
+     * @name $mmFilepool#getPackageDirUrlByUrl
+     * @param  {String} siteId The site ID.
+     * @param  {String} url    An URL to identify the package.
+     * @return {Promise}       Resolved with the URL. Rejected otherwise.
+     * @since 2.9
+     */
+    self.getPackageDirUrlByUrl = function(siteId, url) {
+        if ($mmFS.isAvailable()) {
+            return self._fixPluginfileURL(siteId, url).then(function(fixedUrl) {
+                var fileId = self._getNonReadableFileIdByUrl(fixedUrl);
+                return $mmFS.getDir(self._getFilePath(siteId, fileId)).then(function(dirEntry) {
+                    return dirEntry.toURL();
+                });
+            });
+        }
+        return $q.reject();
+    };
+
+    /**
      * Get package revision number from a list of files.
      *
      * @module mm.core
@@ -1418,20 +1634,21 @@ angular.module('mm.core')
      * @module mm.core
      * @ngdoc method
      * @name $mmFilepool#getSrcByUrl
-     * @param {String} siteId The site ID.
-     * @param {String} fileUrl The absolute URL to the file.
-     * @param {String} component The component to link the file to.
-     * @param {Number} [componentId] An ID to use in conjunction with the component.
-     * @param {Number} [timemodified] The time this file was modified.
-     * @return {Promise} Resolved with the URL to use. When rejected, nothing could be done,
-     *                   which means that you should not even use the fileUrl passed.
+     * @param {String} siteId            The site ID.
+     * @param {String} fileUrl           The absolute URL to the file.
+     * @param {String} component         The component to link the file to.
+     * @param {Number} [componentId]     An ID to use in conjunction with the component.
+     * @param {Number} [timemodified]    The time this file was modified.
+     * @param {Boolean} [checkSize=true] True if we shouldn't download files if their size is big, false otherwise.
+     * @return {Promise}                 Resolved with the URL to use. When rejected, nothing could be done,
+     *                                   which means that you should not even use the fileUrl passed.
      * @description
      * This will return a URL pointing to the content of the requested URL.
      * The URL returned is compatible to use with IMG tags.
      * See {@link $mmFilepool#_getFileUrlByUrl} for more details.
      */
-    self.getSrcByUrl = function(siteId, fileUrl, component, componentId, timemodified) {
-        return self._getFileUrlByUrl(siteId, fileUrl, 'src', component, componentId, timemodified);
+    self.getSrcByUrl = function(siteId, fileUrl, component, componentId, timemodified, checkSize) {
+        return self._getFileUrlByUrl(siteId, fileUrl, 'src', component, componentId, timemodified, checkSize);
     };
 
     /**
@@ -1461,20 +1678,21 @@ angular.module('mm.core')
      * @module mm.core
      * @ngdoc method
      * @name $mmFilepool#getUrlByUrl
-     * @param {String} siteId The site ID.
-     * @param {String} fileUrl The absolute URL to the file.
-     * @param {String} component The component to link the file to.
-     * @param {Number} [componentId] An ID to use in conjunction with the component.
-     * @param {Number} [timemodified] The time this file was modified.
-     * @return {Promise} Resolved with the URL to use. When rejected, nothing could be done,
-     *                   which means that you should not even use the fileUrl passed.
+     * @param {String} siteId            The site ID.
+     * @param {String} fileUrl           The absolute URL to the file.
+     * @param {String} component         The component to link the file to.
+     * @param {Number} [componentId]     An ID to use in conjunction with the component.
+     * @param {Number} [timemodified]    The time this file was modified.
+     * @param {Boolean} [checkSize=true] True if we shouldn't download files if their size is big, false otherwise.
+     * @return {Promise}                 Resolved with the URL to use. When rejected, nothing could be done,
+     *                                   which means that you should not even use the fileUrl passed.
      * @description
      * This will return a URL pointing to the content of the requested URL.
      * The URL returned is compatible to use with a local browser.
      * See {@link $mmFilepool#_getFileUrlByUrl} for more details.
      */
-    self.getUrlByUrl = function(siteId, fileUrl, component, componentId, timemodified) {
-        return self._getFileUrlByUrl(siteId, fileUrl, 'url', component, componentId, timemodified);
+    self.getUrlByUrl = function(siteId, fileUrl, component, componentId, timemodified, checkSize) {
+        return self._getFileUrlByUrl(siteId, fileUrl, 'url', component, componentId, timemodified, checkSize);
     };
 
     /**
@@ -1502,6 +1720,57 @@ angular.module('mm.core')
         }
 
         return extension;
+    };
+
+    /**
+     * Guess the filename of a file from its URL.
+     *
+     * This is very weak and unreliable.
+     *
+     * @module mm.core
+     * @ngdoc method
+     * @name $mmFilepool#_guessFilenameFromUrl
+     * @param {String} fileUrl The file URL.
+     * @return {String}        The filename treated so it doesn't have any special character.
+     * @protected
+     * @since 2.9
+     */
+    self._guessFilenameFromUrl = function(fileUrl) {
+        var filename = '';
+
+        if (fileUrl.indexOf('/webservice/pluginfile') !== -1) {
+            // It's a pluginfile URL. Search for the 'file' param to extract the name.
+            var params = $mmUtil.extractUrlParams(fileUrl);
+            if (params.file) {
+                filename = params.file.substr(params.file.lastIndexOf('/') + 1);
+            } else {
+                // 'file' param not found. Extract what's after the last '/' without params.
+                filename = $mmText.getLastFileWithoutParams(fileUrl);
+            }
+
+        } else if ($mmUtil.isGravatarUrl(fileUrl)) {
+            // Extract gravatar ID.
+            filename = 'gravatar_' + $mmText.getLastFileWithoutParams(fileUrl);
+        } else if ($mmUtil.isThemeImageUrl(fileUrl)) {
+            // Extract user ID.
+            var matches = fileUrl.match(/clean\/core\/([^\/]*)\//);
+            if (matches && matches[1]) {
+                filename = matches[1];
+            }
+            // Attach a constant and the image type.
+            filename = 'default_' + filename + '_' + $mmText.getLastFileWithoutParams(fileUrl);
+        } else {
+            // Another URL. Just get what's after the last /.
+            filename = $mmText.getLastFileWithoutParams(fileUrl);
+        }
+
+        // Remove the extension from the filename.
+        var position = filename.lastIndexOf('.');
+        if (position != -1) {
+            filename = filename.substr(0, position);
+        }
+
+        return $mmText.removeSpecialCharactersForFiles(filename);
     };
 
     /**
@@ -1803,86 +2072,78 @@ angular.module('mm.core')
          * Download helper to avoid code duplication.
          */
         function download(siteId, fileUrl, fileObject, links) {
-            return self._downloadForPoolByUrl(siteId, fileUrl, revision, timemodified, filePath, fileObject).then(function() {
-                var promise;
-
-                // Success, we add links and remove from queue.
-                self._addFileLinks(siteId, fileId, links);
-                promise = self._removeFromQueue(siteId, fileId);
-
-                self._treatQueueDeferred(siteId, fileId, true);
-                self._notifyFileDownloaded(siteId, fileId);
-
-                // Wait for the item to be removed from queue before resolving the promise.
-                // If the item could not be removed from queue we still resolve the promise.
-                return promise.catch(function() {});
-
-            }, function(errorObject) {
-                // Whoops, we have an error...
-                var dropFromQueue = false;
-
-                if (typeof errorObject !== 'undefined' && errorObject.source === fileUrl) {
-                    // This is most likely a $cordovaFileTransfer error.
-
-                    if (errorObject.code === 1) { // FILE_NOT_FOUND_ERR.
-                        // The file was not found, most likely a 404, we remove from queue.
-                        dropFromQueue = true;
-
-                    } else if (errorObject.code === 2) { // INVALID_URL_ERR.
-                        // The URL is invalid, we drop the file from the queue.
-                        dropFromQueue = true;
-
-                    } else if (errorObject.code === 3) { // CONNECTION_ERR.
-
-                        if (errorObject.http_status === 401) {
-                            // The URL is not in the white list.
-                            dropFromQueue = true;
-
-                        } else if (!errorObject.http_status) {
-                            // There was a connection issue, we are going to drop the file from the
-                            // queue because it's a strange error, we are supposed to be online but the
-                            // site is somehow not accessible.
-                            dropFromQueue = true;
-
-                        } else {
-                            // If there was an HTTP status, then let's remove from the queue.
-                            dropFromQueue = true;
-                        }
-
-                    } else if (errorObject.code === 4) { // ABORTED_ERR.
-                        // The transfer was aborted, we will keep the file in queue.
-
-                    } else if (errorObject.code === 5) { // NOT_MODIFIED_ERR.
-                        // We have the latest version of the file, HTTP 304 status.
-                        dropFromQueue = true;
-
-                    } else {
-                        // Unknown error, let's remove the file from the queue to avoid
-                        // locking down the queue because of one file.
-                        dropFromQueue = true;
-                    }
-                } else if (typeof errorObject !== 'undefined' && errorObject.drop) {
-                    dropFromQueue = true;
-                }
-
-                if (dropFromQueue) {
+            // Restore old file if needed.
+            return self._restoreOldFileIfNeeded(siteId, fileId, fileUrl, filePath).then(function() {
+                return self._downloadForPoolByUrl(siteId, fileUrl, revision, timemodified, filePath, fileObject).then(function() {
                     var promise;
 
-                    $log.debug('Item dropped from queue due to error: ' + fileUrl);
+                    // Success, we add links and remove from queue.
+                    self._addFileLinks(siteId, fileId, links);
                     promise = self._removeFromQueue(siteId, fileId);
 
-                    // Consider this as a silent error, never reject the promise here.
-                    return promise.catch(function() {}).finally(function() {
+                    self._treatQueueDeferred(siteId, fileId, true);
+                    self._notifyFileDownloaded(siteId, fileId);
+
+                    // Wait for the item to be removed from queue before resolving the promise.
+                    // If the item could not be removed from queue we still resolve the promise.
+                    return promise.catch(function() {});
+
+                }, function(errorObject) {
+                    // Whoops, we have an error...
+                    var dropFromQueue = false;
+
+                    if (typeof errorObject !== 'undefined' && errorObject.source === fileUrl) {
+                        // This is most likely a $cordovaFileTransfer error.
+
+                        if (errorObject.code === 1) { // FILE_NOT_FOUND_ERR.
+                            // The file was not found, most likely a 404, we remove from queue.
+                            dropFromQueue = true;
+
+                        } else if (errorObject.code === 2) { // INVALID_URL_ERR.
+                            // The URL is invalid, we drop the file from the queue.
+                            dropFromQueue = true;
+
+                        } else if (errorObject.code === 3) { // CONNECTION_ERR.
+                            // If there was an HTTP status, then let's remove from the queue.
+                            dropFromQueue = true;
+                        } else if (errorObject.code === 4) { // ABORTED_ERR.
+                            // The transfer was aborted, we will keep the file in queue.
+                        } else if (errorObject.code === 5) { // NOT_MODIFIED_ERR.
+                            // We have the latest version of the file, HTTP 304 status.
+                            dropFromQueue = true;
+                        } else {
+                            // Unknown error, let's remove the file from the queue to avoid
+                            // locking down the queue because of one file.
+                            dropFromQueue = true;
+                        }
+                    } else {
+                        dropFromQueue = true;
+                    }
+
+                    if (dropFromQueue) {
+                        var promise;
+
+                        $log.debug('Item dropped from queue due to error: ' + fileUrl);
+                        promise = self._removeFromQueue(siteId, fileId);
+
+                        // Consider this as a silent error, never reject the promise here.
+                        return promise.catch(function() {}).finally(function() {
+                            self._treatQueueDeferred(siteId, fileId, false);
+                            self._notifyFileDownloadError(siteId, fileId);
+                        });
+                    } else {
+                        // We considered the file as legit but did not get it, failure.
                         self._treatQueueDeferred(siteId, fileId, false);
                         self._notifyFileDownloadError(siteId, fileId);
-                    });
-                } else {
-                    // We considered the file as legit but did not get it, failure.
-                    self._treatQueueDeferred(siteId, fileId, false);
-                    self._notifyFileDownloadError(siteId, fileId);
-                    return $q.reject();
-                }
+                        return $q.reject();
+                    }
 
+                }, function(progress) {
+                    // Send the progress object to the queue deferred.
+                    if (queueDeferreds[siteId] && queueDeferreds[siteId][fileId]) {
+                        queueDeferreds[siteId][fileId].notify(progress);
+                    }
+                });
             });
         }
 
@@ -1957,6 +2218,27 @@ angular.module('mm.core')
     };
 
     /**
+     * Remove a file from the pool.
+     *
+     * @module mm.core
+     * @ngdoc method
+     * @name $mmFilepool#removeFileByUrl
+     * @param {String} siteId  The site ID.
+     * @param {String} fileUrl The file URL.
+     * @return {Promise}       Resolved on success, rejected on failure. It is advised to silently ignore failures.
+     */
+    self.removeFileByUrl = function(siteId, fileUrl) {
+        return self._fixPluginfileURL(siteId, fileUrl).then(function(fileUrl) {
+            var fileId = self._getFileIdByUrl(fileUrl);
+
+            // Restore old file if needed.
+            return self._restoreOldFileIfNeeded(siteId, fileId, fileUrl).then(function() {
+                return self._removeFileById(siteId, fileId);
+            });
+        });
+    };
+
+    /**
      * Removes the revision number from a file URL.
      *
      * @module mm.core
@@ -1970,6 +2252,63 @@ angular.module('mm.core')
      */
     self._removeRevisionFromUrl = function(url) {
         return url.replace(revisionRegex, '/content/0/');
+    };
+
+    /**
+     * The way to create the file ID changed in 2.9 to keep the original filename (see MOBILE-1408).
+     * To prevent losing files already downloaded, this function will try to move files using old fileId to new fileId.
+     *
+     * @module mm.core
+     * @ngdoc method
+     * @name $mmFilepool#_restoreOldFileIfNeeded
+     * @param  {String} siteId     Site ID.
+     * @param  {String} fileId     File's new ID.
+     * @param  {String} fileUrl    File URL.
+     * @param  {String} [filePath] Filepath to download the file to (for packages).
+     * @return {Promise}           Promise resolved when done. It's never rejected.
+     * @protected
+     */
+    self._restoreOldFileIfNeeded = function(siteId, fileId, fileUrl, filePath) {
+        var fileObject,
+            oldFileId = self._getNonReadableFileIdByUrl(fileUrl);
+
+        if (fileId == oldFileId) {
+            // Same ID, nothing to do.
+            return $q.when();
+        }
+
+        // Check that the new file isn't in pool.
+        return self._hasFileInPool(siteId, fileId).catch(function() {
+            // Not in pool. Check that old file is in pool.
+            return self._hasFileInPool(siteId, oldFileId).then(function(entry) {
+                fileObject = entry;
+
+                if (filePath) {
+                    // File path is set, no need to move the file because path hasn't changed.
+                    return $q.when();
+                } else {
+                    // Old file is in pool. Copy the file using the new ID.
+                    return $mmFS.copyFile(self._getFilePath(siteId, oldFileId), self._getFilePath(siteId, fileId));
+                }
+            }).then(function() {
+                // File copied. Update the entry in the pool.
+                return self._addFileToPool(siteId, fileId, fileObject);
+            }).then(function() {
+                // Filepool updated. Now updated links.
+                return self._getFileLinks(siteId, fileId).then(function(links) {
+                    var promises = [];
+                    angular.forEach(links, function(link) {
+                        promises.push(self._addFileLink(siteId, fileId, link.component, link.componentId));
+                    });
+                    return $q.all(promises);
+                });
+            }).then(function() {
+                // Everything has been moved. Delete old entries.
+                return self._removeFileById(siteId, oldFileId);
+            }).catch(function() {
+                // Ignore errors.
+            });
+        });
     };
 
     /**
