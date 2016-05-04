@@ -1,6 +1,6 @@
 {
     "app_id" : "com.totaralearning.totaralmsmobile",
-    "versioncode" : "1000",
+    "versioncode" : "1",
     "versionname" : "1.0",
     "cache_expiration_time" : 300000,
     "default_lang" : "en",
